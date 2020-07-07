@@ -1,6 +1,6 @@
 # h_safari
 
-H-Safari flutter
+CRA vacation project 2020-summer
 
 ## Getting Started
 
