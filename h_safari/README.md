@@ -1,6 +1,6 @@
-# h_safari
+# youtube_flutter
 
-CRA vacation project 2020-summer
+A new Flutter application.
 
 ## Getting Started
 
