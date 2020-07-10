@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:h_safari/chat_room.dart';
 
 import 'mypage.dart';
 
@@ -29,8 +30,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyPage(),
-      //MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
