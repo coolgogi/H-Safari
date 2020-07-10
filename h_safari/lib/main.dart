@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/chat_room.dart';
-
-import 'mypage.dart';
-
 
 void main() {
   runApp(MyApp());
