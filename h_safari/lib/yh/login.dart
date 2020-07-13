@@ -170,6 +170,7 @@ class _LoginState extends State<Login> {
                 )
             ),
           ),
+
         ),
         //added from SH
 //          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
