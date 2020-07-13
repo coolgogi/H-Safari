@@ -3,32 +3,10 @@
 //main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
 
 import 'package:flutter/material.dart';
-import 'login.dart';
 import 'yejin.dart';
 import 'YH.dart';
 import 'gwangil.dart';
 import 'SH.dart';
-
-//from 광일
-import 'pangilmain.dart' ;
-import 'ScreenA.dart';
-import 'ScreenB.dart';
-import 'ScreenC.dart';
-import 'ScreenD.dart';
-import 'ScreenE.dart';
-
-//from 연희
-import 'login.dart';
-import 'writePost.dart';
-import 'post.dart';
-
-//from 예진
-import 'mypage.dart';
-import 'modifyprofile.dart';
-
-//from 수현
-
-
 
 void main() {
   runApp(MyApp());
