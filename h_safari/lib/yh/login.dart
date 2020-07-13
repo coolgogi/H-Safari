@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
           padding: const EdgeInsets.all(40.0),
           child: Container(
             child: Padding(
-              padding: const EdgeInsets.all(.0),
+              padding: const EdgeInsets.all(0.0),
               child: Form(
                 key: _idkey, //아이디 폼키
                 child: Column(
