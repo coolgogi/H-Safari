@@ -42,8 +42,8 @@ class _LoginState extends State<Login> {
   ////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
   var _color = Colors.blue;
-  final _idkey = GlobalKey<FormState>();
-  final _pwkey = GlobalKey<FormState>();
+  final _formkey = new GlobalKey<FormState>();
+  String _idkey, _pwkey;
 //  bool _rememberId = false;
 
   @override
@@ -70,10 +70,10 @@ class _LoginState extends State<Login> {
             child: Padding(
               padding: const EdgeInsets.all(0.0),
               child: Form(
-                key: _idkey, //아이디 폼키
+                key: _formkey, //아이디 폼키
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                 children: <Widget>[
+                  children: <Widget>[
                    Text("ID ", style: TextStyle(fontSize: 30),), //아이디 텍스트
                    SizedBox(height: 10),
                    Container(
@@ -86,6 +86,7 @@ class _LoginState extends State<Login> {
                        ),
                        validator: (value) { //아무것도 입력하지 않았을 때 뜨는 에러메세지.
                          if(value.isEmpty) {return 'ID를 입력하지 않았습니다.';}},
+                       onSaved: (value) => _idkey = value,
                      ),
                    ),
 
@@ -149,9 +150,9 @@ class _LoginState extends State<Login> {
                       RaisedButton(
                         onPressed: () {//로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
                           //그래서 일단은 스낵바가 뜨는거 보는 용도로만 사용할게요.
-                          if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
-                            Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
-                          }
+//                          if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
+//                            Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
+//                          }
                           FocusScope.of(context).requestFocus(new FocusNode());//added by SH
                           _signIn();//added by SH
                         },
