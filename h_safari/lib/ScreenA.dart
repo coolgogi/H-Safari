@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Alarm.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin  {
               IconButton(
                 icon: Icon(Icons.add_alert),
                 onPressed: () {
-                  print('shopping cart button is clicked');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Alarm()));
                 },
               ),
             ],
