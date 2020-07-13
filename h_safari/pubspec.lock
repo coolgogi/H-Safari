@@ -156,7 +156,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.1"
-<<<<<<< HEAD
   google_sign_in:
     dependency: "direct main"
     description:
@@ -213,18 +212,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.0+2"
-=======
-<<<<<<< HEAD
-  image:
-    dependency: transitive
-    description:
-      name: image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.12"
-=======
->>>>>>> a3495d06fea3b50c6485797e9485c25c8c6be0b5
->>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
   matcher:
     dependency: transitive
     description:
@@ -406,13 +393,5 @@ packages:
     source: hosted
     version: "0.1.0"
 sdks:
-<<<<<<< HEAD
-  dart: ">=2.7.0 <3.0.0"
-=======
   dart: ">=2.9.0-18.0 <2.9.0"
-<<<<<<< HEAD
   flutter: ">=1.12.13+hotfix.5 <2.0.0"
-=======
->>>>>>> a3495d06fea3b50c6485797e9485c25c8c6be0b5
-  flutter: ">=1.10.0"
->>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245

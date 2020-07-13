@@ -4,7 +4,7 @@ import 'signup.dart';
 
 //added by SH
 import 'package:provider/provider.dart';
-import 'firebase/firebase_provider.dart';
+//import '../firebase/firebase_provider.dart';
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -22,21 +22,21 @@ class _LoginState extends State<Login> {
   bool doRemember = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  FirebaseProvider fp;
+//  FirebaseProvider fp;
 
-  @override
-  void initState() {
-    super.initState();
-    getRememberInfo();
-  }
-
-  @override
-  void dispose() {
-    setRememberInfo();
-    _mailCon.dispose();
-    _pwCon.dispose();
-    super.dispose();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//    getRememberInfo();
+//  }
+//
+//  @override
+//  void dispose() {
+//    setRememberInfo();
+//    _mailCon.dispose();
+//    _pwCon.dispose();
+//    super.dispose();
+//  }
 
 
   ////////////////////////////////////////////////////////////////////////
@@ -49,9 +49,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     //added by SH
-    fp = Provider.of<FirebaseProvider>(context);
-
-    logger.d(fp.getUser());
+//    fp = Provider.of<FirebaseProvider>(context);
+//
+//    logger.d(fp.getUser());
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     return Scaffold(
