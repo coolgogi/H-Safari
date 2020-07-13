@@ -1,16 +1,13 @@
-# youtube_flutter
+# H-Safari
+CRA vacation project 2020-summer
 
-A new Flutter application.
+## 참여자
 
-## Getting Started
+> 20학번 김광일
 
-This project is a starting point for a Flutter application.
+> 19학번 연예진
 
-A few resources to get you started if this is your first Flutter project:
+> 19학번 김연희
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+> 15학번 박수현
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
