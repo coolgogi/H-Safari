@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'writePost.dart';
 import 'signup.dart';
 
 //added by SH
@@ -55,9 +56,10 @@ class _LoginState extends State<Login> {
     ////////////////////////////////////////////////////////////////////////
     return Scaffold(
 //      key : _scaffoldKey, //added by SH
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
       appBar: AppBar(
-        title: Center(child: Text('로그인 창')),
+        centerTitle: true, //가운데 정렬
+        title: Text('로그인 창'),
         backgroundColor: _color,
         elevation: 0.0, //숫자가 낮을수록 앱바 밑에 그림자?가 사라지게 함(플랫해진다)
       ),
@@ -65,34 +67,31 @@ class _LoginState extends State<Login> {
         Padding(
           padding: const EdgeInsets.all(40.0),
           child: Container(
-            //decoration: kBoxDecorationStyle,
-            //height: 300,
             child: Padding(
               padding: const EdgeInsets.all(.0),
               child: Form(
-                key: _idkey,
+                key: _idkey, //아이디 폼키
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                  children: <Widget>[
-                   Text("ID ", style: TextStyle(fontSize: 30),),
+                   Text("ID ", style: TextStyle(fontSize: 30),), //아이디 텍스트
                    SizedBox(height: 10),
                    Container(
                      alignment: Alignment.centerLeft,
-                     //decoration: kBoxDecorationStyle,
                      height: 50,
-                     child: TextFormField(
+                     child: TextFormField( //아이디를 입력하는 텍스트 필드
 //                       controller: _mailCon, //added by SH
                        decoration: InputDecoration(
                          hintText: '아이디를 입력하세요.',
                        ),
-                       validator: (value) {
+                       validator: (value) { //아무것도 입력하지 않았을 때 뜨는 에러메세지. 
                          if(value.isEmpty) {return 'ID를 입력하지 않았습니다.';}},
                      ),
                    ),
 
                    SizedBox(height: 30),
 
-                   Text("비밀번호 ", style: TextStyle(fontSize: 30),),
+                   Text("비밀번호 ", style: TextStyle(fontSize: 30),), //비밀번호 텍스트
                    SizedBox(height: 10),
                    Container(
                      alignment: Alignment.centerLeft,
@@ -102,7 +101,7 @@ class _LoginState extends State<Login> {
                        decoration: InputDecoration(
                          hintText: '비밀번호를 입력하세요.',
                        ),
-                       validator: (value) {
+                       validator: (value) { //마찬가지로 아무것도 입력하지 않으면 뜨는 에러 메세지
                          if(value.isEmpty) {return '비밀번호를 입력하지 않았습니다.';}},
                      ),
                    ),
@@ -112,14 +111,14 @@ class _LoginState extends State<Login> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      RawMaterialButton(
+                      RawMaterialButton(//비밀번호를 찾는 페이지로 이동하는 버튼. 겉모습은 버튼이 아니라 그냥 글장 모양.
                         child: Text('비밀번호 찾기', style: TextStyle(fontSize: 15),),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => FindPw()));
                         },
                       ),
                       Row(
-                        children: [
+                        children: [//아이디 저장유무를 확인하는 버튼. 다만 아직 실제 저장되는건 미구현입니다.
                           Text('아이디 저장', style: TextStyle(fontSize: 15),), //아니면 자동 로그인?
                           Checkbox(
                             key: null,
@@ -139,17 +138,18 @@ class _LoginState extends State<Login> {
                    SizedBox(height: 30,),
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly, //회원가입과 로그인 버튼을 적당히 떨어트려 놓았습니다(거리두기^^)
                     children: <Widget>[
                       RaisedButton(
-                        onPressed: () {
+                        onPressed: () {//회원가입 버튼. 누르면 회원가입 창으로 이동합니다
                           Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                         },
                         child: Text('회원가입', style: TextStyle(fontSize: 15),),
                       ),
 
                       RaisedButton(
-                        onPressed: () {
+                        onPressed: () {//로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
+                          //그래서 일단은 스낵바가 뜨는거 보는 용도로만 사용할게요.
                           if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
                             Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
                           }
@@ -159,6 +159,13 @@ class _LoginState extends State<Login> {
                         child: Text('로그인'),
                       ),
                     ],
+                  ),
+
+                  RaisedButton( //게시글 작성하는 페이지로 이동하는 임시방편 버튼
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WritePost()));
+                    },
+                    child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
                   ),
                ],
               )
