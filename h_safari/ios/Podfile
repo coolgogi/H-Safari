@@ -10,6 +10,7 @@ project 'Runner', {
   'Release' => :release,
 }
 
+<<<<<<< HEAD
 def parse_KV_file(file, separator='=')
   file_abs_path = File.expand_path(file)
   if !File.exists? file_abs_path
@@ -32,10 +33,30 @@ def parse_KV_file(file, separator='=')
   generated_key_values
 end
 
+=======
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_ios_podfile_setup
+
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+<<<<<<< HEAD
   # Flutter Pod
 
   copied_flutter_dir = File.join(__dir__, 'Flutter')
@@ -76,12 +97,19 @@ target 'Runner' do
     File.symlink(path, symlink)
     pod name, :path => File.join(symlink, 'ios')
   end
+=======
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
+<<<<<<< HEAD
     target.build_configurations.each do |config|
       config.build_settings['ENABLE_BITCODE'] = 'NO'
     end
+=======
+    flutter_additional_ios_build_settings(target)
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
   end
 end

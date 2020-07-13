@@ -8,6 +8,9 @@
 .buildlog/
 .history
 .svn/
+.idea/H-Safari.iml
+.idea/libraries/Dart_SDK.xml
+
 
 # IntelliJ related
 *.iml
@@ -42,3 +45,5 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+pubspec.*

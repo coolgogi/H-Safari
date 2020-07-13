@@ -1,29 +1,38 @@
+//누가 : 수현
+//언제 : 2020-07-13
+//main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
+
 import 'package:flutter/material.dart';
-import 'ScreenA.dart';
-import 'ScreenB.dart';
-import 'ScreenC.dart';
-import 'ScreenD.dart';
-import 'ScreenE.dart';
+import 'yejin.dart';
+import 'YH.dart';
+import 'gwangil.dart';
+import 'SH.dart';
 
-
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+
         primarySwatch: Colors.blue,
+
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'H-Safari test'),//Login(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
+
   final String title;
 
   @override
@@ -31,58 +40,59 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
+  int _counter = 0;
 
-  final List<Widget> _children = [Home(), First(), Second(), Third(), Fourth()];
-
-  void _onTap(int index) {
+  void _incrementCounter() {
     setState(() {
-      _currentIndex = index;
+
+      _counter++;
     });
   }
-
-  void onPageChanged(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
-  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: choices.length,
-      child: Scaffold(
-          body: _children[_currentIndex],
-          bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              onTap: _onTap,
-              currentIndex: _currentIndex,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text('Home'),
-                  backgroundColor: Colors.blueGrey,
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.chat_bubble_outline),
-                    title: Text('Chat'),
-                    backgroundColor: Colors.blueGrey),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.add_box),
-                    title: Text('Write'),
-                    backgroundColor: Colors.blueGrey),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.grade),
-                    title: Text('Scrab'),
-                    backgroundColor: Colors.blueGrey),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  title: Text('MyPage'),
-                  backgroundColor: Colors.blueGrey,
-                ),
-              ])),
+
+    return Scaffold(
+      appBar: AppBar(
+
+        title: Text(widget.title),
+      ),
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text("연희 PAGE"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => yh_main()));
+            },
+          ),
+          ListTile(
+            title: Text("예진 PAGE"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => yejin_main()));
+            },
+          ),
+          ListTile(
+            title: Text("광일 PAGE"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => gwangil_main()));
+            },
+          ),
+          ListTile(
+            title: Text("수현 PAGE"),
+            onTap: () {
+//              Navigator.push(
+//                  context, MaterialPageRoute(builder: (context) => AuthPage()));
+            },
+          )
+        ].map((child) {
+          return Card(
+            child: child,
+          );
+        }).toList(),
+      ),
     );
   }
 }
