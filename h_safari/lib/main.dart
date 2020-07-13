@@ -1,5 +1,13 @@
+//누가 : 수현
+//언제 : 2020-07-13
+//main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
+
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'yejin.dart';
+import 'YH.dart';
+import 'gwangil.dart';
+import 'SH.dart';
 
 //from 광일
 import 'pangilmain.dart' ;
@@ -17,6 +25,8 @@ import 'post.dart';
 //from 예진
 import 'mypage.dart';
 import 'modifyprofile.dart';
+
+//from 수현
 
 
 
@@ -37,7 +47,7 @@ class MyApp extends StatelessWidget {
 
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'H-Safari'),//Login(),
+      home: MyHomePage(title: 'H-Safari test'),//Login(),
     );
   }
 }
@@ -75,21 +85,21 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("연희 PAGE"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Login()));
+                  context, MaterialPageRoute(builder: (context) => yh_main()));
             },
           ),
           ListTile(
             title: Text("예진 PAGE"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyPage()));
+                  context, MaterialPageRoute(builder: (context) => yejin_main()));
             },
           ),
           ListTile(
             title: Text("광일 PAGE"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => GI_MyApp()));
+                  context, MaterialPageRoute(builder: (context) => gwangil_main()));
             },
           ),
           ListTile(
