@@ -63,7 +63,7 @@ class _GI_MyAppState extends State<GI_MyApp> {
                   title: Text('MyPage'),
                   backgroundColor: Colors.blueGrey,
                 ),
-          ])),
+              ])),
     );
   }
 }
