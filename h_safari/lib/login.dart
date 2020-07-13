@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_flutter/writePost.dart';
 import 'signup.dart';
 
 class Login extends StatefulWidget {
@@ -115,6 +116,13 @@ class _LoginState extends State<Login> {
                         child: Text('로그인'),
                       ),
                     ],
+                  ),
+
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WritePost()));
+                    },
+                    child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
                   ),
                ],
               )
