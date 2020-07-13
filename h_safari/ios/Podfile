@@ -51,7 +51,11 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 
 flutter_ios_podfile_setup
 
+<<<<<<< HEAD
 >>>>>>> 1a79ee413fb74c3f0381772fa1b75d292487b00f
+=======
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
+>>>>>>> pangil
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
@@ -99,7 +103,11 @@ target 'Runner' do
   end
 =======
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+<<<<<<< HEAD
 >>>>>>> 1a79ee413fb74c3f0381772fa1b75d292487b00f
+=======
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
+>>>>>>> pangil
 end
 
 post_install do |installer|
@@ -110,6 +118,10 @@ post_install do |installer|
     end
 =======
     flutter_additional_ios_build_settings(target)
+<<<<<<< HEAD
 >>>>>>> 1a79ee413fb74c3f0381772fa1b75d292487b00f
+=======
+>>>>>>> e49c5c11dbc19149e41998efdf2e1aeea43f3245
+>>>>>>> pangil
   end
 end
