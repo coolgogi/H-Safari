@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_flutter/ScreenA.dart';
-import 'package:youtube_flutter/ScreenB.dart';
-import 'package:youtube_flutter/ScreenC.dart';
-import 'package:youtube_flutter/ScreenD.dart';
-import 'package:youtube_flutter/ScreenE.dart';
+import 'ScreenA.dart';
+import 'ScreenB.dart';
+import 'ScreenC.dart';
+import 'ScreenD.dart';
+import 'ScreenE.dart';
 
 
 class GI_MyApp extends StatefulWidget {

@@ -3,11 +3,11 @@ import 'login.dart';
 
 //from 광일
 import 'pangilmain.dart' ;
-import 'package:youtube_flutter/ScreenA.dart';
-import 'package:youtube_flutter/ScreenB.dart';
-import 'package:youtube_flutter/ScreenC.dart';
-import 'package:youtube_flutter/ScreenD.dart';
-import 'package:youtube_flutter/ScreenE.dart';
+import 'ScreenA.dart';
+import 'ScreenB.dart';
+import 'ScreenC.dart';
+import 'ScreenD.dart';
+import 'ScreenE.dart';
 
 //from 연희
 import 'login.dart';
@@ -15,6 +15,8 @@ import 'writePost.dart';
 import 'post.dart';
 
 //from 예진
+import 'mypage.dart';
+import 'modifyprofile.dart';
 
 
 
@@ -80,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("예진 PAGE"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => WritePost()));
+                  context, MaterialPageRoute(builder: (context) => MyPage()));
             },
           ),
           ListTile(

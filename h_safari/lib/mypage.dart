@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/modifyprofile.dart';
+import 'modifyprofile.dart';
 
 class MyPage extends StatelessWidget {
   @override
