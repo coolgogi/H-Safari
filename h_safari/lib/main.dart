@@ -18,8 +18,6 @@ import 'post.dart';
 
 
 
-
-
 void main() {
   runApp(MyApp());
 }
