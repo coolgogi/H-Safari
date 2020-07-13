@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'mypage.dart';
+import 'chat/chat_room.dart';
 
 class yejin_main extends StatefulWidget {
   @override
@@ -13,6 +14,6 @@ class yejin_main extends StatefulWidget {
 class _yejin_mainState extends State<yejin_main> {
   @override
   Widget build(BuildContext context) {
-    return MyPage();
+    return ChatRoom();
   }
 }
