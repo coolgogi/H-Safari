@@ -3,8 +3,9 @@ import 'writePost.dart';
 import 'signup.dart';
 
 //added by SH
-//import 'package:provider/provider.dart';
-
+import 'package:provider/provider.dart';
+import '../firebase/firebase_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
@@ -16,26 +17,26 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   //added by SH
-//  TextEditingController _mailCon = TextEditingController();
-//  TextEditingController _pwCon = TextEditingController();
-//  bool doRemember = false;
-//
-//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-//  FirebaseProvider fp;
-//
+  TextEditingController _mailCon = TextEditingController();
+  TextEditingController _pwCon = TextEditingController();
+  bool doRemember = false;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  FirebaseProvider fp;
+
 //  @override
-//  void initState() {
-//    super.initState();
-//    getRememberInfo();
-//  }
-//
-//  @override
-//  void dispose() {
-//    setRememberInfo();
-//    _mailCon.dispose();
-//    _pwCon.dispose();
-//    super.dispose();
-//  }
+  void initState() {
+    super.initState();
+    getRememberInfo();
+  }
+
+  @override
+  void dispose() {
+    setRememberInfo();
+    _mailCon.dispose();
+    _pwCon.dispose();
+    super.dispose();
+  }
 
 
   ////////////////////////////////////////////////////////////////////////
@@ -43,19 +44,19 @@ class _LoginState extends State<Login> {
   var _color = Colors.blue;
   final _idkey = GlobalKey<FormState>();
   final _pwkey = GlobalKey<FormState>();
-  bool _rememberId = false;
+//  bool _rememberId = false;
 
   @override
   Widget build(BuildContext context) {
     //added by SH
-//    fp = Provider.of<FirebaseProvider>(context);
-//
-//    logger.d(fp.getUser());
+    fp = Provider.of<FirebaseProvider>(context);
+
+    logger.d(fp.getUser());
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     return Scaffold(
-//      key : _scaffoldKey, //added by SH
-        resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
+      key : _scaffoldKey, //added by SH
+      resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
       appBar: AppBar(
         centerTitle: true, //가운데 정렬
         title: Text('로그인 창'),
@@ -79,11 +80,11 @@ class _LoginState extends State<Login> {
                      alignment: Alignment.centerLeft,
                      height: 50,
                      child: TextFormField( //아이디를 입력하는 텍스트 필드
-//                       controller: _mailCon, //added by SH
+                       controller: _mailCon, //added by SH
                        decoration: InputDecoration(
                          hintText: '아이디를 입력하세요.',
                        ),
-                       validator: (value) { //아무것도 입력하지 않았을 때 뜨는 에러메세지. 
+                       validator: (value) { //아무것도 입력하지 않았을 때 뜨는 에러메세지.
                          if(value.isEmpty) {return 'ID를 입력하지 않았습니다.';}},
                      ),
                    ),
@@ -96,7 +97,7 @@ class _LoginState extends State<Login> {
                      alignment: Alignment.centerLeft,
                      height: 50,
                      child: TextFormField(
-//                       controller: _pwCon, //added by SH
+                       controller: _pwCon, //added by SH
                        decoration: InputDecoration(
                          hintText: '비밀번호를 입력하세요.',
                        ),
@@ -121,10 +122,10 @@ class _LoginState extends State<Login> {
                           Text('아이디 저장', style: TextStyle(fontSize: 15),), //아니면 자동 로그인?
                           Checkbox(
                             key: null,
-                            value: _rememberId,
+                            value: doRemember,//from _rememberId
                             onChanged: (bool value) {
                               setState(() {
-                                _rememberId = value;
+                                doRemember = value;//from _rememberId
                               });
                             },
                           ),
@@ -133,7 +134,6 @@ class _LoginState extends State<Login> {
 
                     ],
                   ),
-
                    SizedBox(height: 30,),
 
                   Row(
@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
                             Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
                           }
                           FocusScope.of(context).requestFocus(new FocusNode());//added by SH
-//                          _signIn();//added by SH
+                          _signIn();//added by SH
                         },
                         child: Text('로그인'),
                       ),
@@ -166,14 +166,104 @@ class _LoginState extends State<Login> {
                     },
                     child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
                   ),
-               ],
-              )
+                ],
+               )
+              ),
             ),
-      ),
           ),
+            //added from SH
+          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
+                ? Container(
+                      margin:
+                             const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      decoration: BoxDecoration(color: Colors.red[300]),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              "Mail authentication did not complete."
+                                  "\nPlease check your verification email.",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          RaisedButton(
+                            color: Colors.lightBlue[400],
+                            textColor: Colors.white,
+                            child: Text("Resend Verify Email"),
+                            onPressed: () {
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode()); // 키보드 감춤
+                              fp.getUser().sendEmailVerification();
+                            },
+                          )
+                        ],
+                      ),
+                    ) : Container(),
+          ////////////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////////////
         ),
     );
   }
+  //added by SH
+  void _signIn() async {
+    _scaffoldKey.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        duration: Duration(seconds: 10),
+        content: Row(
+          children: <Widget>[
+            CircularProgressIndicator(),
+            Text("   Signing-In...")
+          ],
+        ),
+      ));
+    bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
+    _scaffoldKey.currentState.hideCurrentSnackBar();
+    if (result == false) showLastFBMessage();
+  }
+
+  getRememberInfo() async {
+    logger.d(doRemember);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      doRemember = (prefs.getBool("doRemember") ?? false);
+    });
+    if (doRemember) {
+      setState(() {
+        _mailCon.text = (prefs.getString("userEmail") ?? "");
+        _pwCon.text = (prefs.getString("userPasswd") ?? "");
+      });
+    }
+  }
+
+  setRememberInfo() async {
+    logger.d(doRemember);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("doRemember", doRemember);
+    if (doRemember) {
+      prefs.setString("userEmail", _mailCon.text);
+      prefs.setString("userPasswd", _pwCon.text);
+    }
+  }
+
+  showLastFBMessage() {
+    _scaffoldKey.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        backgroundColor: Colors.red[400],
+        duration: Duration(seconds: 10),
+        content: Text(fp.getLastFBMessage()),
+        action: SnackBarAction(
+          label: "Done",
+          textColor: Colors.white,
+          onPressed: () {},
+        ),
+      ));
+  }
+  ////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////
 }
 
 class FindPw extends StatefulWidget {
@@ -243,20 +333,3 @@ class _FindPwState extends State<FindPw> {
     );
   }
 }
-//added by SH
-//void _signIn() async {
-//  _scaffoldKey.currentState
-//    ..hideCurrentSnackBar()
-//    ..showSnackBar(SnackBar(
-//      duration: Duration(seconds: 10),
-//      content: Row(
-//        children: <Widget>[
-//          CircularProgressIndicator(),
-//          Text("   Signing-In...")
-//        ],
-//      ),
-//    ));
-//  bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
-//  _scaffoldKey.currentState.hideCurrentSnackBar();
-//  if (result == false) showLastFBMessage();
-//}
