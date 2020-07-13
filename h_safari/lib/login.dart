@@ -1,12 +1,44 @@
 import 'package:flutter/material.dart';
 import 'signup.dart';
 
+//added by SH
+//import 'package:provider/provider.dart';
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+
+  //added by SH
+//  TextEditingController _mailCon = TextEditingController();
+//  TextEditingController _pwCon = TextEditingController();
+//  bool doRemember = false;
+//
+//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+//  FirebaseProvider fp;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    getRememberInfo();
+//  }
+//
+//  @override
+//  void dispose() {
+//    setRememberInfo();
+//    _mailCon.dispose();
+//    _pwCon.dispose();
+//    super.dispose();
+//  }
+
+
+  ////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////
   var _color = Colors.blue;
   final _idkey = GlobalKey<FormState>();
   final _pwkey = GlobalKey<FormState>();
@@ -14,7 +46,14 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    //added by SH
+//    fp = Provider.of<FirebaseProvider>(context);
+//
+//    logger.d(fp.getUser());
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
     return Scaffold(
+//      key : _scaffoldKey, //added by SH
         resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Center(child: Text('로그인 창')),
@@ -41,6 +80,7 @@ class _LoginState extends State<Login> {
                      //decoration: kBoxDecorationStyle,
                      height: 50,
                      child: TextFormField(
+//                       controller: _mailCon, //added by SH
                        decoration: InputDecoration(
                          hintText: '아이디를 입력하세요.',
                        ),
@@ -57,6 +97,7 @@ class _LoginState extends State<Login> {
                      alignment: Alignment.centerLeft,
                      height: 50,
                      child: TextFormField(
+//                       controller: _pwCon, //added by SH
                        decoration: InputDecoration(
                          hintText: '비밀번호를 입력하세요.',
                        ),
@@ -111,6 +152,8 @@ class _LoginState extends State<Login> {
                           if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
                             Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
                           }
+                          FocusScope.of(context).requestFocus(new FocusNode());//added by SH
+//                          _signIn();//added by SH
                         },
                         child: Text('로그인'),
                       ),
@@ -193,4 +236,20 @@ class _FindPwState extends State<FindPw> {
     );
   }
 }
-
+//added by SH
+//void _signIn() async {
+//  _scaffoldKey.currentState
+//    ..hideCurrentSnackBar()
+//    ..showSnackBar(SnackBar(
+//      duration: Duration(seconds: 10),
+//      content: Row(
+//        children: <Widget>[
+//          CircularProgressIndicator(),
+//          Text("   Signing-In...")
+//        ],
+//      ),
+//    ));
+//  bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
+//  _scaffoldKey.currentState.hideCurrentSnackBar();
+//  if (result == false) showLastFBMessage();
+//}
