@@ -2,7 +2,7 @@
 // 2020-07-13
 // 로그인 되어있는지 아닌지 확인하는 페이지.
 import 'package:flutter/material.dart';
-import 'package:firebase/firebase_provider.dart';
+import '../firebase/firebase_provider.dart';
 import 'post.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
