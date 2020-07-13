@@ -172,34 +172,34 @@ class _LoginState extends State<Login> {
             ),
           ),
             //added from SH
-          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
-                ? Container(
-                      margin:
-                             const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                      decoration: BoxDecoration(color: Colors.red[300]),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Mail authentication did not complete."
-                                  "\nPlease check your verification email.",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          RaisedButton(
-                            color: Colors.lightBlue[400],
-                            textColor: Colors.white,
-                            child: Text("Resend Verify Email"),
-                            onPressed: () {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode()); // 키보드 감춤
-                              fp.getUser().sendEmailVerification();
-                            },
-                          )
-                        ],
-                      ),
-                    ) : Container(),
+//          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
+//                ? Container(
+//                      margin:
+//                             const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+//                      decoration: BoxDecoration(color: Colors.red[300]),
+//                      child: Column(
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: const EdgeInsets.all(10.0),
+//                            child: Text(
+//                              "Mail authentication did not complete."
+//                                  "\nPlease check your verification email.",
+//                              style: TextStyle(color: Colors.white),
+//                            ),
+//                          ),
+//                          RaisedButton(
+//                            color: Colors.lightBlue[400],
+//                            textColor: Colors.white,
+//                            child: Text("Resend Verify Email"),
+//                            onPressed: () {
+//                              FocusScope.of(context)
+//                                  .requestFocus(new FocusNode()); // 키보드 감춤
+//                              fp.getUser().sendEmailVerification();
+//                            },
+//                          )
+//                        ],
+//                      ),
+//                    ) : Container(),
           ////////////////////////////////////////////////////////////////////////
           ////////////////////////////////////////////////////////////////////////
         ),
