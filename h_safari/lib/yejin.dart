@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'mypage/mypage.dart';
 import 'chat/chat_room.dart';
 
+
 class yejin_main extends StatefulWidget {
   @override
   _yejin_mainState createState() => _yejin_mainState();
