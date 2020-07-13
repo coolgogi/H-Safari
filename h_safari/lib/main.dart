@@ -8,6 +8,13 @@ import 'YH.dart';
 import 'gwangil.dart';
 import 'SH.dart';
 
+//added from SH
+import 'firebase/firebase_provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+
 void main() {
   runApp(MyApp());
 }
@@ -16,16 +23,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FirebaseProvider>(
+            builder: (_) => FirebaseProvider())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: 'H-Safari test'),//Login(),
       ),
-      home: MyHomePage(title: 'H-Safari test'),//Login(),
     );
   }
 }
