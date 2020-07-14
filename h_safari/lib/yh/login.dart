@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'writePost.dart';
 import 'signup.dart';
+import 'list.dart';
 
 //added by SH
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _LoginState extends State<Login> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
   bool doRemember = false;
-  bool visiblepw = true;
+  bool visiblepw = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
@@ -100,13 +101,13 @@ class _LoginState extends State<Login> {
                       alignment: Alignment.centerLeft,
                       height: 50,
                       child: TextFormField(
-                        obscureText: !visiblepw,
+                        obscureText: visiblepw,
                         controller: _pwCon, //added by SH
                         decoration: InputDecoration(
                           hintText: '비밀번호를 입력하세요.',
                           suffixIcon: IconButton(
                             icon: Icon(
-                              visiblepw ? Icons.visibility : Icons.visibility_off
+                              visiblepw ? Icons.visibility_off : Icons.visibility
                             ),
                             onPressed: () {
                               setState(() {
@@ -178,6 +179,12 @@ class _LoginState extends State<Login> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => WritePost()));
                       },
                       child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
+                    ),
+                    RaisedButton( //게시글 리스트 페이지로 이동하는 임시 버튼
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
+                      },
+                      child: Text('게시글 리스트', style: TextStyle(fontSize: 15),),
                     ),
                   ],
                 )

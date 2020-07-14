@@ -89,36 +89,6 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
 
-                          Row(
-                            children: [
-                              FlatButton( //인증번호를 메일로 발송하는 버튼
-                                color: _color,
-                                child: Text('인증번호 발송', style: TextStyle(fontSize: 15),),
-                                onPressed: () {//눌렀을 때 메일로 인증번호를 보냈다고 스낵바가 뜹니다. 여기다 데이터 베이스랑 연동해서 메일 보내기 넣으면 되겠죠...?
-                                  Scaffold.of(_formkey.currentContext).showSnackBar(SnackBar(content: Text('학번@handong.edu로 인증 메일을 발송하였습니다.'),));
-                                }
-                              ),
-                            ]
-                          ),
-
-                          SizedBox(height: 30,),
-
-                          //메일로 보낸 인증코드를 입력하는 텍스트 필드
-                          Text("인증코드: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                          SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            height: 30,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                hintText: '메일로 발송된 인증번호를 입력하세요.',
-                              ),
-                              validator: (value) { //일단 아무것도 입력을 안하면 메세지가 뜨는 형식이에요.
-                                //랜덤으로 만들어진 인증코드와 사용자가 입력한 번호가 맞는지 확인하는 코드는 아직 미구현입니다다
-                               if(value.isEmpty) {return '메일로 발송된 인증번호를 입력하세요.';}},
-                            ),
-                          ),
-
                           SizedBox(height: 30,),
 
                           //비밀번호를 입력하는 텍스트 필드 (비밀번호 몇 글자 이상이라던가, 특수기호 등등 이런거도 넣을지는 아직 미정입니다.)
