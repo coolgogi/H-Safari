@@ -9,7 +9,7 @@ class _FirstState extends State<First> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('first'),
+      child: Text('First'),
     );
   }
 }

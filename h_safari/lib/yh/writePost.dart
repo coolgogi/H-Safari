@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'post.dart';
 
 class WritePost extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _WritePostState extends State<WritePost> {
                         IconButton(
                           icon: Icon(Icons.photo_camera),
                           onPressed: () {
-                            //사진 업로드
+                            //사진 업로드(여러 장 올릴 수 있게)
                           },
                         ),
                       ],
@@ -131,8 +132,8 @@ class _WritePostState extends State<WritePost> {
                     //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
                     Center(
                       child: RaisedButton(
-                        onPressed: () {
-                          //Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                        onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                         },
                         child: Text('게시글 등록', style: TextStyle(fontSize: 15),),
                       ),
