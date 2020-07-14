@@ -20,7 +20,7 @@ class _LoginState extends State<Login> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
   bool doRemember = false;
-  bool visiblepw = true;
+  bool visiblepw = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
@@ -100,13 +100,13 @@ class _LoginState extends State<Login> {
                       alignment: Alignment.centerLeft,
                       height: 50,
                       child: TextFormField(
-                        obscureText: !visiblepw,
+                        obscureText: visiblepw,
                         controller: _pwCon, //added by SH
                         decoration: InputDecoration(
                           hintText: '비밀번호를 입력하세요.',
                           suffixIcon: IconButton(
                             icon: Icon(
-                              visiblepw ? Icons.visibility : Icons.visibility_off
+                              visiblepw ? Icons.visibility_off : Icons.visibility
                             ),
                             onPressed: () {
                               setState(() {
