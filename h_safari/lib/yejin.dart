@@ -3,8 +3,9 @@
 //main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
 
 import 'package:flutter/material.dart';
+import 'package:youtube_flutter/chat/chat_room.dart';
 import 'mypage/mypage.dart';
-import 'chat/chat_room.dart';
+
 
 class yejin_main extends StatefulWidget {
   @override
