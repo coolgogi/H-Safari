@@ -57,6 +57,7 @@ class _LoginState extends State<Login> {
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     return Scaffold(
+
       key : _scaffoldKey, //added by SH
       resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
       appBar: AppBar(

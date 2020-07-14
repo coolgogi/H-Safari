@@ -54,116 +54,268 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           isScrollable: true,
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                'CATEGORY',
-                style: TextStyle(
-                  fontSize: 25.0,
+      drawer: Container(
+        width: MediaQuery.of(context).size.width*0.75,
+        child: Drawer(
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  'CATEGORY',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
                 ),
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '여성 의류',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '남성 의류',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              title: Text(
-                'Computer',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
+
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '패션 잡화',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '뷰티/미용',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '스포츠/레저',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '디지털/가전',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              title: Text(
-                'Clothes',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '도서/티켓',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '생활/식품',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '문구/가구',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '한동나',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              title: Text(
-                'Food',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
+              Row(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '양도구해요/해요',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Flexible(
+                    child: ListTile(
+                      title:  Icon(
+                        Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '구인구직',
+                          style: TextStyle(
+                              fontSize: 15.0),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
-              ),
-              title: Text(
-                'Quick',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
-              ),
-              title: Text(
-                'Book',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
-              ),
-              title: Text(
-                'gifticon',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.teal,
-              ),
-              title: Text(
-                'CarFul',
-                style: TextStyle(
-                    fontSize: 15.0, backgroundColor: Colors.greenAccent),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -249,3 +401,4 @@ class ChoiceCard extends StatelessWidget {
     );
   }
 }
+
