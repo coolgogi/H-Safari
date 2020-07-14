@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'yh/login.dart';
-
+import 'yh/auth_page.dart';
 class yh_main extends StatefulWidget {
   @override
   _yh_mainState createState() => _yh_mainState();
@@ -13,6 +13,6 @@ class yh_main extends StatefulWidget {
 class _yh_mainState extends State<yh_main> {
   @override
   Widget build(BuildContext context) {
-    return Login();//
+    return AuthPage();//
   }
 }
