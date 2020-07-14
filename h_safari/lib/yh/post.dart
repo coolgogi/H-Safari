@@ -22,28 +22,37 @@ class _PostState extends State<Post> {
         centerTitle: true,
         title: Text('게시글 제목'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
       ),
-      bottomNavigationBar: BottomNavigationBar( //화면 하단에 찜, 구매신청 등 넣으려는 바텀 앱바
-        //onTap: ,
-        unselectedItemColor: Colors.blue,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border, color: Colors.red,),
-            title: Text('찜하기',
-              style: TextStyle(color: Colors.black),),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart, ),
-              title: Text('구매 신청', style: TextStyle(color: Colors.black),)
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.format_list_numbered),
-              title: Text('랭크?', style: TextStyle(color: Colors.black),)
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.comment),
-              title: Text('댓글', style: TextStyle(color: Colors.black),)
-          ),
-        ],
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.blueAccent,
+        ),
+        child: BottomNavigationBar( //화면 하단에 찜, 구매신청 등 넣으려는 바텀 앱바
+          backgroundColor: Colors.blue,
+          items: [
+            BottomNavigationBarItem( //찜 버튼
+              icon: IconButton(
+                icon: Icon(favorite ? Icons.favorite : Icons.favorite_border, color: Colors.red,),
+                onPressed: () { //버튼을 누르면 하트가 채워지는 찜 버튼
+                  setState(() {
+                    favorite = !favorite;
+                  });},
+              ),
+              title: Container(),
+            ),
+            BottomNavigationBarItem( //누르면 판매자에게 암림이 가는 구매 신청 버튼(알림 미구현)
+                icon: Container(),
+                title: Text('구매 신청', style: TextStyle(color: Colors.white),),
+            ),
+            BottomNavigationBarItem( //본인이 몇 번재 대기자인지 보여주는 버튼(미구현)
+                icon: Container(),
+                title: Text('랭크?', style: TextStyle(color: Colors.white),)
+            ),
+            BottomNavigationBarItem( //현재 게시글에 달린 댓글 보는 버튼(미구현)
+                icon: Container(),
+                title: Text('댓글', style: TextStyle(color: Colors.white),)
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView( //화면 스크롤 가능하게
         child: Padding(
@@ -102,68 +111,6 @@ class _PostState extends State<Post> {
               ),
               ////////////////////////////////////////////////////////////////////
               ////////////////////////////////////////////////////////////////////
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: <Widget>[
-//                 Align(
-//                   alignment: Alignment.bottomLeft,
-//                   child: ButtonTheme(
-//                     minWidth: 40,
-//                     child: RaisedButton(
-//                       elevation: 0,
-//                       color: Colors.green,
-//                       child: IconButton(
-//                         icon: Icon(favorite ? Icons.favorite : Icons.favorite_border, color: Colors.red,),
-//                       ),
-//                       onPressed: () {
-//                         setState(() {
-//                           favorite = !favorite;
-//                         });
-//                       },
-//                     ),
-//                   ),
-//                 ),
-//                 Align(
-//                   alignment: Alignment.bottomLeft,
-//                   child: ButtonTheme(
-//                     minWidth: 180,
-//                     height: 48,
-//                     child: RaisedButton(
-//                       elevation: 0,
-//                       color: Colors.blue,
-//                       child: Text('구매 신청',),
-//                       onPressed: () {},
-//                     ),
-//                   ),
-//                 ),
-//                 Align(
-//                   alignment: Alignment.bottomLeft,
-//                   child: ButtonTheme(
-//                     minWidth: 60,
-//                     height: 48,
-//                     child: RaisedButton(
-//                       elevation: 0,
-//                       color: Colors.yellow,
-//                       child: Text('랭크?',),
-//                       onPressed: () {},
-//                     ),
-//                   ),
-//                 ),
-//                 Align(
-//                   alignment: Alignment.bottomLeft,
-//                   child: ButtonTheme(
-//                     minWidth: 70,
-//                     height: 48,
-//                     child: RaisedButton(
-//                       elevation: 0,
-//                       color: Colors.pink,
-//                       child: Text('댓글',),
-//                       onPressed: () {},
-//                     ),
-//                   ),
-//                 )
-//               ],
-//             ),
             ],
           )
         ),
