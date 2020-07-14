@@ -37,6 +37,7 @@ class _PostState extends State<Post> {
                 // 1. 연동시켜서 사용자가 올린 사진을 가져올 것,
                 // 2. 사진 사이즈가 크면 화면 밖으로 나가지 않게 사이즈 조절
                 // 3. 사진 여러 장 올리면 옆으로 밀어서 더 볼 수 있게
+                //확인
                 child: Center(child: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",)),
               ),
 
