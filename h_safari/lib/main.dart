@@ -94,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text("수현 PAGE"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => sh_main()));
+//              Navigator.push(
+//                  context, MaterialPageRoute(builder: (context) => sh_main()));
             },
           )
         ].map((child) {
