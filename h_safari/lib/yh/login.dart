@@ -169,6 +169,7 @@ class _LoginState extends State<Login> {
 //                          }
                             FocusScope.of(context).requestFocus(new FocusNode());//added by SH
                             _signIn();//added by SH
+
                           },
                           child: Text('로그인'),
                         ),
@@ -237,11 +238,12 @@ class _LoginState extends State<Login> {
             CircularProgressIndicator(),
             Text("   Signing-In...")
           ],
-        ),
+        )
       ));
     bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false) showLastFBMessage();
+    else Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
   }
 
   getRememberInfo() async {

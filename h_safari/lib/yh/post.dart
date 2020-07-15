@@ -106,6 +106,7 @@ class _PostState extends State<Post> {
                   ),
                   onPressed: () {
                     fp.signOut();
+                    
                   },
                 ),
               ),
