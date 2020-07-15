@@ -5,6 +5,7 @@ import 'package:h_safari/yh/comment.dart';
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
+
 class Post extends StatefulWidget {
   @override
   _PostState createState() => _PostState();
@@ -103,22 +104,7 @@ class _PostState extends State<Post> {
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
               Text('글 설명 장황하게~~~~~~~~~~~~~~~~~~~~~'),
-              //from SH
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: RaisedButton(
-                  color: Colors.indigo[300],
-                  child: Text(
-                    "SIGN OUT",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    fp.signOut();
-                  },
-                ),
-              ),
-              ////////////////////////////////////////////////////////////////////
-              ////////////////////////////////////////////////////////////////////
+
             ],
           )
         ),
