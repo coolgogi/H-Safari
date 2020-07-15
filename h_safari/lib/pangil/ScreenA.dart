@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'package:h_safari/yh/post.dart';
-<<<<<<< HEAD
+
 import 'package:h_safari/pangil/MySearch.dart';
 
 import 'category/category1.dart';
 import 'category/category2.dart';
 import 'category/category3.dart';
 import 'category/category4.dart';
+import 'category/category5.dart';
+import 'category/category6.dart';
+import 'category/category7.dart';
+import 'category/category8.dart';
+import 'category/category9.dart';
+import 'category/category10.dart';
+import 'category/category11.dart';
+import 'category/category12.dart';
 
-=======
-//from SH
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
->>>>>>> c0285f9252004110dc0032a9c2bc517d5e897400
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -46,7 +50,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             child: Text('찾고싶은 상품을 입력하세요', style: TextStyle(fontSize: 13)),
           ),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => mysearch()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => mysearch()));
           },
         ),
         actions: <Widget>[
@@ -66,10 +71,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           ),
         ],
         bottom: TabBar(
+          labelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
           tabs: choices.map((Choice choice) {
             return Tab(
               text: choice.text,
-              icon: Icon(choice.icon), // 이전 코드와 다른 부분
+              icon: Icon(
+                choice.icon,
+              ),
+              // 이전 코드와 다른 부분
             );
           }).toList(),
           isScrollable: true,
@@ -191,7 +200,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category5()));
                       },
                     ),
                   ),
@@ -208,7 +220,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category6()));
                       },
                     ),
                   ),
@@ -229,7 +244,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category7()));
                       },
                     ),
                   ),
@@ -246,7 +264,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category8()));
                       },
                     ),
                   ),
@@ -267,7 +288,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category9()));
                       },
                     ),
                   ),
@@ -279,12 +303,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       ),
                       subtitle: Center(
                         child: Text(
-                          '한동나',
+                          '한동나눔',
                           style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category10()));
                       },
                     ),
                   ),
@@ -305,7 +332,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category11()));
                       },
                     ),
                   ),
@@ -322,7 +352,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category12()));
                       },
                     ),
                   ),
@@ -334,11 +367,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
 
       body: TabBarView(
-        // map과 toList 함수를 연결해서 화면 리스트 전달
-        children: choices.map((Choice choice) {
-          // 문자열과 아이콘을 모두 포함하는 위젯 객체 생성
-          // 이전 코드에서는 Text 위젯 하나만 사용했었다. 코드가 많아 클래스로 분리.
-          return SingleChildScrollView(
+        children: <Widget>[
+          SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -359,6 +389,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                           MaterialPageRoute(builder: (context) => Post()));
                     },
                   ),
+
+                  //from SH
+
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
                   ListTile(
                     leading: Image.network(
                       "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
@@ -367,7 +410,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -383,7 +426,51 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -393,7 +480,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   ),
                   //from SH
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: RaisedButton(
                       color: Colors.indigo[300],
                       child: Text(
@@ -405,14 +493,1077 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-                  ////////////////////////////////////////////////////////////////////
-                  ////////////////////////////////////////////////////////////////////
 
                 ],
               ),
             ),
-          );
-        }).toList(),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
 
 //      Center(
@@ -436,7 +1587,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 }
 
 class Choice {
-  Choice(this.text, this.icon);
+  Choice(
+    this.text,
+    this.icon,
+  );
 
   final String text;
   final IconData icon;
@@ -446,13 +1600,19 @@ class Choice {
 }
 
 final choices = [
-  Choice('PLANE', Icons.flight),
-  Choice('CAR', Icons.directions_car),
-  Choice('BIKE', Icons.directions_bike),
-  Choice('BOAT', Icons.directions_boat),
-  Choice('BUS', Icons.directions_bus),
-  Choice('TRAIN', Icons.directions_railway),
-  Choice('WALK', Icons.directions_walk),
+  Choice('전체', Icons.account_balance),
+  Choice('남성의류', Icons.flight),
+  Choice('여성의류', Icons.directions_car),
+  Choice('패션잡화', Icons.directions_bike),
+  Choice('뷰티/미용', Icons.directions_boat),
+  Choice('스포츠/레저', Icons.directions_bus),
+  Choice('디지털/가전', Icons.directions_railway),
+  Choice('도서/티켓', Icons.directions_walk),
+  Choice('생활/식품', Icons.directions_bike),
+  Choice('문구/가구', Icons.directions_boat),
+  Choice('한동나눔', Icons.directions_bus),
+  Choice('양도', Icons.directions_railway),
+  Choice('구인구직', Icons.directions_walk),
 ];
 
 class ChoiceCard extends StatelessWidget {
