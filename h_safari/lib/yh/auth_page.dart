@@ -6,6 +6,7 @@ import '../firebase/firebase_provider.dart';
 import 'post.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
+import 'list.dart';
 
 AuthPageState pageState;
 
@@ -23,10 +24,11 @@ class AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-
+//    fp.signOut();
+    
     logger.d("user: ${fp.getUser()}");
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
-      return Post();
+      return MyList();
     } else {
       return Login();
     }

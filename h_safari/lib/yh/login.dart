@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'writePost.dart';
 import 'signup.dart';
+import 'list.dart';
 
 //added by SH
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class _LoginState extends State<Login> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
   bool doRemember = false;
+  bool visiblepw = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
@@ -55,6 +57,7 @@ class _LoginState extends State<Login> {
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     return Scaffold(
+
       key : _scaffoldKey, //added by SH
       resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
       appBar: AppBar(
@@ -99,9 +102,20 @@ class _LoginState extends State<Login> {
                       alignment: Alignment.centerLeft,
                       height: 50,
                       child: TextFormField(
+                        obscureText: !visiblepw,
                         controller: _pwCon, //added by SH
                         decoration: InputDecoration(
                           hintText: '비밀번호를 입력하세요.',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              visiblepw ? Icons.visibility : Icons.visibility_off
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                visiblepw = !visiblepw;
+                              });
+                            },
+                          )
                         ),
                         validator: (value) { //마찬가지로 아무것도 입력하지 않으면 뜨는 에러 메세지
                           if(value.isEmpty) {return '비밀번호를 입력하지 않았습니다.';}},
@@ -133,7 +147,6 @@ class _LoginState extends State<Login> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                     SizedBox(height: 30,),
@@ -156,17 +169,11 @@ class _LoginState extends State<Login> {
 //                          }
                             FocusScope.of(context).requestFocus(new FocusNode());//added by SH
                             _signIn();//added by SH
+
                           },
                           child: Text('로그인'),
                         ),
                       ],
-                    ),
-
-                    RaisedButton( //게시글 작성하는 페이지로 이동하는 임시방편 버튼
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => WritePost()));
-                      },
-                      child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
                     ),
                   ],
                 )
@@ -218,11 +225,12 @@ class _LoginState extends State<Login> {
             CircularProgressIndicator(),
             Text("   Signing-In...")
           ],
-        ),
+        )
       ));
     bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false) showLastFBMessage();
+    else Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
   }
 
   getRememberInfo() async {
