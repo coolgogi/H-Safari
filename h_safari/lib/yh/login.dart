@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'writePost.dart';
 import 'signup.dart';
+import 'list.dart';
 
 //added by SH
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _LoginState extends State<Login> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
   bool doRemember = false;
-  bool visiblepw = true;
+  bool visiblepw = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
@@ -172,13 +173,6 @@ class _LoginState extends State<Login> {
                           child: Text('로그인'),
                         ),
                       ],
-                    ),
-
-                    RaisedButton( //게시글 작성하는 페이지로 이동하는 임시방편 버튼
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => WritePost()));
-                      },
-                      child: Text('게시글 작성', style: TextStyle(fontSize: 15),),
                     ),
                   ],
                 )

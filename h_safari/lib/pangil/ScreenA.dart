@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'package:h_safari/yh/post.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -299,11 +300,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+
       body : TabBarView(
         // map과 toList 함수를 연결해서 화면 리스트 전달
         children: choices.map((Choice choice) {
