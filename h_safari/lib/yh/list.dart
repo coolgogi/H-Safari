@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'post.dart';
+import '../firebase/firebase_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyList extends StatefulWidget {
   @override
@@ -7,9 +9,12 @@ class MyList extends StatefulWidget {
 }
 
 class _MyListState extends State<MyList> {
+  FirebaseProvider fp;
 
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -52,7 +57,20 @@ class _MyListState extends State<MyList> {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                 },
-              )
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: RaisedButton(
+                  color: Colors.indigo[300],
+                  child: Text(
+                    "SIGN OUT",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    fp.signOut();
+                  },
+                ),
+              ),
             ],
           ),
         ),

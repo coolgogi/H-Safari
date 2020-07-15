@@ -230,7 +230,6 @@ class _LoginState extends State<Login> {
     bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false) showLastFBMessage();
-    else Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
   }
 
   getRememberInfo() async {

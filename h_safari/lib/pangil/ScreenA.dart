@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'package:h_safari/yh/post.dart';
-
+//from SH
+import '../firebase/firebase_provider.dart';
+import 'package:provider/provider.dart';
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -9,6 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   int _counter = 0;
+  FirebaseProvider fp;
 
   @override
   bool get wantKeepAlive => true;
@@ -21,6 +26,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -366,7 +372,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                     },
-                  )
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+                  ////////////////////////////////////////////////////////////////////
+                  ////////////////////////////////////////////////////////////////////
+
                 ],
               ),
             ),
