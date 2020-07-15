@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:h_safari/chat/chat_list.dart';
+import 'package:h_safari/mypage/modifyprofile.dart';
 import 'mypage/mypage.dart';
 import 'package:h_safari/chat/chat_room.dart';
 
@@ -17,6 +18,6 @@ class yejin_main extends StatefulWidget {
 class _yejin_mainState extends State<yejin_main> {
   @override
   Widget build(BuildContext context) {
-    return ChatList();
+    return ModifyProfile();
   }
 }

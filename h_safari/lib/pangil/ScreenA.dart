@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'package:h_safari/yh/post.dart';
+<<<<<<< HEAD
 import 'package:h_safari/pangil/MySearch.dart';
 
 import 'category/category1.dart';
@@ -8,6 +9,13 @@ import 'category/category2.dart';
 import 'category/category3.dart';
 import 'category/category4.dart';
 
+=======
+//from SH
+import '../firebase/firebase_provider.dart';
+import 'package:provider/provider.dart';
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+>>>>>>> c0285f9252004110dc0032a9c2bc517d5e897400
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -15,6 +23,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   int _counter = 0;
+  FirebaseProvider fp;
 
   @override
   bool get wantKeepAlive => true;
@@ -27,6 +36,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -380,7 +390,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Post()));
                     },
-                  )
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
+                  ////////////////////////////////////////////////////////////////////
+                  ////////////////////////////////////////////////////////////////////
+
                 ],
               ),
             ),
