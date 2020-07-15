@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'writePost.dart';
-import 'login.dart';
+import 'package:h_safari/yh/comment.dart';
+
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,34 +25,40 @@ class _PostState extends State<Post> {
         centerTitle: true,
         title: Text('게시글 제목'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.blueAccent,
-        ),
-        child: BottomNavigationBar( //화면 하단에 찜, 구매신청 등 넣으려는 바텀 앱바
-          backgroundColor: Colors.blue,
-          items: [
-            BottomNavigationBarItem( //찜 버튼
-              icon: IconButton(
-                icon: Icon(favorite ? Icons.favorite : Icons.favorite_border, color: Colors.red,),
-                onPressed: () { //버튼을 누르면 하트가 채워지는 찜 버튼
-                  setState(() {
-                    favorite = !favorite;
-                  });},
-              ),
-              title: Container(),
+      bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton( //찜 버튼. 누르면 아이콘은 바뀌지만 찜해놓은 게시글만 모아놓는건 미구현
+              icon: Icon(favorite ? Icons.favorite : Icons.favorite_border, color: Colors.red,),
+              onPressed: () {
+                setState(() {
+                  favorite = !favorite;
+                });},
             ),
-            BottomNavigationBarItem( //누르면 판매자에게 암림이 가는 구매 신청 버튼(알림 미구현)
-                icon: Container(),
-                title: Text('구매 신청', style: TextStyle(color: Colors.white),),
+            RawMaterialButton( //구매 신청 버튼. 사용자에게 어떻게 알림이 갈 것인지 구상해야 합니다.
+              child: Text('구매 신청'),
+              onPressed: () {
+                Buy(context);
+              },
             ),
-            BottomNavigationBarItem( //본인이 몇 번재 대기자인지 보여주는 버튼(미구현)
-                icon: Container(),
-                title: Text('랭크?', style: TextStyle(color: Colors.white),)
-            ),
-            BottomNavigationBarItem( //현재 게시글에 달린 댓글 보는 버튼(미구현)
-                icon: Container(),
-                title: Text('댓글', style: TextStyle(color: Colors.white),)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                RawMaterialButton( //내가 몇 번째로 구매 신청 버튼을 눌렀는지 확인하는 버튼. 메세지 창은 뜨지만 아직 내부(대기번호)는 미구현.
+                  child: Text('대기번호'),
+                  onPressed: () {
+                    ShowListnum(context);
+                  },
+                ),
+                RawMaterialButton( //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
+                  child: Text('댓글'),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -103,4 +111,45 @@ class _PostState extends State<Post> {
       ),
     );
   }
+}
+
+void ShowListnum(BuildContext context) async {
+  String result = await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('현재 대기번호', style: TextStyle(fontWeight: FontWeight.bold),),
+        content: Text('현재 나의 대기번호는 1번째 입니다.'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('확인'),
+            onPressed: (){
+              Navigator.pop(context, '확인');
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+void Buy(BuildContext context) async {
+  String result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text('판매자에게 신청 알림을 보냈습니다.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('확인'),
+              onPressed: (){
+                Navigator.pop(context, '확인');
+              },
+            )
+          ],
+        );
+      }
+  );
 }
