@@ -1,0 +1,33 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:h_safari/pangil/Alarm.dart';
+import 'package:h_safari/pangil/MySearch.dart';
+
+
+class category1 extends StatefulWidget {
+  @override
+  _category1State createState() => _category1State();
+}
+
+class _category1State extends State<category1> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('여성의류')),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => mysearch()));
+            },
+          ),
+          ]
+
+      ),
+    );
+  }
+}
+

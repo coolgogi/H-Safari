@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'package:h_safari/yh/post.dart';
+import 'package:h_safari/pangil/MySearch.dart';
+
+import 'category/category1.dart';
+import 'category/category2.dart';
+import 'category/category3.dart';
+import 'category/category4.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -24,17 +30,21 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: TextField(
-          style: TextStyle(fontSize: 16, color: Colors.white),
-          textAlign: TextAlign.start,
-          decoration: InputDecoration(hintText: '검색'),
-          onChanged: (String str) {},
+        title: InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('찾고싶은 상품을 입력하세요', style: TextStyle(fontSize: 13)),
+          ),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => mysearch()));
+          },
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              print('shopping cart button is clicked');
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => mysearch()));
             },
           ),
           IconButton(
@@ -83,7 +93,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category1()));
                       },
                     ),
                   ),
@@ -100,7 +113,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category2()));
                       },
                     ),
                   ),
@@ -121,7 +137,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category3()));
                       },
                     ),
                   ),
@@ -138,7 +157,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => category4()));
                       },
                     ),
                   ),
@@ -301,7 +323,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ),
       ),
 
-      body : TabBarView(
+      body: TabBarView(
         // map과 toList 함수를 연결해서 화면 리스트 전달
         children: choices.map((Choice choice) {
           // 문자열과 아이콘을 모두 포함하는 위젯 객체 생성
@@ -312,36 +334,51 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               child: Column(
                 children: <Widget>[
                   ListTile(
-                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
                     title: Text(
                       '5,000원',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
                     },
                   ),
                   ListTile(
-                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
                     title: Text(
                       '5,000원',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
                     },
                   ),
                   ListTile(
-                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
                     title: Text(
                       '5,000원',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
                     },
                   )
                 ],

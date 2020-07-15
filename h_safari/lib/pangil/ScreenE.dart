@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Alarm.dart';
 import 'setting.dart';
 import 'terms_of_use.dart';
+import 'package:h_safari/pangil/MySearch.dart';
 class Fourth extends StatefulWidget {
   @override
   _FourthState createState() => _FourthState();
@@ -13,23 +14,28 @@ class _FourthState extends State<Fourth> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: TextField(
-            style: TextStyle(fontSize: 16, color: Colors.white),
-            textAlign: TextAlign.start,
-            decoration: InputDecoration(hintText: '검색'),
-            onChanged: (String str) {},
+          title: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('찾고싶은 상품을 입력하세요', style: TextStyle(fontSize: 13)),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => mysearch()));
+            },
           ),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                print('shopping cart button is clicked');
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => mysearch()));
               },
             ),
             IconButton(
               icon: Icon(Icons.add_alert),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Alarm()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Alarm()));
               },
             ),
           ],
