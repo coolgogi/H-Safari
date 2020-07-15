@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'writePost.dart';
-
+import 'login.dart';
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 class Post extends StatefulWidget {
@@ -106,6 +106,7 @@ class _PostState extends State<Post> {
                   ),
                   onPressed: () {
                     fp.signOut();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                   },
                 ),
               ),
