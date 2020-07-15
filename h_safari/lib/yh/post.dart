@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'writePost.dart';
-import 'package:h_safari/yh/comment.dart';
+//import 'package:h_safari/yh/comment.dart';
+
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class _PostState extends State<Post> {
                 RawMaterialButton( //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
                   child: Text('댓글'),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
+//                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
                   },
                 ),
               ],
