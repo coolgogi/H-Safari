@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
-
+import 'package:h_safari/yh/post.dart';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ),
       ),
       drawer: Container(
-        width: MediaQuery.of(context).size.width*0.75,
+        width: MediaQuery.of(context).size.width * 0.75,
         child: Drawer(
           child: ListView(
             children: <Widget>[
@@ -71,15 +71,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '여성 의류',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -87,18 +86,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '남성 의류',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -108,20 +105,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   ),
                 ],
               ),
-
               Row(
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '패션 잡화',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -129,18 +124,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '뷰티/미용',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -154,15 +147,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '스포츠/레저',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -170,18 +162,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '디지털/가전',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -195,15 +185,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '도서/티켓',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -211,18 +200,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '생활/식품',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -236,15 +223,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '문구/가구',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -252,18 +238,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '한동나',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -277,15 +261,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '양도구해요/해요',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -293,18 +276,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                   Flexible(
                     child: ListTile(
-                      title:  Icon(
+                      title: Icon(
                         Icons.check_box_outline_blank,
                         color: Colors.teal,
                       ),
                       subtitle: Center(
                         child: Text(
                           '구인구직',
-                          style: TextStyle(
-                              fontSize: 15.0),
+                          style: TextStyle(fontSize: 15.0),
                         ),
                       ),
                       onTap: () {
@@ -323,15 +304,52 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
-      body: TabBarView(
+      body : TabBarView(
         // map과 toList 함수를 연결해서 화면 리스트 전달
         children: choices.map((Choice choice) {
           // 문자열과 아이콘을 모두 포함하는 위젯 객체 생성
           // 이전 코드에서는 Text 위젯 하나만 사용했었다. 코드가 많아 클래스로 분리.
-          return ChoiceCard(
-            // 생성자에서 {}를 사용했기 때문에 text와 icon 매개변수 이름 사용 필수
-            text: choice.text,
-            icon: choice.icon, // 이전 코드와 다른 부분
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  )
+                ],
+              ),
+            ),
           );
         }).toList(),
       ),
@@ -401,4 +419,3 @@ class ChoiceCard extends StatelessWidget {
     );
   }
 }
-
