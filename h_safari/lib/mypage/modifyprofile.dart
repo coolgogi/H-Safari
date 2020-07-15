@@ -35,15 +35,15 @@ class _ModifyProfileState extends State<ModifyProfile> {
                 //onPressed: 사진업로드하는 함수짜기,
               ),
               Container(
-                padding: EdgeInsets.only(top: 50),
-                alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(top: 50),
+                  alignment: Alignment.topLeft,
                   child: Text(
-                '닉네임 바꾸기',
+                    '닉네임 바꾸기',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
-              )),
+                  )),
               Container(
                 child: TextFormField(
                   decoration: InputDecoration(

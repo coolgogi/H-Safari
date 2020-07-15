@@ -365,7 +365,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           ),
         ),
       ),
-
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -391,8 +390,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   ),
 
                   //from SH
-
-
                 ],
               ),
             ),
@@ -410,7 +407,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -426,7 +423,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -435,8 +432,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     },
                   ),
                   //from SH
-
-
                 ],
               ),
             ),
@@ -454,7 +449,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -470,7 +465,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -493,7 +488,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -511,7 +505,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -527,7 +521,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -543,7 +537,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -566,7 +560,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -584,7 +577,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -600,7 +593,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -616,7 +609,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -632,7 +625,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -655,7 +648,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -673,7 +665,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -689,7 +681,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -705,7 +697,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -721,7 +713,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -737,7 +729,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -760,7 +752,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -778,7 +769,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -794,7 +785,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -810,7 +801,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -826,7 +817,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -842,7 +833,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -858,7 +849,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -881,7 +872,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -899,7 +889,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -915,7 +905,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -931,7 +921,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -947,7 +937,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -963,7 +953,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -979,7 +969,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -995,7 +985,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1018,7 +1008,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -1036,7 +1025,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1052,7 +1041,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1068,7 +1057,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1084,7 +1073,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1100,7 +1089,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1116,7 +1105,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1132,7 +1121,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1148,7 +1137,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1171,79 +1160,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
-                ],
-              ),
-            ),
-          ),          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  //from SH
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: RaisedButton(
-                      color: Colors.indigo[300],
-                      child: Text(
-                        "SIGN OUT",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        fp.signOut();
-                      },
-                    ),
-                  ),
-
                 ],
               ),
             ),
@@ -1261,7 +1177,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1277,7 +1193,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1293,103 +1209,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1412,7 +1232,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -1430,7 +1249,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1446,7 +1265,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1462,7 +1281,103 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1485,7 +1400,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -1503,7 +1417,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1519,7 +1433,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1535,7 +1449,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -1558,30 +1472,84 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   ),
-
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network(
+                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
+                      width: 100,
+                    ),
+                    title: Text(
+                      '5,000원',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  //from SH
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: RaisedButton(
+                      color: Colors.indigo[300],
+                      child: Text(
+                        "SIGN OUT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        fp.signOut();
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
-
-//      Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//            ),
-//            Text(
-//              '$_counter',
-//              style: Theme.of(context).textTheme.display1,
-//            ),
-//
-//
-//          ],
-//        ),
-//      ),
     );
   }
 }
@@ -1640,3 +1608,4 @@ class ChoiceCard extends StatelessWidget {
     );
   }
 }
+
