@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Alarm.dart';
+import 'package:h_safari/yh/post.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -328,10 +329,47 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         children: choices.map((Choice choice) {
           // 문자열과 아이콘을 모두 포함하는 위젯 객체 생성
           // 이전 코드에서는 Text 위젯 하나만 사용했었다. 코드가 많아 클래스로 분리.
-          return ChoiceCard(
-            // 생성자에서 {}를 사용했기 때문에 text와 icon 매개변수 이름 사용 필수
-            text: choice.text,
-            icon: choice.icon, // 이전 코드와 다른 부분
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg", width: 100,),
+                    title: Text(
+                      '5,000원',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('서적 팔아요~ 전부 5천원'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                    },
+                  )
+                ],
+              ),
+            ),
           );
         }).toList(),
       ),
