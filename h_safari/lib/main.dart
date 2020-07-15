@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("수현 PAGE"),
             onTap: () {
 //              Navigator.push(
-//                  context, MaterialPageRoute(builder: (context) => AuthPage()));
+//                  context, MaterialPageRoute(builder: (context) => sh_main()));
             },
           )
         ].map((child) {

@@ -1,0 +1,33 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:h_safari/pangil/Alarm.dart';
+import 'package:h_safari/pangil/MySearch.dart';
+
+
+class category8 extends StatefulWidget {
+  @override
+  _category8State createState() => _category8State();
+}
+
+class _category8State extends State<category8> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('생활/식품')),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => mysearch()));
+            },
+          ),
+          ]
+
+      ),
+    );
+  }
+}
+
