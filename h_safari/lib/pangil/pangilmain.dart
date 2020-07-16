@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'ScreenA.dart';
-import 'ScreenB.dart';
-import 'ScreenC.dart';
-import 'ScreenD.dart';
-import 'ScreenE.dart';
+import 'home.dart';
+import 'chat.dart';
+import 'write.dart';
+import 'category.dart';
+import 'mypage.dart';
 
 
 class GI_MyApp extends StatefulWidget {
@@ -14,7 +14,7 @@ class GI_MyApp extends StatefulWidget {
 class _GI_MyAppState extends State<GI_MyApp> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), First(), Second(), Third(), Fourth()];
+  final List<Widget> _children = [Home(), Third(), Second(), First(), Fourth()];
 
   void _onTap(int index) {
     setState(() {
@@ -47,16 +47,16 @@ class _GI_MyAppState extends State<GI_MyApp> {
                   backgroundColor: Colors.blueGrey,
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.chat_bubble_outline),
-                    title: Text('Chat'),
+                    icon: Icon(Icons.menu),
+                    title: Text('Category'),
                     backgroundColor: Colors.blueGrey),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.add_box),
                     title: Text('Write'),
                     backgroundColor: Colors.blueGrey),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.grade),
-                    title: Text('Scrab'),
+                    icon: Icon(Icons.chat_bubble_outline),
+                    title: Text('Chat'),
                     backgroundColor: Colors.blueGrey),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
