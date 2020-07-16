@@ -15,7 +15,7 @@ class _category6State extends State<category6> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('디지털/가전')),
+        title: Center(child: Text('뷰티/잡화')),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),

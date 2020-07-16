@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:h_safari/yh/favorite.dart';
 import 'writePost.dart';
 import 'signup.dart';
 import 'list.dart';
@@ -174,6 +175,13 @@ class _LoginState extends State<Login> {
                           child: Text('로그인'),
                         ),
                       ],
+                    ),
+
+                    RaisedButton( //임시로 만든 선호 카테고리 페이지 이동용 버튼~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FavoriteCategory()));
+                      },
+                      child: Text('선호 카테고리'),
                     ),
                   ],
                 )
