@@ -1,31 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'setting.dart';
-import 'terms_of_use.dart';
 import 'package:h_safari/mypage/modifyprofile.dart';
+import 'package:h_safari/pangil/setting.dart';
+import 'package:h_safari/pangil/terms_of_use.dart';
 
 
 
-class Fourth extends StatefulWidget {
-  @override
-  _FourthState createState() => _FourthState();
-}
-
-class _FourthState extends State<Fourth> {
+class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: new Icon(Icons.cake),
-          title: Text('MyPage'),
-        ),
-
-        body: ListView(
+      appBar: AppBar(
+        leading: new Icon(Icons.cake),
+        title: Text('MyPage'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: ListView(
           children: <Widget>[
             Row(
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.fromLTRB(10,25,20,20),
                     child: CircleAvatar(
                       radius: 70,
                       backgroundImage: NetworkImage(
@@ -41,18 +36,22 @@ class _FourthState extends State<Fourth> {
                       style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                      InkWell(
-                      onTap: () {
+                    SizedBox(
+                      width: 20,
+                      height: 30,
+                      child: RawMaterialButton(
+                        child: Icon(
+                          Icons.border_color,
+                          size: 15,
+                        ),
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ModifyProfile()));
                         },
-                        child: Icon(
-                        Icons.border_color,
-                        size: 20,
+                      ),
                     ),
-                      )
                   ],
                 ),
               ],
@@ -61,10 +60,8 @@ class _FourthState extends State<Fourth> {
               leading: Icon(Icons.build),
               title: Text('환경 설정'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Setting()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Setting()));
               },
             ),
             ListTile(
@@ -72,9 +69,7 @@ class _FourthState extends State<Fourth> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Terms()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
@@ -82,10 +77,8 @@ class _FourthState extends State<Fourth> {
               title: Text('로그아웃'),
             ),
           ],
-        )
+        ),
+      ),
     );
   }
 }
-
-
-

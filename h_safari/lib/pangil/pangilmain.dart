@@ -14,7 +14,7 @@ class GI_MyApp extends StatefulWidget {
 class _GI_MyAppState extends State<GI_MyApp> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), Third(), Second(), First(), Fourth()];
+  final List<Widget> _children = [Home(), Third(), Second(), ChatList(), MyPage()];
 
   void _onTap(int index) {
     setState(() {
