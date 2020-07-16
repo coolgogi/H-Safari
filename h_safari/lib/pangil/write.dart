@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:h_safari/yh/post.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+//from SH
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
 
 class Second extends StatefulWidget {
   @override
@@ -15,8 +24,25 @@ bool _direct = false; //직거래 버튼
 class _SecondState extends State<Second> {
   final _formkey = GlobalKey<FormState>();
 
-  TextEditingController _newNameCon = TextEditingController();
-  TextEditingController _newDescCon = TextEditingController();
+  TextEditingController _newNameCon = TextEditingController();  //제목저장
+  TextEditingController _newDescCon = TextEditingController();  //설명저장
+  //이미지 저장
+  File _image;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  String _profileImageURL = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _prepareService();
+  }
+
+  void _prepareService() async {
+    _user = await _firebaseAuth.currentUser();
+  }
+
   // 컬렉션명
   final String colName = "FirstDemo";
 
@@ -24,6 +50,7 @@ class _SecondState extends State<Second> {
   final String fnName = "name";
   final String fnDescription = "description";
   final String fnDatetime = "datetime";
+  final String fnImageUrl = "imageUrl";
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +73,51 @@ class _SecondState extends State<Second> {
                                   Row( //사진 업로드 텍스트와 아이콘 한줄로 정렬
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
+                                      CircleAvatar(
+                                        backgroundImage:
+                                        (_image != null) ? FileImage(_image) : NetworkImage(""),
+                                        radius: 30,
+                                      ),
                                       Text('사진 업로드', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                       IconButton(
                                         icon: Icon(Icons.photo_camera),
                                         onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              // return object of type Dialog
+                                              return AlertDialog(
+                                                title: new Text("사진 업로드 방식"),
+                                                content: new Text("사진 업로드 방식을 선택하세요."),
+                                                actions: <Widget>[
+                                                  // usually buttons at the bottom of the dialog
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      new FlatButton(
+                                                        child: new Text("사진첩"),
+                                                        onPressed: () {
+                                                          _uploadImageToStorage(ImageSource.gallery);
+                                                        },
+                                                      ),
+                                                      new FlatButton(
+                                                        child: new Text("카메라"),
+                                                        onPressed: () {
+                                                          _uploadImageToStorage(ImageSource.camera);
+                                                        },
+                                                      ),
+                                                      new FlatButton(
+                                                        child: new Text("Close"),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                           //사진 업로드(여러 장 올릴 수 있게)
                                         },
                                       ),
@@ -154,11 +222,11 @@ class _SecondState extends State<Second> {
 //                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                                         if (_newDescCon.text.isNotEmpty &&
                                             _newNameCon.text.isNotEmpty) {
-                                          createDoc(_newNameCon.text, _newDescCon.text);
+                                          createDoc(_newNameCon.text, _newDescCon.text, _profileImageURL);
                                         }
                                         _newNameCon.clear();
                                         _newDescCon.clear();
-                                        Navigator.pop(context);
+                                        _profileImageURL = '';
                                       },
 
                                       child: Text('게시글 등록', style: TextStyle(fontSize: 15),),
@@ -173,11 +241,38 @@ class _SecondState extends State<Second> {
         )
     );
   }
-  void createDoc(String name, String description) {
+  void createDoc(String name, String description, String imageURL) {
     Firestore.instance.collection(colName).add({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
+      fnImageUrl: imageURL,
+    });
+  }
+  void _uploadImageToStorage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
+
+    if (image == null) return;
+    setState(() {
+      _image = image;
+    });
+
+    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+    StorageReference storageReference =
+    _firebaseStorage.ref().child("profile/${_user.uid}");
+
+    // 파일 업로드
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+
+    // 파일 업로드 완료까지 대기
+    await storageUploadTask.onComplete;
+
+    // 업로드한 사진의 URL 획득
+    String downloadURL = await storageReference.getDownloadURL();
+
+    // 업로드된 사진의 URL을 페이지에 반영
+    setState(() {
+      _profileImageURL = downloadURL;
     });
   }
 }

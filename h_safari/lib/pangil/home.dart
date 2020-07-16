@@ -5,6 +5,13 @@ import 'package:h_safari/pangil/MySearch.dart';
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
@@ -25,9 +32,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String colName = "FirstDemo";
 
   // 필드명
+  File _image;
   final String fnName = "name";
   final String fnDescription = "description";
   final String fnDatetime = "datetime";
+  final String fnImageUrl = 'imageUrl';
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
@@ -35,6 +44,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   TextEditingController _undDescCon = TextEditingController();
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
   int _counter = 0;
 
   @override
@@ -125,6 +135,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                   .map((DocumentSnapshot document) {
                                 Timestamp ts = document[fnDatetime];
                                 String dt = timestampToStrDateTime(ts);
+                                String _profileImageURL = document[fnImageUrl];
                                 return Card(
                                   elevation: 2,
                                   child: InkWell(
@@ -148,23 +159,27 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
-                                              Text(
-                                                document[fnName],
-                                                style: TextStyle(
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              CircleAvatar(
+                                                backgroundImage: NetworkImage(_profileImageURL),
+                                                radius: 40,
                                               ),
                                               Text(
-                                                dt.toString(),
+                                                '',
                                                 style:
                                                 TextStyle(color: Colors.grey[600]),
+                                              ),
+                                              Text(
+                                                document[fnName],//dt.toString(),
+                                                style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           Container(
-                                            alignment: Alignment.centerLeft,
+                                            alignment: Alignment.centerRight,
                                             child: Text(
                                               document[fnDescription],
                                               style: TextStyle(color: Colors.black54),
@@ -219,13 +234,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   }
-  void createDoc(String name, String description) {
-    Firestore.instance.collection(colName).add({
-      fnName: name,
-      fnDescription: description,
-      fnDatetime: Timestamp.now(),
-    });
-  }
   // 문서 조회 (Read)
   void showDocument(String documentID) {
     Firestore.instance
@@ -247,57 +255,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void deleteDoc(String docID) {
     Firestore.instance.collection(colName).document(docID).delete();
   }
-  // 문서 추가 (Create)
-  void showCreateDocDialog() {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Create New Document"),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "Name"),
-                  controller: _newNameCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: _newDescCon,
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                _newNameCon.clear();
-                _newDescCon.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Create"),
-              onPressed: () {
-                if (_newDescCon.text.isNotEmpty &&
-                    _newNameCon.text.isNotEmpty) {
-                  createDoc(_newNameCon.text, _newDescCon.text);
-                }
-                _newNameCon.clear();
-                _newDescCon.clear();
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-  // 문서 Read 시, SnackBar -> 대체 예정
+  // 문서 Read 시, SnackBar -> 사용 x
   void showReadDocSnackBar(DocumentSnapshot doc) {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
@@ -317,7 +275,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       );
   }
 
-  //
+  //사용중
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()

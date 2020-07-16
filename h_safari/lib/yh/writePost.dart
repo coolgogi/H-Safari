@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'post.dart';
 
+
 class WritePost extends StatefulWidget {
   @override
   _WritePostState createState() => _WritePostState();
@@ -37,6 +38,7 @@ class _WritePostState extends State<WritePost> {
                         IconButton(
                           icon: Icon(Icons.photo_camera),
                           onPressed: () {
+                            
                             //사진 업로드(여러 장 올릴 수 있게)
                           },
                         ),
@@ -148,6 +150,7 @@ class _WritePostState extends State<WritePost> {
       )
     );
   }
+
 }
 
 class DropdownCat extends StatefulWidget {
