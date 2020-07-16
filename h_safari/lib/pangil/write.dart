@@ -1,16 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/yh/post.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Second extends StatefulWidget {
   @override
   _SecondState createState() => _SecondState();
 }
 
+bool _delivery = false; //택배버튼
+bool _direct = false; //직거래 버튼
+
 class _SecondState extends State<Second> {
   final _formkey = GlobalKey<FormState>();
-  bool _delivery = false; //택배버튼
-  bool _direct = false; //직거래 버튼
+
+  TextEditingController _newNameCon = TextEditingController();
+  TextEditingController _newDescCon = TextEditingController();
+  // 컬렉션명
+  final String colName = "FirstDemo";
+
+  // 필드명
+  final String fnName = "name";
+  final String fnDescription = "description";
+  final String fnDatetime = "datetime";
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +65,7 @@ class _SecondState extends State<Second> {
                                     alignment: Alignment.centerLeft,
                                     height: 30,
                                     child: TextFormField(
+                                      controller: _newNameCon,
                                       decoration: InputDecoration(
                                         hintText: '상품명 및 제목 입력',
                                       ),
@@ -67,6 +81,7 @@ class _SecondState extends State<Second> {
                                     alignment: Alignment.centerLeft,
                                     height: 30,
                                     child: TextFormField(
+
                                       decoration: InputDecoration(
                                         hintText: '가격 입력',
                                       ),
@@ -76,13 +91,15 @@ class _SecondState extends State<Second> {
                                   SizedBox(height: 30,),
 
                                   //카테고리를 선택하는 드롭다운버튼(함수를 따로 만들어 여기서는 함수 call만 할 수 있도록)
-                                  //**아직 문제 해결을 못해서 임시방편으로 텍스트만 적어놨어요
+                                  //해결완료!!
+                                  //다만 이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
                                   Text("카테고리* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
                                   SizedBox(height: 10),
                                   Container(
                                       alignment: Alignment.centerLeft,
                                       height: 30,
-                                      child: Text('임시방편')//DropdownCat(),
+                                      child: DropdownCat(),
+                                      //Text('임시방편'),
                                   ),
 
                                   SizedBox(height: 30,),
@@ -118,6 +135,7 @@ class _SecondState extends State<Second> {
                                   //상품 설명을 적을 텍스트필드
                                   Container(
                                     child: TextField(
+                                      controller: _newDescCon,
                                       maxLines: 10, //max 10줄이라고 돼있는데 그 이상도 적어지네요...?
                                       decoration: InputDecoration(
                                         hintText: "상품의 상세한 정보를 적어주세요.",
@@ -133,8 +151,16 @@ class _SecondState extends State<Second> {
                                   Center(
                                     child: RaisedButton(
                                       onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+//                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+                                        if (_newDescCon.text.isNotEmpty &&
+                                            _newNameCon.text.isNotEmpty) {
+                                          createDoc(_newNameCon.text, _newDescCon.text);
+                                        }
+                                        _newNameCon.clear();
+                                        _newDescCon.clear();
+                                        Navigator.pop(context);
                                       },
+
                                       child: Text('게시글 등록', style: TextStyle(fontSize: 15),),
                                     ),
                                   ),
@@ -146,6 +172,13 @@ class _SecondState extends State<Second> {
             )
         )
     );
+  }
+  void createDoc(String name, String description) {
+    Firestore.instance.collection(colName).add({
+      fnName: name,
+      fnDescription: description,
+      fnDatetime: Timestamp.now(),
+    });
   }
 }
 
@@ -161,34 +194,44 @@ class _DropdownCatState extends State<DropdownCat> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: DropdownButton<String>(
-        items: [
-          DropdownMenuItem<String>(
-            child: Text('item 1'),
-            value: 'one',
-          ),
-          DropdownMenuItem<String>(
-            child: Text('item 2'),
-            value: 'two',
-          ),
-          DropdownMenuItem<String>(
-            child: Text('item 3'),
-            value: 'three',
-          ),
-          DropdownMenuItem<String>(
-            child: Text('item 4'),
-            value: 'four',
-          ),
-        ],
-        onChanged: (String value) {
-          setState(() {
-            _value = value;
-          });
-        },
-        hint: Text('카테고리'),
-        value: _value,
-      ),
+    return Row(
+      children: <Widget>[
+        DropdownButton<String>(
+          items: [
+            DropdownMenuItem<String>(
+              child: Text('의류'),
+              value: 'one',
+            ),
+            DropdownMenuItem<String>(
+              child: Text('서적'),
+              value: 'two',
+            ),
+            DropdownMenuItem<String>(
+              child: Text('전자기기'),
+              value: 'three',
+            ),
+            DropdownMenuItem<String>(
+              child: Text('음식'),
+              value: 'four',
+            ),
+          ],
+          onChanged: (String value) {
+            setState(() {
+              _value = value;
+            });
+          },
+          hint: Text('카테고리'),
+          value: _value,
+        ),
+      ],
     );
   }
+}
+
+bool checkDelivery() {
+  return _delivery;
+}
+
+bool checkDirect() {
+  return _direct;
 }

@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'writePost.dart';
+import 'package:h_safari/pangil/write.dart';
 
 
 import '../firebase/firebase_provider.dart';
@@ -40,7 +40,7 @@ class _PostState extends State<Post> {
             RawMaterialButton( //구매 신청 버튼. 사용자에게 어떻게 알림이 갈 것인지 구상해야 합니다.
               child: Text('구매 신청'),
               onPressed: () {
-                Buy(context);
+                SendAlarm(context);
               },
             ),
             Row(
@@ -55,7 +55,7 @@ class _PostState extends State<Post> {
                 RawMaterialButton( //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
                   child: Text('댓글'),
                   onPressed: () {
-
+//                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
                   },
                 ),
               ],
@@ -88,23 +88,22 @@ class _PostState extends State<Post> {
               Text('카테고리: 서적', style: TextStyle(fontSize: 15, color: Colors.black54),),
               SizedBox(height: 10,),
 
-              Row( //일단은 체크박스 아이콘만 사용해서 전부 체크된 것처럼 보입니다.
-                // 게시글 작성에서 체크한 부분만 체크박스 아이콘 뜨도록 구현해야 해요.
+              SizedBox(height: 15,),
+
+              Row( //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
                 children: [
                   Text('택배', style: TextStyle(fontSize: 15, color: Colors.black),),
-                  Icon(Icons.check_box),
-                  //Icon(Icons.check_box_outline_blank),
+                  Icon(checkDelivery() ? Icons.check_box : Icons.check_box_outline_blank),
+                  Text('      '),
                   Text('직접거래', style: TextStyle(fontSize: 15),),
-                  Icon(Icons.check_box),
-                  //Icon(Icons.check_box_outline_blank),
+                  Icon(checkDirect() ? Icons.check_box : Icons.check_box_outline_blank),
                 ],
               ),
 
               SizedBox(height: 30,),
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
-              Text('글 설명 장황하게~~~~~~~~~~~~~~~~~~~~~'),
-
+              Text('글 설명 장황하게~~~~~~~~~~~~~~~~~~~~~\n 연락처: 010-1234-1234'),
             ],
           )
         ),
@@ -134,6 +133,26 @@ void ShowListnum(BuildContext context) async {
   );
 }
 
+void SendAlarm(BuildContext context)async {
+  String result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text('신청 알림을 보내시겠습니까?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.pop(context, '확인');
+                Buy(context);
+              },
+            )],
+        );
+      }
+  );
+}
+
 void Buy(BuildContext context) async {
   String result = await showDialog(
       context: context,
@@ -146,9 +165,8 @@ void Buy(BuildContext context) async {
               child: Text('확인'),
               onPressed: (){
                 Navigator.pop(context, '확인');
-              },
-            )
-          ],
+                },
+            )],
         );
       }
   );

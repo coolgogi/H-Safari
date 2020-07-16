@@ -76,13 +76,14 @@ class _WritePostState extends State<WritePost> {
                     SizedBox(height: 30,),
 
                     //카테고리를 선택하는 드롭다운버튼(함수를 따로 만들어 여기서는 함수 call만 할 수 있도록)
-                    //**아직 문제 해결을 못해서 임시방편으로 텍스트만 적어놨어요
+                    //해결완료!
+                    //이제 여기가 아니라 광일이 파일 ScreenC.dart로 가시면 됩니다
                     Text("카테고리* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
                     SizedBox(height: 10),
                     Container(
                       alignment: Alignment.centerLeft,
                       height: 30,
-                      child: Text('임시방편')//DropdownCat(),
+                      child: Text('임시방편')
                     ),
 
                     SizedBox(height: 30,),
