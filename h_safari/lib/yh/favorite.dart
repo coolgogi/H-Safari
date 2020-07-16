@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/pangil/ScreenA.dart';
+import 'package:h_safari/pangil/home.dart';
+import 'package:h_safari/pangil/pangilmain.dart';
 
 class FavoriteCategory extends StatefulWidget {
   @override
@@ -7,6 +9,22 @@ class FavoriteCategory extends StatefulWidget {
 }
 
 class _FavoriteCategoryState extends State<FavoriteCategory> {
+  bool _button = false;
+
+  //카테고리 이름들을 저장하는 배열
+  List<String> Category = [
+    '의류',
+    '서적',
+    '음식',
+    '생필품',
+    '가구/전자제품',
+    '뷰티/잡화',
+    '양도',
+    '기타',
+  ];
+
+  List<int> buttonColor = new List<int>();
+
   @override
   Widget build(BuildContext context) { //선호 카테고리를 고르는 창.
     return Scaffold(
@@ -14,102 +32,54 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
         centerTitle: true,
         title: Text('선호 카테고리'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ButtonBar(
-            mainAxisSize: MainAxisSize.min, //버튼들을 센터로 맞추는건데 이상하게 center와 이게 두개 다 있어야만 센터로 정렬이 되네요.
-            children: <Widget>[
-              ButtonTheme(
-                minWidth: 180, //각 버튼의 가로, 세로 길이
-                height: 120,
-                child: Column( //일단 버튼들을 전부 outlineButton을 사용해 만들었는데 아이콘은 같이 안써지는 것 같아 나중에 수정할 필요가 있습니다.
+      body: Column(
+        children: <Widget>[
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            childAspectRatio: (1.7), //각 버튼의 세로 길이
+            children: List.generate(8, (index) { //총 8개의 리스트를 만든다.
+              return Center(
+                child: ButtonBar(
+                  mainAxisSize: MainAxisSize.min, //버튼들을 센터로 맞추는건데 이상하게 center와 이게 두개 다 있어야만 센터로 정렬이 되네요.
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        OutlineButton(
-                          child: Column(
-                            children: <Widget>[
-                              Icon(Icons.favorite),
-                              SizedBox(height: 10,),
-                              Text('의류'),
-                            ],
-                          ),
-                          onPressed: () {
-                          },
+                    ButtonTheme(
+                      minWidth: 180, //각 버튼의 가로 길이
+                      child: RaisedButton( //
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center, //아이콘들과 텍스트를 가운데로 정렬
+                          children: <Widget>[
+                            Icon(Icons.favorite),
+                            SizedBox(height: 10,),
+                            Text(Category[index]),
+                          ],
                         ),
-                        OutlineButton(
-                          child: Column(
-                            children: <Widget>[
-                              Icon(Icons.favorite),
-                              SizedBox(height: 10,),
-                              Text('뷰티, 잡화'),
-                            ],
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        OutlineButton(
-                          child: Text('음식'),
-                          onPressed: () {},
-                        ),
-                        OutlineButton(
-                          child: Text('생필품'),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        OutlineButton(
-                          child: Text('가구/전자제품'),
-                          onPressed: () {},
-                        ),
-                        OutlineButton(
-                          child: Text('서적'),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        OutlineButton(
-                          child: Text('양도'),
-                          onPressed: () {},
-                        ),
-                        OutlineButton(
-                          child: Text('기타'),
-                          onPressed: () {},
-                        ),
-                      ],
+                        color: _button ? Colors.white : Colors.blue,
+                        onPressed: () {
+                          //아직 아무것도 없지만 아마 여기서 선택한 값을 가져가서 My 선호에서 띄우는거겠죠...?
+                          setState(() {
+                            _button = !_button;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-              SizedBox(height: 20,),
-
-              Row( //카테고리를 모두 선택한 후 누르는 확인 버튼.
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 100,
-                    height: 50,
-                    child: RaisedButton(
-                      child: Text('확인', style: TextStyle(color: Colors.white),),
-                      onPressed: () { //누르면 바로 홈 화면으로 이동하도록.
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                      },
-                    ),
-                  ),
-                ],
-              )
-            ],
+              );
+            }),
           ),
-        ),
+          SizedBox(height: 20,),
+
+          ButtonTheme(
+            height: 40,
+            child: OutlineButton(
+              child: Text('확인', style: TextStyle(color: Colors.black),),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GI_MyApp()));
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
