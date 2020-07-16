@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'writePost.dart';
-import 'package:h_safari/yh/comment.dart';
-import 'package:h_safari/pangil/ScreenC.dart';
-//import 'package:h_safari/yh/comment.dart';
+import 'package:h_safari/pangil/write.dart';
+
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
