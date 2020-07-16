@@ -16,7 +16,7 @@ class _category1State extends State<category1> {
       length: 6,
       child: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('여성의류')),
+          title: Center(child: Text('의류')),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),

@@ -37,6 +37,16 @@ class _ThirdState extends State<Third> {
     category8(),
 
   ];
+  final List<Widget> _categoryicon = [
+    Icon(Icons.wc),
+    Icon(Icons.book),
+    Icon(Icons.fastfood),
+    Icon(Icons.content_cut),
+    Icon(Icons.video_call),
+    Icon(Icons.toys),
+    Icon(Icons.home),
+    Icon(Icons.add_shopping_cart)
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,21 +60,36 @@ class _ThirdState extends State<Third> {
         children: List.generate(8, (index) {
           return Center(
 
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.grade),
-                  SizedBox(
-                    width: 10,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft : const Radius.circular(20),
+                        topRight: const Radius.circular(20),
+                        bottomLeft: const Radius.circular(10),
+                        bottomRight: const Radius.circular(10)
+                    ),
+                    color: Colors.grey[400]
                   ),
-                  RawMaterialButton(
-                      fillColor: Colors.blue,
-                      child: Text(_category[index], style: TextStyle(color: Colors.white),),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => _categorypage[index]));
-                      }),
-                ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _categoryicon[index],
+                      SizedBox(
+                        width: 10,
+                      ),
+                      RawMaterialButton(
+                          fillColor: Colors.lightBlueAccent[200],
+                          child: Text(_category[index], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => _categorypage[index]));
+                          }),
+                    ],
+                  ),
+
+                ),
               ));
         }),
       ),
