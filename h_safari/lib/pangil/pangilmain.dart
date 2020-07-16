@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'chat.dart';
+import 'package:h_safari/chat/chat_list.dart';
 import 'write.dart';
 import 'category.dart';
-import 'mypage.dart';
+import 'package:h_safari/mypage/mypage.dart';
 
 
 class GI_MyApp extends StatefulWidget {
@@ -14,7 +14,7 @@ class GI_MyApp extends StatefulWidget {
 class _GI_MyAppState extends State<GI_MyApp> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), Third(), Second(), First(), Fourth()];
+  final List<Widget> _children = [Home(), Third(), Second(), ChatList(), MyPage()];
 
   void _onTap(int index) {
     setState(() {

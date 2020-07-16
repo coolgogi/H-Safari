@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
 
                           //비밀번호를 입력하는 텍스트 필드 (비밀번호 몇 글자 이상이라던가, 특수기호 등등 이런거도 넣을지는 아직 미정입니다.)
                           //안 넣는게 더 편할 것 같긴 해요.
-                          Text("비빌번호: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                          Text("비밀번호: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                           SizedBox(height: 10),
                           Container(
                             alignment: Alignment.centerLeft,
