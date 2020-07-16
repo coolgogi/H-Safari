@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ScreenA.dart';
+
 import 'package:flutter/cupertino.dart';
 
 class Alarm extends StatefulWidget {
