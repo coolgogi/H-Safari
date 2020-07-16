@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'chat.dart';
+import 'package:h_safari/chat/chat_list.dart';
 import 'write.dart';
 import 'category.dart';
-import 'mypage.dart';
+import 'package:h_safari/mypage/mypage.dart';
 
 
 class GI_MyApp extends StatefulWidget {
