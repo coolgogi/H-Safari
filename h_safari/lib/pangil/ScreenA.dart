@@ -108,7 +108,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               // 이전 코드와 다른 부분
             );
           }).toList(),
-          isScrollable: true,
+
         ),
       ),
       drawer: Container(
@@ -585,7 +585,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     title: Text(
                       '5,000원',
                       style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
@@ -598,299 +598,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                  //from SH
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: RaisedButton(
-                      color: Colors.indigo[300],
-                      child: Text(
-                        "SIGN OUT",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        fp.signOut();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
 
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
 
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -1079,9 +788,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
 class Choice {
   Choice(
-    this.text,
-    this.icon,
-  );
+      this.text,
+      this.icon,
+      );
 
   final String text;
   final IconData icon;
@@ -1092,18 +801,8 @@ class Choice {
 
 final choices = [
   Choice('전체', Icons.account_balance),
-  Choice('남성의류', Icons.flight),
-  Choice('여성의류', Icons.directions_car),
-  Choice('패션잡화', Icons.directions_bike),
-  Choice('뷰티/미용', Icons.directions_boat),
-  Choice('스포츠/레저', Icons.directions_bus),
-  Choice('디지털/가전', Icons.directions_railway),
-  Choice('도서/티켓', Icons.directions_walk),
-  Choice('생활/식품', Icons.directions_bike),
-  Choice('문구/가구', Icons.directions_boat),
-  Choice('한동나눔', Icons.directions_bus),
-  Choice('양도', Icons.directions_railway),
-  Choice('구인구직', Icons.directions_walk),
+  Choice('My선호', Icons.flight),
+
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -1131,4 +830,3 @@ class ChoiceCard extends StatelessWidget {
     );
   }
 }
-
