@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/pangil/setting.dart';
-import 'package:h_safari/pangil/terms_of_use.dart';
+import 'package:h_safari/mypage/setting.dart';
+import 'package:h_safari/mypage/terms_of_use.dart';
 import 'modifyprofile.dart';
 
 

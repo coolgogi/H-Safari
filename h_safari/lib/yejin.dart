@@ -18,6 +18,6 @@ class yejin_main extends StatefulWidget {
 class _yejin_mainState extends State<yejin_main> {
   @override
   Widget build(BuildContext context) {
-    return MyPage();
+    return ChatRoom();
   }
 }
