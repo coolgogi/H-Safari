@@ -1,27 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/yh/post.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//from SH
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
 
-class Second extends StatefulWidget {
+class MyWrite extends StatefulWidget {
   @override
-  _SecondState createState() => _SecondState();
+  _MyWriteState createState() => _MyWriteState();
 }
 
 bool _delivery = false; //택배버튼
 bool _direct = false; //직거래 버튼
 
-class _SecondState extends State<Second> {
+class _MyWriteState extends State<MyWrite> {
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _newNameCon = TextEditingController();  //제목저장

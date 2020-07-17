@@ -8,12 +8,12 @@ import 'category/category6.dart';
 import 'category/category7.dart';
 import 'category/category8.dart';
 
-class Third extends StatefulWidget {
+class MyCategory extends StatefulWidget {
   @override
-  _ThirdState createState() => _ThirdState();
+  _MyCategoryState createState() => _MyCategoryState();
 }
 
-class _ThirdState extends State<Third> {
+class _MyCategoryState extends State<MyCategory> {
   List<String> _category = [
     '의류',
     '서적',
