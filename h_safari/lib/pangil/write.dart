@@ -166,7 +166,12 @@ class _SecondState extends State<Second> {
                                   Container(
                                       alignment: Alignment.centerLeft,
                                       height: 30,
-                                      child: DropdownCat(),
+                                      child: FlatButton(
+                                        child: Text('카테고리 선택'),
+                                       onPressed: () {
+                                         DropButton(context);
+                                       }
+                                      )
                                       //Text('임시방편'),
                                   ),
 
@@ -277,48 +282,96 @@ class _SecondState extends State<Second> {
   }
 }
 
-class DropdownCat extends StatefulWidget {
+
+//기존 dopdownButton에서 alertDialog list로 수정!
+void DropButton(BuildContext context)async {
+  String result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuilderContext) {
+        return DropCat();
+      }
+  );
+}
+
+class DropCat extends StatefulWidget {
   @override
-  _DropdownCatState createState() {
-    return _DropdownCatState();
+  _DropCatState createState() {
+    return _DropCatState();
   }
 }
 
-class _DropdownCatState extends State<DropdownCat> {
+class _DropCatState extends State<DropCat> {
   String _value;
+  int _select;
+
+  //카테고리 이름을 저장하는 리스트 배열
+  List<String> drop = [
+    '의류',
+    '서적',
+    '음식',
+    '생필품',
+    '가구/전자제품',
+    '뷰티/잡화',
+    '양도',
+    '기타',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        DropdownButton<String>(
-          items: [
-            DropdownMenuItem<String>(
-              child: Text('의류'),
-              value: 'one',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('서적'),
-              value: 'two',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('전자기기'),
-              value: 'three',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('음식'),
-              value: 'four',
-            ),
-          ],
-          onChanged: (String value) {
+    return AlertDialog(
+      title: Text('카테고리'),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('취소'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: Text('확인'),
+          onPressed: () {
+            Navigator.pop(context);
             setState(() {
-              _value = value;
+              _value = _value;
             });
           },
-          hint: Text('카테고리'),
-          value: _value,
         ),
       ],
+      content: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: 8,
+                itemBuilder: (BuildContext context, int index) {
+                  return RadioListTile(
+                      title: Text(drop[index]),
+                      value: index,
+                      groupValue: _select,
+                      onChanged: (value) {
+                        setState(() {
+                          _select = index;
+                        });
+                      }
+                  );
+                },
+              )
+//          onChanged: (String value) {
+//            setState(() {
+//              _value = value;
+//            });
+//          },
+//          hint: Text('카테고리'),
+//          value: _value,
+//        ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
