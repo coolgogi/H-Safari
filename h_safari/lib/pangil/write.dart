@@ -98,12 +98,14 @@ class _SecondState extends State<Second> {
                                                         child: new Text("사진첩"),
                                                         onPressed: () {
                                                           _uploadImageToStorage(ImageSource.gallery);
+                                                          Navigator.of(context).pop();
                                                         },
                                                       ),
                                                       new FlatButton(
                                                         child: new Text("카메라"),
                                                         onPressed: () {
                                                           _uploadImageToStorage(ImageSource.camera);
+                                                          Navigator.of(context).pop();
                                                         },
                                                       ),
                                                       new FlatButton(
@@ -241,13 +243,14 @@ class _SecondState extends State<Second> {
         )
     );
   }
-  void createDoc(String name, String description, String imageURL) {
+  void createDoc(String name, String description, String imageURL) async {
     Firestore.instance.collection(colName).add({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
-      fnImageUrl: imageURL,
+      fnImageUrl : imageURL,
     });
+
   }
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
@@ -258,8 +261,12 @@ class _SecondState extends State<Second> {
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+//    StorageReference storageReference =
+//    _firebaseStorage.ref().child("profile/${_user.uid}");
+    // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
+    // 그래서 지금 uid + Timestamp를 쓰는
     StorageReference storageReference =
-    _firebaseStorage.ref().child("profile/${_user.uid}");
+    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
     // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
@@ -267,10 +274,10 @@ class _SecondState extends State<Second> {
     // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
 
-    // 업로드한 사진의 URL 획득
+    // 업로드한 사진의 URL 획득 //필요?
     String downloadURL = await storageReference.getDownloadURL();
 
-    // 업로드된 사진의 URL을 페이지에 반영
+    // 업로드된 사진의 URL을 페이지에 반영 //필요??
     setState(() {
       _profileImageURL = downloadURL;
     });
