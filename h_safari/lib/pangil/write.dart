@@ -1,27 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/yh/post.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//from SH
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
 
-class Second extends StatefulWidget {
+class MyWrite extends StatefulWidget {
   @override
-  _SecondState createState() => _SecondState();
+  _MyWriteState createState() => _MyWriteState();
 }
 
 bool _delivery = false; //택배버튼
 bool _direct = false; //직거래 버튼
 
-class _SecondState extends State<Second> {
+class _MyWriteState extends State<MyWrite> {
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _newNameCon = TextEditingController();  //제목저장
@@ -98,12 +91,14 @@ class _SecondState extends State<Second> {
                                                         child: new Text("사진첩"),
                                                         onPressed: () {
                                                           _uploadImageToStorage(ImageSource.gallery);
+                                                          Navigator.of(context).pop();
                                                         },
                                                       ),
                                                       new FlatButton(
                                                         child: new Text("카메라"),
                                                         onPressed: () {
                                                           _uploadImageToStorage(ImageSource.camera);
+                                                          Navigator.of(context).pop();
                                                         },
                                                       ),
                                                       new FlatButton(
@@ -166,7 +161,12 @@ class _SecondState extends State<Second> {
                                   Container(
                                       alignment: Alignment.centerLeft,
                                       height: 30,
-                                      child: DropdownCat(),
+                                      child: FlatButton(
+                                        child: Text('카테고리 선택'),
+                                       onPressed: () {
+                                         DropButton(context);
+                                       }
+                                      )
                                       //Text('임시방편'),
                                   ),
 
@@ -241,13 +241,14 @@ class _SecondState extends State<Second> {
         )
     );
   }
-  void createDoc(String name, String description, String imageURL) {
+  void createDoc(String name, String description, String imageURL) async {
     Firestore.instance.collection(colName).add({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
-      fnImageUrl: imageURL,
+      fnImageUrl : imageURL,
     });
+
   }
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
@@ -258,8 +259,12 @@ class _SecondState extends State<Second> {
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+//    StorageReference storageReference =
+//    _firebaseStorage.ref().child("profile/${_user.uid}");
+    // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
+    // 그래서 지금 uid + Timestamp를 쓰는
     StorageReference storageReference =
-    _firebaseStorage.ref().child("profile/${_user.uid}");
+    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
     // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
@@ -267,58 +272,106 @@ class _SecondState extends State<Second> {
     // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
 
-    // 업로드한 사진의 URL 획득
+    // 업로드한 사진의 URL 획득 //필요?
     String downloadURL = await storageReference.getDownloadURL();
 
-    // 업로드된 사진의 URL을 페이지에 반영
+    // 업로드된 사진의 URL을 페이지에 반영 //필요??
     setState(() {
       _profileImageURL = downloadURL;
     });
   }
 }
 
-class DropdownCat extends StatefulWidget {
+
+//기존 dopdownButton에서 alertDialog list로 수정!
+void DropButton(BuildContext context)async {
+  String result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuilderContext) {
+        return DropCat();
+      }
+  );
+}
+
+class DropCat extends StatefulWidget {
   @override
-  _DropdownCatState createState() {
-    return _DropdownCatState();
+  _DropCatState createState() {
+    return _DropCatState();
   }
 }
 
-class _DropdownCatState extends State<DropdownCat> {
+class _DropCatState extends State<DropCat> {
   String _value;
+  int _select;
+
+  //카테고리 이름을 저장하는 리스트 배열
+  List<String> drop = [
+    '의류',
+    '서적',
+    '음식',
+    '생필품',
+    '가구/전자제품',
+    '뷰티/잡화',
+    '양도',
+    '기타',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        DropdownButton<String>(
-          items: [
-            DropdownMenuItem<String>(
-              child: Text('의류'),
-              value: 'one',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('서적'),
-              value: 'two',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('전자기기'),
-              value: 'three',
-            ),
-            DropdownMenuItem<String>(
-              child: Text('음식'),
-              value: 'four',
-            ),
-          ],
-          onChanged: (String value) {
+    return AlertDialog(
+      title: Text('카테고리'),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('취소'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: Text('확인'),
+          onPressed: () {
+            Navigator.pop(context);
             setState(() {
-              _value = value;
+              _value = _value;
             });
           },
-          hint: Text('카테고리'),
-          value: _value,
         ),
       ],
+      content: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: 8,
+                itemBuilder: (BuildContext context, int index) {
+                  return RadioListTile(
+                      title: Text(drop[index]),
+                      value: index,
+                      groupValue: _select,
+                      onChanged: (value) {
+                        setState(() {
+                          _select = index;
+                        });
+                      }
+                  );
+                },
+              )
+//          onChanged: (String value) {
+//            setState(() {
+//              _value = value;
+//            });
+//          },
+//          hint: Text('카테고리'),
+//          value: _value,
+//        ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

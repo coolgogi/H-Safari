@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/pangil/home.dart';
-import 'package:h_safari/pangil/pangilmain.dart';
+import 'package:h_safari/pangil/bottombar.dart';
 
 class FavoriteCategory extends StatefulWidget {
   @override
@@ -9,8 +9,6 @@ class FavoriteCategory extends StatefulWidget {
 }
 
 class _FavoriteCategoryState extends State<FavoriteCategory> {
-  bool _button = false;
-
   //카테고리 이름들을 저장하는 배열
   List<String> Category = [
     '의류',
@@ -21,6 +19,18 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     '뷰티/잡화',
     '양도',
     '기타',
+  ];
+
+  //각 카테고리별 선택용 bool 변수를 저장하는 리스트
+  List<bool> button = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
 
   List<int> buttonColor = new List<int>();
@@ -34,40 +44,44 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
       ),
       body: Column(
         children: <Widget>[
-          GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            childAspectRatio: (1.7), //각 버튼의 세로 길이
-            children: List.generate(8, (index) { //총 8개의 리스트를 만든다.
-              return Center(
-                child: ButtonBar(
-                  mainAxisSize: MainAxisSize.min, //버튼들을 센터로 맞추는건데 이상하게 center와 이게 두개 다 있어야만 센터로 정렬이 되네요.
+          GridView.count( //gridview를 사용해 가로 4줄, 세로 2줄의 버튼을 만든다.
+              shrinkWrap: true,
+              crossAxisCount: 2, //세로줄
+              childAspectRatio: (1.7), //각 버튼의 세로 길이
+              children: List.generate(8, (index) { //8개의 리스트를 만든다.
+                return Column(
                   children: <Widget>[
-                    ButtonTheme(
-                      minWidth: 180, //각 버튼의 가로 길이
-                      child: RaisedButton( //
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center, //아이콘들과 텍스트를 가운데로 정렬
-                          children: <Widget>[
-                            Icon(Icons.favorite),
-                            SizedBox(height: 10,),
-                            Text(Category[index]),
-                          ],
+                    ButtonBar(
+                      mainAxisSize: MainAxisSize.min, //버튼들을 센터로 맞추는건데 이상하게 center와 이게 두개 다 있어야만 센터로 정렬이 되네요.
+                      children: <Widget>[
+                        ButtonTheme(
+                          minWidth: 180, //각 버튼의 가로 길이
+                          height: 100,
+                          child: RaisedButton(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center, //아이콘들과 텍스트를 가운데로 정렬
+                              children: <Widget>[
+                                Icon(Icons.favorite),
+                                SizedBox(height: 10,),
+                                Text(Category[index]),
+                              ],
+                            ),
+                            color: button[index] ? Colors.blue : Colors.white,
+                            onPressed: () {
+                              //아마 여기서 선택한 값을 가져가서 My 선호에서 띄우는거겠죠...?
+                              setState(() {
+                                button[index] = !button[index];
+                              });
+                            },
+                          ),
                         ),
-                        color: _button ? Colors.white : Colors.blue,
-                        onPressed: () {
-                          //아직 아무것도 없지만 아마 여기서 선택한 값을 가져가서 My 선호에서 띄우는거겠죠...?
-                          setState(() {
-                            _button = !_button;
-                          });
-                        },
-                      ),
+                      ],
                     ),
                   ],
-                ),
-              );
-            }),
+                );
+              })
           ),
+
           SizedBox(height: 20,),
 
           ButtonTheme(
