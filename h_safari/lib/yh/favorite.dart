@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/pangil/home.dart';
-import 'package:h_safari/pangil/pangilmain.dart';
+import 'package:h_safari/pangil/bottombar.dart';
 
 class FavoriteCategory extends StatefulWidget {
   @override

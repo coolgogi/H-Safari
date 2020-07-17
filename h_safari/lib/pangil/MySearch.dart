@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-
 class mysearch extends StatefulWidget {
   @override
   _mysearchState createState() => _mysearchState();
