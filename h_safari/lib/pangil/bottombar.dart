@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:h_safari/pangil/Category.dart';
 import 'home.dart';
 import 'package:h_safari/chat/chat_list.dart';
 import 'write.dart';
-import 'category.dart';
 import 'package:h_safari/mypage/mypage.dart';
 
 
@@ -14,7 +14,7 @@ class GI_MyApp extends StatefulWidget {
 class _GI_MyAppState extends State<GI_MyApp> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), Third(), Second(), ChatList(), MyPage()];
+  final List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];
 
   void _onTap(int index) {
     setState(() {
@@ -33,7 +33,7 @@ class _GI_MyAppState extends State<GI_MyApp> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: choices.length,
+      length: 2,
       child: Scaffold(
           body: _children[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(

@@ -7,7 +7,7 @@ import 'post.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
 import 'list.dart';
-import '../pangil/pangilmain.dart';
+import '../pangil/bottombar.dart';
 
 AuthPageState pageState;
 
