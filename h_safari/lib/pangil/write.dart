@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class MyWrite extends StatefulWidget {
+class MyWrite extends StatefulWidget{
   @override
   _MyWriteState createState() => _MyWriteState();
 }
@@ -19,6 +19,7 @@ class _MyWriteState extends State<MyWrite> {
 
   TextEditingController _newNameCon = TextEditingController();  //제목저장
   TextEditingController _newDescCon = TextEditingController();  //설명저장
+  TextEditingController _newPriceCon = TextEditingController(); //가격저장
   //이미지 저장
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -43,6 +44,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnName = "name";
   final String fnDescription = "description";
   final String fnDatetime = "datetime";
+  final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
 
   @override
@@ -144,7 +146,7 @@ class _MyWriteState extends State<MyWrite> {
                                     alignment: Alignment.centerLeft,
                                     height: 30,
                                     child: TextFormField(
-
+                                      controller: _newPriceCon,
                                       decoration: InputDecoration(
                                         hintText: '가격 입력',
                                       ),
@@ -221,11 +223,13 @@ class _MyWriteState extends State<MyWrite> {
                                       onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
 //                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                                         if (_newDescCon.text.isNotEmpty &&
-                                            _newNameCon.text.isNotEmpty) {
-                                          createDoc(_newNameCon.text, _newDescCon.text, _profileImageURL);
+                                            _newNameCon.text.isNotEmpty &&
+                                            _newPriceCon.text.isNotEmpty) {
+                                          createDoc(_newNameCon.text, _newDescCon.text, _newPriceCon.text, _profileImageURL);
                                         }
                                         _newNameCon.clear();
                                         _newDescCon.clear();
+                                        _newPriceCon.clear();
                                         _profileImageURL = '';
                                       },
 
@@ -241,11 +245,12 @@ class _MyWriteState extends State<MyWrite> {
         )
     );
   }
-  void createDoc(String name, String description, String imageURL) async {
+  void createDoc(String name, String description, String price, String imageURL) async {
     Firestore.instance.collection(colName).add({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
+      fnPrice : price,
       fnImageUrl : imageURL,
     });
 

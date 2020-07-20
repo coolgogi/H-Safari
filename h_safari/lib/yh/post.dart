@@ -1,17 +1,56 @@
-
 import 'package:flutter/material.dart';
 import 'package:h_safari/pangil/write.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../pangil/home.dart';
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 
 class Post extends StatefulWidget {
+//
+//  void showReadDocSnackBar(DocumentSnapshot doc) {
+//    _scaffoldKey.currentState
+//      ..hideCurrentSnackBar()
+//      ..showSnackBar(
+//        SnackBar(
+//          backgroundColor: Colors.deepOrangeAccent,
+//          duration: Duration(seconds: 5),
+//          content: Text(
+//              "$fnName: ${doc[fnName]}\n$fnDescription: ${doc[fnDescription]}"
+//                  "\n$fnDatetime: ${timestampToStrDateTime(doc[fnDatetime])}"),
+//          action: SnackBarAction(
+//            label: "Done",
+//            textColor: Colors.white,
+//            onPressed: () {},
+//          ),
+//        ),
+//      );
+//  }
+//
+  DocumentSnapshot tp;
+
+  Post(DocumentSnapshot doc) {
+     tp = doc;
+  }
   @override
-  _PostState createState() => _PostState();
+  _PostState createState() => _PostState(tp);
 }
 
 class _PostState extends State<Post> {
+
+  String fnName;
+  String fnDes;
+  String fnDate;
+  String fnPrice;
+  String fnImage;
+
+  _PostState(DocumentSnapshot doc){
+    fnName = doc['name'];
+    fnDes = doc['description'];
+    fnDate = doc['datetime'].toString();
+    fnPrice = doc['price'];
+    fnImage = doc['imageUrl'];
+  }
 
   FirebaseProvider fp;
   bool favorite = false;
@@ -23,7 +62,7 @@ class _PostState extends State<Post> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('게시글 제목'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
+        title: Text('$fnName'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
       ),
       bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
         child: Row(
@@ -75,17 +114,17 @@ class _PostState extends State<Post> {
                 // 2. 사진 사이즈가 크면 화면 밖으로 나가지 않게 사이즈 조절
                 // 3. 사진 여러 장 올리면 옆으로 밀어서 더 볼 수 있게
                 //확인
-                child: Center(child: Image.network("https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",)),
+                child: Center(child: Image.network(fnImage)),
               ),
 
               SizedBox(height: 30,),
 
               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-              Text('5,000원', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text('$fnPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               SizedBox(height: 10,),
-              Text('전공 서적 팝니다. 전부 5천원', style: TextStyle(fontSize: 20),),
+              Text('$fnDes', style: TextStyle(fontSize: 20),),
               SizedBox(height: 10,),
-              Text('카테고리: 서적', style: TextStyle(fontSize: 15, color: Colors.black54),),
+              Text('카테고리: 서적(not yet)', style: TextStyle(fontSize: 15, color: Colors.black54),),
               SizedBox(height: 10,),
 
               SizedBox(height: 15,),
@@ -103,7 +142,7 @@ class _PostState extends State<Post> {
               SizedBox(height: 30,),
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
-              Text('글 설명 장황하게~~~~~~~~~~~~~~~~~~~~~\n 연락처: 010-1234-1234'),
+              Text('$fnDate\n 연락처: 010-1234-1234'),
             ],
           )
         ),

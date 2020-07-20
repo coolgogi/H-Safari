@@ -33,7 +33,7 @@ class _MyListState extends State<MyList> {
                 ),
                 subtitle: Text('서적 팔아요~ 전부 5천원'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                 },
               ),
               ListTile(
@@ -44,7 +44,7 @@ class _MyListState extends State<MyList> {
                 ),
                 subtitle: Text('서적 팔아요~ 전부 5천원'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                 },
               ),
               ListTile(
@@ -55,7 +55,7 @@ class _MyListState extends State<MyList> {
                 ),
                 subtitle: Text('서적 팔아요~ 전부 5천원'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                 },
               ),
               Container(

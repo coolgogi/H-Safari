@@ -16,8 +16,7 @@ class _AlarmState extends State<Alarm> {
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          title: Text('알람'),
-          bottom: TabBar(
+          title : TabBar(
             unselectedLabelColor: Colors.white,
             indicatorPadding: EdgeInsets.only(left: 30, right: 30),
             indicator: ShapeDecoration(
@@ -52,8 +51,8 @@ class _AlarmState extends State<Alarm> {
                 child: Column(
                   children: <Widget>[
                     alarmIcon(),
-                    alarmIcon()
-                    //from SH
+                    alarmIcon(),
+
                   ],
                 ),
               ),

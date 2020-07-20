@@ -132,10 +132,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                     // Read Document
                                     onTap: () {
                                       showDocument(document.documentID);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Post()));
+
                                     },
                                     // Update or Delete Document
                                     onLongPress: () {
@@ -212,8 +209,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     ),
                     subtitle: Text('서적 팔아요~ 전부 5천원'),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Post()));
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) => Post())
+//                      );
                     },
                   ),
                   //from SH
@@ -234,6 +232,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .get()
         .then((doc) {
 //      showReadDocSnackBar(doc);
+        showReadPostPage(doc);
     });
   }
 
@@ -273,22 +272,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   //사용중
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          duration: Duration(seconds: 5),
-          content: Text(
-              "$fnName: ${doc[fnName]}\n$fnDescription: ${doc[fnDescription]}"
-              "\n$fnDatetime: ${timestampToStrDateTime(doc[fnDatetime])}"),
-          action: SnackBarAction(
-            label: "Done",
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
+      ..hideCurrentSnackBar();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Post(doc))
+    );
   }
+
+
+
 
   //dialog
   void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
