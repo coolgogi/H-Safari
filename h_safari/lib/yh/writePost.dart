@@ -136,7 +136,7 @@ class _WritePostState extends State<WritePost> {
                     Center(
                       child: RaisedButton(
                         onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
+//                          Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                         },
                         child: Text('게시글 등록', style: TextStyle(fontSize: 15),),
                       ),
