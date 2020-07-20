@@ -326,7 +326,6 @@ class _DropCatState extends State<DropCat> {
           onPressed: () {
             Navigator.pop(context);
             setState(() {
-              _value = _value;
             });
           },
         ),
@@ -341,13 +340,13 @@ class _DropCatState extends State<DropCat> {
                 shrinkWrap: true,
                 itemCount: 8,
                 itemBuilder: (BuildContext context, int index) {
-                  return RadioListTile(
+                  return RadioListTile<String>(
                       title: Text(drop[index]),
-                      value: index,
-                      groupValue: _select,
+                      value: drop[index],
+                      groupValue: _value,
                       onChanged: (value) {
                         setState(() {
-                          _select = index;
+                          _value = value;
                         });
                       }
                   );
