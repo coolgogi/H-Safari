@@ -41,12 +41,14 @@ class _PostState extends State<Post> {
   String fnName;
   String fnDes;
   String fnDate;
+  String fnPrice;
   String fnImage;
 
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
     fnDes = doc['description'];
     fnDate = doc['datetime'].toString();
+    fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
   }
 
@@ -118,7 +120,7 @@ class _PostState extends State<Post> {
               SizedBox(height: 30,),
 
               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-              Text('5,000원(not yet)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text('$fnPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               SizedBox(height: 10,),
               Text('$fnDes', style: TextStyle(fontSize: 20),),
               SizedBox(height: 10,),
