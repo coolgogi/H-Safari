@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class MyWrite extends StatefulWidget {
+class MyWrite extends StatefulWidget{
   @override
   _MyWriteState createState() => _MyWriteState();
 }
