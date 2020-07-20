@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:h_safari/mypage/setting.dart';
 import 'package:h_safari/mypage/terms_of_use.dart';
 import 'modifyprofile.dart';
-
-
+//from SH
+import '../firebase/firebase_provider.dart';
+import 'package:provider/provider.dart';
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 class MyPage extends StatelessWidget {
+
+  FirebaseProvider fp;
+
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           leading: new Icon(Icons.cake),
@@ -74,6 +82,9 @@ class MyPage extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.accessibility),
                   title: Text('로그아웃'),
+                  onTap: () {
+                    fp.signOut();
+                  }
                 ),
               ],
             ),
