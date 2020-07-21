@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
+
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -27,6 +29,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnDescription = "description";
   final String fnDatetime = "datetime";
   final String fnImageUrl = 'imageUrl';
+  final String fnPrice = 'price';
+  final String fnCategory = 'category';
+  final String fnHow = 'how'; //거래유형
+
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();

@@ -14,15 +14,19 @@ class MyWrite extends StatefulWidget{
 bool _delivery = false; //택배버튼
 bool _direct = false; //직거래 버튼
 String _category = '카테고리 미정'; //카테고리 선택시 값이 변하도록 하기 위한 변수
-String _value;
+String _value; //radioButton에서 값을 저장하는 변수
+String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변수
+
 
 class _MyWriteState extends State<MyWrite> {
   final _formkey = GlobalKey<FormState>();
-//  String _category = '카테고리 미정'; //카테고리 선택시 값이 변하도록 하기 위한 변수
 
   TextEditingController _newNameCon = TextEditingController();  //제목저장
   TextEditingController _newDescCon = TextEditingController();  //설명저장
   TextEditingController _newPriceCon = TextEditingController(); //가격저장
+  TextEditingController _newCategoryCon = TextEditingController(); //카테고리 저장
+  TextEditingController _newHowCon = TextEditingController(); //거래유형 저장
+
   //이미지 저장
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -49,23 +53,14 @@ class _MyWriteState extends State<MyWrite> {
   final String fnDatetime = "datetime";
   final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
+  final String fnCategory = "category";
+  final String fnHow = "how";
 
-//  String _value; //카테고리 리스트에서 값을 저장하는 변수
-//
-//  //카테고리 이름을 저장하는 리스트 배열
-//  List<String> drop = [
-//    '의류',
-//    '서적',
-//    '음식',
-//    '생필품',
-//    '가구/전자제품',
-//    '뷰티/잡화',
-//    '양도',
-//    '기타',
-//  ];
+  final String fnUid = "uid";
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -192,51 +187,39 @@ class _MyWriteState extends State<MyWrite> {
                                           showDialog(context: context,
                                           builder: (context) { //기존 dopdownButton에서 alertDialog list로 수정!
                                             //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
-                                            return DropCat();
-//                                              AlertDialog(
-//                                              title: Text('카테고리'),
-//                                              actions: <Widget>[
-//                                                FlatButton(
-//                                                  child: Text('취소'),
-//                                                  onPressed: () {
-//                                                    Navigator.pop(context);
-//                                                  },
-//                                                ),
-//                                                FlatButton(
-//                                                  child: Text('확인'),
-//                                                  onPressed: () {
-//                                                    Navigator.pop(context, _value);
-//                                                    setState(() { //확인 버튼을 눌렀을 때만 값이 바뀌도록
-//                                                      _category = _value;
-//                                                    });
-//                                                  },
-//                                                ),
-//                                              ],
-//                                              content: Container(
-//                                                width: double.maxFinite,
-//                                                child: Column(
-//                                                  mainAxisAlignment: MainAxisAlignment.center,
-//                                                  children: <Widget>[
-//                                                    ListView.builder(
-//                                                      shrinkWrap: true,
-//                                                      itemCount: 8,
-//                                                      itemBuilder: (BuildContext context, int index) {
-//                                                        return RadioListTile<String>(
-//                                                            title: Text(drop[index]),
-//                                                            value: drop[index],
-//                                                            groupValue: _value,
-//                                                            onChanged: (value) {
-//                                                              setState(() {
-//                                                                _value = value;
-//                                                              });
-//                                                            },
-//                                                        );
-//                                                      },
-//                                                    )
-//                                                  ],
-//                                                ),
-//                                              ),
-//                                            );
+                                            return //DropCat();
+                                              AlertDialog(
+                                              title: Text('카테고리'),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                  child: Text('취소'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                  },
+                                                ),
+                                                 FlatButton(
+                                                   child: Text('확인'),
+                                                   onPressed: () {
+                                                     if(_value != null) {
+                                                       Navigator.pop(context, _value);
+                                                       setState(() { //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                         _category = _value;
+                                                         previous = _value;
+                                                       });
+                                                     }},
+                                                 ),
+                                              ],
+                                              content: Container(
+                                                width: double.maxFinite,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    ListCat(), //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                  ],
+                                                ),
+                                              ),
+                                            );
                                           });
                                        }
                                       )
@@ -316,14 +299,18 @@ class _MyWriteState extends State<MyWrite> {
     );
   }
   void createDoc(String name, String description, String price, String imageURL) async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
     Firestore.instance.collection(colName).add({
-      fnName: name,
-      fnDescription: description,
-      fnDatetime: Timestamp.now(),
+      fnName : name,
+      fnDescription : description,
+      fnDatetime : Timestamp.now(),
       fnPrice : price,
       fnImageUrl : imageURL,
+      fnCategory : "category",
+      fnHow : "how",
+      fnUid : user.uid.toString(),
     });
-
   }
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
@@ -337,7 +324,7 @@ class _MyWriteState extends State<MyWrite> {
 //    StorageReference storageReference =
 //    _firebaseStorage.ref().child("profile/${_user.uid}");
     // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
-    // 그래서 지금 uid + Timestamp를 쓰는
+    // 그래서 지금 uid + Timestamp를 쓰는 중
     StorageReference storageReference =
     _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
@@ -366,26 +353,12 @@ bool checkDirect() {
   return _direct;
 }
 
-//void DropButton(BuildContext context)async {
-//  String result = await showDialog(
-//      context: context,
-//      barrierDismissible: false,
-//      builder: (BuilderContext) {
-//        return DropCat();
-//      }
-//  );
-//}
-//
-class DropCat extends StatefulWidget {
+class ListCat extends StatefulWidget {
   @override
-  _DropCatState createState() {
-    return _DropCatState();
-  }
+  _ListCatState createState() => _ListCatState();
 }
 
-class _DropCatState extends State<DropCat> {
-  //String _value;
-
+class _ListCatState extends State<ListCat> {
   //카테고리 이름을 저장하는 리스트 배열
   List<String> drop = [
     '의류',
@@ -400,59 +373,22 @@ class _DropCatState extends State<DropCat> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('카테고리'),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('취소'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        FlatButton(
-          child: Text('확인'),
-          onPressed: () {
-            Navigator.pop(context);
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 8,
+      itemBuilder: (BuildContext context, int index) {
+        return RadioListTile<String>(
+          title: Text(drop[index]),
+          value: drop[index],
+          groupValue: _value,
+          onChanged: (value) {
             setState(() {
-              _category = _value;
+              _value = value;
+              //previous = value;
             });
           },
-        ),
-      ],
-      content: SingleChildScrollView(
-        child: Container(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 8,
-                itemBuilder: (BuildContext context, int index) {
-                  return RadioListTile<String>(
-                      title: Text(drop[index]),
-                      value: drop[index],
-                      groupValue: _value,
-                      onChanged: (value) {
-                        setState(() {
-                          _value = value;
-                        });
-                      }
-                  );
-                },
-              )
-//          onChanged: (String value) {
-//            setState(() {
-//              _value = value;
-//            });
-//          },
-//          hint: Text('카테고리'),
-//          value: _value,
-//        ),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

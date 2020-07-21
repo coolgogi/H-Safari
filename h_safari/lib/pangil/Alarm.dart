@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:h_safari/pangil/category/category1.dart';
 
 class Alarm extends StatefulWidget {
   @override
@@ -8,82 +8,95 @@ class Alarm extends StatefulWidget {
 }
 
 class _AlarmState extends State<Alarm> {
-// var myList = List.generate(5, (index) => index * 2); print(myList); -> [0, 2, 4, 6, 8]과 같은 형태의 함수.
+  Color color = Colors.black12;
+  Color color1 = Colors.black12;
+
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          title : TabBar(
-            unselectedLabelColor: Colors.white,
-            indicatorPadding: EdgeInsets.only(left: 30, right: 30),
-            indicator: ShapeDecoration(
-                color: Colors.lightBlueAccent,
-                shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                )),
-            labelStyle: TextStyle(fontSize: 15, height: 1),
-            tabs: <Widget>[
-              Tab(text: '알림함'),
-              Tab(text: '쪽지함'),
-            ],
-          ),
+            title: Text('알림')
         ),
-        body: TabBarView(
+        body: ListView(
           children: <Widget>[
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+            Container(
+              color: color,
+              child: ListTile(
+                title: Row(
                   children: <Widget>[
-                    alarmIcon(),
-                    alarmIcon()
-                    //from SH
+                    Icon(
+                      Icons.person,
+                      color: Colors.lightBlueAccent,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '원피스 싸게 팔아요~',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          'OOO님이 댓글을 남기셨습니다.',
+                          style: TextStyle(fontSize: 10, color: Colors.black45),
+                        ),
+                      ],
+                    )
                   ],
                 ),
+                onTap: () {
+                  setState(() {
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
+                      color = Colors.white;
+                  });
+                },
               ),
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+            Container(
+              color: color1,
+              child: ListTile(
+                title: Row(
                   children: <Widget>[
-                    alarmIcon(),
-                    alarmIcon(),
+                    Icon(
+                      Icons.person,
+                      color: Colors.lightBlueAccent,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '그할마에 위치한 집 양도합니다',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          'OOO님이 좋아요를 눌렀습니다.',
+                          style: TextStyle(fontSize: 10, color: Colors.black45),
+                        ),
+                      ],
+                    ),
 
                   ],
                 ),
+                onTap: () {
+                  setState(() {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
+                    color1 = Colors.white;
+
+                  });
+                },
               ),
-            ),
+            )
           ],
-        ),
-      ),
+        )
     );
   }
 }
 
-Widget alarmIcon() {
-  return ListTile(
-    title: Row(
-      children: <Widget>[
-        Icon(Icons.person, color: Colors.lightBlueAccent,),
-        SizedBox(width: 10,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('hello', style: TextStyle(fontSize: 15),),
-            Text('Send to me. my name is kim kwang il. I wanna see you!',
-              style: TextStyle(
-                  fontSize: 10, color: Colors.black45),
-            ),
-          ],
-        )
-      ],
-    ),
-    onTap: () {
-
-    },
-  );
-}

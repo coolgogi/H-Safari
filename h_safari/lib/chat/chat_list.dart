@@ -33,7 +33,7 @@ class _ChatListState extends State<ChatList> {
                 children: <Widget>[
                   Container(
                     decoration:
-                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                    BoxDecoration(shape: BoxShape.circle, boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
                         spreadRadius: 1,
@@ -69,17 +69,17 @@ class _ChatListState extends State<ChatList> {
                                 ),
                                 chat.unread
                                     ? Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        width: 7,
-                                        height: 7,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.amber,
-                                        ),
-                                      )
+                                  margin: const EdgeInsets.only(left: 8),
+                                  width: 7,
+                                  height: 7,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.amber,
+                                  ),
+                                )
                                     : Container(
-                                        child: null,
-                                      ),
+                                  child: null,
+                                ),
                               ],
                             ),
                             Text(

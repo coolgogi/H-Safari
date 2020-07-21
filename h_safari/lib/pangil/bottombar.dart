@@ -4,7 +4,7 @@ import 'home.dart';
 import 'package:h_safari/chat/chat_list.dart';
 import 'write.dart';
 import 'package:h_safari/mypage/mypage.dart';
-
+import '../SH/chat_main.dart';
 
 class GI_MyApp extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class GI_MyApp extends StatefulWidget {
 class _GI_MyAppState extends State<GI_MyApp> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];
+  final List<Widget> _children = [Home(), MyCategory(), MyWrite(), chatting(), MyPage()];
 
   void _onTap(int index) {
     setState(() {
