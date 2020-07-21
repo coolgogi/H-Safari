@@ -5,7 +5,6 @@ import '../pangil/home.dart';
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
-import '../SH/database.dart';
 import '../chat/chat_room.dart';
 
 
@@ -20,8 +19,6 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-
-  DatabaseMethods databaseMethods = new DatabaseMethods();
 
   String fnName;
   String fnDes;
