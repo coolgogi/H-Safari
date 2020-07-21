@@ -85,6 +85,8 @@ class _SignUpState extends State<SignUp> {
                                 hintText: '학번을 입력하세요.',
                               ),
                               validator: (value) { //아무것도 입력하지 않으면 뜨는 에러 메세지
+                                  //YJ 한동메일 아니면 경고메세지
+                                  //return RedgExp(r"^[a-zA-Z0-9]+@[handong]+\.[edu]+").hasMatch(value)?null:"한동메일을 입력해주십시오";
                                 if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
                             ),
                           ),
