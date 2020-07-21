@@ -23,6 +23,9 @@ class _MyWriteState extends State<MyWrite> {
   TextEditingController _newNameCon = TextEditingController();  //제목저장
   TextEditingController _newDescCon = TextEditingController();  //설명저장
   TextEditingController _newPriceCon = TextEditingController(); //가격저장
+  TextEditingController _newCategoryCon = TextEditingController(); //카테고리 저장
+  TextEditingController _newHowCon = TextEditingController(); //거래유형 저장
+
   //이미지 저장
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -49,6 +52,10 @@ class _MyWriteState extends State<MyWrite> {
   final String fnDatetime = "datetime";
   final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
+  final String fnCategory = "category";
+  final String fnHow = "how";
+
+  final String fnUid = "uid";
 
 //  String _value; //카테고리 리스트에서 값을 저장하는 변수
 //
@@ -66,6 +73,7 @@ class _MyWriteState extends State<MyWrite> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -316,14 +324,18 @@ class _MyWriteState extends State<MyWrite> {
     );
   }
   void createDoc(String name, String description, String price, String imageURL) async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
     Firestore.instance.collection(colName).add({
-      fnName: name,
-      fnDescription: description,
-      fnDatetime: Timestamp.now(),
+      fnName : name,
+      fnDescription : description,
+      fnDatetime : Timestamp.now(),
       fnPrice : price,
       fnImageUrl : imageURL,
+      fnCategory : "category",
+      fnHow : "how",
+      fnUid : user.uid.toString(),
     });
-
   }
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
@@ -337,7 +349,7 @@ class _MyWriteState extends State<MyWrite> {
 //    StorageReference storageReference =
 //    _firebaseStorage.ref().child("profile/${_user.uid}");
     // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
-    // 그래서 지금 uid + Timestamp를 쓰는
+    // 그래서 지금 uid + Timestamp를 쓰는 중
     StorageReference storageReference =
     _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 

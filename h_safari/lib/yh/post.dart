@@ -5,28 +5,11 @@ import '../pangil/home.dart';
 
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
+import '../SH/database.dart';
+import '../chat/chat_room.dart';
+
 
 class Post extends StatefulWidget {
-//
-//  void showReadDocSnackBar(DocumentSnapshot doc) {
-//    _scaffoldKey.currentState
-//      ..hideCurrentSnackBar()
-//      ..showSnackBar(
-//        SnackBar(
-//          backgroundColor: Colors.deepOrangeAccent,
-//          duration: Duration(seconds: 5),
-//          content: Text(
-//              "$fnName: ${doc[fnName]}\n$fnDescription: ${doc[fnDescription]}"
-//                  "\n$fnDatetime: ${timestampToStrDateTime(doc[fnDatetime])}"),
-//          action: SnackBarAction(
-//            label: "Done",
-//            textColor: Colors.white,
-//            onPressed: () {},
-//          ),
-//        ),
-//      );
-//  }
-//
   DocumentSnapshot tp;
 
   Post(DocumentSnapshot doc) {
@@ -38,11 +21,16 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
 
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
   String fnName;
   String fnDes;
   String fnDate;
   String fnPrice;
   String fnImage;
+  String fnUid;
+  String fnCategory;
+  String fnHow ;
 
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
@@ -50,6 +38,9 @@ class _PostState extends State<Post> {
     fnDate = doc['datetime'].toString();
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
+    fnUid = doc['uid'];
+    fnCategory = doc['category'];
+    fnHow = doc['how'];
   }
 
   FirebaseProvider fp;
@@ -86,14 +77,16 @@ class _PostState extends State<Post> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 RawMaterialButton( //내가 몇 번째로 구매 신청 버튼을 눌렀는지 확인하는 버튼. 메세지 창은 뜨지만 아직 내부(대기번호)는 미구현.
-                  child: Text('대기번호'),
+                  child: Text('대기번호 & 메세지보내기'),
                   onPressed: () {
                     ShowListnum(context);
                   },
                 ),
                 RawMaterialButton( //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
+                  //잠깐 메세지 버튼으로 쓸게요~~
                   child: Text('댓글'),
                   onPressed: () {
+//                      sendMessage(fnUid);
 //                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
                   },
                 ),
@@ -149,6 +142,30 @@ class _PostState extends State<Post> {
       ),
     );
   }
+//  void sendMessage(String uid) async {
+//
+//    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//    String currentUser = user.uid.toString();
+//
+//    List<String> users = [currentUser, uid];
+//
+//    String chatRoomId = getChatRoomId(currentUser, uid);
+//
+//    Map<String, dynamic> chatRoom = {
+//      "users": users,
+//      "chatRoomId" : chatRoomId,
+//    };
+//
+//    databaseMethods.addChatRoom(chatRoom, chatRoomId);
+//
+//    Navigator.push(context, MaterialPageRoute(
+//        builder: (context) => ChatRoom(
+//          chatRoomId: chatRoomId,
+//          uid : fnUid,
+//          currentUser : currentUser,
+//        )
+//    ));
+//  }
 }
 
 void ShowListnum(BuildContext context) async {
@@ -209,4 +226,14 @@ void Buy(BuildContext context) async {
         );
       }
   );
+}
+
+
+
+getChatRoomId(String a, String b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+    return "$b\_$a";
+  } else {
+    return "$a\_$b";
+  }
 }

@@ -60,9 +60,9 @@ class _ChatRoomState extends State<ChatRoom> {
               backgroundImage: NetworkImage(message.sender.image),
             ),
           ):
-              Container(
-                child: SizedBox(width: 45,),
-              ),
+          Container(
+            child: SizedBox(width: 45,),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -75,9 +75,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   fontSize: 13,
                 ),
               ):
-                  Container(
-                    child: null,
-                  ),
+              Container(
+                child: null,
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
@@ -130,7 +130,7 @@ class _ChatRoomState extends State<ChatRoom> {
           Expanded(
             child: TextField(
               decoration:
-                  InputDecoration.collapsed(hintText: 'Send a message.'),
+              InputDecoration.collapsed(hintText: 'Send a message.'),
               textCapitalization: TextCapitalization.sentences,
             ),
           ),
