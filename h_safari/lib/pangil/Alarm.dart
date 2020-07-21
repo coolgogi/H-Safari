@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:h_safari/pangil/category/category1.dart';
 
 class Alarm extends StatefulWidget {
   @override
@@ -7,58 +8,95 @@ class Alarm extends StatefulWidget {
 }
 
 class _AlarmState extends State<Alarm> {
-  final items = List<String>.generate(20, (i) => "Item ${i + 1}");
   Color color = Colors.black12;
+  Color color1 = Colors.black12;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          title: Text('알람'),
+            title: Text('알림')
         ),
-        body: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Dismissible(
-                background: Container(color : Colors.red),
-                direction: DismissDirection.startToEnd,
-                onDismissed: (direction){
+        body: ListView(
+          children: <Widget>[
+            Container(
+              color: color,
+              child: ListTile(
+                title: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.person,
+                      color: Colors.lightBlueAccent,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '원피스 싸게 팔아요~',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          'OOO님이 댓글을 남기셨습니다.',
+                          style: TextStyle(fontSize: 10, color: Colors.black45),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                onTap: () {
                   setState(() {
-                    if (direction == DismissDirection.startToEnd) {
-                      items.removeAt(index);
-                    }
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
+                      color = Colors.white;
                   });
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black12),
-                      color : color
-                  ),
-                  child: ListTile(
-                    title: Row(
-                      children: <Widget>[
-                        Icon(Icons.person, color: Colors.lightBlueAccent,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('${items[index]}', style: TextStyle(fontSize: 20),),
-                            Text('Send to me. my name is kim kwang il. I wanna see you!', style: TextStyle(fontSize: 10, color: Colors.black12),),
-                          ],
-                        )
-                      ]
+              ),
+            ),
+            Container(
+              color: color1,
+              child: ListTile(
+                title: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.person,
+                      color: Colors.lightBlueAccent,
                     ),
-                    onTap: () {
-                      setState(() {
-                        color = Colors.white;
-                      });
-                    },
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '그할마에 위치한 집 양도합니다',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          'OOO님이 좋아요를 눌렀습니다.',
+                          style: TextStyle(fontSize: 10, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+
+                  ],
                 ),
-                key: Key(item),
-              );
-            }));
+                onTap: () {
+                  setState(() {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
+                    color1 = Colors.white;
+
+                  });
+                },
+              ),
+            )
+          ],
+        )
+    );
   }
 }
+
