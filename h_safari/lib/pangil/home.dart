@@ -89,12 +89,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           ),
         ],
         bottom: TabBar(
-          unselectedLabelColor: Colors.white,
+          //labelColor: Colors.white // 탭바 글자색
+          unselectedLabelColor: Colors.white, // 선택되지 않은 탭바의 글자색
           indicatorPadding: EdgeInsets.only(left: 30, right: 30),
           indicator: ShapeDecoration(
               color: Colors.lightBlueAccent,
-              shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
               )
           ),
           labelStyle: TextStyle(fontSize: 15, height: 1),
