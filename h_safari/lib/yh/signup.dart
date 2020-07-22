@@ -32,6 +32,8 @@ class _SignUpState extends State<SignUp> {
   final _formkey = GlobalKey<FormState>();
   bool _agree = false;
   final _pwkey = GlobalKey<FormState>();
+  bool _visiblepw = false; //비밀번호 입력에서 텍스트 가리는 변수
+  bool _visiblepw2 = false; //비밀번호 확인에서 텍스트 가리는 변수
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +102,21 @@ class _SignUpState extends State<SignUp> {
                           Container(
                             alignment: Alignment.centerLeft,
                             height: 30,
-                            child: TextFormField(
+                            child: TextFormField( //텍스트 입력시 가려지도록
+                              obscureText: !_visiblepw,
                               controller: _pwCon,
                               decoration: InputDecoration(
                                 hintText: '비밀번호를 입력하세요.',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                        _visiblepw ? Icons.visibility : Icons.visibility_off
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _visiblepw = !_visiblepw;
+                                      });
+                                    },
+                                  )
                               ),
                               validator: (_pwkey) { //아무것도 입력하지 않으면 뜨는 에러 메세지
                                 if(_pwkey.isEmpty) {return '비밀번호를 입력하지 않았습니다.';}},
@@ -118,10 +131,21 @@ class _SignUpState extends State<SignUp> {
                           Container(
                             alignment: Alignment.centerLeft,
                             height: 30,
-                            child: TextFormField(
+                            child: TextFormField( //텍스트 입력시 가려지도록222
+                              obscureText: !_visiblepw2,
                               controller: _pwConCheck,
                               decoration: InputDecoration(
                                 hintText: '비밀번호를 입력하세요.',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                        _visiblepw2 ? Icons.visibility : Icons.visibility_off
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _visiblepw2 = !_visiblepw2;
+                                      });
+                                    },
+                                  )
                               ),
                               validator: (value) { //일단 구현은 해보았는데 이것도 아직 제대로 작동하는지는 확인을 안해봤어요. 연동하고 해보겠습니다.
                                 if(value != _pwkey) {return '비밀번호가 일치하지 않습니다.';}},
@@ -151,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                                     value: _agree,
                                     onChanged: (bool value) {
                                       setState(() {
-                                        _agree = value;
+                                        _agree = !_agree;
                                       });
                                     },
                                   ),
@@ -169,9 +193,18 @@ class _SignUpState extends State<SignUp> {
                             children: <Widget>[
                               RaisedButton(
                                 onPressed: () {
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode()); // 키보드 감춤
-                                  _signUp();
+                                  if (_agree != false) { //약관 동의 버튼을 안누르면 회원가입이 안되도록(_agree는 약관 체크박스 변수)
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode()); // 키보드 감춤
+                                    _signUp();
+                                  }else{ //동의를 안하면 뜨는 스낵바
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text('이용약관을 확인하고 동의해 주세요.'),
+                                          action: SnackBarAction(label: '확인', onPressed: () {},),
+                                        )
+                                    );
+                                  }
                                 },
                                 child: Text('회원가입', style: TextStyle(fontSize: 15),),
                               ),
