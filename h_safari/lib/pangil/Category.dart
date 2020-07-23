@@ -19,7 +19,6 @@ class _MyCategoryState extends State<MyCategory> {
     '서적',
     '음식',
     '생필품',
-    '로고',
     '가구/전자제품',
     '뷰티/잡화',
     '양도',
@@ -36,7 +35,7 @@ class _MyCategoryState extends State<MyCategory> {
     category6(),
     category7(),
     category8(),
-    category8(),
+
 
   ];
   final List<Widget> _categoryicon = [
@@ -44,23 +43,22 @@ class _MyCategoryState extends State<MyCategory> {
     Icon(Icons.book),
     Icon(Icons.fastfood),
     Icon(Icons.content_cut),
-    Image.asset('assets/sample/instalogo.png', width: 20, height: 10,),
     Icon(Icons.video_call),
     Icon(Icons.toys),
     Icon(Icons.home),
     Icon(Icons.add_shopping_cart)
   ];
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) g{
     return Scaffold(
       appBar : AppBar(
         leading: new Icon(Icons.cake),
         title: Text('카테고리'),
       ),
       body: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: (1),
-        children: List.generate(9, (index) {
+        crossAxisCount: 2,
+        childAspectRatio: (2),
+        children: List.generate(8, (index) {
 
           return Center(
               child: Padding(
