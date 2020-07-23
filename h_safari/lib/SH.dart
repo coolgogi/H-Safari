@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 
 import 'SH/chat_main.dart';
-
+import 'SH/views/chatrooms.dart';
 
 
 class sh_main extends StatefulWidget {
@@ -17,6 +17,6 @@ class sh_main extends StatefulWidget {
 class _sh_mainState extends State<sh_main> {
   @override
   Widget build(BuildContext context) {
-    return chatting();
+    return ChatRoom();
   }
 }
