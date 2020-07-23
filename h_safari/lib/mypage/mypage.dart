@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:h_safari/mypage/setting.dart';
 import 'package:h_safari/mypage/terms_of_use.dart';
 import 'modifyprofile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //from SH
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,12 +17,24 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  FirebaseProvider fp;
+  FirebaseProvider fp ;
+
+  String current_uid;
+  String current_email ;
+
+  @override
+  void initState() {
+    super.initState();
+//    _prepareService();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-
+    FirebaseUser current_user = fp.getUser();
+    current_email = current_user.email;
     return Scaffold(
       appBar: AppBar(
         leading: new Icon(Icons.cake),
@@ -43,10 +56,10 @@ class _MyPageState extends State<MyPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('닉네임',
+                    Text('email',
                         style: TextStyle(fontSize: 12, color: Colors.black54)),
                     Text(
-                      '야옹이',
+                      '$current_email',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -98,3 +111,4 @@ class _MyPageState extends State<MyPage> {
     );
   }
 }
+

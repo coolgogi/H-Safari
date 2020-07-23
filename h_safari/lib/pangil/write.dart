@@ -19,6 +19,8 @@ String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변
 
 
 class _MyWriteState extends State<MyWrite> {
+  String currentUid;
+
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _newNameCon = TextEditingController();  //제목저장
@@ -55,8 +57,8 @@ class _MyWriteState extends State<MyWrite> {
   final String fnImageUrl = "imageUrl";
   final String fnCategory = "category";
   final String fnHow = "how";
-
   final String fnUid = "uid";
+  final String fnEmail = "email";
 
   @override
   Widget build(BuildContext context) {
@@ -307,9 +309,10 @@ class _MyWriteState extends State<MyWrite> {
       fnDatetime : Timestamp.now(),
       fnPrice : price,
       fnImageUrl : imageURL,
-      fnCategory : "category",
+      fnCategory : _category,
       fnHow : "how",
       fnUid : user.uid.toString(),
+      fnEmail : user.email,
     });
   }
   void _uploadImageToStorage(ImageSource source) async {
