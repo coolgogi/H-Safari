@@ -19,6 +19,7 @@ class _MyCategoryState extends State<MyCategory> {
     '서적',
     '음식',
     '생필품',
+    '로고',
     '가구/전자제품',
     '뷰티/잡화',
     '양도',
@@ -35,6 +36,7 @@ class _MyCategoryState extends State<MyCategory> {
     category6(),
     category7(),
     category8(),
+    category8(),
 
   ];
   final List<Widget> _categoryicon = [
@@ -42,6 +44,7 @@ class _MyCategoryState extends State<MyCategory> {
     Icon(Icons.book),
     Icon(Icons.fastfood),
     Icon(Icons.content_cut),
+    Image.asset('assets/sample/instalogo.png', width: 20, height: 10,),
     Icon(Icons.video_call),
     Icon(Icons.toys),
     Icon(Icons.home),
@@ -55,11 +58,11 @@ class _MyCategoryState extends State<MyCategory> {
         title: Text('카테고리'),
       ),
       body: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: (2.5),
-        children: List.generate(8, (index) {
-          return Center(
+        crossAxisCount: 3,
+        childAspectRatio: (1),
+        children: List.generate(9, (index) {
 
+          return Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -67,12 +70,12 @@ class _MyCategoryState extends State<MyCategory> {
                     borderRadius: BorderRadius.only(
                         topLeft : const Radius.circular(20),
                         topRight: const Radius.circular(20),
-                        bottomLeft: const Radius.circular(10),
-                        bottomRight: const Radius.circular(10)
+                        bottomLeft: const Radius.circular(20),
+                        bottomRight: const Radius.circular(20)
                     ),
                     color: Colors.grey[400]
                   ),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       _categoryicon[index],
@@ -80,6 +83,9 @@ class _MyCategoryState extends State<MyCategory> {
                         width: 10,
                       ),
                       RawMaterialButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
                           fillColor: Colors.lightBlueAccent[200],
                           child: Text(_category[index], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                           onPressed: () {

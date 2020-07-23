@@ -160,6 +160,7 @@ class _MyWriteState extends State<MyWrite> {
                                     alignment: Alignment.centerLeft,
                                     height: 30,
                                     child: TextFormField(
+                                      keyboardType: TextInputType.number,
                                       controller: _newPriceCon,
                                       decoration: InputDecoration(
                                         hintText: '가격 입력',
