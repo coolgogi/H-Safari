@@ -49,7 +49,7 @@ class _MyCategoryState extends State<MyCategory> {
     Icon(Icons.add_shopping_cart)
   ];
   @override
-  Widget build(BuildContext context) g{
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar : AppBar(
         leading: new Icon(Icons.cake),
