@@ -37,6 +37,7 @@ class _GI_MyAppState extends State<GI_MyApp> {
       child: Scaffold(
           body: _children[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Colors.orangeAccent,
               type: BottomNavigationBarType.fixed,
               onTap: _onTap,
               currentIndex: _currentIndex,

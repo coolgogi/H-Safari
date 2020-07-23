@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
-
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -32,7 +30,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnPrice = 'price';
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
-
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
@@ -61,27 +58,30 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        leading: new Icon(Icons.cake),
-        title: InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('찾고싶은 상품을 입력하세요', style: TextStyle(fontSize: 13)),
-          ),
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => mysearch()));
-          },
+        leading: new Icon(
+          Icons.cake,
+          color: Colors.orangeAccent,
+        ),
+        backgroundColor: Colors.white,
+        title: TextFormField(
+          decoration: InputDecoration(
+
+              border: InputBorder.none,
+              hintText: 'Search your world',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search, color: Colors.orangeAccent),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => mysearch()));
+                },
+              )),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => mysearch()));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.add_alert),
+            icon: Icon(
+              Icons.add_alert,
+              color: Colors.orangeAccent,
+            ),
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Alarm()));
@@ -90,15 +90,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ],
         bottom: TabBar(
           //labelColor: Colors.white // 탭바 글자색
-          unselectedLabelColor: Colors.white, // 선택되지 않은 탭바의 글자색
-          indicatorPadding: EdgeInsets.only(left: 30, right: 30),
-          indicator: ShapeDecoration(
-              color: Colors.lightBlueAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              )
-          ),
-          labelStyle: TextStyle(fontSize: 15, height: 1),
+          unselectedLabelColor: Colors.black45,
+          // 선택되지 않은 탭바의 글자색
+          indicatorColor: Colors.orangeAccent,
+          labelColor: Colors.orangeAccent,
+
+          labelStyle:
+              TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
           tabs: <Widget>[
             Tab(text: '전체'),
             Tab(text: 'My관심사'),
@@ -139,7 +137,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                     // Read Document
                                     onTap: () {
                                       showDocument(document.documentID);
-
                                     },
                                     // Update or Delete Document
                                     onLongPress: () {
@@ -239,7 +236,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .get()
         .then((doc) {
 //      showReadDocSnackBar(doc);
-        showReadPostPage(doc);
+      showReadPostPage(doc);
     });
   }
 
@@ -278,15 +275,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   //사용중
   void showReadPostPage(DocumentSnapshot doc) {
-    _scaffoldKey.currentState
-      ..hideCurrentSnackBar();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Post(doc))
-    );
+    _scaffoldKey.currentState..hideCurrentSnackBar();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
   }
-
-
-
 
   //dialog
   void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
