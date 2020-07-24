@@ -3,13 +3,13 @@
 //main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
 
 import 'package:flutter/material.dart';
+import 'package:h_safari/helpers/authPage.dart';
 import 'yejin.dart';
 import 'YH.dart';
 import 'gwangil.dart';
-import 'SH.dart';
 
 //added from SH
-import 'firebase/firebase_provider.dart';
+import 'models/firebase_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(title: 'H-Safari test'),//Login(),
+        home: AuthPage()
+        //MyHomePage(title: 'H-Safari test'),
       ),
     );
   }

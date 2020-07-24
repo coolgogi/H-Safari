@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'post.dart';
-import '../firebase/firebase_provider.dart';
+//import 'post.dart';
+import '../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyList extends StatefulWidget {
