@@ -4,10 +4,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:h_safari/chat/chat_list.dart';
-import 'package:h_safari/mypage/modifyprofile.dart';
-import 'package:h_safari/chat/chat_room.dart';
-import 'package:h_safari/mypage/mypage.dart';
+import 'package:h_safari/views/chat/chatList.dart';
+import 'package:h_safari/views/mypage/mypage.dart';
 
 
 class yejin_main extends StatefulWidget {
