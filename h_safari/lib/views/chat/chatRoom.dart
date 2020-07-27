@@ -134,7 +134,7 @@ class _ChatRoomState extends State<ChatRoom> {
 class MessageTile extends StatelessWidget {
   final String message;
   final bool sendByMe;
-  final int time;
+  final String time;
 
   MessageTile({@required this.message, @required this.sendByMe, this.time});
 
