@@ -44,12 +44,15 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       key: _scaffoldKey, //from SH (?)
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.green),
+        backgroundColor: Colors.white,
+        elevation: 1,
         centerTitle: true,
-        title: Text('회원가입'),
+        title: Text('회원가입', style: TextStyle(color: Colors.green),),
       ),
-      body: SingleChildScrollView( //화면 스크롤이 가능하게
+      body: SingleChildScrollView(
         child: Padding(
-              padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(.0),
@@ -58,23 +61,6 @@ class _SignUpState extends State<SignUp> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          //닉네임과 텍스트필드
-                          Text("닉네임: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
-                          SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            height: 30,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                hintText: '닉네임은 다시 변경할 수 없습니다.',
-                              ),
-                              validator: (value) {//아무것도 입력하지 않을 경우 뜨는 에러 메세지
-                                if(value.isEmpty) {return '닉네임을 입력하지 않았습니다.';}},
-                            ),
-                          ),
-
-                          SizedBox(height: 30),
-
                           //아이디를 입력하는 텍스트 필드
                           Text("아이디: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                           SizedBox(height: 10),
@@ -82,14 +68,38 @@ class _SignUpState extends State<SignUp> {
                             alignment: Alignment.centerLeft,
                             height: 30,
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 controller: _mailCon,
                                 decoration: InputDecoration(
-                                hintText: '학번을 입력하세요.',
+                                  hintText: '학번을 입력하세요.',
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
                               ),
                               validator: (value) { //아무것도 입력하지 않으면 뜨는 에러 메세지
                                   //YJ 한동메일 아니면 경고메세지
                                   //return RedgExp(r"^[a-zA-Z0-9]+@[handong]+\.[edu]+").hasMatch(value)?null:"한동메일을 입력해주십시오";
                                 if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
+                            ),
+                          ),
+
+                          SizedBox(height: 30,),
+
+                          //학번을 다시 한번 확인하는 텍스트 필드
+                          Text("아이디 확인: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                          SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            height: 30,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: _mailCon,
+                              decoration: InputDecoration(
+                                hintText: '학번을 다시 한번 입력하세요.',
+                                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                              ),
+//                              validator: (value) { //아무것도 입력하지 않으면 뜨는 에러 메세지
+//                                //YJ 한동메일 아니면 경고메세지
+//                                //return RedgExp(r"^[a-zA-Z0-9]+@[handong]+\.[edu]+").hasMatch(value)?null:"한동메일을 입력해주십시오";
+//                                if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
                             ),
                           ),
 
@@ -106,10 +116,12 @@ class _SignUpState extends State<SignUp> {
                               obscureText: !_visiblepw,
                               controller: _pwCon,
                               decoration: InputDecoration(
-                                hintText: '비밀번호를 입력하세요.',
+                                  hintText: '비밀번호를 입력하세요.',
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                        _visiblepw ? Icons.visibility : Icons.visibility_off
+                                      _visiblepw ? Icons.visibility : Icons.visibility_off,
+                                      color: _visiblepw ? Colors.green : Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -135,10 +147,12 @@ class _SignUpState extends State<SignUp> {
                               obscureText: !_visiblepw2,
                               controller: _pwConCheck,
                               decoration: InputDecoration(
-                                hintText: '비밀번호를 입력하세요.',
+                                  hintText: '비밀번호를 입력하세요.',
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                        _visiblepw2 ? Icons.visibility : Icons.visibility_off
+                                        _visiblepw2 ? Icons.visibility : Icons.visibility_off,
+                                        color: _visiblepw2 ? Colors.green : Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -173,6 +187,7 @@ class _SignUpState extends State<SignUp> {
                                   Checkbox(
                                     key: null,
                                     value: _agree,
+                                    activeColor: Colors.green,
                                     onChanged: (bool value) {
                                       setState(() {
                                         _agree = !_agree;
@@ -191,22 +206,33 @@ class _SignUpState extends State<SignUp> {
                             //구현할 것: 모든 글을 다 적었는지 확인, 비밀번호와 비밀번호 확인이 서로 일치하는지, 양관에 동의 했는지 -> 이게 중요한듯. 비밀번호 확인 하
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              RaisedButton(
-                                onPressed: () {
-                                  if (_agree != false) { //약관 동의 버튼을 안누르면 회원가입이 안되도록(_agree는 약관 체크박스 변수)
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode()); // 키보드 감춤
-                                    _signUp();
-                                  }else{ //동의를 안하면 뜨는 스낵바
-                                    _scaffoldKey.currentState.showSnackBar(
-                                        SnackBar(
-                                          content: Text('이용약관을 확인하고 동의해 주세요.'),
-                                          action: SnackBarAction(label: '확인', onPressed: () {},),
-                                        )
-                                    );
-                                  }
-                                },
-                                child: Text('회원가입', style: TextStyle(fontSize: 15),),
+                              ButtonTheme(
+                                minWidth: 200,
+                                height: 50,
+                                child: RaisedButton(
+                                  color: Colors.green,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: BorderSide(color: Colors.green,)
+                                  ),
+                                  onPressed: () {
+                                    if (_agree != false) { //약관 동의 버튼을 안누르면 회원가입이 안되도록(_agree는 약관 체크박스 변수)
+                                      FocusScope.of(context)
+                                          .requestFocus(new FocusNode()); // 키보드 감춤
+                                      _signUp();
+                                    }else{ //동의를 안하면 뜨는 스낵바
+                                      _scaffoldKey.currentState.showSnackBar(
+                                          SnackBar(
+                                            content: Text('이용약관을 확인하고 동의해 주세요.'),
+                                            backgroundColor: Colors.green,
+                                            action: SnackBarAction(label: '확인', textColor: Colors.white , onPressed: () {},),
+                                          )
+                                      );
+                                    }
+                                  },
+                                  child: Text('회원가입', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                ),
                               ),
 
                               /*RaisedButton(
@@ -278,8 +304,11 @@ class _MyClauseState extends State<MyClause> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.green),
+        backgroundColor: Colors.white,
+        elevation: 1,
         centerTitle: true,
-        title: Text('이용약관'),
+        title: Text('이용약관', style: TextStyle(color: Colors.green),),
       ),
       body: SingleChildScrollView(
         child: Padding(

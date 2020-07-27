@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+
+
 class MyWrite extends StatefulWidget{
   @override
   _MyWriteState createState() => _MyWriteState();
@@ -62,12 +64,14 @@ class _MyWriteState extends State<MyWrite> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
+          leading: new Icon(Icons.cake, color: Colors.green,), //나중에 로고로 대체
+          backgroundColor: Colors.white,
+          elevation: 1,
           centerTitle: true,
-          title: Text('게시글 작성'),
-        ),
+          title: Text('게시글 작성', style: TextStyle(color: Colors.green),),
+          ),
         body: SingleChildScrollView( //화면 스크롤 가능하게
             child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -142,11 +146,16 @@ class _MyWriteState extends State<MyWrite> {
                                   SizedBox(height: 10),
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    height: 30,
+                                    height: 50,
                                     child: TextFormField(
-                                      controller: _newNameCon,
-                                      decoration: InputDecoration(
-                                        hintText: '상품명 및 제목 입력',
+                                        controller: _newNameCon,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1),
+                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                                          hintText: '상품명 및 제목 입력',
                                       ),
                                     ),
                                   ),
@@ -158,11 +167,16 @@ class _MyWriteState extends State<MyWrite> {
                                   SizedBox(height: 10),
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    height: 30,
+                                    height: 50,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
                                       controller: _newPriceCon,
                                       decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 1),
+                                        ),
+                                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
                                         hintText: '가격 입력',
                                       ),
                                     ),
@@ -171,61 +185,65 @@ class _MyWriteState extends State<MyWrite> {
                                   SizedBox(height: 30,),
 
                                   //이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
-                                  Text("카테고리* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
-                                  SizedBox(height: 10),
-                                  Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 30,
-                                      width: 155,
-                                      child: FlatButton(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(_category, style: TextStyle(fontSize: 15),),
-                                            Icon(Icons.arrow_drop_down),
-                                          ],
-                                        ),
-                                       onPressed: () {
-                                          //DropButton(context);
-                                          showDialog(context: context,
-                                          builder: (context) { //기존 dopdownButton에서 alertDialog list로 수정!
-                                            //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
-                                            return //DropCat();
-                                              AlertDialog(
-                                              title: Text('카테고리'),
-                                              actions: <Widget>[
-                                                FlatButton(
-                                                  child: Text('취소'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                  },
-                                                ),
-                                                 FlatButton(
-                                                   child: Text('확인'),
-                                                   onPressed: () {
-                                                     if(_value != null) {
-                                                       Navigator.pop(context, _value);
-                                                       setState(() { //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                         _category = _value;
-                                                         previous = _value;
-                                                       });
-                                                     }},
-                                                 ),
-                                              ],
-                                              content: Container(
-                                                width: double.maxFinite,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    ListCat(), //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                  ],
-                                                ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text("카테고리* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
+                                      SizedBox(width: 50),
+                                      Container(
+                                          alignment: Alignment.centerLeft,
+                                          height: 30,
+                                          width: 155,
+                                          child: FlatButton(
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(_category, style: TextStyle(fontSize: 15),),
+                                                  Icon(Icons.arrow_drop_down),
+                                                ],
                                               ),
-                                            );
-                                          });
-                                       }
-                                      )
+                                              onPressed: () {
+                                                //DropButton(context);
+                                                showDialog(context: context,
+                                                    builder: (context) { //기존 dopdownButton에서 alertDialog list로 수정!
+                                                      //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
+                                                      return //DropCat();
+                                                        AlertDialog(
+                                                          title: Text('카테고리'),
+                                                          actions: <Widget>[
+                                                            FlatButton(
+                                                              child: Text('취소'),
+                                                              onPressed: () {
+                                                                Navigator.pop(context);
+                                                                _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                              },
+                                                            ),
+                                                            FlatButton(
+                                                              child: Text('확인'),
+                                                              onPressed: () {
+                                                                if(_value != null) {
+                                                                  Navigator.pop(context, _value);
+                                                                  setState(() { //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                    _category = _value;
+                                                                    previous = _value;
+                                                                  });
+                                                                }},
+                                                            ),
+                                                          ],
+                                                          content: Container(
+                                                            width: double.maxFinite,
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                ListCat(), //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                    });
+                                              }
+                                          )
+                                      ),
+                                    ],
                                   ),
 
                                   SizedBox(height: 30,),
@@ -298,9 +316,10 @@ class _MyWriteState extends State<MyWrite> {
                     )
                 )
             )
-        )
+        ),
     );
   }
+
   void createDoc(String name, String description, String price, String imageURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
@@ -388,7 +407,6 @@ class _ListCatState extends State<ListCat> {
           onChanged: (value) {
             setState(() {
               _value = value;
-              //previous = value;
             });
           },
         );
