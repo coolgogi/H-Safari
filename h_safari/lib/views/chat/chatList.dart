@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
 import 'chatRoom.dart';
-//import 'message_model.dart';
 
 
 class ChatList extends StatefulWidget {
@@ -19,15 +17,16 @@ class _ChatListState extends State<ChatList> {
   String email;
   FirebaseProvider fp;
 
-  Widget chatRoomsList() {
+  Widget getChatList() {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser current_user = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
 
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+          padding: EdgeInsets.all(15),
             itemCount: snapshot.data.documents.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -44,6 +43,25 @@ class _ChatListState extends State<ChatList> {
     );
   }
 
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: Icon(
+        Icons.cake,
+        color: Colors.green,
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+      ),
+    );
+  }
+
   @override
   void initState() {
 
@@ -53,15 +71,13 @@ class _ChatListState extends State<ChatList> {
       this.getUserInfogetChats();
     });
   }
-
-
-
+  
 
   getUserInfogetChats() async {
 //    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser current_user = fp.getUser();
-    email = current_user.email;
+    FirebaseUser currentUser = fp.getUser();
+    email = currentUser.email;
     DatabaseMethods().getUserChats(email).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
@@ -74,13 +90,10 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('채팅 리스트'),
-        backgroundColor: Colors.brown,
-      ),
+      appBar: appBar('채팅 리스트'),
       body: Container(
-        color: Colors.blue,
-        child: chatRoomsList(),
+        color: Colors.white,
+        child: getChatList(),
       ),
 //      body: ListView.builder(
 //        itemCount: chats.length, //여기에 저장된 방의 갯수를 불러와야함
@@ -204,37 +217,103 @@ class ChatRoomsTile extends StatelessWidget {
         ));
       },
       child: Container(
-        color: Colors.black26,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Row(
-          children: [
-            Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Text(userName.substring(0, 1),
-                  textAlign: TextAlign.center,
+        decoration: BoxDecoration(border: Border(
+          bottom: BorderSide(style: BorderStyle.solid, color: Colors.black26),
+        ),),
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          //1: 닉네임, 시간   2: 마지막 메세지
+          children: <Widget>[
+            Row(
+              //column의 첫번째로 닉네임, 시간을 가짐
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  //닉네임 옆에 안읽은 메세지가 있을 때 뜨는 동그라미 추가
+                  children: <Widget>[
+                    Text(
+                      userName,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+//                        chat.unread
+//                            ? Container(
+//                          margin: const EdgeInsets.only(left: 8),
+//                          width: 7,
+//                          height: 7,
+//                          decoration: BoxDecoration(
+//                            shape: BoxShape.circle,
+//                            color: Colors.amber,
+//                          ),
+//                        )
+//                            : Container(
+//                          child: null,
+//                        ),
+                  ],
+                ),
+                Text(
+                  '시간입니당',
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'OverpassRegular',
-                      fontWeight: FontWeight.w300)),
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                )
+              ],
             ),
             SizedBox(
-              width: 12,
+              height: 5,
             ),
-            Text(userName,
-                textAlign: TextAlign.start,
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                '마지막 메세지입미당 두줄까지 됩니다아ㅏ아ㅏㅏ아ㅏ아ㅏ아ㅏ아ㅏ아ㅏㅏ아앙아ㅏ아아아아아아아아ㅏ아아아아아아ㅏ아아아아아ㅏ아아아아아앙아ㅏㅏㅏ',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                  fontSize: 13,
+                  color: Colors.black54,
+                ),
+                overflow: TextOverflow.ellipsis,
+                //글 수가 오버플로시 ...으로 표시
+                maxLines: 2, //최대 글자줄수는 2줄
+              ),
+            ),
           ],
         ),
       ),
+//    Container(
+//        color: Colors.black26,
+//        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+//        child: Row(
+//          children: [
+//            Container(
+//              height: 30,
+//              width: 30,
+//              decoration: BoxDecoration(
+//                  color: Colors.black,
+//                  borderRadius: BorderRadius.circular(30)),
+//              child: Text(userName.substring(0, 1),
+//                  textAlign: TextAlign.center,
+//                  style: TextStyle(
+//                      color: Colors.black,
+//                      fontSize: 16,
+//                      fontFamily: 'OverpassRegular',
+//                      fontWeight: FontWeight.w300)),
+//            ),
+//            SizedBox(
+//              width: 12,
+//            ),
+//            Text(userName,
+//                textAlign: TextAlign.start,
+//                style: TextStyle(
+//                    color: Colors.black,
+//                    fontSize: 16,
+//                    fontFamily: 'OverpassRegular',
+//                    fontWeight: FontWeight.w300))
+//          ],
+//        ),
+//      ),
     );
   }
 }
