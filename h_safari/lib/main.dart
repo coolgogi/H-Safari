@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/helpers/authPage.dart';
 
-
 //added from SH
 import 'models/firebase_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';

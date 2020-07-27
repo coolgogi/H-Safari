@@ -3,7 +3,7 @@ import '../views/category/category.dart';
 import '../views/main/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
 import '../views/post/write.dart';
-import 'package:h_safari/views/mypage/mypage.dart';
+import 'package:h_safari/views/mypage/myPage.dart';
 
 class GI_MyApp extends StatefulWidget {
   @override
