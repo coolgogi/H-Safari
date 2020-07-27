@@ -4,10 +4,7 @@ import 'package:h_safari/models/firebase_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-<<<<<<< HEAD
 import 'package:intl/intl.dart';
-=======
->>>>>>> bb531bca4c0a0cc304924d87c865e971d3fd7d33
 import 'database.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -65,7 +62,7 @@ class _ChatRoomState extends State<ChatRoom> {
         "message": messageEditingController.text,
         'time': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       };
-      
+
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
 
       setState(() {
