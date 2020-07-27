@@ -8,8 +8,7 @@ class Alarm extends StatefulWidget {
 }
 
 class _AlarmState extends State<Alarm> {
-  Color color = Colors.black12;
-  Color color1 = Colors.black12;
+
 
 
   @override
@@ -21,82 +20,62 @@ class _AlarmState extends State<Alarm> {
         ),
         body: ListView(
           children: <Widget>[
-            Container(
-              color: color,
-              child: ListTile(
-                title: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.person,
-                      color: Colors.lightBlueAccent,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '원피스 싸게 팔아요~',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Text(
-                          'OOO님이 댓글을 남기셨습니다.',
-                          style: TextStyle(fontSize: 10, color: Colors.black45),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                onTap: () {
-                  setState(() {
-
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
-                      color = Colors.white;
-                  });
-                },
-              ),
-            ),
-            Container(
-              color: color1,
-              child: ListTile(
-                title: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.person,
-                      color: Colors.lightBlueAccent,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '그할마에 위치한 집 양도합니다',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Text(
-                          'OOO님이 좋아요를 눌렀습니다.',
-                          style: TextStyle(fontSize: 10, color: Colors.black45),
-                        ),
-                      ],
-                    ),
-
-                  ],
-                ),
-                onTap: () {
-                  setState(() {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => category1()));
-                    color1 = Colors.white;
-
-                  });
-                },
-              ),
-            )
+            alarmlist(),
           ],
         )
     );
   }
 }
 
+
+// alarmlist : 각각 전송되는 알람의 형태와 기능.
+class alarmlist extends StatefulWidget {
+  @override
+  _alarmlistState createState() => _alarmlistState();
+}
+
+class _alarmlistState extends State<alarmlist> {
+  Color color = Colors.black12; // 기본 배경색
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color, // 기본 배경색 : color
+      child: ListTile( // 알람 : ListTile
+        title: Row(
+          children: <Widget>[
+            Icon(
+              Icons.person, // 아이콘 종류
+              color: Colors.lightBlueAccent, // 아이콘 색
+            ),// 아이콘
+
+            SizedBox(
+              width: 10,
+            ),// 아이콘과 글자들 사이의 박스 삽입
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+              children: <Widget>[
+                Text(
+                  '원피스 싸게 팔아요~', // 게시물 제목
+                  style: TextStyle(fontSize: 15), // 게시물 제목 스타일 지정
+                ),
+                Text(
+                  'OOO님이 댓글을 남기셨습니다.', // 알람 내용
+                  style: TextStyle(fontSize: 10, color: Colors.black45), // 알림 내용 스타일 지정
+                ),
+              ],
+            )
+          ],
+        ),
+
+        onTap: () { // 클릭 시 변화림
+          setState(() {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => category1())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
+            color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
+          });
+        },
+      ),
+    );
+  }
+}
