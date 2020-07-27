@@ -29,7 +29,7 @@ class AuthPageState extends State<AuthPage> {
     
     logger.d("user: ${fp.getUser()}");
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
-      return GI_MyApp();
+      return BottomBar();
     } else {
       return SignIn();
     }
