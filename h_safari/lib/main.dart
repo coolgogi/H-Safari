@@ -3,13 +3,11 @@
 //main을 하나로 쓰면 충돌이 많이 나서 각자 main을 만들어주기로 했음
 
 import 'package:flutter/material.dart';
-import 'yejin.dart';
-import 'YH.dart';
-import 'gwangil.dart';
-import 'SH.dart';
+import 'package:h_safari/helpers/authPage.dart';
+
 
 //added from SH
-import 'firebase/firebase_provider.dart';
+import 'models/firebase_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -29,80 +27,7 @@ class MyApp extends StatelessWidget {
             builder: (_) => FirebaseProvider())
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: MyHomePage(title: 'H-Safari test'),//Login(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            title: Text("연희 PAGE"),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => yh_main()));
-            },
-          ),
-          ListTile(
-            title: Text("예진 PAGE"),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => yejin_main()));
-            },
-          ),
-          ListTile(
-            title: Text("광일 PAGE"),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => gwangil_main()));
-            },
-          ),
-          ListTile(
-            title: Text("수현 PAGE"),
-            onTap: () {
-//              Navigator.push(
-//                  context, MaterialPageRoute(builder: (context) => sh_main()));
-            },
-          )
-        ].map((child) {
-          return Card(
-            child: child,
-          );
-        }).toList(),
+        home: AuthPage()
       ),
     );
   }
