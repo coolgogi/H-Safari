@@ -20,6 +20,7 @@ class _ChatListState extends State<ChatList> {
   String email;
   FirebaseProvider fp;
 
+
   Widget getChatList() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -27,11 +28,12 @@ class _ChatListState extends State<ChatList> {
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, snapshot) {
-        return snapshot.hasData
+        return snapshot.hasData//???
             ? ListView.builder(
           padding: EdgeInsets.all(15),
             itemCount: snapshot.data.documents.length,
             shrinkWrap: true,
+
             itemBuilder: (context, index) {
               return ChatRoomsTile(
                 userName: snapshot.data.documents[index].data['chatRoomId']

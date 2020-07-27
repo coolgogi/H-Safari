@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'database.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -61,7 +62,8 @@ class _ChatRoomState extends State<ChatRoom> {
       Map<String, dynamic> chatMessageMap = {
         "sendBy": currentUser.email,
         "message": messageEditingController.text,
-        'time': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),      };
+        'time': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+      };
 
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
 

@@ -10,6 +10,9 @@ import 'signUp.dart';
 import 'package:provider/provider.dart';
 import '../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'forgot.dart';
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 class SignIn extends StatefulWidget {
   @override
@@ -331,96 +334,96 @@ class _SignInState extends State<SignIn> {
 ////////////////////////////////////////////////////////////////////////
 }
 
-class FindPw extends StatefulWidget {
-  @override
-  _FindPwState createState() => _FindPwState();
-}
 
-class _FindPwState extends State<FindPw> {
-  final _formkey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.green),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: Text('비밀번호 찾기', style: TextStyle(color: Colors.green)),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: _formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("아이디: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10),
-              Container(
-                alignment: Alignment.centerLeft,
-                height: 30,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: '학번을 입력하세요.',
-                  ),
-                  validator: (value) {
-                    if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
-                ),
-              ),
-
-              SizedBox(height: 50,),
-
-              Center(
-                child: ButtonTheme(
-                  minWidth: 150,
-                  height: 40,
-                  child: RaisedButton(
-                    color: Colors.green,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(color: Colors.green,)
-                    ),
-                    onPressed: () {
-                      Scaffold.of(_formkey.currentContext).showSnackBar(
-                          SnackBar(
-                            content: Text('비밀번호 변경 메일을 발송하였습니다.', style: TextStyle(color: Colors.white),),
-                            backgroundColor: Colors.green,
-                            action: SnackBarAction(label: '확인', textColor: Colors.white , onPressed: () {},),
-                            duration: Duration(seconds: 2),
-                          )
-                      );
-//                      PwMail(context); //메일을 보냈다는 링크
-                    },
-                    child: Text('확인', style: TextStyle(fontSize: 17, color: Colors.white),),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-//void PwMail(BuildContext context) async{
-//  String result = await showDialog(
-//      context: context,
-//      barrierDismissible: false,
-//      builder: (BuildContext context) {
-//        return AlertDialog(
-//          content: Text('해당 메일을 확인해 주세요.'),
-//          actions: <Widget>[
-//            FlatButton(
-//              child: Text('확인', style: TextStyle(color: Colors.green),),
-//              onPressed: (){
-//                Navigator.pop(context, '확인');
-//              },
-//            )],
-//        );
-//      }
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        iconTheme: IconThemeData(color: Colors.green),
+//        backgroundColor: Colors.white,
+//        elevation: 1,
+//        centerTitle: true,
+//        title: Text('비밀번호 찾기', style: TextStyle(color: Colors.green)),
+//      ),
+//      body: Padding(
+//        padding: const EdgeInsets.all(30.0),
+//        child: Form(
+//          key: _formkey,
+//          child: Column(
+//            crossAxisAlignment: CrossAxisAlignment.start,
+//            children: [
+//              Text("아이디: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+//              SizedBox(height: 10),
+//              Container(
+//                alignment: Alignment.centerLeft,
+//                height: 30,
+//                child: TextFormField(
+//                  decoration: InputDecoration(
+//                    hintText: '학번을 입력하세요.',
+//                  ),
+//                  validator: (value) {
+//                    if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
+//                ),
+//              ),
+//
+//              SizedBox(height: 50,),
+//
+//              Center(
+//                child: ButtonTheme(
+//                  minWidth: 150,
+//                  height: 40,
+//                  child: RaisedButton(
+//                    color: Colors.green,
+//                    elevation: 0,
+//                    shape: RoundedRectangleBorder(
+//                        borderRadius: BorderRadius.circular(30),
+//                        side: BorderSide(color: Colors.green,)
+//                    ),
+//                    onPressed: () {
+//                      Scaffold.of(_formkey.currentContext).showSnackBar(
+//                          SnackBar(
+//                            content: Text('비밀번호 변경 메일을 발송하였습니다.', style: TextStyle(color: Colors.white),),
+//                            backgroundColor: Colors.green,
+//                            action: SnackBarAction(label: '확인', textColor: Colors.white , onPressed: () {},),
+//                            duration: Duration(seconds: 2),
+//                          )
+//                      );
+////                      PwMail(context); //메일을 보냈다는 링크
+//                    },
+//                    child: Text('확인', style: TextStyle(fontSize: 17, color: Colors.white),),
+//                  ),
+//                ),
+//              ),
+//            ],
+//          ),
+//        ),
+//      ),
+//    );
+//  }
+//}
+//
+////void PwMail(BuildContext context) async{
+////  String result = await showDialog(
+////      context: context,
+////      barrierDismissible: false,
+////      builder: (BuildContext context) {
+////        return AlertDialog(
+////          content: Text('해당 메일을 확인해 주세요.'),
+////          actions: <Widget>[
+////            FlatButton(
+////              child: Text('확인', style: TextStyle(color: Colors.green),),
+////              onPressed: (){
+////                Navigator.pop(context, '확인');
+////              },
+////            )],
+////        );
+////      }
+////  );
+////}
+//Widget appBarSignIn(BuildContext context, String title){
+//  return AppBar(
+//    title: Text(title),
+//    elevation: 0.0,
+//    centerTitle: true,
 //  );
 //}

@@ -19,7 +19,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
-  final String colName = "FirstDemo";
+  final String colName = "post";
 
   // 필드명
   File _image;
@@ -54,8 +54,49 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: MyAppBar(),
+      appBar: AppBar(
+        leading: new Icon(
+          Icons.cake,
+          color: Colors.orangeAccent,
+        ),
+        backgroundColor: Colors.white,
+        title: TextFormField(
+          decoration: InputDecoration(
 
+              border: InputBorder.none,
+              hintText: 'Search your world',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search, color: Colors.orangeAccent),
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Search()));
+                },
+              )),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add_alert, color: Colors.orangeAccent),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Alarm()));
+            },
+          ),
+        ],
+        bottom: TabBar(
+          //labelColor: Colors.white // 탭바 글자색
+          unselectedLabelColor: Colors.black45,
+          // 선택되지 않은 탭바의 글자색
+          indicatorColor: Colors.orangeAccent,
+          labelColor: Colors.orangeAccent,
+
+          labelStyle:
+              TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+          tabs: <Widget>[
+            Tab(text: '전체'),
+            Tab(text: 'My관심사'),
+          ],
+        ),
+      ),
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -148,7 +189,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                     ),
                   )
-
                   //from SH
                 ],
               ),
@@ -297,6 +337,91 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   String timestampToStrDateTime(Timestamp ts) {
     return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
         .toString();
+  }
+
+
+  Widget postList(){
+    return Container(
+      height: 500,
+      child: StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection(colName)
+            .orderBy(fnDatetime, descending: true)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError)
+            return Text("Error: ${snapshot.error}");
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Text("Loading...");
+            default:
+              return ListView(
+                children: snapshot.data.documents
+                    .map((DocumentSnapshot document) {
+                  Timestamp ts = document[fnDatetime];
+                  String dt = timestampToStrDateTime(ts);
+                  String _profileImageURL = document[fnImageUrl];
+                  return Card(
+                    elevation: 2,
+                    child: InkWell(
+                      // Read Document
+                      onTap: () {
+                        showDocument(document.documentID);
+                      },
+                      // Update or Delete Document
+                      onLongPress: () {
+//                        if(document[fnName] == )
+                        showUpdateOrDeleteDocDialog(document);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      _profileImageURL),
+                                  radius: 40,
+                                ),
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                      color: Colors.grey[600]),
+                                ),
+                                Text(
+                                  document[fnName],
+                                  //dt.toString(),
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                document[fnDescription],
+                                style: TextStyle(
+                                    color: Colors.black54),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+          }
+        },
+      ),
+    );
   }
 }
 
