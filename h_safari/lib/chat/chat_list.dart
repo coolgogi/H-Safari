@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../SH/services/database.dart';
-import 'message_model.dart';
+
 
 
 class ChatList extends StatefulWidget {

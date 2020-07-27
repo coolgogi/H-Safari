@@ -6,7 +6,6 @@ import '../firebase/firebase_provider.dart';
 import 'post.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
-import 'list.dart';
 import '../pangil/bottombar.dart';
 
 AuthPageState pageState;

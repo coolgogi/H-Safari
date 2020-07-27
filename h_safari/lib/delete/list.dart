@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'post.dart';
+
 import '../firebase/firebase_provider.dart';
 import 'package:provider/provider.dart';
 

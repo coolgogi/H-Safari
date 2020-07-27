@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/mypage/setting.dart';
 import 'package:h_safari/mypage/terms_of_use.dart';
-import 'modifyprofile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 //from SH
@@ -71,12 +70,6 @@ class _MyPageState extends State<MyPage> {
                           Icons.border_color,
                           size: 15,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ModifyProfile()));
-                        },
                       ),
                     ),
                   ],

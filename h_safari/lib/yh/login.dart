@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/yh/favorite.dart';
-import 'writePost.dart';
 import 'signup.dart';
-import 'list.dart';
+
 
 //added by SH
 import 'package:provider/provider.dart';

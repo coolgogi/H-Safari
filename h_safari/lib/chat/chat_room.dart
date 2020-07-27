@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/chat/message_model.dart';
-import 'package:h_safari/chat/user_model.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../SH/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
