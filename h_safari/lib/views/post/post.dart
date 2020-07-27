@@ -22,6 +22,7 @@ class _PostState extends State<Post> {
 
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
+
   String fnName;
   String fnDes;
   String fnDate;
@@ -31,6 +32,7 @@ class _PostState extends State<Post> {
   String fnCategory;
   String fnHow ;
   String fnEmail;
+
 
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
@@ -47,9 +49,13 @@ class _PostState extends State<Post> {
   FirebaseProvider fp;
   bool favorite = false;
 
+  bool checkDelivery = false ;
+  bool checkDirect = false ;
+
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
+    getHow();
     
     return Scaffold(
       appBar: AppBar(
@@ -114,11 +120,11 @@ class _PostState extends State<Post> {
               SizedBox(height: 30,),
 
               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-              Text('$fnPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text('가격 : $fnPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               SizedBox(height: 10,),
-              Text('$fnDes', style: TextStyle(fontSize: 20),),
+              Text('설명\n$fnDes', style: TextStyle(fontSize: 20),),
               SizedBox(height: 10,),
-              Text('카테고리: 서적(not yet)', style: TextStyle(fontSize: 15, color: Colors.black54),),
+              Text('카테고리 : $fnCategory', style: TextStyle(fontSize: 15, color: Colors.black54),),
               SizedBox(height: 10,),
 
               SizedBox(height: 15,),
@@ -126,17 +132,17 @@ class _PostState extends State<Post> {
               Row( //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
                 children: [
                   Text('택배', style: TextStyle(fontSize: 15, color: Colors.black),),
-                  Icon(checkDelivery() ? Icons.check_box : Icons.check_box_outline_blank),
+                  Icon(checkDelivery ? Icons.check_box : Icons.check_box_outline_blank),
                   Text('      '),
                   Text('직접거래', style: TextStyle(fontSize: 15),),
-                  Icon(checkDirect() ? Icons.check_box : Icons.check_box_outline_blank),
+                  Icon(checkDirect ? Icons.check_box : Icons.check_box_outline_blank),
                 ],
               ),
 
               SizedBox(height: 30,),
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
-              Text('$fnDate\n 연락처: 010-1234-1234'),
+              Text('게시일 : $fnDate\n 연락처: 010-1234-1234'),
             ],
           )
         ),
@@ -164,6 +170,20 @@ class _PostState extends State<Post> {
           chatRoomId: chatRoomId,
         )
     ));
+  }
+
+  void getHow(){
+    int tp = int.parse(fnHow);
+    if(tp == 3){
+      checkDelivery = true ;
+      checkDirect = true ;
+    }else if(tp == 2){
+      checkDelivery = false ;
+      checkDirect = true ;
+    }else if(tp == 1){
+      checkDelivery = true ;
+      checkDirect = false ;
+    }
   }
 }
 

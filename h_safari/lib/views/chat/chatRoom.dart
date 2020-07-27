@@ -63,7 +63,7 @@ class _ChatRoomState extends State<ChatRoom> {
       Map<String, dynamic> chatMessageMap = {
         "sendBy": current_user.email,
         "message": messageEditingController.text,
-        'time': DateTime.now().millisecondsSinceEpoch,
+        'time': DateTime.now().millisecondsSinceEpoch.toString(),
       };
 
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
@@ -367,8 +367,6 @@ class MessageTile extends StatelessWidget {
     );
   }
 }
-
-
 
 TextStyle simpleTextStyle() {
   return TextStyle(color: Colors.black, fontSize: 16);

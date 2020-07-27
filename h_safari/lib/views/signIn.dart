@@ -6,6 +6,7 @@ import 'signUp.dart';
 import 'package:provider/provider.dart';
 import '../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'forgot.dart';
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
@@ -59,15 +60,16 @@ class _SignInState extends State<SignIn> {
 
       key : _scaffoldKey, //added by SH
       resizeToAvoidBottomPadding: false, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
-      appBar: AppBar(
-        centerTitle: true, //가운데 정렬
-        title: Text('로그인 창'),
-        backgroundColor: _color,
-        elevation: 0.0, //숫자가 낮을수록 앱바 밑에 그림자?가 사라지게 함(플랫해진다)
-      ),
-      body:
 
-      Padding(
+      appBar: appBarSignIn(context, '로그인 창입니다'),
+//      AppBar(
+//        centerTitle: true, //가운데 정렬
+//        title: Text('로그인 창'),
+//        backgroundColor: _color,
+//        elevation: 0.0, //숫자가 낮을수록 앱바 밑에 그림자?가 사라지게 함(플랫해진다)
+//      ),
+
+      body: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Container(
           child: Padding(
@@ -161,11 +163,7 @@ class _SignInState extends State<SignIn> {
                         ),
 
                         RaisedButton(
-                          onPressed: () {//로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
-                            //그래서 일단은 스낵바가 뜨는거 보는 용도로만 사용할게요.
-//                          if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
-//                            Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
-//                          }
+                          onPressed: () {
                             FocusScope.of(context).requestFocus(new FocusNode());//added by SH
                             _signIn();//added by SH
 
@@ -186,37 +184,6 @@ class _SignInState extends State<SignIn> {
             ),
           ),
         ),
-        //added from SH
-//          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
-//                ? Container(
-//                      margin:
-//                             const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-//                      decoration: BoxDecoration(color: Colors.red[300]),
-//                      child: Column(
-//                        children: <Widget>[
-//                          Padding(
-//                            padding: const EdgeInsets.all(10.0),
-//                            child: Text(
-//                              "Mail authentication did not complete."
-//                                  "\nPlease check your verification email.",
-//                              style: TextStyle(color: Colors.white),
-//                            ),
-//                          ),
-//                          RaisedButton(
-//                            color: Colors.lightBlue[400],
-//                            textColor: Colors.white,
-//                            child: Text("Resend Verify Email"),
-//                            onPressed: () {
-//                              FocusScope.of(context)
-//                                  .requestFocus(new FocusNode()); // 키보드 감춤
-//                              fp.getUser().sendEmailVerification();
-//                            },
-//                          )
-//                        ],
-//                      ),
-//                    ) : Container(),
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
       ),
     );
   }
@@ -281,70 +248,11 @@ class _SignInState extends State<SignIn> {
 ////////////////////////////////////////////////////////////////////////
 }
 
-class FindPw extends StatefulWidget {
-  @override
-  _FindPwState createState() => _FindPwState();
-}
 
-class _FindPwState extends State<FindPw> {
-  final _formkey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('비밀번호 찾기'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: _formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("아이디: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10),
-              Container(
-                alignment: Alignment.centerLeft,
-                height: 30,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: '학번을 입력하세요.',
-                  ),
-                  validator: (value) {
-                    if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Center(
-                child: RaisedButton(
-                  onPressed: () {
-                    Scaffold.of(_formkey.currentContext).showSnackBar(SnackBar(content: Text('학번@handong.edu로 인증 메일을 발송하였습니다.'),));
-                  },
-                  child: Text('확인', style: TextStyle(fontSize: 15),),
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Text("인증번호 확인: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10),
-              Container(
-                alignment: Alignment.centerLeft,
-                height: 30,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      hintText: '메일로 발송된 인증번호를 입력해주세요.'
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+Widget appBarSignIn(BuildContext context, String title){
+  return AppBar(
+    title: Text(title),
+    elevation: 0.0,
+    centerTitle: true,
+  );
 }

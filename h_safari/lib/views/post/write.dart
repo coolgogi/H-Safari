@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../../helpers/bottombar.dart';
+
 
 class MyWrite extends StatefulWidget{
   @override
@@ -19,6 +21,7 @@ String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변
 
 
 class _MyWriteState extends State<MyWrite> {
+
   String currentUid;
 
   final _formkey = GlobalKey<FormState>();
@@ -47,7 +50,7 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   // 컬렉션명
-  final String colName = "FirstDemo";
+  final String colName = "post";
 
   // 필드명
   final String fnName = "name";
@@ -56,7 +59,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
   final String fnCategory = "category";
-  final String fnHow = "how";
+  final String fnHow = 'how';
   final String fnUid = "uid";
   final String fnEmail = "email";
 
@@ -277,16 +280,18 @@ class _MyWriteState extends State<MyWrite> {
                                   Center(
                                     child: RaisedButton(
                                       onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
-//                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Post()));
                                         if (_newDescCon.text.isNotEmpty &&
                                             _newNameCon.text.isNotEmpty &&
                                             _newPriceCon.text.isNotEmpty) {
-                                          createDoc(_newNameCon.text, _newDescCon.text, _newPriceCon.text, _profileImageURL);
+                                          createDoc(_newNameCon.text, _newDescCon.text, _newPriceCon.text, _profileImageURL);                                        _newNameCon.clear();
+                                          _newDescCon.clear();
+                                          _newPriceCon.clear();
+                                          _profileImageURL = '';
+                                          _newCategoryCon.clear();
+                                          _newHowCon.clear();
+//                                          myapp._currentIndex = 1;
+//                                          showDocument(document.documentID);
                                         }
-                                        _newNameCon.clear();
-                                        _newDescCon.clear();
-                                        _newPriceCon.clear();
-                                        _profileImageURL = '';
                                       },
 
                                       child: Text('게시글 등록', style: TextStyle(fontSize: 15),),
@@ -311,11 +316,27 @@ class _MyWriteState extends State<MyWrite> {
       fnPrice : price,
       fnImageUrl : imageURL,
       fnCategory : _category,
-      fnHow : "how",
+      fnHow : checkHow().toString(),
       fnUid : user.uid.toString(),
       fnEmail : user.email,
     });
   }
+
+//  void showDocument(String documentID) {
+//    Firestore.instance
+//        .collection(colName)
+//        .document(documentID)
+//        .get()
+//        .then((doc) {
+//      showReadPostPage(doc);
+//    });
+//  }
+
+//  void showReadPostPage(DocumentSnapshot doc) {
+//    _scaffoldKey.currentState..hideCurrentSnackBar();
+//    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+//  }
+
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
 
@@ -348,13 +369,18 @@ class _MyWriteState extends State<MyWrite> {
   }
 }
 
+int checkHow(){
 
-bool checkDelivery() {
-  return _delivery;
-}
+  if((_delivery == false)&&
+      (_direct == false)) return 0;
 
-bool checkDirect() {
-  return _direct;
+  else if((_delivery == true)&&
+      (_direct == false)) return 1;
+
+  else if((_delivery == false)&&
+      (_direct == true)) return 2;
+
+  else return 3;
 }
 
 class ListCat extends StatefulWidget {

@@ -19,7 +19,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
-  final String colName = "FirstDemo";
+  final String colName = "post";
 
   // 필드명
   File _image;
@@ -71,17 +71,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               suffixIcon: IconButton(
                 icon: Icon(Icons.search, color: Colors.orangeAccent),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Search()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Search()));
                 },
               )),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.add_alert,
-              color: Colors.orangeAccent,
-            ),
+            icon: Icon(Icons.add_alert, color: Colors.orangeAccent),
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Alarm()));
@@ -110,87 +107,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    height: 500,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance
-                          .collection(colName)
-                          .orderBy(fnDatetime, descending: true)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError)
-                          return Text("Error: ${snapshot.error}");
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Text("Loading...");
-                          default:
-                            return ListView(
-                              children: snapshot.data.documents
-                                  .map((DocumentSnapshot document) {
-                                Timestamp ts = document[fnDatetime];
-                                String dt = timestampToStrDateTime(ts);
-                                String _profileImageURL = document[fnImageUrl];
-                                return Card(
-                                  elevation: 2,
-                                  child: InkWell(
-                                    // Read Document
-                                    onTap: () {
-                                      showDocument(document.documentID);
-                                    },
-                                    // Update or Delete Document
-                                    onLongPress: () {
-                                      showUpdateOrDeleteDocDialog(document);
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    _profileImageURL),
-                                                radius: 40,
-                                              ),
-                                              Text(
-                                                '',
-                                                style: TextStyle(
-                                                    color: Colors.grey[600]),
-                                              ),
-                                              Text(
-                                                document[fnName],
-                                                //dt.toString(),
-                                                style: TextStyle(
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              document[fnDescription],
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            );
-                        }
-                      },
-                    ),
-                  )
-
+                  postList(),
                   //from SH
                 ],
               ),
@@ -339,5 +256,90 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   String timestampToStrDateTime(Timestamp ts) {
     return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
         .toString();
+  }
+
+
+  Widget postList(){
+    return Container(
+      height: 500,
+      child: StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection(colName)
+            .orderBy(fnDatetime, descending: true)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError)
+            return Text("Error: ${snapshot.error}");
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Text("Loading...");
+            default:
+              return ListView(
+                children: snapshot.data.documents
+                    .map((DocumentSnapshot document) {
+                  Timestamp ts = document[fnDatetime];
+                  String dt = timestampToStrDateTime(ts);
+                  String _profileImageURL = document[fnImageUrl];
+                  return Card(
+                    elevation: 2,
+                    child: InkWell(
+                      // Read Document
+                      onTap: () {
+                        showDocument(document.documentID);
+                      },
+                      // Update or Delete Document
+                      onLongPress: () {
+//                        if(document[fnName] == )
+                        showUpdateOrDeleteDocDialog(document);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      _profileImageURL),
+                                  radius: 40,
+                                ),
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                      color: Colors.grey[600]),
+                                ),
+                                Text(
+                                  document[fnName],
+                                  //dt.toString(),
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                document[fnDescription],
+                                style: TextStyle(
+                                    color: Colors.black54),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+          }
+        },
+      ),
+    );
   }
 }

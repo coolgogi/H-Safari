@@ -5,7 +5,6 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
 import 'chatRoom.dart';
-//import 'message_model.dart';
 
 
 class ChatList extends StatefulWidget {
@@ -20,16 +19,18 @@ class _ChatListState extends State<ChatList> {
   FirebaseProvider fp;
 
   Widget chatRoomsList() {
-    fp = Provider.of<FirebaseProvider>(context);
+    fp = Provider.of<FirebaseProvider>(context);//???
     FirebaseUser current_user = fp.getUser();
 
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, snapshot) {
-        return snapshot.hasData
+        return snapshot.hasData//???
             ? ListView.builder(
             itemCount: snapshot.data.documents.length,
+//            itemCount: 3,
             shrinkWrap: true,
+
             itemBuilder: (context, index) {
               return ChatRoomsTile(
                 userName: snapshot.data.documents[index].data['chatRoomId']
@@ -79,7 +80,7 @@ class _ChatListState extends State<ChatList> {
         backgroundColor: Colors.brown,
       ),
       body: Container(
-        color: Colors.blue,
+        color: Colors.white,
         child: chatRoomsList(),
       ),
 //      body: ListView.builder(

@@ -4,9 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:h_safari/helpers/authPage.dart';
-import 'yejin.dart';
-import 'YH.dart';
-import 'gwangil.dart';
+
 
 //added from SH
 import 'models/firebase_provider.dart';
