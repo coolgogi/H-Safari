@@ -5,12 +5,12 @@ import 'package:h_safari/views/chat/chatList.dart';
 import '../views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
 
-class GI_MyApp extends StatefulWidget {
+class BottomBar extends StatefulWidget {
   @override
-  _GI_MyAppState createState() => _GI_MyAppState();
+  _BottomBarState createState() => _BottomBarState();
 }
 
-class _GI_MyAppState extends State<GI_MyApp> {
+class _BottomBarState extends State<BottomBar> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];

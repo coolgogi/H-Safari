@@ -9,6 +9,7 @@ import '../views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
 
+
 AuthPageState pageState;
 
 class AuthPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class AuthPageState extends State<AuthPage> {
     
     logger.d("user: ${fp.getUser()}");
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
-      return GI_MyApp();
+      return BottomBar();
     } else {
       return SignIn();
     }

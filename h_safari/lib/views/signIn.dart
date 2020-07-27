@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'signUp.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'signUp.dart';
+
 
 //added by SH
 import 'package:provider/provider.dart';
