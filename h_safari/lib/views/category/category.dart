@@ -9,6 +9,8 @@ import 'category_model/category6.dart';
 import 'category_model/category7.dart';
 import 'category_model/category8.dart';
 
+import 'categoryView.dart';
+
 class MyCategory extends StatefulWidget {
   @override
   _MyCategoryState createState() => _MyCategoryState();
@@ -84,7 +86,8 @@ class categoryBox extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => _categorypage[index]));
+//                                builder: (context) => _categorypage[index]));
+                                builder: (context) => categoryView(select : _category[index])));
                       }),
                 ],
               ),
