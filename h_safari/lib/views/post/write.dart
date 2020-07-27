@@ -25,6 +25,7 @@ String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변
 class _MyWriteState extends State<MyWrite> {
 
   String currentUid;
+  String tpUrl = "https://firebasestorage.googleapis.com/v0/b/flutter-firebase-test-bec76.appspot.com/o/profile%2Fplus.png?alt=media&token=780df762-8164-4988-8ab6-932075f6d0e9";
 
   final _formkey = GlobalKey<FormState>();
 
@@ -89,11 +90,25 @@ class _MyWriteState extends State<MyWrite> {
                                   Row( //사진 업로드 텍스트와 아이콘 한줄로 정렬
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CircleAvatar(
-                                        backgroundImage:
-                                        (_image != null) ? FileImage(_image) : NetworkImage(""),
-                                        radius: 30,
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(30.0),
+                                              image: DecorationImage(
+                                                  image: (_image != null) ? FileImage(_image,) : NetworkImage(tpUrl,),
+                                                  fit: BoxFit.cover
+                                              )
+                                          ),
+                                        ),
                                       ),
+//                                      CircleAvatar(
+//                                        backgroundImage:
+//                                        (_image != null) ? FileImage(_image) : NetworkImage("https://firebasestorage.googleapis.com/v0/b/flutter-firebase-test-bec76.appspot.com/o/profile%2Fplus.png?alt=media&token=780df762-8164-4988-8ab6-932075f6d0e9"),
+//                                        radius: 30,
+//                                      ),
                                       Text('사진 업로드', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                       IconButton(
                                         icon: Icon(Icons.photo_camera),
