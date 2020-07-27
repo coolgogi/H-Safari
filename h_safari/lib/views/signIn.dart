@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
+import 'signUp.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'signUp.dart';
+
 
 //added by SH
 import 'package:provider/provider.dart';
 import '../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
 
 class SignIn extends StatefulWidget {
   @override

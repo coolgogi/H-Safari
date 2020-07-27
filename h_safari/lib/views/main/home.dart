@@ -36,9 +36,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   TextEditingController _undNameCon = TextEditingController();
   TextEditingController _undDescCon = TextEditingController();
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
   int _counter = 0;
 
   @override
@@ -57,52 +54,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        leading: new Icon(
-          Icons.cake,
-          color: Colors.orangeAccent,
-        ),
-        backgroundColor: Colors.white,
-        title: TextFormField(
-          decoration: InputDecoration(
+      appBar: MyAppBar(),
 
-              border: InputBorder.none,
-              hintText: 'Search your world',
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search, color: Colors.orangeAccent),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Search()));
-                },
-              )),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add_alert,
-              color: Colors.orangeAccent,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Alarm()));
-            },
-          ),
-        ],
-        bottom: TabBar(
-          //labelColor: Colors.white // 탭바 글자색
-          unselectedLabelColor: Colors.black45,
-          // 선택되지 않은 탭바의 글자색
-          indicatorColor: Colors.orangeAccent,
-          labelColor: Colors.orangeAccent,
-
-          labelStyle:
-              TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-          tabs: <Widget>[
-            Tab(text: '전체'),
-            Tab(text: 'My관심사'),
-          ],
-        ),
-      ),
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -110,6 +63,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
+                  //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
                   Container(
                     height: 500,
                     child: StreamBuilder<QuerySnapshot>(
@@ -148,37 +102,41 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         children: <Widget>[
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               CircleAvatar(
                                                 backgroundImage: NetworkImage(
                                                     _profileImageURL),
-                                                radius: 40,
+                                                radius: 35,
                                               ),
                                               Text(
                                                 '',
                                                 style: TextStyle(
                                                     color: Colors.grey[600]),
                                               ),
-                                              Text(
-                                                document[fnName],
-                                                //dt.toString(),
-                                                style: TextStyle(
-                                                  color: Colors.blueGrey,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    document[fnName],
+                                                    //dt.toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.blueGrey,
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    document[fnPrice] + '원',
+                                                    style: TextStyle(
+                                                        color: Colors.black54,
+                                                    fontSize: 14),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              document[fnDescription],
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                            ),
-                                          )
+
                                         ],
                                       ),
                                     ),
@@ -341,3 +299,95 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .toString();
   }
 }
+
+
+//
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
+  @override
+  Size get preferredSize => const Size.fromHeight(100);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      // AppBar 배경색
+      backgroundColor: Colors.white,
+
+      // AppBar의 leading (로고)
+      leading: AppBarIcon(),
+
+      // AppBar의 title (검색창)
+      title: AppBarTitle(),
+
+      // AppBar의 action (알람)
+      actions: <Widget>[AppBarIcon2(),],
+
+      // AppBar의 TabBar
+      bottom: TabBar(
+
+        // 선택되지 않은 탭바의 글자색
+        unselectedLabelColor: Colors.black45,
+
+        // 선택된 탭바의 글자색과 스타일
+        labelColor: Colors.orangeAccent,
+        labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+
+        // 선택된 indicator의 색
+        indicatorColor: Colors.orangeAccent,
+
+        // 탭바 위젯
+        tabs: <Widget>[
+          Tab(text: '전체'),
+          Tab(text: 'My관심사'),
+        ],
+      ),
+    );
+  }
+}
+
+
+class AppBarIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.cake,
+      color: Colors.orangeAccent,
+    );
+  }
+}
+
+class AppBarIcon2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        Icons.add_alert,
+        color: Colors.orangeAccent,
+      ),
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Alarm()));
+      },
+    );
+  }
+}
+
+
+
+class AppBarTitle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return  TextFormField(
+      decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Search your world',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.search, color: Colors.orangeAccent),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Search()));
+            },
+          )),
+    );
+  }
+}
+
