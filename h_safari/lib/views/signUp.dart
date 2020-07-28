@@ -324,7 +324,7 @@ class _SignUpState extends State<SignUp> {
       "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
 
     };
-//    Map<bool, dynamic> category = {
+    Map<bool, dynamic> category = {
 //      clothe ,
 //      book,
 //      cook,
@@ -333,7 +333,7 @@ class _SignUpState extends State<SignUp> {
 //      beauty,
 //      house : false,//'양도'
 //      bool others: false,//'기타'
-//    };
+    };
     Firestore.instance
         .collection("users")
         .document(email)

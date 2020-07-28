@@ -35,10 +35,12 @@ class _PostState extends State<Post> {
   String fnEmail;
 
 
+
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
     fnDes = doc['description'];
-    fnDate = doc['datetime'].toString();
+    var date = doc['datetime'].toDate();
+    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
     fnUid = doc['uid'];
@@ -144,6 +146,7 @@ class _PostState extends State<Post> {
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
               Text('게시일 : $fnDate\n 연락처: 010-1234-1234'),
+//              new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now())
             ],
           )
         ),
