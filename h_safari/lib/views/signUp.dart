@@ -318,22 +318,52 @@ class _SignUpState extends State<SignUp> {
       ));
   }
 //회원가입 시, Database에 유저 정보 저장
+//  Firestore.instance.collection(colName).add({
+//    fnName : name,
+//    fnDescription : description,
+//    fnDatetime : Timestamp.now(),
+//    fnPrice : price,
+//    fnImageUrl : imageURL,
+//    fnCategory : _category,
+//    fnHow : checkHow().toString(),
+//    fnUid : user.uid.toString(),
+//    fnEmail : user.email,
+//  });
   Future<bool> addUser(String email){
+//    Firestore.instance.collection("users").add({
+//      "user" : email,
+//      "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+//      "의류" : clothe,
+//      "서적" : book,
+//      "음식" : cook,
+//      "생필품" : necessary,
+//      "가구/전자제품" : furniture,
+//      "뷰티/잡화" : beauty,
+//      "양도" : house,
+//      "기타" : others,
+//    });
     Map<String,dynamic> user = {
       "user" : email,
       "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-
+      "의류" : clothe,
+      "서적" : book,
+      "음식" : cook,
+      "생필품" : necessary,
+      "가구/전자제품" : furniture,
+      "뷰티/잡화" : beauty,
+      "양도" : house,
+      "기타" : others,
     };
-    Map<bool, dynamic> category = {
-//      clothe ,
-//      book,
-//      cook,
-//      necessary,
-//      furniture,
-//      beauty,
+//    Map<bool, dynamic> category = {
+//      clothe : false, //의류
+//      book : false,  //서적
+//      cook : false,//음식
+//      necessary : false,//생필품
+//      furniture : false, //'가구/전자제품'
+//      beauty : false, //'뷰티/잡화'
 //      house : false,//'양도'
-//      bool others: false,//'기타'
-    };
+//      others : false,//'기타'
+//    };
     Firestore.instance
         .collection("users")
         .document(email)

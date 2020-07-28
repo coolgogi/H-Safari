@@ -23,7 +23,6 @@ class _PostState extends State<Post> {
 
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-
   String fnName;
   String fnDes;
   String fnDate;
@@ -39,8 +38,8 @@ class _PostState extends State<Post> {
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
     fnDes = doc['description'];
-    var date = doc['datetime'].toDate();
-    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);
+    var date = doc['datetime'].toDate();//timestamp to datetime
+    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);//datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
     fnUid = doc['uid'];
@@ -80,7 +79,7 @@ class _PostState extends State<Post> {
             RawMaterialButton( //구매 신청 버튼. 사용자에게 어떻게 알림이 갈 것인지 구상해야 합니다.
               child: Text('구매 신청'),
               onPressed: () {
-                SendAlarm(context);
+                sendAlarm(context);
               },
             ),
             Row(
@@ -190,7 +189,7 @@ class _PostState extends State<Post> {
     }
   }
 
-  void SendAlarm(BuildContext context)async {
+  void sendAlarm(BuildContext context)async {
     String result = await showDialog(
         context: context,
         barrierDismissible: false,
