@@ -8,16 +8,37 @@ class Alarm extends StatefulWidget {
 }
 
 class _AlarmState extends State<Alarm> {
-
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: IconButton(
+        icon: Icon(
+          Icons.cake,
+          color: Colors.green,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+      ),
+    );
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-            title: Text('알림')
-        ),
+        appBar: appBar('알림'),
         body: ListView(
           children: <Widget>[
             alarmlist(),

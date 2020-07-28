@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'category_model/category1.dart';
-import 'category_model/category2.dart';
-import 'category_model/category3.dart';
-import 'category_model/category4.dart';
-import 'category_model/category5.dart';
-import 'category_model/category6.dart';
-import 'category_model/category7.dart';
-import 'category_model/category8.dart';
-
 import 'categoryView.dart';
 
 class MyCategory extends StatefulWidget {
@@ -17,13 +8,28 @@ class MyCategory extends StatefulWidget {
 }
 
 class _MyCategoryState extends State<MyCategory> {
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: Icon(
+        Icons.cake,
+        color: Colors.green,
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: new Icon(Icons.cake, semanticLabel: 'cake',),
-        title: Text('카테고리'),
-      ),
+      appBar: appBar('카테고리'),
       body: categoryBox(),
     );
   }
@@ -40,16 +46,6 @@ final List<String> _category = [
   '기타'
 ];
 
-final List<Widget> _categorypage = [
-  category1(),
-  category2(),
-  category3(),
-  category4(),
-  category5(),
-  category6(),
-  category7(),
-  category8(),
-];
 
 final List<Widget> _categoryImage = [
   Image.asset('assets/sample/clothes.jpg', fit: BoxFit.fill,),
@@ -62,7 +58,7 @@ final List<Widget> _categoryImage = [
   Image.asset('assets/sample/etc.jpg', fit: BoxFit.fill,),
 ];
 
-// ignore: missing_return
+
 
 class categoryBox extends StatelessWidget {
   @override

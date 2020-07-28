@@ -30,21 +30,7 @@ class _categoryViewState extends State<categoryView> {
                 }
             ),
           ],
-//          bottom: TabBar(
-//            labelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-//            tabs: <Widget>[
-//              Tab(text: '전체보기',),
-//              Tab(text: '반팔 티셔츠'),
-//              Tab(text: '맨투맨/후드티'),
-//              Tab(text: '점퍼/야상/패딩'),
-//              Tab(text: '맨투맨/후드티'),
-//              Tab(text: '점퍼/야상/패딩'),
-//            ],
-//            isScrollable: true,),
-
-
         ),
-
       ),
     );
   }

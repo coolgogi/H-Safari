@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
             builder: (_) => FirebaseProvider())
       ],
       child: MaterialApp(
-        home: AuthPage()
+          debugShowCheckedModeBanner: false,
+          home: AuthPage()
       ),
     );
   }
