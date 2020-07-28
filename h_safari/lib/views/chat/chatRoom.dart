@@ -16,22 +16,34 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  String currentUid;
-  String currentEmail;
   FirebaseProvider fp;
-
-//  void _prepareService(String email, String uid) async {
-//    final FirebaseUser user = await FirebaseAuth.getCurrentUser();
-//    current_uid = user.getUid();
-//    current_email = user.getEmail();
-//  }
 
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
 
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Color(0x0000000),
+      leading: Icon(
+        Icons.cake,
+        color: Colors.green,
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+          '$title',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        )),
+      ),
+    );
+  }
+
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
+    String previousDate;
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
@@ -40,11 +52,17 @@ class _ChatRoomState extends State<ChatRoom> {
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
+                  String lastMessage = snapshot.data.documents[snapshot.data.documents.length-1].data["message"];
                   return MessageTile(
                     message: snapshot.data.documents[index].data["message"],
                     sendByMe: currentUser.email ==
                         snapshot.data.documents[index].data["sendBy"],
                     time: snapshot.data.documents[index].data["time"],
+                    previousDate: index == 0 ? previousDate = "0" : previousDate = ((snapshot
+                            .data
+                            .documents[index-1]
+                            .data["time"])
+                        .split(RegExp(r" |:")))[0],
                   );
                 })
             : Container();
@@ -70,6 +88,44 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
+  sendMessageBox() {
+    // 메세지 입력 박스
+    return Container(
+      alignment: Alignment.bottomCenter,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.08,
+      padding: EdgeInsets.fromLTRB(15, 8, 5, 8),
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+              child: TextField(
+            style: TextStyle(fontSize: 18),
+            controller: messageEditingController,
+            decoration: InputDecoration(
+                fillColor: Colors.grey[200],
+                filled: true,
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Colors.brown),
+                    borderRadius: BorderRadius.circular(20))),
+          )),
+          SizedBox(
+            width: 5,
+          ),
+          IconButton(
+            icon: Icon(Icons.send),
+            iconSize: 25,
+            color: Colors.green,
+            onPressed: () {
+              addMessage();
+            }, //전송 -> 데이타 등록
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     DatabaseMethods().getChats(widget.chatRoomId).then((val) {
@@ -82,47 +138,13 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('채팅방'),
-      ),
-      body: Container(
-        child: Stack(
-          children: [
-            chatMessages(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                      controller: messageEditingController,
-                      decoration: InputDecoration(
-                          hintText: "Message ...",
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none),
-                    )),
-                    IconButton(
-                      icon: Icon(Icons.send),
-                      iconSize: 25,
-                      color: Colors.green,
-                      onPressed: () {
-                        addMessage();
-                      }, //전송 -> 데이타 등록
-                    ),
-                  ],
-                ),
-              ),
-            ),//container
-          ],
-        ),
+    return Scaffold(]
+      appBar: appBar('채팅방'),
+      body: Column(
+        children: [
+          Expanded(child: chatMessages()),
+          sendMessageBox(),
+        ],
       ),
     );
   }
@@ -132,101 +154,102 @@ class MessageTile extends StatelessWidget {
   final String message;
   final bool sendByMe;
   final String time;
+  final String previousDate;
 
-  MessageTile({@required this.message, @required this.sendByMe, this.time});
+  MessageTile({
+    @required this.message,
+    @required this.sendByMe,
+    this.time,
+    this.previousDate,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment:
-          sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        sendByMe
-            ? Padding(
-                padding: const EdgeInsets.only(right: 3, bottom: 5),
-                child: Text(
-                  '$time',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black45,
-                  ),
-                ),
-              )
-            : Container(),
-        Container(
-          child: Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.60),
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(bottom: 7),
-            decoration: BoxDecoration(
-              color: sendByMe ? Colors.lightGreen[100] : Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12, spreadRadius: 1, blurRadius: 1),
-              ],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: sendByMe ? Radius.circular(23) : Radius.circular(0),
-                bottomRight:
-                    sendByMe ? Radius.circular(0) : Radius.circular(23),
-              ),
-            ),
-            child: Text(
-              message,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-        sendByMe
-            ? Container()
-            : Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 7),
-                child: Text(
-                  '$time',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black45,
-                  ),
-                ),
-              ),
-      ],
-    );
-  }
+    var allTime = time.split(RegExp(r" |:"));
+    var todayDate = allTime[0];
+    var hour = allTime[1];
+    var minute = allTime[2];
+    var m = '오전';
 
-  _sendMessageBox() {
-    // 메세지 입력 박스
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      height: 60,
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo),
-            iconSize: 25,
-            color: Colors.green,
-            onPressed: () {}, //사진 불러오기 (찍는 기능도 넣을지 고민)
-          ),
-          Expanded(
-            child: TextField(
-              decoration:
-                  InputDecoration.collapsed(hintText: 'Send a message.'),
-              textCapitalization: TextCapitalization.sentences,
+    var hourInt = int.parse(hour);
+    if (hourInt > 12) {
+      hourInt = hourInt - 12;
+      m = '오후';
+    }
+    hour = hourInt.toString();
+    var timeN = m + " " + hour + ":" + minute;
+
+    return Column(
+      children: <Widget>[
+        previousDate != todayDate
+            ? Container(
+            margin: EdgeInsets.only(bottom: 10),
+                height: 20, child: Center(child: Text(todayDate, style: TextStyle(fontSize: 12),)),
+              )
+            : Container(
+                child: null,
+              ),
+        Row(
+          mainAxisAlignment:
+              sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            sendByMe
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 3, bottom: 7),
+                    child: Text(
+                      '$timeN',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  )
+                : Container(),
+            Container(
+              child: Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.60),
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(bottom: 7),
+                decoration: BoxDecoration(
+                  color: sendByMe ? Colors.lightGreen[100] : Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+                  ],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(23),
+                    topRight: Radius.circular(23),
+                    bottomLeft:
+                        sendByMe ? Radius.circular(23) : Radius.circular(0),
+                    bottomRight:
+                        sendByMe ? Radius.circular(0) : Radius.circular(23),
+                  ),
+                ),
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.send),
-            iconSize: 25,
-            color: Colors.green,
-            onPressed: () {}, //전송 -> 데이타 등록
-          ),
-        ],
-      ),
+            sendByMe
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(left: 3, bottom: 7),
+                    child: Text(
+                      '$timeN',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//메일 발송 백엔드는 아직 미구현
 class FindPw extends StatefulWidget {
   @override
   _FindPwState createState() => _FindPwState();
@@ -11,7 +12,7 @@ class _FindPwState extends State<FindPw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarForgot(context, '비밀번호를 까먹었을 때'),
+      appBar: appBarForgot(context, '비밀번호 찾기'),
       body: forgotBody(_formkey),
     );
   }
@@ -19,8 +20,10 @@ class _FindPwState extends State<FindPw> {
 
 Widget appBarForgot(BuildContext context, String title){
   return AppBar(
-    title: Text(title),
-    elevation : 0.0,
+    title: Text(title, style: TextStyle(color: Colors.green)),
+    iconTheme: IconThemeData(color: Colors.green),
+    backgroundColor: Colors.white,
+    elevation: 1,
     centerTitle: true,
   );
 }
@@ -37,10 +40,13 @@ Widget forgotBody(final _formkey){
           SizedBox(height: 10),
           Container(
             alignment: Alignment.centerLeft,
-            height: 30,
+            height: 50,
             child: TextFormField(
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: '학번을 입력하세요.',
+                helperText: ' ',
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
               ),
               validator: (value) {
                 if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
@@ -50,25 +56,30 @@ Widget forgotBody(final _formkey){
           SizedBox(height: 30,),
 
           Center(
-            child: RaisedButton(
-              onPressed: () {
-                Scaffold.of(_formkey.currentContext).showSnackBar(SnackBar(content: Text('학번@handong.edu로 인증 메일을 발송하였습니다.'),));
-              },
-              child: Text('확인', style: TextStyle(fontSize: 15),),
-            ),
-          ),
-
-          SizedBox(height: 30,),
-
-          Text("인증번호 확인: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-          SizedBox(height: 10),
-          Container(
-            alignment: Alignment.centerLeft,
-            height: 30,
-            child: TextFormField(
-              decoration: InputDecoration(
-                  hintText: '메일로 발송된 인증번호를 입력 오네가이시마스'
-             ),
+            child: ButtonTheme(
+              minWidth: 150,
+              height: 40,
+              child: RaisedButton(
+                color: Colors.green,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(color: Colors.green,)
+                ),
+                onPressed: () {
+                  if(_formkey.currentState.validate()) {
+                    Scaffold.of(_formkey.currentContext).showSnackBar(
+                        SnackBar(
+                          content: Text('비밀번호 변경 메일을 발송하였습니다.', style: TextStyle(color: Colors.white),),
+                          backgroundColor: Colors.green,
+                          action: SnackBarAction(label: '확인', textColor: Colors.white , onPressed: () {},),
+                          duration: Duration(seconds: 2),
+                        )
+                    );
+                  }
+                },
+                child: Text('확인', style: TextStyle(fontSize: 17, color: Colors.white),),
+              ),
             ),
           ),
         ],

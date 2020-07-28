@@ -17,7 +17,6 @@ class _AlarmState extends State<Alarm> {
   Stream alarm;
   FirebaseProvider fp;
 
-
   Widget alarmList(){
 
     fp = Provider.of<FirebaseProvider>(context);
@@ -66,6 +65,7 @@ class _AlarmState extends State<Alarm> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
+<<<<<<< HEAD
         appBar: AppBar(
             title: Text('알림')
         ),
@@ -145,6 +145,7 @@ class alertTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return GestureDetector(
       onTap:(){
 
@@ -158,7 +159,6 @@ class alertTile extends StatelessWidget {
                 Icons.person, // 아이콘 종류
                 color: Colors.lightBlueAccent, // 아이콘 색
               ),// 아이콘
-
               SizedBox(
                 width: 10,
               ),// 아이콘과 글자들 사이의 박스 삽입

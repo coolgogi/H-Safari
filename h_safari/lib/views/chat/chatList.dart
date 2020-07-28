@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../models/firebase_provider.dart';
-
 import 'package:provider/provider.dart';
-
 import 'database.dart';
 import 'chatRoom.dart';
 
@@ -274,7 +271,7 @@ class ChatRoomsTile extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               child: Text(
-                '마지막 메세지입미당 두줄까지 됩니다아ㅏ아ㅏㅏ아ㅏ아ㅏ아ㅏ아ㅏ아ㅏㅏ아앙아ㅏ아아아아아아아아ㅏ아아아아아아ㅏ아아아아아ㅏ아아아아아앙아ㅏㅏㅏ',
+                ,
                 style: TextStyle(
                   fontSize: 13,
                   color: Colors.black54,
@@ -322,3 +319,5 @@ class ChatRoomsTile extends StatelessWidget {
     );
   }
 }
+
+
