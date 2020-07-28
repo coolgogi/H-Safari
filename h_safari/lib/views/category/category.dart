@@ -67,32 +67,33 @@ final List<Widget> _categoryImage = [
 class categoryBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      childAspectRatio: (1.8),
-      children: List.generate(8, (index) {
-        return Center(
-            child: Container(
-              width: 170,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                      color: Colors.grey[400],
-                      elevation: 0.0,
-                      //color: Colors.lightBlueAccent[200],
-                      child: _categoryImage[index],
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-//                                builder: (context) => _categorypage[index]));
-                                builder: (context) => categoryView(select : _category[index])));
-                      }),
-                ],
-              ),
-            ));
-      }),
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: GridView.count(
+        crossAxisCount: 2,
+        childAspectRatio: (1.7),
+        children: List.generate(8, (index) {
+          return Center(
+              child: Container(
+                width: 150,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                        child: _categoryImage[index],
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+
+                                  builder: (context) => categoryView(select : _category[index])));
+                        }
+                    )
+                  ],
+                ),
+              ));
+        }),
+      ),
     );
   }
 }
