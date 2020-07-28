@@ -54,49 +54,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        leading: new Icon(
-          Icons.cake,
-          color: Colors.orangeAccent,
-        ),
-        backgroundColor: Colors.white,
-        title: TextFormField(
-          decoration: InputDecoration(
-
-              border: InputBorder.none,
-              hintText: 'Search your world',
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search, color: Colors.orangeAccent),
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Search()));
-                },
-              )),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add_alert, color: Colors.orangeAccent),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Alarm()));
-            },
-          ),
-        ],
-        bottom: TabBar(
-          //labelColor: Colors.white // 탭바 글자색
-          unselectedLabelColor: Colors.black45,
-          // 선택되지 않은 탭바의 글자색
-          indicatorColor: Colors.orangeAccent,
-          labelColor: Colors.orangeAccent,
-
-          labelStyle:
-              TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-          tabs: <Widget>[
-            Tab(text: '전체'),
-            Tab(text: 'My관심사'),
-          ],
-        ),
-      ),
+      appBar: MyAppBar(),
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -453,11 +411,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
         unselectedLabelColor: Colors.black45,
 
         // 선택된 탭바의 글자색과 스타일
-        labelColor: Colors.orangeAccent,
+        labelColor: Colors.green,
         labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
 
         // 선택된 indicator의 색
-        indicatorColor: Colors.orangeAccent,
+        indicatorColor: Colors.green,
 
         // 탭바 위젯
         tabs: <Widget>[
@@ -475,7 +433,7 @@ class AppBarIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       Icons.cake,
-      color: Colors.orangeAccent,
+      color: Colors.green,
     );
   }
 }
@@ -483,15 +441,20 @@ class AppBarIcon extends StatelessWidget {
 class AppBarIcon2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        Icons.add_alert,
-        color: Colors.orangeAccent,
-      ),
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Alarm()));
-      },
+    return Row(
+      children: <Widget>[
+
+        IconButton(
+          icon: Icon(
+            Icons.add_alert,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Alarm()));
+          },
+        ),
+      ],
     );
   }
 }
@@ -501,18 +464,45 @@ class AppBarIcon2 extends StatelessWidget {
 class AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  TextFormField(
-      decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Search your world',
-          suffixIcon: IconButton(
-            icon: Icon(Icons.search, color: Colors.orangeAccent),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Search()));
-            },
-          )),
+    return  Row(
+      children: <Widget>[
+        InkWell(
+            child: Container(
+              height: 35,
+              decoration: BoxDecoration(
+                color : Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(15))
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                        'Search your word',
+                        style: TextStyle(
+                            color : Colors.white,
+                            fontSize: 15),),
+                  ),
+                  SizedBox(
+                    width: 33,
+                  ),
+                  IconButton(
+                    icon : Icon(Icons.search, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+          },
+        ),
+      ],
     );
   }
 }
+
+
 

@@ -36,7 +36,7 @@ class _BottomBarState extends State<BottomBar> {
       child: Scaffold(
           body: _children[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Colors.orangeAccent,
+            selectedItemColor: Colors.green,
               type: BottomNavigationBarType.fixed,
               onTap: _onTap,
               currentIndex: _currentIndex,

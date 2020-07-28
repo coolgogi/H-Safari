@@ -8,16 +8,37 @@ class Alarm extends StatefulWidget {
 }
 
 class _AlarmState extends State<Alarm> {
-
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: IconButton(
+        icon: Icon(
+          Icons.cake,
+          color: Colors.green,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+      ),
+    );
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-            title: Text('알림')
-        ),
+        appBar: appBar('알림'),
         body: ListView(
           children: <Widget>[
             alarmlist(),
@@ -40,34 +61,48 @@ class _alarmlistState extends State<alarmlist> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       color: color, // 기본 배경색 : color
       child: ListTile( // 알람 : ListTile
         title: Row(
           children: <Widget>[
-            Icon(
-              Icons.person, // 아이콘 종류
-              color: Colors.lightBlueAccent, // 아이콘 색
+            Container(
+
+              width: 265,
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.person, // 아이콘 종류
+                    color: Colors.lightBlueAccent,
+                    size: 35,// 아이콘 색
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),// 아이콘과 글자들 사이의 박스 삽입
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+                    children: <Widget>[
+                      Text(
+                        '원피스 싸게 팔아요~', // 게시물 제목
+                        style: TextStyle(fontSize: 15), // 게시물 제목 스타일 지정
+                      ),
+                      Text(
+                        'OOO님이 댓글을 남기셨습니다.', // 알람 내용
+                        style: TextStyle(fontSize: 10, color: Colors.black45), // 알림 내용 스타일 지정
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),// 아이콘
+            Container(
+                child: Text('7월 15일'))
 
-            SizedBox(
-              width: 10,
-            ),// 아이콘과 글자들 사이의 박스 삽입
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-              children: <Widget>[
-                Text(
-                  '원피스 싸게 팔아요~', // 게시물 제목
-                  style: TextStyle(fontSize: 15), // 게시물 제목 스타일 지정
-                ),
-                Text(
-                  'OOO님이 댓글을 남기셨습니다.', // 알람 내용
-                  style: TextStyle(fontSize: 10, color: Colors.black45), // 알림 내용 스타일 지정
-                ),
-              ],
-            )
           ],
         ),
+        
 
         onTap: () { // 클릭 시 변화림
           setState(() {
