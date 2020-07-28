@@ -271,7 +271,7 @@ class ChatRoomsTile extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               child: Text(
-                ,
+                '',
                 style: TextStyle(
                   fontSize: 13,
                   color: Colors.black54,

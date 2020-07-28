@@ -65,7 +65,6 @@ class _AlarmState extends State<Alarm> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-<<<<<<< HEAD
         appBar: AppBar(
             title: Text('알림')
         ),
@@ -145,7 +144,6 @@ class alertTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return GestureDetector(
       onTap:(){
 
