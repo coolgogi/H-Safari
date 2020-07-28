@@ -7,6 +7,7 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../chat/database.dart';
+import 'package:intl/intl.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
@@ -185,6 +186,44 @@ class _PostState extends State<Post> {
       checkDirect = false ;
     }
   }
+
+  void SendAlarm(BuildContext context)async {
+    String result = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('신청 알림을 보내시겠습니까?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Map<String, dynamic> alertToUser = {
+                    "postName" : fnName,
+                    "type" : "구매신청",
+                    "sendBy" : "",
+                    "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+                  };
+                  sendAlert("구매신청", alertToUser);
+                  Navigator.pop(context, '확인');
+                  Buy(context);
+                },
+              )],
+          );
+        }
+    );
+  }
+
+  void sendAlert(String type, alertToUser){
+      Firestore.instance
+          .collection("users")
+          .document(fnEmail)
+          .collection("alert")
+          .add(alertToUser)
+          .catchError((e){
+            print(e.toString());
+      });
+  }
 }
 
 void ShowListnum(BuildContext context) async {
@@ -208,25 +247,6 @@ void ShowListnum(BuildContext context) async {
   );
 }
 
-void SendAlarm(BuildContext context)async {
-  String result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text('신청 알림을 보내시겠습니까?'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('확인'),
-              onPressed: () {
-                Navigator.pop(context, '확인');
-                Buy(context);
-              },
-            )],
-        );
-      }
-  );
-}
 
 void Buy(BuildContext context) async {
   String result = await showDialog(

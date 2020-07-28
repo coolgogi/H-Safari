@@ -96,7 +96,7 @@ class _MyWriteState extends State<MyWrite> {
                                           width: 50.0,
                                           height: 50.0,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(30.0),
+//                                              borderRadius: BorderRadius.circular(30.0),
                                               image: DecorationImage(
                                                   image: (_image != null) ? FileImage(_image,) : NetworkImage(tpUrl,),
                                                   fit: BoxFit.cover

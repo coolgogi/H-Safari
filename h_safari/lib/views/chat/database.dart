@@ -60,4 +60,12 @@ class DatabaseMethods {
         .where('users', arrayContains: itIsMyName)
         .snapshots();
   }
+
+  getUserAlarms(String name) async {
+    return await Firestore.instance
+        .collection("users")
+        .document(name)
+        .collection("alert")
+        .snapshots();
+  }
 }
