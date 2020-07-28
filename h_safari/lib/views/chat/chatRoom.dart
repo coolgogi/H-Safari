@@ -138,7 +138,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(]
+    return Scaffold(
       appBar: appBar('채팅방'),
       body: Column(
         children: [
