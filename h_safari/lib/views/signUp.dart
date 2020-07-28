@@ -22,6 +22,16 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
 
+  bool clothe = false; //의류
+  bool book = false;  //서적
+  bool cook = false;//음식
+  bool necessary = false;//생필품
+  bool furniture = false; //'가구/전자제품'
+  bool beauty = false; //'뷰티/잡화'
+  bool house = false;//'양도'
+  bool others = false;//'기타'
+
+
   @override
   void dispose() {
     _mailCon.dispose();
@@ -299,13 +309,30 @@ class _SignUpState extends State<SignUp> {
       "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
 
     };
+//    Map<bool, dynamic> category = {
+//      clothe ,
+//      book,
+//      cook,
+//      necessary,
+//      furniture,
+//      beauty,
+//      house : false,//'양도'
+//      bool others: false,//'기타'
+//    };
     Firestore.instance
         .collection("users")
         .document(email)
         .setData(user)
-        .catchError((e){
-          print(e.toString());
+        .catchError((e) {
+      print(e.toString());
     });
+//    Firestore.instance
+//        .collection("users")
+//        .document(email)
+//        .setData(category)
+//        .catchError((e){
+//      print(e.toString());
+//    });
   }
 
 }
