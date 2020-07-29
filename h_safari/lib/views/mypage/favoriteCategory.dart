@@ -18,6 +18,19 @@ class FavoriteCategory extends StatefulWidget {
 
 class _FavoriteCategoryState extends State<FavoriteCategory> {
 
+//<<<<<<< HEAD
+//          ButtonTheme( //모든 카테고리 선택 후 확인 버튼r
+//            height: 40,
+//            child: OutlineButton(
+//              child: Text('확인', style: TextStyle(color: Colors.black),),
+//              onPressed: () {
+//                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
   DocumentSnapshot tp;
   String userEmail;
   List<bool> button = [
