@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
 
   bool clothe = false; //의류
   bool book = false;  //서적
-  bool cook = false;//음식
+  bool food = false;//음식
   bool necessary = false;//생필품
   bool furniture = false; //'가구/전자제품'
   bool beauty = false; //'뷰티/잡화'
@@ -335,7 +335,7 @@ class _SignUpState extends State<SignUp> {
 //      "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
 //      "의류" : clothe,
 //      "서적" : book,
-//      "음식" : cook,
+//      "음식" : food,
 //      "생필품" : necessary,
 //      "가구/전자제품" : furniture,
 //      "뷰티/잡화" : beauty,
@@ -347,17 +347,17 @@ class _SignUpState extends State<SignUp> {
       "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       "의류" : clothe,
       "서적" : book,
-      "음식" : cook,
+      "음식" : food,
       "생필품" : necessary,
-      "가구/전자제품" : furniture,
-      "뷰티/잡화" : beauty,
+      "가구전자제품" : furniture,
+      "뷰티잡화" : beauty,
       "양도" : house,
       "기타" : others,
     };
 //    Map<bool, dynamic> category = {
 //      clothe : false, //의류
 //      book : false,  //서적
-//      cook : false,//음식
+//      food : false,//음식
 //      necessary : false,//생필품
 //      furniture : false, //'가구/전자제품'
 //      beauty : false, //'뷰티/잡화'

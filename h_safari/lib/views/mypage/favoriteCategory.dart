@@ -1,3 +1,5 @@
+//YH
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/main/home.dart';
@@ -30,11 +32,9 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
 //      ),
 //    );
   DocumentSnapshot tp;
-  _FavoriteCategoryState(DocumentSnapshot doc){
-    tp = doc;
-  }
+  String userEmail;
   List<bool> button = [
-    true,
+    false,
     false,
     false,
     false,
@@ -44,22 +44,22 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     false,
   ];
 
-  _SelectCategoryState(DocumentSnapshot doc){
+  _FavoriteCategoryState(DocumentSnapshot doc){
     tp = doc;
-    String a = doc['의류'].toString();
-    print("의류 : $a");
-    button[0] = doc['의류'];
-    button[1] = doc['서적'];
-    button[2] = doc['음식'];
-    button[3] = doc['생필품'];
-    button[4] = doc['가구/전자제품'];
-    button[5] = doc['뷰티/잡화'];
-    button[6] = doc['양도'];
-    button[7] = doc['기타'];
+    userEmail = tp['user'];
+    button[0] = tp['의류'];
+    button[1] = tp['서적'];
+    button[2] = tp['음식'];
+    button[3] = tp['생필품'];
+    button[4] = tp['가구전자제품'];
+    button[5] = tp['뷰티잡화'];
+    button[6] = tp['양도'];
+    button[7] = tp['기타'];
   }
 
+
   //카테고리 이름들을 저장하는 배열
-  List<String> CategoryName = [
+  List<String> categoryName = [
     '의류',
     '서적',
     '음식',
@@ -101,7 +101,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                               children: <Widget>[
                                 Icon(Icons.favorite),
                                 SizedBox(height: 10,),
-                                Text(CategoryName[index]),
+                                Text(categoryName[index]),
                               ],
                             ),
                             color: button[index] ? Colors.blue : Colors.white,
@@ -115,35 +115,36 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20,), //카테고리와 버튼 사이 공간
-                    ButtonTheme( //모든 카테고리 선택 후 확인 버튼
-                      height: 40,
-                      child: OutlineButton(
-                        child: Text('확인', style: TextStyle(color: Colors.black),),
-                        onPressed: () {
-        //                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                        updateFavorite(tp);
-                        },
-                      ),
-                    ),
                   ],
                 );//column
               })
-          ),
+          ),//GridView
+          SizedBox(height: 20,), //카테고리와 버튼 사이 공간
+          ButtonTheme( //모든 카테고리 선택 후 확인 버튼
+            height: 40,
+            child: OutlineButton(
+              child: Text('확인', style: TextStyle(color: Colors.black),),
+              onPressed: () {
+                updateFavorite();
+                Navigator.pop(context);
+              },
+            ),
+          ),//ButtonTheme
         ],
       ),
 //      ),
     );
   }
 
-  void updateFavorite(DocumentSnapshot doc) {
-    Firestore.instance.collection("users").document(doc['user']).updateData({
+  void updateFavorite() {
+    String colName = "users";
+    Firestore.instance.collection(colName).document(userEmail).updateData({
       '의류' : button[0],
       '서적' : button[1],
       '음식' : button[2],
       '생필품' : button[3],
-      '가구/전자제품' : button[4],
-      '뷰티/잡화' : button[5],
+      "가구전자제품" : button[4],
+      '뷰티잡화' : button[5],
       '양도' : button[6],
       '기타' : button[7],
     });
