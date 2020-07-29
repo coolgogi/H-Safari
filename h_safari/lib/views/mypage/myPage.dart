@@ -30,16 +30,13 @@ class _MyPageState extends State<MyPage> {
         Icons.cake,
         color: Colors.green,
       ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-          '$title',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        )),
+      centerTitle: true,
+      title: Text(
+        '$title',
+        style: TextStyle(color: Colors.black),
       ),
     );
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,38 +83,51 @@ class _MyPageState extends State<MyPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Expanded(
-                      child: Container(
-                        height: 60,
-                        alignment: Alignment.center,
-                        child: Text(
-                          '내가 쓴 글',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16),
+                      child: InkWell(
+                        onTap: (){},
+                        child: Container(
+                          height: 60,
+                          alignment: Alignment.center,
+                          child: Text(
+                            '내가 쓴 글',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          decoration: BoxDecoration(border: Border(
+                            right: BorderSide(style: BorderStyle.solid, color: Colors.black12),
+                          )),
                         ),
-                        decoration: BoxDecoration(border: Border(
-                          right: BorderSide(style: BorderStyle.solid, color: Colors.black12),
-                        )),
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 60,
-                        child: Text(
-                          '관심 글',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16),
+                      child: InkWell(
+                        onTap: (){},
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 60,
+                          child: Text(
+                            '관심 글',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          decoration: BoxDecoration(border: Border(
+                            right: BorderSide(style: BorderStyle.solid, color: Colors.black12),
+                          )),
                         ),
-                        decoration: BoxDecoration(border: Border(
-                          right: BorderSide(style: BorderStyle.solid, color: Colors.black12),
-                        )),
                       ),
                     ),
                     Expanded(
-                      child: Text(
-                        '거래 글',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
+                      child: InkWell(
+                        onTap: (){},
+                        child: Container(
+                          height: 60,
+                          alignment: Alignment.center,
+                          child: Text(
+                            '거래 글',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
                       ),
                     ),
                   ],

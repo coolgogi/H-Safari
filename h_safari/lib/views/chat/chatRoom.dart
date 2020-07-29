@@ -26,18 +26,15 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget appBar(String title) {
     return AppBar(
       elevation: 0.0,
-      backgroundColor: Color(0x0000000),
+      backgroundColor: Colors.white,
       leading: Icon(
         Icons.cake,
         color: Colors.green,
       ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-          '$title',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        )),
+      centerTitle: true,
+      title: Text(
+        '$title',
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
