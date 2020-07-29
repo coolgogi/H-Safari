@@ -53,13 +53,10 @@ class _ChatListState extends State<ChatList> {
         Icons.cake,
         color: Colors.green,
       ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-              '$title',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )),
+      centerTitle: true,
+      title: Text(
+        '$title',
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
