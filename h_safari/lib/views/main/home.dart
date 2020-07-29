@@ -13,11 +13,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+
   FirebaseProvider fp;
 
-//from SH
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   // 컬렉션명
   final String colName = "post";
 
@@ -50,6 +49,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
+    String userEmail = fp.getUser().email.toString();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -63,91 +63,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               child: Column(
                 children: <Widget>[
                   //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                    postList(),
-//                  Container(
-//                    height: 500,
-//                    child: StreamBuilder<QuerySnapshot>(
-//                      stream: Firestore.instance
-//                          .collection(colName)
-//                          .orderBy(fnDatetime, descending: true)
-//                          .snapshots(),
-//                      builder: (BuildContext context,
-//                          AsyncSnapshot<QuerySnapshot> snapshot) {
-//                        if (snapshot.hasError)
-//                          return Text("Error: ${snapshot.error}");
-//                        switch (snapshot.connectionState) {
-//                          case ConnectionState.waiting:
-//                            return Text("Loading...");
-//                          default:
-//                            return ListView(
-//                              children: snapshot.data.documents
-//                                  .map((DocumentSnapshot document) {
-//                                Timestamp ts = document[fnDatetime];
-//                                String dt = timestampToStrDateTime(ts);
-//                                String _profileImageURL = document[fnImageUrl];
-//                                return Card(
-//                                  elevation: 2,
-//                                  child: InkWell(
-//                                    // Read Document
-//                                    onTap: () {
-//                                      showDocument(document.documentID);
-//                                    },
-//                                    // Update or Delete Document
-//                                    onLongPress: () {
-//                                      showUpdateOrDeleteDocDialog(document);
-//                                    },
-//                                    child: Container(
-//                                      padding: const EdgeInsets.all(8),
-//                                      child: Column(
-//                                        children: <Widget>[
-//                                          Row(
-//                                            mainAxisAlignment:
-//                                            MainAxisAlignment.spaceBetween,
-//                                            children: <Widget>[
-//                                              CircleAvatar(
-//                                                backgroundImage: NetworkImage(
-//                                                    _profileImageURL),
-//                                                radius: 35,
-//                                              ),
-//                                              Text(
-//                                                '',
-//                                                style: TextStyle(
-//                                                    color: Colors.grey[600]),
-//                                              ),
-//                                              Column(
-//                                                crossAxisAlignment: CrossAxisAlignment.end,
-//                                                children: <Widget>[
-//                                                  Text(
-//                                                    document[fnName],
-//                                                    //dt.toString(),
-//                                                    style: TextStyle(
-//                                                      color: Colors.blueGrey,
-//                                                      fontSize: 18,
-//                                                      fontWeight: FontWeight.bold,
-//                                                    ),
-//                                                  ),
-//                                                  Text(
-//                                                    document[fnPrice] + '원',
-//                                                    style: TextStyle(
-//                                                        color: Colors.black54,
-//                                                    fontSize: 14),
-//                                                  ),
-//                                                ],
-//                                              ),
-//                                            ],
-//                                          ),
-//
-//                                        ],
-//                                      ),
-//                                    ),//Container
-//                                  ),//Inkwell
-//                                );//Card
-//                              }).toList(),
-//                            );//ListView
-//                        }
-//                      },//snapshot
-//                    ),//StreamBuilder
-//                  )//container
+                    postList(userEmail),
                 ],//widget
               ),//column
             ),//padding
@@ -157,7 +73,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  postList(),
+                  postList(userEmail),
                 ],
               ),
             ),
@@ -173,7 +89,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .document(documentID)
         .get()
         .then((doc) {
-//      showReadDocSnackBar(doc);
       showReadPostPage(doc);
     });
   }
@@ -191,27 +106,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     Firestore.instance.collection(colName).document(docID).delete();
   }
 
-  // 문서 Read 시, SnackBar -> 사용 x
-  void showReadDocSnackBar(DocumentSnapshot doc) {
-    _scaffoldKey.currentState
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          duration: Duration(seconds: 5),
-          content: Text(
-              "$fnName: ${doc[fnName]}\n$fnDescription: ${doc[fnDescription]}"
-              "\n$fnDatetime: ${timestampToStrDateTime(doc[fnDatetime])}"),
-          action: SnackBarAction(
-            label: "Done",
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
-  }
-
-  //사용중
+  //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
@@ -280,7 +175,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
 
-  Widget postList(){
+  Widget postList(String email){
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -302,6 +197,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   Timestamp ts = document[fnDatetime];
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
+                  String postCategory = document[fnCategory];
                   return Card(
                     elevation: 2,
                     child: InkWell(
@@ -311,7 +207,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                       // Update or Delete Document
                       onLongPress: () {
-//                        if(document[fnName] == )
+                        if(document[fnName] == email)
                         showUpdateOrDeleteDocDialog(document);
                       },
                       child: Container(
@@ -362,7 +258,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         },
       ),
     );
-  }
+  }//postList
 }
 
 
