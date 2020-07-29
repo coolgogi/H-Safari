@@ -27,7 +27,7 @@ String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변
 class _MyWriteState extends State<MyWrite> {
 
   String currentUid;
-  String tpUrl = "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
+  static String tpUrl = "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
   final _formkey = GlobalKey<FormState>();
 
@@ -70,6 +70,9 @@ class _MyWriteState extends State<MyWrite> {
   final String fnUid = "uid";
   final String fnEmail = "email";
 
+  List<String> pictures = List<String>();
+  int picLength = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,19 +98,40 @@ class _MyWriteState extends State<MyWrite> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text('사진 업로드', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                    Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                     SizedBox(height: 10),
                                     //사진 업로드
                                     Container(
-                                      height: 100,
-                                      width: 120,
-                                      child: Stack(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
+//                                          ( picLength > 0) ? GridView.count(
+//                                              shrinkWrap: true,
+//                                              physics: ScrollPhysics(),
+//                                              crossAxisCount: 5,
+//                                              childAspectRatio: 1.7,
+//                                              children: List.generate(5, (index) {
+//                                                return Container(
+//                                                  height: 100,
+//                                                  width: 120,
+//                                                  decoration: BoxDecoration(
+//                                                      image: DecorationImage(
+//                                                          image: AssetImage(pictures[index]),
+//                                                          fit: BoxFit.cover
+//                                                      )
+//                                                  ),
+//                                                );
+//                                              }
+//                                              )
+//                                          ) :  SizedBox(width: 0,),
+
                                           FlatButton(
                                             child: Container(
+                                              height: 100,
+                                              width: 120,
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
-                                                    image: (_image != null) ? FileImage(_image,) : NetworkImage(tpUrl, ),
+                                                    image: NetworkImage(tpUrl),
                                                     fit: BoxFit.cover
                                                 ),
                                               ),
@@ -158,7 +182,7 @@ class _MyWriteState extends State<MyWrite> {
                                               child: Text('0/5', style: TextStyle(fontSize: 15.0),)
                                           ),
                                         ],
-                                      ),
+                                      )
                                     ),
 
                                     SizedBox(height: 30,),
@@ -395,6 +419,8 @@ class _MyWriteState extends State<MyWrite> {
     if (image == null) return;
     setState(() {
       _image = image;
+      pictures.add(_profileImageURL);
+      picLength++;
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
@@ -461,6 +487,7 @@ class _ListCatState extends State<ListCat> {
       itemBuilder: (BuildContext context, int index) {
         return RadioListTile<String>(
           title: Text(drop[index]),
+          activeColor: Colors.green,
           value: drop[index],
           groupValue: _value,
           onChanged: (value) {
