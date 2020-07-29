@@ -8,6 +8,8 @@ import 'database.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
+  //String lastMessage;
+
 
   ChatRoom({this.chatRoomId});
 
@@ -52,16 +54,15 @@ class _ChatRoomState extends State<ChatRoom> {
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  String lastMessage = snapshot.data.documents[snapshot.data.documents.length-1].data["message"];
                   return MessageTile(
                     message: snapshot.data.documents[index].data["message"],
                     sendByMe: currentUser.email ==
                         snapshot.data.documents[index].data["sendBy"],
-                    time: snapshot.data.documents[index].data["time"],
+                    date: snapshot.data.documents[index].data["date"],
                     previousDate: index == 0 ? previousDate = "0" : previousDate = ((snapshot
                             .data
                             .documents[index-1]
-                            .data["time"])
+                            .data["date"])
                         .split(RegExp(r" |:")))[0],
                   );
                 })
@@ -77,10 +78,12 @@ class _ChatRoomState extends State<ChatRoom> {
       Map<String, dynamic> chatMessageMap = {
         "sendBy": currentUser.email,
         "message": messageEditingController.text,
-        'time': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+        'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       };
 
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+      //widget.lastMessage = messageEditingController.text;
+
 
       setState(() {
         messageEditingController.text = "";
@@ -153,19 +156,19 @@ class _ChatRoomState extends State<ChatRoom> {
 class MessageTile extends StatelessWidget {
   final String message;
   final bool sendByMe;
-  final String time;
+  final String date;
   final String previousDate;
 
   MessageTile({
     @required this.message,
     @required this.sendByMe,
-    this.time,
+    this.date,
     this.previousDate,
   });
 
   @override
   Widget build(BuildContext context) {
-    var allTime = time.split(RegExp(r" |:"));
+    var allTime = date.split(RegExp(r" |:"));
     var todayDate = allTime[0];
     var hour = allTime[1];
     var minute = allTime[2];
@@ -177,7 +180,7 @@ class MessageTile extends StatelessWidget {
       m = '오후';
     }
     hour = hourInt.toString();
-    var timeN = m + " " + hour + ":" + minute;
+    var time = m + " " + hour + ":" + minute;
 
     return Column(
       children: <Widget>[
@@ -198,7 +201,7 @@ class MessageTile extends StatelessWidget {
                 ? Padding(
                     padding: const EdgeInsets.only(right: 3, bottom: 7),
                     child: Text(
-                      '$timeN',
+                      '$time',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black45,
@@ -240,7 +243,7 @@ class MessageTile extends StatelessWidget {
                 : Padding(
                     padding: const EdgeInsets.only(left: 3, bottom: 7),
                     child: Text(
-                      '$timeN',
+                      '$time',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black45,
