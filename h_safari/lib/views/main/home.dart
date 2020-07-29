@@ -63,118 +63,101 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               child: Column(
                 children: <Widget>[
                   //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                  Container(
-                    height: 500,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance
-                          .collection(colName)
-                          .orderBy(fnDatetime, descending: true)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError)
-                          return Text("Error: ${snapshot.error}");
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Text("Loading...");
-                          default:
-                            return ListView(
-                              children: snapshot.data.documents
-                                  .map((DocumentSnapshot document) {
-                                Timestamp ts = document[fnDatetime];
-                                String dt = timestampToStrDateTime(ts);
-                                String _profileImageURL = document[fnImageUrl];
-                                return Card(
-                                  elevation: 2,
-                                  child: InkWell(
-                                    // Read Document
-                                    onTap: () {
-                                      showDocument(document.documentID);
-                                    },
-                                    // Update or Delete Document
-                                    onLongPress: () {
-                                      showUpdateOrDeleteDocDialog(document);
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    _profileImageURL),
-                                                radius: 35,
-                                              ),
-                                              Text(
-                                                '',
-                                                style: TextStyle(
-                                                    color: Colors.grey[600]),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Text(
-                                                    document[fnName],
-                                                    //dt.toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.blueGrey,
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    document[fnPrice] + '원',
-                                                    style: TextStyle(
-                                                        color: Colors.black54,
-                                                    fontSize: 14),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            );
-                        }
-                      },
-                    ),
-                  )
-                  //from SH
-                ],
-              ),
-            ),
-          ),
+                    postList(),
+//                  Container(
+//                    height: 500,
+//                    child: StreamBuilder<QuerySnapshot>(
+//                      stream: Firestore.instance
+//                          .collection(colName)
+//                          .orderBy(fnDatetime, descending: true)
+//                          .snapshots(),
+//                      builder: (BuildContext context,
+//                          AsyncSnapshot<QuerySnapshot> snapshot) {
+//                        if (snapshot.hasError)
+//                          return Text("Error: ${snapshot.error}");
+//                        switch (snapshot.connectionState) {
+//                          case ConnectionState.waiting:
+//                            return Text("Loading...");
+//                          default:
+//                            return ListView(
+//                              children: snapshot.data.documents
+//                                  .map((DocumentSnapshot document) {
+//                                Timestamp ts = document[fnDatetime];
+//                                String dt = timestampToStrDateTime(ts);
+//                                String _profileImageURL = document[fnImageUrl];
+//                                return Card(
+//                                  elevation: 2,
+//                                  child: InkWell(
+//                                    // Read Document
+//                                    onTap: () {
+//                                      showDocument(document.documentID);
+//                                    },
+//                                    // Update or Delete Document
+//                                    onLongPress: () {
+//                                      showUpdateOrDeleteDocDialog(document);
+//                                    },
+//                                    child: Container(
+//                                      padding: const EdgeInsets.all(8),
+//                                      child: Column(
+//                                        children: <Widget>[
+//                                          Row(
+//                                            mainAxisAlignment:
+//                                            MainAxisAlignment.spaceBetween,
+//                                            children: <Widget>[
+//                                              CircleAvatar(
+//                                                backgroundImage: NetworkImage(
+//                                                    _profileImageURL),
+//                                                radius: 35,
+//                                              ),
+//                                              Text(
+//                                                '',
+//                                                style: TextStyle(
+//                                                    color: Colors.grey[600]),
+//                                              ),
+//                                              Column(
+//                                                crossAxisAlignment: CrossAxisAlignment.end,
+//                                                children: <Widget>[
+//                                                  Text(
+//                                                    document[fnName],
+//                                                    //dt.toString(),
+//                                                    style: TextStyle(
+//                                                      color: Colors.blueGrey,
+//                                                      fontSize: 18,
+//                                                      fontWeight: FontWeight.bold,
+//                                                    ),
+//                                                  ),
+//                                                  Text(
+//                                                    document[fnPrice] + '원',
+//                                                    style: TextStyle(
+//                                                        color: Colors.black54,
+//                                                    fontSize: 14),
+//                                                  ),
+//                                                ],
+//                                              ),
+//                                            ],
+//                                          ),
+//
+//                                        ],
+//                                      ),
+//                                    ),//Container
+//                                  ),//Inkwell
+//                                );//Card
+//                              }).toList(),
+//                            );//ListView
+//                        }
+//                      },//snapshot
+//                    ),//StreamBuilder
+//                  )//container
+                ],//widget
+              ),//column
+            ),//padding
+          ),//SingleChildScrollView
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  ListTile(
-                    leading: Image.network(
-                      "https://futurekorea.co.kr/news/photo/201008/19819_12059_5636.jpg",
-                      width: 100,
-                    ),
-                    title: Text(
-                      '5,000원',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text('서적 팔아요~ 전부 5천원'),
-                    onTap: () {
-//                      Navigator.push(context,
-//                          MaterialPageRoute(builder: (context) => Post())
-//                      );
-                    },
-                  ),
-                  //from SH
+                  postList(),
                 ],
               ),
             ),
@@ -183,7 +166,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   }
-
   // 문서 조회 (Read)
   void showDocument(String documentID) {
     Firestore.instance
