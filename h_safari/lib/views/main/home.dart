@@ -6,6 +6,8 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import 'package:meta/meta.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -316,41 +318,53 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        child: Column(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      _profileImageURL),
-                                  radius: 40,
-                                ),
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: Colors.grey[600]),
-                                ),
-                                Text(
-                                  document[fnName],
-                                  //dt.toString(),
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            // 사진
+                            Container(
+                              width: MediaQuery.of(context).size.width/10 *3,
+                              height: MediaQuery.of(context).size.width/10 *3,
+                              color: Colors.green[200],
+                              child: Image.network(_profileImageURL, fit: BoxFit.fill,),
+
+                            ),
+                            SizedBox(
+                              width: 8,
                             ),
                             Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                document[fnDescription],
-                                style: TextStyle(
-                                    color: Colors.black54),
+                              width: MediaQuery.of(context).size.width/20 *11,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // 게시물 제목
+                                  Text(
+                                    document[fnName],
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  // 게시물 가격
+                                  Text(
+                                    document[fnPrice] + '원',
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                    fontSize: 12),
+                                  ),
+                                  // 게시물 내용 (3줄까지만)
+                                  Text(
+                                    document[fnDescription],
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12,),
+                                      maxLines: 3,
+                                  ),
+                                ],
                               ),
-                            )
+                            ),
+
                           ],
                         ),
                       ),
