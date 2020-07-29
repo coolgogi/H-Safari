@@ -43,6 +43,18 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  getLast(String chatRoomId) async {
+    return Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .where(
+          'message',
+        )
+        .limit(1)
+        .snapshots();
+  }
+
   Future<void> addMessage(String chatRoomId, chatMessageData) {
     Firestore.instance
         .collection("chatRoom")

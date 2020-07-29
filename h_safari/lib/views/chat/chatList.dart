@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/views/post/post.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
 import 'chatRoom.dart';
-
 
 class ChatList extends StatefulWidget {
   @override
@@ -17,7 +17,6 @@ class _ChatListState extends State<ChatList> {
   String email;
   FirebaseProvider fp;
 
-
   Widget getChatList() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -25,21 +24,21 @@ class _ChatListState extends State<ChatList> {
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, snapshot) {
-        return snapshot.hasData//???
+        return snapshot.hasData
             ? ListView.builder(
-          padding: EdgeInsets.all(15),
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-
-            itemBuilder: (context, index) {
-              return ChatRoomsTile(
-                userName: snapshot.data.documents[index].data['chatRoomId']
-                    .toString()
-                    .replaceAll("_", "")
-                    .replaceAll(email, ""),
-                chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
-              );
-            })
+                padding: EdgeInsets.all(15),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ChatRoomsTile(
+                    userName: snapshot.data.documents[index].data['chatRoomId']
+                        .toString()
+                        .replaceAll("_", "")
+                        .replaceAll(email, ""),
+                    chatRoomId:
+                        snapshot.data.documents[index].data["chatRoomId"],
+                  );
+                })
             : Container();
       },
     );
@@ -63,14 +62,12 @@ class _ChatListState extends State<ChatList> {
 
   @override
   void initState() {
-
     super.initState();
 
     Future.delayed(Duration.zero, () {
       this.getUserInfogetChats();
     });
   }
-  
 
   getUserInfogetChats() async {
 //    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
@@ -102,23 +99,25 @@ class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
 
-  ChatRoomsTile({this.userName,@required this.chatRoomId});
-  var last = ChatRoom();
+  ChatRoomsTile({this.userName, @required this.chatRoomId});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ChatRoom(
-              chatRoomId: chatRoomId,
-            )
-        ));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatRoom(
+                      chatRoomId: chatRoomId,
+                    )));
       },
       child: Container(
-        decoration: BoxDecoration(border: Border(
-          bottom: BorderSide(style: BorderStyle.solid, color: Colors.black26),
-        ),),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(style: BorderStyle.solid, color: Colors.black26),
+          ),
+        ),
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
           //1: 닉네임, 시간   2: 마지막 메세지
@@ -184,5 +183,3 @@ class ChatRoomsTile extends StatelessWidget {
     );
   }
 }
-
-

@@ -8,8 +8,6 @@ import 'database.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
-  //String lastMessage;
-
 
   ChatRoom({this.chatRoomId});
 
@@ -56,11 +54,11 @@ class _ChatRoomState extends State<ChatRoom> {
                     sendByMe: currentUser.email ==
                         snapshot.data.documents[index].data["sendBy"],
                     date: snapshot.data.documents[index].data["date"],
-                    previousDate: index == 0 ? previousDate = "0" : previousDate = ((snapshot
-                            .data
-                            .documents[index-1]
-                            .data["date"])
-                        .split(RegExp(r" |:")))[0],
+                    previousDate: index == 0
+                        ? previousDate = "0"
+                        : previousDate =
+                            ((snapshot.data.documents[index - 1].data["date"])
+                                .split(RegExp(r" |:")))[0],
                   );
                 })
             : Container();
@@ -79,8 +77,6 @@ class _ChatRoomState extends State<ChatRoom> {
       };
 
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
-      //widget.lastMessage = messageEditingController.text;
-
 
       setState(() {
         messageEditingController.text = "";
@@ -183,8 +179,13 @@ class MessageTile extends StatelessWidget {
       children: <Widget>[
         previousDate != todayDate
             ? Container(
-            margin: EdgeInsets.only(bottom: 10),
-                height: 20, child: Center(child: Text(todayDate, style: TextStyle(fontSize: 12),)),
+                margin: EdgeInsets.only(bottom: 10),
+                height: 20,
+                child: Center(
+                    child: Text(
+                  todayDate,
+                  style: TextStyle(fontSize: 12),
+                )),
               )
             : Container(
                 child: null,
