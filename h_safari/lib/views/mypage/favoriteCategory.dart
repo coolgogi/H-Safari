@@ -107,15 +107,29 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
               })
           ),//GridView
           SizedBox(height: 20,), //카테고리와 버튼 사이 공간
-          ButtonTheme( //모든 카테고리 선택 후 확인 버튼
-            height: 40,
-            child: OutlineButton(
-              child: Text('확인', style: TextStyle(color: Colors.black),),
-              onPressed: () {
-                updateFavorite();
-                Navigator.pop(context);
-              },
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ButtonTheme( //모든 카테고리 선택 후 확인 버튼
+                height: 40,
+                child: OutlineButton(
+                  child: Text('취소', style: TextStyle(color: Colors.black),),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              ButtonTheme( //모든 카테고리 선택 후 확인 버튼
+                height: 40,
+                child: OutlineButton(
+                  child: Text('확인', style: TextStyle(color: Colors.black),),
+                  onPressed: () {
+                    updateFavorite();
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
           ),//ButtonTheme
         ],
       ),
