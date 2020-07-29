@@ -20,7 +20,7 @@ class FavoriteCategory extends StatelessWidget {
 
           SizedBox(height: 20,), //카테고리와 버튼 사이 공간
 
-          ButtonTheme( //모든 카테고리 선택 후 확인 버튼
+          ButtonTheme( //모든 카테고리 선택 후 확인 버튼r
             height: 40,
             child: OutlineButton(
               child: Text('확인', style: TextStyle(color: Colors.black),),
