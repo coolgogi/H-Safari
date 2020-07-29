@@ -65,7 +65,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               child: Column(
                 children: <Widget>[
                   //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                    postList(userEmail),
+                    postList(userEmail),//전체글
                 ],//widget
               ),//column
             ),//padding
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  postList(userEmail),
+                  postList(userEmail),//마이 카테고리
                 ],
               ),
             ),
@@ -177,7 +177,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
 
-  Widget postList(String email){
+  Widget postList(String email, String msg){
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -209,7 +209,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                       // Update or Delete Document
                       onLongPress: () {
-                        if(document[fnName] == email)
+//                        if(document[fnName] == email)
                         showUpdateOrDeleteDocDialog(document);
                       },
                       child: Container(
