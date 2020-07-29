@@ -23,7 +23,6 @@ class _PostState extends State<Post> {
 
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-
   String fnName;
   String fnDes;
   String fnDate;
@@ -35,10 +34,12 @@ class _PostState extends State<Post> {
   String fnEmail;
 
 
+
   _PostState(DocumentSnapshot doc){
     fnName = doc['name'];
     fnDes = doc['description'];
-    fnDate = doc['datetime'].toString();
+    var date = doc['datetime'].toDate();//timestamp to datetime
+    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);//datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
     fnUid = doc['uid'];
@@ -78,7 +79,7 @@ class _PostState extends State<Post> {
             RawMaterialButton( //구매 신청 버튼. 사용자에게 어떻게 알림이 갈 것인지 구상해야 합니다.
               child: Text('구매 신청'),
               onPressed: () {
-                SendAlarm(context);
+                sendAlarm(context);
               },
             ),
             Row(
@@ -144,6 +145,7 @@ class _PostState extends State<Post> {
 
               //게시글 작성에 있던 글 설명. 연동해서 가져오면 그대로 넣으면 될 것 같아요.
               Text('게시일 : $fnDate\n 연락처: 010-1234-1234'),
+//              new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now())
             ],
           )
         ),
@@ -187,7 +189,7 @@ class _PostState extends State<Post> {
     }
   }
 
-  void SendAlarm(BuildContext context)async {
+  void sendAlarm(BuildContext context)async {
     String result = await showDialog(
         context: context,
         barrierDismissible: false,

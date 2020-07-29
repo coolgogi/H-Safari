@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +20,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
+
 
   Widget appBar(String title) {
     return AppBar(
@@ -130,10 +132,7 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.favorite),
               title: Text('선호 카테고리 설정'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FavoriteCategory()));
+                showFavorite(currentUser.email);
               },
             ),
             ListTile(
@@ -170,5 +169,18 @@ class _MyPageState extends State<MyPage> {
         ),
       ),
     );
+  }
+
+  void showFavorite(String email){
+    Firestore.instance
+        .collection("users")
+        .document(email)
+        .get()
+        .then((doc) {
+      moveFavorite(doc);
+    });
+  }
+  void moveFavorite(DocumentSnapshot doc){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteCategory(doc)));
   }
 }
