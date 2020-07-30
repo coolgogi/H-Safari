@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/views/post/post.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
@@ -35,8 +34,24 @@ class _ChatListState extends State<ChatList> {
                         .toString()
                         .replaceAll("_", "")
                         .replaceAll(email, ""),
+                    message: snapshot.data.documents[index].data['lastMessage'],
+                    date: snapshot.data.documents[index].data['lastDate']
+                            .split(RegExp(r" |:|-"))[1] +
+                        '/' +
+                        snapshot.data.documents[index].data['lastDate']
+                            .split(RegExp(r" |:|-"))[2] +
+                        '\n' +
+                        snapshot.data.documents[index].data['lastDate']
+                            .split(RegExp(r" |:|-"))[3] +
+                        ':' +
+                        snapshot.data.documents[index].data['lastDate']
+                            .split(RegExp(r" |:|-"))[4],
                     chatRoomId:
                         snapshot.data.documents[index].data["chatRoomId"],
+                    unread: snapshot.data.documents[index].data["lastSendBy"] ==
+                            email
+                        ? false
+                        : true,
                   );
                 })
             : Container();
@@ -65,11 +80,11 @@ class _ChatListState extends State<ChatList> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      this.getUserInfogetChats();
+      this.getUserInfoGetChats();
     });
   }
 
-  getUserInfogetChats() async {
+  getUserInfoGetChats() async {
 //    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -87,8 +102,8 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar('채팅 리스트'),
+      backgroundColor: Colors.yellow[50],
       body: Container(
-        color: Colors.white,
         child: getChatList(),
       ),
     );
@@ -98,8 +113,16 @@ class _ChatListState extends State<ChatList> {
 class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
+  final String message;
+  final String date;
+  final bool unread;
 
-  ChatRoomsTile({this.userName, @required this.chatRoomId});
+  ChatRoomsTile(
+      {this.userName,
+      @required this.chatRoomId,
+      this.message,
+      this.date,
+      this.unread});
 
   @override
   Widget build(BuildContext context) {
@@ -113,12 +136,13 @@ class ChatRoomsTile extends StatelessWidget {
                     )));
       },
       child: Container(
+        height: 75,
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(style: BorderStyle.solid, color: Colors.black26),
-          ),
-        ),
-        padding: EdgeInsets.symmetric(vertical: 10),
+            border: Border.all(width: 2, color: Colors.brown),
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.brown[50]),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        margin: EdgeInsets.only(top: 5),
         child: Column(
           //1: 닉네임, 시간   2: 마지막 메세지
           children: <Widget>[
@@ -126,38 +150,38 @@ class ChatRoomsTile extends StatelessWidget {
               //column의 첫번째로 닉네임, 시간을 가짐
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                Text(
+                  userName,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 Row(
-                  //닉네임 옆에 안읽은 메세지가 있을 때 뜨는 동그라미 추가
                   children: <Widget>[
+                    unread
+                        ? Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 7,
+                            height: 7,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.orangeAccent,
+                            ),
+                          )
+                        : Container(
+                            child: null,
+                          ),
                     Text(
-                      userName,
+                      date,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey,
                       ),
                     ),
-//                        chat.unread
-//                            ? Container(
-//                          margin: const EdgeInsets.only(left: 8),
-//                          width: 7,
-//                          height: 7,
-//                          decoration: BoxDecoration(
-//                            shape: BoxShape.circle,
-//                            color: Colors.amber,
-//                          ),
-//                        )
-//                            : Container(
-//                          child: null,
-//                        ),
                   ],
-                ),
-                Text(
-                  '시간입니당',
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey,
-                  ),
                 )
               ],
             ),
@@ -167,14 +191,14 @@ class ChatRoomsTile extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               child: Text(
-                '',
+                message,
                 style: TextStyle(
                   fontSize: 13,
                   color: Colors.black54,
                 ),
                 overflow: TextOverflow.ellipsis,
                 //글 수가 오버플로시 ...으로 표시
-                maxLines: 2, //최대 글자줄수는 2줄
+                maxLines: 1, //최대 글자줄수는 2줄
               ),
             ),
           ],
