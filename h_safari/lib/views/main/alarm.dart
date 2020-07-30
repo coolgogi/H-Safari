@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:h_safari/views/category/category_model/category1.dart';
-import 'package:h_safari/views/main/home.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../chat/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class Alarm extends StatefulWidget {
   @override
@@ -59,35 +58,11 @@ class _AlarmState extends State<Alarm> {
     });
   }
 
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: InkWell(
-        child: Icon(
-          Icons.cake,
-          color: Colors.green,
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-              '$title',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: appBar('알림'),
+        appBar: appBar(context, '알림'),
 
         body: Container(
             child: alarmList(),
@@ -150,9 +125,9 @@ class alertTile extends StatelessWidget {
             ],
           ),
             onPressed: () { // 클릭 시 변화림
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                    category1())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
-                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
+//                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+//                  ())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
+//                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
 
             }
         ),

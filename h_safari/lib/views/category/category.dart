@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'categoryView.dart';
+
+import 'package:h_safari/widget/widget.dart';
 
 class MyCategory extends StatefulWidget {
   @override
@@ -8,28 +12,11 @@ class MyCategory extends StatefulWidget {
 }
 
 class _MyCategoryState extends State<MyCategory> {
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: Icon(
-        Icons.cake,
-        color: Colors.green,
-      ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-              '$title',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )),
-      ),
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('카테고리'),
+      appBar: appBarMain(context, '카테고리'),
       body: categoryBox(),
     );
   }

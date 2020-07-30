@@ -222,10 +222,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                           children: <Widget>[
                             // 사진
                             Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green[200],
+                              ),
                               width: MediaQuery.of(context).size.width/10 *3,
                               height: MediaQuery.of(context).size.width/10 *3,
-                              color: Colors.green[200],
-                              child: Image.network(_profileImageURL, fit: BoxFit.fill,),
+
+                              child:
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(_profileImageURL, fit: BoxFit.fill, ),
+                              )
+
 
                             ),
                             SizedBox(

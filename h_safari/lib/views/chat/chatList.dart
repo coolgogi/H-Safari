@@ -5,7 +5,7 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
 import 'chatRoom.dart';
-
+import 'package:h_safari/widget/widget.dart';
 class ChatList extends StatefulWidget {
   @override
   _ChatListState createState() => _ChatListState();
@@ -44,21 +44,7 @@ class _ChatListState extends State<ChatList> {
     );
   }
 
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: Icon(
-        Icons.cake,
-        color: Colors.green,
-      ),
-      centerTitle: true,
-      title: Text(
-        '$title',
-        style: TextStyle(color: Colors.black),
-      ),
-    );
-  }
+
 
   @override
   void initState() {
@@ -86,7 +72,7 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('채팅 리스트'),
+      appBar: appBarMain(context, '채팅 리스트'),
       body: Container(
         color: Colors.white,
         child: getChatList(),

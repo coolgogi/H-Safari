@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/main/search.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class categoryView extends StatefulWidget {
   final String select;
@@ -13,25 +14,11 @@ class categoryView extends StatefulWidget {
 class _categoryViewState extends State<categoryView> {
   final String select;
   _categoryViewState({this.select});
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 6,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text('$select'),
-          ),
-          elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
-                }
-            ),
-          ],
-        ),
-      ),
+    return Scaffold(
+      appBar: appBarSelect(context, '$select'),
     );
   }
 }
