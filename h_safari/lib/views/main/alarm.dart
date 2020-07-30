@@ -4,6 +4,7 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../chat/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class Alarm extends StatefulWidget {
   @override
@@ -57,35 +58,11 @@ class _AlarmState extends State<Alarm> {
     });
   }
 
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: InkWell(
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.green,
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-              '$title',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: appBar('알림'),
+        appBar: appBar(context, '알림'),
 
         body: Container(
             child: alarmList(),

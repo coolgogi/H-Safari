@@ -6,6 +6,7 @@ import 'package:h_safari/views/main/home.dart';
 import 'package:h_safari/helpers/bottombar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class FavoriteCategory extends StatefulWidget {
   DocumentSnapshot tp;
@@ -71,10 +72,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
   ];
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('선호 카테고리'),
-      ),
+      appBar: appBar(context, '선호 카테고리'),
       body:
 //      Column(
 //        children: <Widget>[

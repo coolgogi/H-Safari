@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'database.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
@@ -21,26 +22,6 @@ class _ChatRoomState extends State<ChatRoom> {
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
 
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.green,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      centerTitle: true,
-      title: Text(
-        '$title',
-        style: TextStyle(color: Colors.black),
-      ),
-    );
-  }
 
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
@@ -140,7 +121,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('채팅방'),
+      appBar: appBarSelect(context, '채팅방'),
       body: Column(
         children: [
           Expanded(child: chatMessages()),

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../chat/database.dart';
 import 'package:intl/intl.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
@@ -53,36 +54,14 @@ class _PostState extends State<Post> {
 
   bool checkDelivery = false ;
   bool checkDirect = false ;
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.green[100],
-      leading: InkWell(
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.green,
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      title: Padding(
-        padding: const EdgeInsets.only(right: 40.0),
-        child: Center(
-            child: Text(
-              '$title',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )),
-      ),
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
     
     return Scaffold(
-      appBar: appBar('$fnName'),
+      appBar: appBar(context, '$fnName'),
       bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
         child: Row(
           mainAxisSize: MainAxisSize.max,

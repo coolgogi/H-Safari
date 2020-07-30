@@ -58,7 +58,7 @@ class SearchBar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: TextFormField(
-
+          autofocus: true,
           style: TextStyle(color: Colors.white),
           cursorColor: Colors.white,
           decoration: InputDecoration(
