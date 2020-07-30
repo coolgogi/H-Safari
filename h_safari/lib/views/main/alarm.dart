@@ -6,7 +6,7 @@ import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/views/chat/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-xw
+
 // widget import
 import 'package:h_safari/widget/widget.dart';
 
@@ -67,7 +67,6 @@ class _AlarmState extends State<Alarm> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: appBar(context, '알림'),
-
         body: Container(
             child: alarmList(),
         ),

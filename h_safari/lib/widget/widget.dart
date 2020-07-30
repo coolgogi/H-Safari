@@ -1,6 +1,13 @@
+// 기본 import
 import 'package:flutter/material.dart';
+
+// categoryView.dart import
 import 'package:h_safari/views/category/categoryView.dart';
+
+// search.dart import
 import 'package:h_safari/views/main/search.dart';
+
+// alarm.dart import
 import 'package:h_safari/views/main/alarm.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성

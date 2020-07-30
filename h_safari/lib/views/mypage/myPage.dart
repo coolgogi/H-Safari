@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/widget/widget.dart';
-// DB 연동 import
-import '../../models/firebase_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-// Page 연동 import
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
-import 'package:h_safari/views/mypage/resetPW.dart';
-import 'package:h_safari/views/mypage/asking.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+//from SH
+import '../../models/firebase_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,6 +22,22 @@ class _MyPageState extends State<MyPage> {
   String currentId;
 
 
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: Icon(
+        Icons.cake,
+        color: Colors.green,
+      ),
+      centerTitle: true,
+      title: Text(
+        '$title',
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
@@ -31,7 +45,7 @@ class _MyPageState extends State<MyPage> {
     currentId = currentUser.email.replaceAll("@handong.edu", "");
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarMain(context, '마이페이지'),
+      appBar: appBar('마이페이지'),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: ListView(
@@ -136,7 +150,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('비밀번호 재설정'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => resetPW()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
@@ -144,7 +158,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('문의하기'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => asking()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(

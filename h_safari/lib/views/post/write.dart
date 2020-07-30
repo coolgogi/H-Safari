@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../../helpers/bottombar.dart';
+import 'package:h_safari/widget/widget.dart';
 
 
 
@@ -27,7 +27,7 @@ String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변
 class _MyWriteState extends State<MyWrite> {
 
   String currentUid;
-  static String tpUrl = "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
+  String tpUrl = "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
   final _formkey = GlobalKey<FormState>();
 
@@ -70,24 +70,19 @@ class _MyWriteState extends State<MyWrite> {
   final String fnUid = "uid";
   final String fnEmail = "email";
 
-  List<String> pictures = List<String>();
+  List<File> pictures = List<File>();
   int picLength = 0;
+  double picWidth = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: new Icon(Icons.cake, color: Colors.green,), //나중에 로고로 대체
-          backgroundColor: Colors.white,
-          elevation: 1,
-          centerTitle: true,
-          title: Text('게시글 작성', style: TextStyle(color: Colors.green),),
-          ),
+        appBar: appBarMain(context, '게시물 작성'),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(_blankFocusnode);
           },
-          child: SingleChildScrollView( //화면 스크롤 가능하게
+          child: SingleChildScrollView(//화면 스크롤 가능하게
               child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
@@ -98,91 +93,101 @@ class _MyWriteState extends State<MyWrite> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                                    SizedBox(height: 10),
-                                    //사진 업로드
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-//                                          ( picLength > 0) ? GridView.count(
-//                                              shrinkWrap: true,
-//                                              physics: ScrollPhysics(),
-//                                              crossAxisCount: 5,
-//                                              childAspectRatio: 1.7,
-//                                              children: List.generate(5, (index) {
-//                                                return Container(
-//                                                  height: 100,
-//                                                  width: 120,
-//                                                  decoration: BoxDecoration(
-//                                                      image: DecorationImage(
-//                                                          image: AssetImage(pictures[index]),
-//                                                          fit: BoxFit.cover
-//                                                      )
-//                                                  ),
-//                                                );
-//                                              }
-//                                              )
-//                                          ) :  SizedBox(width: 0,),
-
-                                          FlatButton(
-                                            child: Container(
-                                              height: 100,
-                                              width: 120,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(tpUrl),
-                                                    fit: BoxFit.cover
-                                                ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                        FlatButton(
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(tpUrl),
+                                                  fit: BoxFit.cover
                                               ),
                                             ),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                                  // return object of type Dialog
-                                                  return AlertDialog(
-                                                    title: new Text("사진 업로드 방식"),
-                                                    content: new Text("사진 업로드 방식을 선택하세요."),
-                                                    actions: <Widget>[
-                                                      // usually buttons at the bottom of the dialog
-                                                      Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: <Widget>[
-                                                            new FlatButton(
-                                                              child: new Text("사진첩"),
-                                                              onPressed: () {
-                                                                _uploadImageToStorage(ImageSource.gallery);
-                                                                Navigator.of(context).pop();
-                                                              },
-                                                            ),
-                                                            new FlatButton(
-                                                              child: new Text("카메라"),
-                                                              onPressed: () {
-                                                                _uploadImageToStorage(ImageSource.camera);
-                                                                Navigator.of(context).pop();
-                                                              },
-                                                            ),
-                                                            new FlatButton(
-                                                              child: new Text("Close"),
-                                                              onPressed: () {
-                                                                Navigator.of(context).pop();
-                                                              },
-                                                            ),
-                                                          ]
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                // return object of type Dialog
+                                                return AlertDialog(
+                                                  title: new Text("사진 업로드 방식"),
+                                                  content: new Text("사진 업로드 방식을 선택하세요."),
+                                                  actions: <Widget>[
+                                                    // usually buttons at the bottom of the dialog
+                                                    Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          new FlatButton(
+                                                            child: new Text("사진첩"),
+                                                            onPressed: () {
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          new FlatButton(
+                                                            child: new Text("카메라"),
+                                                            onPressed: () {
+                                                              _uploadImageToStorage(ImageSource.camera);
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          new FlatButton(
+                                                            child: new Text("Close"),
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ]
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    //사진 업로드
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Flexible(
+                                            child: Container(
+                                              height: 120,
+                                              width: (picLength != 0) ? (picWidth+120)*pictures.length : picWidth,
+                                              child: (picLength > 0) ? GridView.count(
+                                                  shrinkWrap: true,
+                                                  crossAxisCount: pictures.length,
+                                                  crossAxisSpacing: 10,
+                                                  physics: ScrollPhysics(),
+                                                  children: List.generate(pictures.length, (index) {
+                                                    return Container(
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
+                                                              fit: BoxFit.cover
+                                                          )
                                                       ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
+                                                    );
+                                                  }
+                                                  )
+                                              ) :  SizedBox(width: 0,),
+                                            ),
                                           ),
-                                          Container(
-                                              alignment: Alignment.bottomRight,
-                                              child: Text('0/5', style: TextStyle(fontSize: 15.0),)
-                                          ),
-                                        ],
-                                      )
+                                        ),
+
+
+//                                          Container(
+//                                              alignment: Alignment.bottomRight,
+//                                              child: Text('0/5', style: TextStyle(fontSize: 15.0),)
+//                                          ),
+                                      ],
                                     ),
 
                                     SizedBox(height: 30,),
@@ -419,8 +424,9 @@ class _MyWriteState extends State<MyWrite> {
     if (image == null) return;
     setState(() {
       _image = image;
-      pictures.add(_profileImageURL);
+      pictures.add(_image);
       picLength++;
+      picWidth+120;
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
