@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../chat/database.dart';
 import 'package:intl/intl.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
@@ -60,10 +61,7 @@ class _PostState extends State<Post> {
     getHow();
     
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('$fnName'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
-      ),
+      appBar: appBar(context, '$fnName'),
       bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
         child: Row(
           mainAxisSize: MainAxisSize.max,
