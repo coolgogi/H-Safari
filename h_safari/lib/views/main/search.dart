@@ -18,7 +18,7 @@ class _SearchState extends State<Search> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
-            Icons.cake,
+            Icons.arrow_back_ios,
             color: Colors.green,
           ),
             onPressed: () {
@@ -58,7 +58,7 @@ class SearchBar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: TextFormField(
-
+          autofocus: true,
           style: TextStyle(color: Colors.white),
           cursorColor: Colors.white,
           decoration: InputDecoration(
