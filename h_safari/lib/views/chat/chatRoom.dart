@@ -25,9 +25,14 @@ class _ChatRoomState extends State<ChatRoom> {
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.white,
-      leading: Icon(
-        Icons.cake,
-        color: Colors.green,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.green,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       centerTitle: true,
       title: Text(
