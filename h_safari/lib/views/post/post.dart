@@ -53,17 +53,36 @@ class _PostState extends State<Post> {
 
   bool checkDelivery = false ;
   bool checkDirect = false ;
-
+  Widget appBar(String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.green[100],
+      leading: InkWell(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.green,
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(right: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
     
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('$fnName'), //이 부분은 연동하면 작성자가 적은 게시글 이름으로 바뀌게 수정해야 해요.
-      ),
+      appBar: appBar('$fnName'),
       bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
         child: Row(
           mainAxisSize: MainAxisSize.max,

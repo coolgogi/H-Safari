@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'categoryView.dart';
@@ -11,7 +13,7 @@ class _MyCategoryState extends State<MyCategory> {
   Widget appBar(String title) {
     return AppBar(
       elevation: 0.0,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green[100],
       leading: Icon(
         Icons.cake,
         color: Colors.green,

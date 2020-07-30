@@ -18,7 +18,7 @@ class _SearchState extends State<Search> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
-            Icons.cake,
+            Icons.arrow_back_ios,
             color: Colors.green,
           ),
             onPressed: () {

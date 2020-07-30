@@ -47,7 +47,7 @@ class _ChatListState extends State<ChatList> {
   Widget appBar(String title) {
     return AppBar(
       elevation: 0.0,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green[100],
       leading: Icon(
         Icons.cake,
         color: Colors.green,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:h_safari/views/category/category_model/category1.dart';
-import 'package:h_safari/views/main/home.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../chat/database.dart';
@@ -65,7 +63,7 @@ class _AlarmState extends State<Alarm> {
       backgroundColor: Colors.white,
       leading: InkWell(
         child: Icon(
-          Icons.cake,
+          Icons.arrow_back_ios,
           color: Colors.green,
         ),
         onTap: () {
@@ -150,9 +148,9 @@ class alertTile extends StatelessWidget {
             ],
           ),
             onPressed: () { // 클릭 시 변화림
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                    category1())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
-                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
+//                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+//                  ())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
+//                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
 
             }
         ),
