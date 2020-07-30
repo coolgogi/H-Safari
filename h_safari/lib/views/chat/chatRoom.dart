@@ -61,8 +61,12 @@ class _ChatRoomState extends State<ChatRoom> {
         "message": messageEditingController.text,
         'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       };
-
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+      DatabaseMethods().updateLast(
+          widget.chatRoomId,
+          messageEditingController.text,
+          DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+          currentUser.email);
 
       setState(() {
         messageEditingController.text = "";
@@ -70,7 +74,7 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  sendMessageBox() {
+  Widget sendMessageBox() {
     // 메세지 입력 박스
     return Container(
       alignment: Alignment.bottomCenter,

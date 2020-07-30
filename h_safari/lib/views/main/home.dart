@@ -30,6 +30,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnPrice = 'price';
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
+  final String fnEmail = 'email';
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
@@ -56,6 +57,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: MyAppBar(),
+//      appBar: MyAppBar(email : userEmail),
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -64,8 +66,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               child: Column(
                 children: <Widget>[
                   //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-//                    postList(userEmail),//전체글
-                    postList(),
+                    allPostList(userEmail),//전체글
                 ],//widget
               ),//column
             ),//padding
@@ -75,8 +76,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-//                  postList(userEmail),//마이 카테고리
-                  postList(),
+                  myPostList(userEmail),//마이 카테고리
                 ],
               ),
             ),
@@ -116,7 +116,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   //dialog
-  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
+  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
+
+    if(doc[fnEmail] != currentEmail) return ;
+
     _undNameCon.text = doc[fnName];
     _undDescCon.text = doc[fnDescription];
     showDialog(
@@ -177,9 +180,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .toString();
   }
 
-
-//  Widget postList(String email, String msg){
-  Widget postList(){
+  Widget allPostList(String email){
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -211,8 +212,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       },
                       // Update or Delete Document
                       onLongPress: () {
-//                        if(document[fnName] == email)
-                        showUpdateOrDeleteDocDialog(document);
+                        showUpdateOrDeleteDocDialog(document, email);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -284,10 +284,158 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   }//postList
+
+  Widget myPostList(String email){
+    fp = Provider.of<FirebaseProvider>(context);
+    return Container(
+      height: 500,
+      child: StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection(colName)
+            .orderBy(fnDatetime, descending: true)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError)
+            return Text("Error: ${snapshot.error}");
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Text("Loading...");
+            default:
+              return ListView( children: snapshot.data.documents
+                    .map((DocumentSnapshot document) {
+                      bool select;
+                      
+                      Timestamp ts = document[fnDatetime];
+                      String dt = timestampToStrDateTime(ts);
+                      String _profileImageURL = document[fnImageUrl];
+                      String postCategory = document[fnCategory];
+
+//                      Firestore.instance
+//                          .collection("users")
+//                          .document(email)
+//                          .get()
+//                          .then((doc) {
+//                            select = _myCategory(document[fnCategory], doc);
+//                            if (select == null) {
+//                              print("select is null");
+//                            }
+//                            else if (select == false) {
+//                              print("select is false");
+//                            }
+//                            else if (select == true) {
+//                              print("select is true");
+//                            }
+//                          };
+
+
+                      return Card(
+                        elevation: 2,
+                        child: InkWell(
+                          // Read Document
+                          onTap: () {
+                            showDocument(document.documentID);
+                          },
+                          // Update or Delete Document
+                          onLongPress: () {
+                            showUpdateOrDeleteDocDialog(document, email);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // 사진
+                                Container(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 10 * 3,
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 10 * 3,
+                                  color: Colors.green[200],
+                                  child: Image.network(
+                                    _profileImageURL, fit: BoxFit.fill,),
+
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Container(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 20 * 11,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                      // 게시물 제목
+                                      Text(
+                                        document[fnName],
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      // 게시물 가격
+                                      Text(
+                                        document[fnPrice] + '원',
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12),
+                                      ),
+                                      // 게시물 내용 (3줄까지만)
+                                      Text(
+                                        document[fnDescription],
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 12,),
+                                        maxLines: 3,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                }).toList(),
+              );
+
+          }//
+        },
+      ),
+    );
+  }//postList
+
+  bool myCategory(String email, DocumentSnapshot postDoc) {
+    String currentCategory = postDoc['category'];
+
+    print("myCategory");
+
+    DocumentSnapshot userDoc;
+    bool rt;
+
+
+    return rt;
+  }
+
+  bool _myCategory(String category, DocumentSnapshot doc){
+    print("_myCategory");
+
+    bool rt;
+    rt = doc[category];
+    return rt;
+  }
 }
 
 
-//
+
 
 
 

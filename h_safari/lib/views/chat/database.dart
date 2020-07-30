@@ -43,18 +43,6 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getLast(String chatRoomId) async {
-    return Firestore.instance
-        .collection("chatRoom")
-        .document(chatRoomId)
-        .collection("chats")
-        .where(
-          'message',
-        )
-        .limit(1)
-        .snapshots();
-  }
-
   Future<void> addMessage(String chatRoomId, chatMessageData) {
     Firestore.instance
         .collection("chatRoom")
@@ -67,9 +55,10 @@ class DatabaseMethods {
   }
 
   getUserChats(String itIsMyName) async {
-    return await Firestore.instance
+    return Firestore.instance
         .collection("chatRoom")
         .where('users', arrayContains: itIsMyName)
+        .orderBy('lastDate', descending: true)
         .snapshots();
   }
 
@@ -79,5 +68,16 @@ class DatabaseMethods {
         .document(name)
         .collection("alert")
         .snapshots();
+  }
+
+  updateLast(String chatRoomId, String message, String date, String sendBy) {
+    return Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .updateData({
+      'lastMessage': message,
+      'lastDate': date,
+      'lastSendBy': sendBy
+    });
   }
 }
