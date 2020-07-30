@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'alarm.dart';
 import 'package:h_safari/views/post/post.dart';
-import 'package:h_safari/views/main/search.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
-import 'package:meta/meta.dart';
+
+import 'package:h_safari/widget/widget.dart';
 
 
 class Home extends StatefulWidget {
@@ -289,124 +288,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
 
 //
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
-  @override
-  Size get preferredSize => const Size.fromHeight(100);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      // AppBar 배경색
-      backgroundColor: Colors.white,
-
-      // AppBar의 leading (로고)
-      leading: AppBarIcon(),
-
-      // AppBar의 title (검색창)
-      title: AppBarTitle(),
-
-      // AppBar의 action (알람)
-      actions: <Widget>[AppBarIcon2(),],
-
-      // AppBar의 TabBar
-      bottom: TabBar(
-
-        // 선택되지 않은 탭바의 글자색
-        unselectedLabelColor: Colors.black45,
-
-        // 선택된 탭바의 글자색과 스타일
-        labelColor: Colors.green,
-        labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-
-        // 선택된 indicator의 색
-        indicatorColor: Colors.green,
-
-        // 탭바 위젯
-        tabs: <Widget>[
-          Tab(text: '전체'),
-          Tab(text: 'My관심사'),
-        ],
-      ),
-    );
-  }
-}
-
-
-class AppBarIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.cake,
-      color: Colors.green,
-    );
-  }
-}
-
-class AppBarIcon2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-
-        IconButton(
-          icon: Icon(
-            Icons.add_alert,
-            color: Colors.green,
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Alarm()));
-          },
-        ),
-      ],
-    );
-  }
-}
-
-
-
-class AppBarTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return  Row(
-      children: <Widget>[
-        InkWell(
-            child: Container(
-              height: 35,
-              decoration: BoxDecoration(
-                color : Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(15))
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                        'Search your word',
-                        style: TextStyle(
-                            color : Colors.white,
-                            fontSize: 15),),
-                  ),
-                  SizedBox(
-                    width: 33,
-                  ),
-                  IconButton(
-                    icon : Icon(Icons.search, color: Colors.white),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
-          },
-        ),
-      ],
-    );
-  }
-}
 
 
 
