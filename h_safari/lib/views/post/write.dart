@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../../helpers/bottombar.dart';
+import 'package:h_safari/widget/widget.dart';
 
 
 
@@ -77,13 +77,7 @@ class _MyWriteState extends State<MyWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: new Icon(Icons.cake, color: Colors.green,), //나중에 로고로 대체
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: Text('게시글 작성', style: TextStyle(color: Colors.green),),
-      ),
+      appBar: appBarMain(context, '게시물 작성'),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -99,50 +93,22 @@ class _MyWriteState extends State<MyWrite> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                                  SizedBox(height: 10),
-                                  //사진 업로드
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Flexible(
-                                          child: Container(
-                                            height: 120,
-                                            width: (picLength != 0) ? (picWidth+120)*pictures.length : picWidth,
-                                            child: (picLength > 0) ? GridView.count(
-                                                shrinkWrap: true,
-                                                crossAxisCount: pictures.length,
-                                                crossAxisSpacing: 10,
-                                                physics: ScrollPhysics(),
-                                                children: List.generate(pictures.length, (index) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                            fit: BoxFit.cover
-                                                        )
-                                                    ),
-                                                  );
-                                                }
-                                                )
-                                            ) :  SizedBox(width: 0,),
-                                          ),
-                                        ),
-                                      ),
-
-                                      FlatButton(
-                                        child: Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(tpUrl),
-                                                fit: BoxFit.cover
-                                            ),
-                                          ),
-                                        ),
+                                      Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                      RawMaterialButton(
+                                        child: Text('추가', style: TextStyle(fontSize: 15, color: Colors.green, decoration: TextDecoration.underline),),
+//                                        Container(
+//                                          height: 30,
+//                                          width: 30,
+//                                          decoration: BoxDecoration(
+//                                            image: DecorationImage(
+//                                                image: NetworkImage(tpUrl),
+//                                                fit: BoxFit.cover
+//                                            ),
+//                                          ),
+//                                        ),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -184,14 +150,69 @@ class _MyWriteState extends State<MyWrite> {
                                           );
                                         },
                                       ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+
+                                  //사진 업로드
+                                  picLength != 0 ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Flexible(
+                                          child: Container(
+                                            height: 110,
+                                            width: (picLength != 0) ? (picWidth+120)*pictures.length : picWidth,
+                                            child: (picLength > 0) ? GridView.count(
+                                                shrinkWrap: true,
+                                                crossAxisCount: pictures.length,
+                                                crossAxisSpacing: 10,
+                                                physics: ScrollPhysics(),
+                                                children: List.generate(pictures.length, (index) {
+                                                  return Stack(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
+                                                                fit: BoxFit.cover
+                                                            )
+                                                        ),
+                                                      ),
+
+                                                      Positioned(
+                                                        left: 80,
+                                                        child: IconButton(
+                                                          icon: Icon(Icons.highlight_off),
+                                                          disabledColor: Colors.black,
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              pictures.removeAt(index);
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }
+                                                )
+                                            ) :  SizedBox(width: 0,),
+                                          ),
+                                        ),
+                                      ),
+
+
 //                                          Container(
 //                                              alignment: Alignment.bottomRight,
 //                                              child: Text('0/5', style: TextStyle(fontSize: 15.0),)
 //                                          ),
                                     ],
-                                  ),
+                                  ): SizedBox(width: 0,),
 
-                                  SizedBox(height: 30,),
+
+
+                                  SizedBox(height: 30),
 
                                   //게시글 제목 및 상품명을 적을 텍스트필드
                                   Text("게시글 제목* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
