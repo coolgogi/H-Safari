@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// 기본 import
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/main/search.dart';
+
+// widget import
 import 'package:h_safari/widget/widget.dart';
 
 class categoryView extends StatefulWidget {

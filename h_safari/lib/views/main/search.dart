@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
+// 기본 import
 import 'package:flutter/material.dart';
-import 'package:h_safari/helpers/bottombar.dart';
+
+// widget import
+import 'package:h_safari/widget/widget.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -12,29 +14,12 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    Widget appBar() {
-      return AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.green,
-          ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-      ),
-        title: SearchBar(),
 
-
-      );
-    }
     return DefaultTabController(
       length: 1,
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: appBar(),
+        appBar: appBarSearch(context),
         body : GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -45,35 +30,4 @@ class _SearchState extends State<Search> {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return  Container(
-        height: 35,
-        decoration: BoxDecoration(
-        color : Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(15))
-        ),
-
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: TextFormField(
-          autofocus: true,
-          style: TextStyle(color: Colors.white),
-          cursorColor: Colors.white,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Search your world',
-              hintStyle: TextStyle(color: Colors.white),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search, color: Colors.white),
-                onPressed: () {
-
-                },
-              )),
-        ),
-      ),
-    );
-  }
-}
 
