@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:h_safari/views/mypage/asking.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
+import 'package:h_safari/views/mypage/resetPW.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,6 +10,7 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/email.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +153,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('비밀번호 재설정'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Terms()));
+                    context, MaterialPageRoute(builder: (context) => resetPW()));
               },
             ),
             ListTile(
@@ -158,7 +161,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('문의하기'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Terms()));
+                    context, MaterialPageRoute(builder: (context) => asking()));
               },
             ),
             ListTile(
@@ -166,7 +169,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Terms()));
+                    context, MaterialPageRoute(builder: (context) => myEmail()));
               },
             ),
             ListTile(
