@@ -211,10 +211,6 @@ class _SignInState extends State<SignIn> {
                                         side: BorderSide(color: Colors.green,)
                                     ),
                                     onPressed: () {//로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
-                                      //그래서 일단은 스낵바가 뜨는거 보는 용도로만 사용할게요.
-//                          if(_idkey.currentState.validate() && _pwkey.currentState.validate()) {
-//                            Scaffold.of(_idkey.currentContext).showSnackBar(SnackBar(content: Text('아이디 혹은 비밀번호가 잘못 되었습니다.'),));
-//                          }
                                       FocusScope.of(context).requestFocus(new FocusNode());//added by SH
                                       _signIn();//added by SH
 
@@ -238,37 +234,6 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            //added from SH
-//          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
-//                ? Container(
-//                      margin:
-//                             const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-//                      decoration: BoxDecoration(color: Colors.red[300]),
-//                      child: Column(
-//                        children: <Widget>[
-//                          Padding(
-//                            padding: const EdgeInsets.all(10.0),
-//                            child: Text(
-//                              "Mail authentication did not complete."
-//                                  "\nPlease check your verification email.",
-//                              style: TextStyle(color: Colors.white),
-//                            ),
-//                          ),
-//                          RaisedButton(
-//                            color: Colors.lightBlue[400],
-//                            textColor: Colors.white,
-//                            child: Text("Resend Verify Email"),
-//                            onPressed: () {
-//                              FocusScope.of(context)
-//                                  .requestFocus(new FocusNode()); // 키보드 감춤
-//                              fp.getUser().sendEmailVerification();
-//                            },
-//                          )
-//                        ],
-//                      ),
-//                    ) : Container(),
-            ////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////
           ),
         ),
       ),
@@ -331,6 +296,4 @@ class _SignInState extends State<SignIn> {
         ),
       ));
   }
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
 }
