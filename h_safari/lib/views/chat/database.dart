@@ -34,7 +34,7 @@ class DatabaseMethods {
     });
   }
 
-  getChats(String chatRoomId) async {
+  Future<dynamic> getChats(String chatRoomId) async {
     return Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
@@ -54,7 +54,7 @@ class DatabaseMethods {
     });
   }
 
-  getUserChats(String itIsMyName) async {
+  Future<dynamic> getUserChats(String itIsMyName) async {
     return Firestore.instance
         .collection("chatRoom")
         .where('users', arrayContains: itIsMyName)

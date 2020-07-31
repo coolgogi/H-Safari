@@ -1,20 +1,20 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../models/firebase_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/firebase_provider.dart';
 import 'database.dart';
 import 'chatRoom.dart';
 import 'package:h_safari/widget/widget.dart';
+
 class ChatList extends StatefulWidget {
   @override
   _ChatListState createState() => _ChatListState();
 }
 
 class _ChatListState extends State<ChatList> {
-  Stream chatRooms;
-  String uid;
+  Stream<QuerySnapshot> chatRooms;
+
   String email;
   FirebaseProvider fp;
 
@@ -29,7 +29,7 @@ class _ChatListState extends State<ChatList> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ChatRoomsTile(
-                    userName: snapshot.data.documents[index].data['chatRoomId']
+                    friendName: snapshot.data.documents[index].data['chatRoomId']
                         .toString()
                         .replaceAll("_", "")
                         .replaceAll(email, ""),
@@ -63,37 +63,35 @@ class _ChatListState extends State<ChatList> {
 
   @override
   void initState() {
-    super.initState();
-
-    Future.delayed(Duration.zero, () {
-      this.getUserInfoGetChats();
-    });
-  }
-
-  getUserInfoGetChats() async {
-    fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
-    email = currentUser.email;
     DatabaseMethods().getUserChats(email).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
       });
     });
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      getUserInfoGetChats();
+    });
+  }
+
+  getUserInfoGetChats() async{
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    email = currentUser.email;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain(context, '채팅 리스트'),
-      body: Container(
-        child: getChatList(),
-      ),
+      body: getChatList(),
     );
   }
 }
 
 class ChatRoomsTile extends StatelessWidget {
-  final String userName;
+  final String friendName;
   final String chatRoomId;
   final String message;
   final String date;
@@ -101,9 +99,9 @@ class ChatRoomsTile extends StatelessWidget {
   final bool unread;
 
   ChatRoomsTile(
-      {this.userName,
+      {this.friendName,
       @required this.chatRoomId,
-      this.message,
+      @required this.message,
       this.date,
       this.unread, this.sendBy});
 
@@ -117,7 +115,7 @@ class ChatRoomsTile extends StatelessWidget {
                 builder: (context) => ChatRoom(
                       chatRoomId: chatRoomId,
                     )));
-        sendBy == userName ? null: DatabaseMethods().updateUnread(chatRoomId);
+        sendBy != friendName ? null: DatabaseMethods().updateUnread(chatRoomId);
       },
       child: Container(
         height: 75,
@@ -135,7 +133,7 @@ class ChatRoomsTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  userName,
+                  friendName,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
