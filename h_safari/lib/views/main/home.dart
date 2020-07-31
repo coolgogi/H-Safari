@@ -60,31 +60,51 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: MyAppBar(),
-      body: TabBarView(
-        children: <Widget>[
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                    allPostList(userEmail),//전체글
-                ],//widget
-              ),//column
-            ),//padding
-          ),//SingleChildScrollView
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  myPostList(userEmail),//마이 카테고리
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: Container(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+                .collection("users")
+                .where('user', arrayContains: userEmail)
+                .snapshots(),
+            builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.hasError) return Text("Error : ${snapshot.error}");
+              switch(snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return Text("Loading...");
+                default:
+                  return TabBarView(
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: <Widget>[
+                              //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                              allPostList(userEmail),//전체글
+                            ],//widget
+                          ),//column
+                        ),//padding
+                      ),//SingleChildScrollView
+                      SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: <Widget>[
+                              myPostList(userEmail),//마이 카테고리
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );//TabBarView
+              }
+            }
+
+          )
+      )
+
+
     );
   }
   // 문서 조회 (Read)
