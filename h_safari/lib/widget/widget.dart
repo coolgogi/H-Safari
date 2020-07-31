@@ -33,7 +33,7 @@ Widget appBar(BuildContext context, String title) {
 }
 
 // 뒤로가기 기능이 없고 로고가 들어갈 page들을 위한 appBar 생성
-Widget appBarMain(BuildContext context, String title) {
+Widget appBarMain(String title) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.green[100],

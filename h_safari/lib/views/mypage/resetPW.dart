@@ -55,7 +55,7 @@ class _resetPWState extends State<resetPW> {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: '확인',
+                        labelText: '변경 후 확인',
                       ),
                     ),
                   ),
