@@ -285,12 +285,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }//postList
 
-  Widget myPostList(String email){
+  Widget myPostList(String email, DocumentSnapshot doc){
     int testInt = 0;
     DocumentSnapshot userDoc;
-    Firestore.instance.collection("users").document(email).get().then((doc){
+//    Firestore.instance.collection("users").document(email).get().then((doc){
       userDoc = doc;
-    });
+//    });
 
     return Container(
       height: 500,
@@ -315,6 +315,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         }else{
                           print("userDoc is not null");
                         }
+                        print(userDoc);
+//                        print();
                         bool select = false ;
                         testInt++;
                         print(testInt);
@@ -323,7 +325,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         String _profileImageURL = document[fnImageUrl];
                         String postCategory = document[fnCategory];
 
-                        if(testInt%2 == 0){
+//                        if(testInt%2 == 0){
+                        if(!userDoc[document[fnCategory]]){
                           return Card();
                         }else{
                           return Card(
