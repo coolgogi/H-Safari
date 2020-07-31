@@ -66,7 +66,7 @@ class _ChatRoomState extends State<ChatRoom> {
           widget.chatRoomId,
           messageEditingController.text,
           DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-          currentUser.email);
+          currentUser.email, true);
 
       setState(() {
         messageEditingController.text = "";

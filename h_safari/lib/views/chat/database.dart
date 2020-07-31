@@ -63,21 +63,31 @@ class DatabaseMethods {
   }
 
   getUserAlarms(String name) async {
-    return await Firestore.instance
+    return Firestore.instance
         .collection("users")
         .document(name)
         .collection("alert")
         .snapshots();
   }
 
-  updateLast(String chatRoomId, String message, String date, String sendBy) {
+  updateLast(String chatRoomId, String message, String date, String sendBy, bool unread) {
     return Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
         .updateData({
       'lastMessage': message,
       'lastDate': date,
-      'lastSendBy': sendBy
+      'lastSendBy': sendBy,
+      'unread': true,
+    });
+  }
+
+  updateUnread(String chatRoomId) {
+    return Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .updateData({
+      'unread': false,
     });
   }
 }
