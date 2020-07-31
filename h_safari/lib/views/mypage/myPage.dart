@@ -10,7 +10,7 @@ import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:h_safari/email.dart';
+import 'package:h_safari/delete/email.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => myEmail()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
