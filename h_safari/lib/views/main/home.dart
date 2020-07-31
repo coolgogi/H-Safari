@@ -9,6 +9,8 @@ import 'package:h_safari/widget/widget.dart';
 
 
 class Home extends StatefulWidget {
+
+  
   @override
   _HomeState createState() => _HomeState();
 }
@@ -54,10 +56,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     String userEmail = fp.getUser().email.toString();
 
     return Scaffold(
+
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: MyAppBar(),
-//      appBar: MyAppBar(email : userEmail),
       body: TabBarView(
         children: <Widget>[
           SingleChildScrollView(
@@ -181,6 +183,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Widget allPostList(String email){
+
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -203,6 +206,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
                   String postCategory = document[fnCategory];
+
                   return Card(
                     elevation: 2,
                     child: InkWell(
@@ -267,16 +271,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         color: Colors.black54,
                                         fontSize: 12,),
                                       maxLines: 3,
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );//Card
                 }).toList(),
               );
           }
@@ -286,7 +290,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }//postList
 
   Widget myPostList(String email){
-    fp = Provider.of<FirebaseProvider>(context);
+    int testInt = 0;
+    DocumentSnapshot userDoc;
+    Firestore.instance.collection("users").document(email).get().then((doc){
+      userDoc = doc;
+      print("firebase");
+    });
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -302,109 +311,96 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             case ConnectionState.waiting:
               return Text("Loading...");
             default:
-              return ListView( children: snapshot.data.documents
-                    .map((DocumentSnapshot document) {
-                      bool select;
-                      
-                      Timestamp ts = document[fnDatetime];
-                      String dt = timestampToStrDateTime(ts);
-                      String _profileImageURL = document[fnImageUrl];
-                      String postCategory = document[fnCategory];
+              return ListView(
+                      children: snapshot.data.documents.map((DocumentSnapshot document) {
 
-//                      Firestore.instance
-//                          .collection("users")
-//                          .document(email)
-//                          .get()
-//                          .then((doc) {
-//                            select = _myCategory(document[fnCategory], doc);
-//                            if (select == null) {
-//                              print("select is null");
-//                            }
-//                            else if (select == false) {
-//                              print("select is false");
-//                            }
-//                            else if (select == true) {
-//                              print("select is true");
-//                            }
-//                          };
+                        Timestamp ts = document[fnDatetime];
+                        String dt = timestampToStrDateTime(ts);
+                        String _profileImageURL = document[fnImageUrl];
+                        String postCategory = document[fnCategory];
+//                        print(userDoc["user"]);
+                        print(document[fnCategory]);
+//                        if(!userDoc[document[fnCategory]]){
+                        if(false){
+                          return Card();
+                        }else{
+                          return Card(
+                            elevation: 2,
+                            child: InkWell(
+                              // Read Document
+                              onTap: () {
+                                showDocument(document.documentID);
+                              },
+                              // Update or Delete Document
+                              onLongPress: () {
+                                showUpdateOrDeleteDocDialog(document, email);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    // 사진
+                                    Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width / 10 * 3,
+                                      height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width / 10 * 3,
+                                      color: Colors.green[200],
+                                      child: Image.network(
+                                        _profileImageURL, fit: BoxFit.fill,),
 
-
-                      return Card(
-                        elevation: 2,
-                        child: InkWell(
-                          // Read Document
-                          onTap: () {
-                            showDocument(document.documentID);
-                          },
-                          // Update or Delete Document
-                          onLongPress: () {
-                            showUpdateOrDeleteDocDialog(document, email);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                // 사진
-                                Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 10 * 3,
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 10 * 3,
-                                  color: Colors.green[200],
-                                  child: Image.network(
-                                    _profileImageURL, fit: BoxFit.fill,),
-
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 20 * 11,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      // 게시물 제목
-                                      Text(
-                                        document[fnName],
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width / 20 * 11,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+                                          // 게시물 제목
+                                          Text(
+                                            document[fnName],
+                                            style: TextStyle(
+                                              color: Colors.blueGrey,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          // 게시물 가격
+                                          Text(
+                                            document[fnPrice] + '원',
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 12),
+                                          ),
+                                          // 게시물 내용 (3줄까지만)
+                                          Text(
+                                            document[fnDescription],
+                                            style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 12,),
+                                            maxLines: 3,
+                                          ),
+                                        ],
                                       ),
-                                      // 게시물 가격
-                                      Text(
-                                        document[fnPrice] + '원',
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12),
-                                      ),
-                                      // 게시물 내용 (3줄까지만)
-                                      Text(
-                                        document[fnDescription],
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,),
-                                        maxLines: 3,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                }).toList(),
+                          );//Card
+                        }//else
+                  }).toList(),
               );
 
           }//
@@ -413,29 +409,47 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }//postList
 
-  bool myCategory(String email, DocumentSnapshot postDoc) {
-    String currentCategory = postDoc['category'];
+//  bool myCategory(String email, DocumentSnapshot postDoc) {
+//    String currentCategory = postDoc['category'];
+//
+//    print("myCategory");
+//
+//    DocumentSnapshot userDoc;
+//    bool rt;
+//
+//
+//    return rt;
+//  }
+//
+//  bool _myCategory(String category, DocumentSnapshot userDoc){
+//    print("_myCategory");
+//
+//    bool rt;
+//    rt = userDoc[category];
+//    return rt;
+//  }
 
-    print("myCategory");
 
-    DocumentSnapshot userDoc;
-    bool rt;
-
-
-    return rt;
-  }
-
-  bool _myCategory(String category, DocumentSnapshot doc){
-    print("_myCategory");
-
-    bool rt;
-    rt = doc[category];
-    return rt;
-  }
 }
 
+class cardTile{
+
+  DocumentSnapshot postDoc;
+  DocumentSnapshot userDoc;
+
+  cardTile(DocumentSnapshot postDoc, DocumentSnapshot userDoc){
+    this.postDoc = postDoc;
+    this.userDoc = userDoc;
+  }
+
+
+  Widget build(BuildContext context){
+    return Card(
 
 
 
+    );
+  }
 
 
+}

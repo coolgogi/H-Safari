@@ -4,13 +4,14 @@ import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'package:h_safari/views/mypage/resetPW.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/widget/widget.dart';
 
 //from SH
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:h_safari/email.dart';
+import 'package:h_safari/delete/email.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,31 +25,18 @@ class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
 
-
-  Widget appBar(String title) {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-      leading: Icon(
-        Icons.cake,
-        color: Colors.green,
-      ),
-      centerTitle: true,
-      title: Text(
-        '$title',
-        style: TextStyle(color: Colors.black),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+//    fp = Provider.of<FirebaseProvider>(context);
+//    FirebaseUser currentUser = fp.getUser();
+//    currentId = currentUser.email.replaceAll("@handong.edu", "");
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
-    currentId = currentUser.email.replaceAll("@handong.edu", "");
+    int idx = currentUser.email.indexOf("@");
+    currentId = currentUser.email.substring(0, idx);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBar('마이페이지'),
+      appBar: appBarMain('마이페이지'),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: ListView(
@@ -169,7 +157,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => myEmail()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
