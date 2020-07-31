@@ -32,7 +32,7 @@ class _askingState extends State<asking> {
     final Email email = Email(
       body: _bodyController.text,
       subject: _subjectController.text,
-      recipients: ['22000051@handong.edu'],
+      recipients: ['handongsafari@gmail.com'],
       attachmentPaths: attachments,
       isHTML: isHTML,
     );
@@ -62,7 +62,9 @@ class _askingState extends State<asking> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: MaterialApp(
-        theme: ThemeData(primaryColor: Colors.red),
+        debugShowCheckedModeBanner: false,
+
+        theme: ThemeData(primaryColor: Colors.green),
         home: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -128,6 +130,7 @@ class _askingState extends State<asking> {
             ),
           ),
           floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: Colors.green,
             icon: Icon(Icons.camera),
             label: Text('사진 첨부'),
             onPressed: _openImagePicker,
