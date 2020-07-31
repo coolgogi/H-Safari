@@ -152,14 +152,14 @@ class _MyWriteState extends State<MyWrite> {
                                     ),
                                     SizedBox(height: 10),
                                     //사진 업로드
-                                    Column(
+                                    picLength != 0 ? Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Flexible(
                                             child: Container(
-                                              height: 120,
+                                              height: 110,
                                               width: (picLength != 0) ? (picWidth+120)*pictures.length : picWidth,
                                               child: (picLength > 0) ? GridView.count(
                                                   shrinkWrap: true,
@@ -188,9 +188,11 @@ class _MyWriteState extends State<MyWrite> {
 //                                              child: Text('0/5', style: TextStyle(fontSize: 15.0),)
 //                                          ),
                                       ],
-                                    ),
+                                    )
+                                    :
 
-                                    SizedBox(height: 30,),
+
+                                    SizedBox(height: 0,),
 
                                     //게시글 제목 및 상품명을 적을 텍스트필드
                                     Text("게시글 제목* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),),
