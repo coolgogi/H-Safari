@@ -33,7 +33,7 @@ Widget appBar(BuildContext context, String title) {
 }
 
 // 뒤로가기 기능이 없고 로고가 들어갈 page들을 위한 appBar 생성
-Widget appBarMain(BuildContext context, String title) {
+Widget appBarMain(String title) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.green[100],
@@ -206,37 +206,43 @@ class alertTile extends StatelessWidget {
         child: FlatButton(
             color: color, // 기본 배경색 : color
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.person, // 아이콘 종류
-                      color: Colors.white, // 아이콘 색
-                    ),// 아이콘
-                    SizedBox(
-                      width: 10,
-                    ),// 아이콘과 글자들 사이의 박스 삽입
+                Icon(
+                  Icons.person, // 아이콘 종류
+                  color: Colors.white, // 아이콘 색
+                ),// 아이콘
+                SizedBox(
+                  width: 10,
+                ),// 아이콘과 글자들 사이의 박스 삽입
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+                  children: <Widget>[
+                    Text(
+                      '$postName', // 게시물 제목
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          '$postName', // 게시물 제목
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-                        ),
                         Text(
                           '$type', // 알람 내용
                           style: TextStyle(fontSize: 10, color: Colors.black45), // 알림 내용 스타일 지정
                         ),
+                        SizedBox(
+                          width: 10,
+                        ),// 아이콘과 글자들 사이의 박스 삽입
+
+                        Text(
+                          '$time', // 시간
+                          style: TextStyle(fontSize: 10, color: Colors.black45), // 시간 스타일 지정
+                        )
                       ],
                     ),
                   ],
                 ),
-                Text(
-                  '$time', // 시간
-                  style: TextStyle(fontSize: 10, color: Colors.black45), // 시간 스타일 지정
-                )
+
               ],
             ),
             onPressed: () { // 클릭 시 변화림
@@ -369,4 +375,6 @@ class AppBarTitle extends StatelessWidget {
     );
   }
 }
+
+
 

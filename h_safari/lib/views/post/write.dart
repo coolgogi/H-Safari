@@ -77,7 +77,7 @@ class _MyWriteState extends State<MyWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarMain(context, '게시물 작성'),
+        appBar: appBarMain('게시물 작성'),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(_blankFocusnode);

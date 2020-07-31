@@ -14,7 +14,7 @@ class _MyCategoryState extends State<MyCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context, '카테고리'),
+      appBar: appBarMain('카테고리'),
       body: categoryBox(),
     );
   }

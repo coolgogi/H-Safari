@@ -84,8 +84,10 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context, '채팅 리스트'),
-      body: getChatList(),
+      appBar: appBarMain('채팅 리스트'),
+      body: Container(
+        child: getChatList(),
+      ),
     );
   }
 }
