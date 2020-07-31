@@ -9,6 +9,8 @@ import 'package:h_safari/widget/widget.dart';
 
 
 class Home extends StatefulWidget {
+
+  
   @override
   _HomeState createState() => _HomeState();
 }
@@ -181,6 +183,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Widget allPostList(String email){
+
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -203,6 +206,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
                   String postCategory = document[fnCategory];
+
                   return Card(
                     elevation: 2,
                     child: InkWell(
@@ -267,16 +271,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         color: Colors.black54,
                                         fontSize: 12,),
                                       maxLines: 3,
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );//Card
                 }).toList(),
               );
           }
@@ -285,13 +289,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }//postList
 
-  Widget myPostList(String email, DocumentSnapshot doc){
+  Widget myPostList(String email){
     int testInt = 0;
     DocumentSnapshot userDoc;
-//    Firestore.instance.collection("users").document(email).get().then((doc){
+    Firestore.instance.collection("users").document(email).get().then((doc){
       userDoc = doc;
-//    });
-
+      print("firebase");
+    });
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -310,23 +314,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               return ListView(
                       children: snapshot.data.documents.map((DocumentSnapshot document) {
 
-                        if(userDoc == null){
-                          print("userDoc is null");
-                        }else{
-                          print("userDoc is not null");
-                        }
-                        print(userDoc);
-//                        print();
-                        bool select = false ;
-                        testInt++;
-                        print(testInt);
                         Timestamp ts = document[fnDatetime];
                         String dt = timestampToStrDateTime(ts);
                         String _profileImageURL = document[fnImageUrl];
                         String postCategory = document[fnCategory];
-
-//                        if(testInt%2 == 0){
-                        if(!userDoc[document[fnCategory]]){
+//                        print(userDoc["user"]);
+                        print(document[fnCategory]);
+//                        if(!userDoc[document[fnCategory]]){
+                        if(false){
                           return Card();
                         }else{
                           return Card(
@@ -414,24 +409,46 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }//postList
 
-  bool myCategory(String email, DocumentSnapshot postDoc) {
-    String currentCategory = postDoc['category'];
+//  bool myCategory(String email, DocumentSnapshot postDoc) {
+//    String currentCategory = postDoc['category'];
+//
+//    print("myCategory");
+//
+//    DocumentSnapshot userDoc;
+//    bool rt;
+//
+//
+//    return rt;
+//  }
+//
+//  bool _myCategory(String category, DocumentSnapshot userDoc){
+//    print("_myCategory");
+//
+//    bool rt;
+//    rt = userDoc[category];
+//    return rt;
+//  }
 
-    print("myCategory");
 
-    DocumentSnapshot userDoc;
-    bool rt;
+}
 
+class cardTile{
 
-    return rt;
+  DocumentSnapshot postDoc;
+  DocumentSnapshot userDoc;
+
+  cardTile(DocumentSnapshot postDoc, DocumentSnapshot userDoc){
+    this.postDoc = postDoc;
+    this.userDoc = userDoc;
   }
 
-  bool _myCategory(String category, DocumentSnapshot userDoc){
-    print("_myCategory");
 
-    bool rt;
-    rt = userDoc[category];
-    return rt;
+  Widget build(BuildContext context){
+    return Card(
+
+
+
+    );
   }
 
 
