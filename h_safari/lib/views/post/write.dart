@@ -494,7 +494,7 @@ class _ListCatState extends State<ListCat> {
         return RadioListTile<String>(
           title: Text(drop[index]),
           activeColor: Colors.green,
-          value: drop[index],
+          value: drop[index].replaceAll("/",""),
           groupValue: _value,
           onChanged: (value) {
             setState(() {
