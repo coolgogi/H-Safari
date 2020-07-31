@@ -22,7 +22,6 @@ class _ChatRoomState extends State<ChatRoom> {
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
 
-
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -34,6 +33,7 @@ class _ChatRoomState extends State<ChatRoom> {
             ? ListView.builder(
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return MessageTile(
                     message: snapshot.data.documents[index].data["message"],
@@ -66,7 +66,8 @@ class _ChatRoomState extends State<ChatRoom> {
           widget.chatRoomId,
           messageEditingController.text,
           DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-          currentUser.email, true);
+          currentUser.email,
+          true);
 
       setState(() {
         messageEditingController.text = "";
@@ -243,8 +244,4 @@ class MessageTile extends StatelessWidget {
       ],
     );
   }
-}
-
-TextStyle simpleTextStyle() {
-  return TextStyle(color: Colors.black, fontSize: 16);
 }
