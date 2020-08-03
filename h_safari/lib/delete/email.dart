@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
 
-class asking extends StatefulWidget {
+class myEmail extends StatefulWidget {
   @override
-  _askingState createState() => _askingState();
+  _myEmailState createState() => _myEmailState();
 }
 
-class _askingState extends State<asking> {
+class _myEmailState extends State<myEmail> {
   List<String> attachments = [];
   bool isHTML = false;
 
@@ -19,7 +19,7 @@ class _askingState extends State<asking> {
   );
 
   final _subjectController = TextEditingController(
-    text: null,
+      text: null,
   );
 
   final _bodyController = TextEditingController(
@@ -32,7 +32,7 @@ class _askingState extends State<asking> {
     final Email email = Email(
       body: _bodyController.text,
       subject: _subjectController.text,
-      recipients: ['handongsafari@gmail.com'],
+      recipients: [_recipientController.text],
       attachmentPaths: attachments,
       isHTML: isHTML,
     );
@@ -62,35 +62,33 @@ class _askingState extends State<asking> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-
-        theme: ThemeData(primaryColor: Colors.green),
+        theme: ThemeData(primaryColor: Colors.red),
         home: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Colors.green[100],
-            leading: InkWell(
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.green,
+              elevation: 0.0,
+              backgroundColor: Colors.green[100],
+              leading: InkWell(
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.green,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            centerTitle: true,
-            title: Text(
-              '문의하기',
-              style: TextStyle(color: Colors.black),
-            ),
+              centerTitle: true,
+              title: Text(
+                '문의하기',
+                style: TextStyle(color: Colors.black),
+              ),
             actions: <Widget>[
               IconButton(
                 onPressed: send,
                 icon: Icon(Icons.send, color: Colors.green,),
               )
             ],
-          ),
+            ),
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.all(8.0),
@@ -99,6 +97,16 @@ class _askingState extends State<asking> {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _recipientController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: '받는 사람',
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
@@ -130,7 +138,6 @@ class _askingState extends State<asking> {
             ),
           ),
           floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: Colors.green,
             icon: Icon(Icons.camera),
             label: Text('사진 첨부'),
             onPressed: _openImagePicker,
