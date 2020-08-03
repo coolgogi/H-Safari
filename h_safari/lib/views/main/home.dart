@@ -54,27 +54,29 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    getUserData();
-    super.initState();
-  }
-//
-  getUserData() {
     print("initState");
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getUserData();
+    });
+  }
+
+  getUserData() {
+    print("getUserData");
     Firestore.instance.collection("users").document(userEmail).get().then((doc){
       setCategoryData(doc);
     });
   }
 
   setCategoryData(DocumentSnapshot doc){
+    print("setCategory");
       for(int i = 0 ; i < 8; i++){
         categoryBool[i] = doc[categoryString[i]];
-        print(categoryBool[i]);
       };
   }
 
   @override
   Widget build(BuildContext context) {
-//    getUserData();
 
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
@@ -314,7 +316,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   Widget myPostList(String email, DocumentSnapshot userDoc){
     int tempInt = 0;
-
+    DocumentSnapshot doc = userDoc;
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -332,7 +334,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             default:
               return ListView(
                       children: snapshot.data.documents.map((DocumentSnapshot document) {
-                        print("userDoc : $userDoc");
+                        print("doc : $doc");
                         Timestamp ts = document[fnDatetime];
                         String dt = timestampToStrDateTime(ts);
                         String _profileImageURL = document[fnImageUrl];
