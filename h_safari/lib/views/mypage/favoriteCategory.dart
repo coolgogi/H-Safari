@@ -16,19 +16,6 @@ class FavoriteCategory extends StatefulWidget {
 
 class _FavoriteCategoryState extends State<FavoriteCategory> {
 
-//<<<<<<< HEAD
-//          ButtonTheme( //모든 카테고리 선택 후 확인 버튼r
-//            height: 40,
-//            child: OutlineButton(
-//              child: Text('확인', style: TextStyle(color: Colors.black),),
-//              onPressed: () {
-//                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-//              },
-//            ),
-//          ),
-//        ],
-//      ),
-//    );
   DocumentSnapshot tp;
   String userEmail;
   List<bool> button = [
@@ -71,10 +58,6 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     return Scaffold(
       appBar: appBar(context, '선호 카테고리'),
       body:
-//      Column(
-//        children: <Widget>[
-
-//          SelectCategory(tp), //카테고리를 선택하는 statefullWidget class
       Column(
         children: <Widget>[
           GridView.count( //gridview를 사용해 가로 4줄, 세로 2줄의 버튼을 만든다.
@@ -141,7 +124,6 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
           ),//ButtonTheme
         ],
       ),
-//      ),
     );
   }
 
@@ -159,46 +141,3 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     });
   }
 }
-
-//Page 부분
-//class FavoriteCategory extends StatelessWidget {
-//
-//
-//  @override
-//
-//
-//}
-
-
-//내부 구현 클래스
-//class SelectCategory extends StatefulWidget {
-//
-//  DocumentSnapshot tp;
-//
-//  SelectCategory(DocumentSnapshot doc){
-//    tp = doc;
-//  }
-//  @override
-//  _SelectCategoryState createState() => _SelectCategoryState(tp);
-//}
-//
-//class _SelectCategoryState extends State<SelectCategory> {
-//
-//  DocumentSnapshot tp;
-//
-//
-//
-//  //각 카테고리별 선택용 bool 변수를 저장하는 리스트
-//
-//
-//  //버튼의 색상을 지정해줄 변수 리스트
-//  List<int> buttonColor = new List<int>();
-//
-//  @override
-//  Widget build(BuildContext context) { //선호 카테고리를 고르는 창.
-//    return
-//    //);
-//  }
-//
-//}
-//
