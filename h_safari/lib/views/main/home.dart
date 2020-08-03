@@ -68,13 +68,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     print("initState");
     super.initState();
-//    Firestore.instance.collection("users").document(userEmail).getData();
-//        .then((doc) {
-//      userDoc = doc;
-//    });
-//    Future.delayed(Duration.zero, () {
-//      getUserData(userEmail);
-//    });
+    Firestore.instance.collection("users").document(userEmail).get()
+        .then((doc) {
+      userDoc = doc;
+    });
+    Future.delayed(Duration.zero, () {
+      getUserData(userEmail);
+    });
 
   }
 
@@ -93,20 +93,23 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
     print("getUserData");
     Firestore.instance.collection("users").document(passedEmail).get().then((doc){
-      print("setCategory");
-      for(int i = 0 ; i < 8; i++){
-        categoryBool[i] = doc[categoryString[i]];
-      };
-//      setCategoryData(doc);
+//      print("setCategory");
+//      for(int i = 0 ; i < 8; i++){
+//        categoryBool[i] = doc[categoryString[i]];
+//      };
+      setCategoryData(doc);
     });
     print("getUserData2");
   }
 
   setCategoryData(DocumentSnapshot doc){
     print("setCategory");
-      for(int i = 0 ; i < 8; i++){
-        categoryBool[i] = doc[categoryString[i]];
-      };
+    for(int i = 0 ; i < 8; i++){
+      categoryBool[i] = doc[categoryString[i]];
+    };
+    setState(() {
+//      resBody = json.decode(res.body);
+    });
   }
 
   @override
@@ -489,7 +492,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 //final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
 
                           if(!categoryBool[tempInt]){
-                            return Card();
+                            return Container();
                           }else{
                             return Card(
                               elevation: 2,
