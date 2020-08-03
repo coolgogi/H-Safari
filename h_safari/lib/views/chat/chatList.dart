@@ -7,26 +7,64 @@ import 'database.dart';
 import 'chatRoom.dart';
 import 'package:h_safari/widget/widget.dart';
 
+
 class ChatList extends StatefulWidget {
 
+  String email;
+
+  ChatList(String tp){
+    email = tp;
+  }
   @override
-  _ChatListState createState() => _ChatListState();
+  _ChatListState createState() => _ChatListState(email);
 }
 
 class _ChatListState extends State<ChatList> {
+
+  String passedEmail;
+  String email;
+
+  _ChatListState(String tp){
+    passedEmail = tp;
+  }
+
   Stream<QuerySnapshot> chatRooms;
 
-  String email;
   FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
-//  _ChatListState(){
-//    fp = Provider.of<FirebaseProvider>(context);
-//    email = fp.getUser().email.toString();
+
+//  @override
+//  void initState() {
+//
+//    databaseMethods.getUserChats(passedEmail).then((snapshots){
+//      setState(() {
+//        chatRooms = snapshots;
+//        print(
+//            "we got the data + ${chatRooms.toString()} this is name  $passedEmail");
+//      });
+//    });
+//
+//
+//    Future.delayed(Duration.zero, () {
+//      getUserInfoGetChats();
+//    });
+//    super.initState();
+//    print('in chatlist init $passedEmail');
 //  }
-
-    @override
+//
+//  getUserInfoGetChats() {
+//    fp = Provider.of<FirebaseProvider>(context);
+//    passedEmail = fp.getUser().email.toString();
+//  }
+  @override
   void initState() {
-
+    databaseMethods.getUserChats(email).then((snapshots){
+      setState(() {
+        chatRooms = snapshots;
+        print(
+            "we got the data + ${chatRooms.toString()} this is name  $email");
+      });
+    });
     super.initState();
 
     Future.delayed(Duration.zero, () {
@@ -38,16 +76,10 @@ class _ChatListState extends State<ChatList> {
   getUserInfoGetChats() {
     fp = Provider.of<FirebaseProvider>(context);
     email = fp.getUser().email.toString();
-
-    databaseMethods.getUserChats(email).then((snapshots){
-      setState(() {
-        chatRooms = snapshots;
-        print(
-            "we got the data + ${chatRooms.toString()} this is name  $email");
-      });
-    });
-    print(email);
   }
+
+
+
 
   Widget getChatList() {
     return StreamBuilder(
@@ -59,7 +91,10 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return ChatRoomsTile(
+                  String tp = snapshot.data.documents[index].data['chatRoomId'].toString();
+                  if(tp.contains(email))
+                  {
+                    return ChatRoomsTile(
                     friendName: snapshot.data.documents[index].data['chatRoomId']
                         .toString()
                         .replaceAll("_", "")
@@ -84,6 +119,10 @@ class _ChatListState extends State<ChatList> {
                         ? false
                         : snapshot.data.documents[index].data['unread'],
                   );
+                  }
+                  else {
+                    return Container();
+                  }
                 })
             : Container();
       },
@@ -93,7 +132,7 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain('채팅 리스트'),
+      appBar: appBarMain(email),
       body: Container(
         child: getChatList(),
       ),

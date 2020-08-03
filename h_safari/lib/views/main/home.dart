@@ -8,13 +8,27 @@ import 'dart:io';
 import 'package:h_safari/widget/widget.dart';
 import '../chat/database.dart';
 
+
+
+
 class Home extends StatefulWidget {
 
+  String email;
+  DocumentSnapshot userDoc;
+  Home(String tp){
+    email = tp;
+  }
+
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(email);
+
+
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+
+  String email;
+
 
   FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
@@ -33,15 +47,36 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
   final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
-  final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
+  List<bool> categoryBool = [false, false, false, false, false, false, false, false];
+
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
   TextEditingController _undNameCon = TextEditingController();
   TextEditingController _undDescCon = TextEditingController();
+
   QuerySnapshot userInfoSnapshot;
   DocumentSnapshot userDoc;
   String userEmail;
   int _counter = 0;
+
+  _HomeState(String tp) {
+    email = tp;
+  }
+
+  @override
+  void initState() {
+    print("initState");
+    super.initState();
+    Firestore.instance.collection("users").document(userEmail).getData();
+//        .then((doc) {
+//      userDoc = doc;
+//    });
+//    Future.delayed(Duration.zero, () {
+//      getUserData(userEmail);
+//    });
+
+  }
+
 
   @override
   bool get wantKeepAlive => true;
@@ -52,20 +87,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
-  @override
-  void initState() {
-    print("initState");
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      getUserData();
-    });
-  }
 
-  getUserData() {
+  getUserData(String passedEmail) {
+
     print("getUserData");
-    Firestore.instance.collection("users").document(userEmail).get().then((doc){
-      setCategoryData(doc);
+    Firestore.instance.collection("users").document(passedEmail).get().then((doc){
+      print("setCategory");
+      for(int i = 0 ; i < 8; i++){
+        categoryBool[i] = doc[categoryString[i]];
+      };
+//      setCategoryData(doc);
     });
+    print("getUserData2");
   }
 
   setCategoryData(DocumentSnapshot doc){
@@ -132,6 +165,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
+  //문서 읽기 (Read)
+  void showReadPostPage(DocumentSnapshot doc) {
+    _scaffoldKey.currentState..hideCurrentSnackBar();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+  }
+
   // 문서 갱신 (Update)
   void updateDoc(String docID, String name, String description) {
     Firestore.instance.collection(colName).document(docID).updateData({
@@ -145,11 +184,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     Firestore.instance.collection(colName).document(docID).delete();
   }
 
-  //문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc) {
-    _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
-  }
 
   //dialog
   void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
@@ -343,7 +377,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             default:
               return ListView(
                       children: snapshot.data.documents.map((DocumentSnapshot document) {
-                        print("doc : $doc");
+                        print("doc : $userDoc");
                         Timestamp ts = document[fnDatetime];
                         String dt = timestampToStrDateTime(ts);
                         String _profileImageURL = document[fnImageUrl];
@@ -365,7 +399,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 //final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
 
                         if(!categoryBool[tempInt]){
-                          return Card();
+                          return Container();
                         }else{
                           return Card(
                             elevation: 2,

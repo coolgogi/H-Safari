@@ -32,8 +32,9 @@ class AuthPageState extends State<AuthPage> {
 
 
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
-
-      return BottomBar();
+      String tp = fp.getUser().email.toString();
+      
+      return BottomBar(tp);
     } else {
       return SignIn();
     }
