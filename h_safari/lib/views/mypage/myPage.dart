@@ -27,9 +27,7 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
-//    fp = Provider.of<FirebaseProvider>(context);
-//    FirebaseUser currentUser = fp.getUser();
-//    currentId = currentUser.email.replaceAll("@handong.edu", "");
+
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
     int idx = currentUser.email.indexOf("@");
