@@ -75,10 +75,10 @@ class _ChatListState extends State<ChatList> {
     });
   }
 
-  getUserInfoGetChats() async{
+  getUserInfoGetChats() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
-    email = currentUser.email;
+    email = currentUser.email.toString();
   }
 
   @override
