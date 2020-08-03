@@ -74,6 +74,7 @@ class _MyWriteState extends State<MyWrite> {
   List<File> pictures = List<File>();
   int picLength = 0;
   double picWidth = 0;
+  int _index;
 
   @override
   Widget build(BuildContext context) {
@@ -113,16 +114,6 @@ class _MyWriteState extends State<MyWrite> {
                                         Text('사진 업로드*', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                         RawMaterialButton(
                                           child: Text('추가', style: TextStyle(fontSize: 15, color: Colors.green, decoration: TextDecoration.underline),),
-//                                        Container(
-//                                          height: 30,
-//                                          width: 30,
-//                                          decoration: BoxDecoration(
-//                                            image: DecorationImage(
-//                                                image: NetworkImage(tpUrl),
-//                                                fit: BoxFit.cover
-//                                            ),
-//                                          ),
-//                                        ),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
@@ -166,7 +157,7 @@ class _MyWriteState extends State<MyWrite> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    //SizedBox(height: 10),
 
                                     //사진 업로드
                                     picLength != 0 ? Column(
@@ -176,8 +167,8 @@ class _MyWriteState extends State<MyWrite> {
                                           scrollDirection: Axis.horizontal,
                                           child: Flexible(
                                             child: Container(
-                                              height: 110,
-                                              width: (picLength != 0) ? (picWidth+120)*pictures.length : picWidth,
+                                              height: 130,
+                                              width: (picLength != 0) ? (picWidth+130)*pictures.length : picWidth,
                                               child: (picLength > 0) ? GridView.count(
                                                   shrinkWrap: true,
                                                   crossAxisCount: pictures.length,
@@ -190,13 +181,13 @@ class _MyWriteState extends State<MyWrite> {
                                                           decoration: BoxDecoration(
                                                               image: DecorationImage(
                                                                   image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                                  fit: BoxFit.cover
+                                                                  //fit: BoxFit.cover
                                                               )
                                                           ),
                                                         ),
 
-                                                        Positioned(
-                                                          left: 80,
+                                                        Align(
+                                                          alignment: Alignment.topRight,
                                                           child: IconButton(
                                                             icon: Icon(Icons.highlight_off),
                                                             disabledColor: Colors.black,
@@ -215,12 +206,6 @@ class _MyWriteState extends State<MyWrite> {
                                             ),
                                           ),
                                         ),
-
-
-//                                          Container(
-//                                              alignment: Alignment.bottomRight,
-//                                              child: Text('0/5', style: TextStyle(fontSize: 15.0),)
-//                                          ),
                                       ],
                                     ): SizedBox(width: 0,),
 
@@ -470,7 +455,6 @@ class _MyWriteState extends State<MyWrite> {
       _image = image;
       pictures.add(_image);
       picLength++;
-      picWidth+120;
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거

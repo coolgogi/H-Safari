@@ -67,14 +67,14 @@ class _resetPWState extends State<resetPW> {
                       child: Text('취소'),
                       color: Colors.green[200],
                       onPressed: () {
-
+                        Navigator.pop(context);
                       },
                     ),
                     FlatButton(
                       child: Text('저장'),
                       color: Colors.green[200],
                       onPressed: () {
-
+                        Navigator.pop(context);
                       },
                     )
                   ],
