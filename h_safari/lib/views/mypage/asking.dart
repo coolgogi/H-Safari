@@ -103,6 +103,7 @@ class _askingState extends State<asking> {
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
                       controller: _subjectController,
+                      maxLines: 1,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: '제목',
@@ -114,6 +115,7 @@ class _askingState extends State<asking> {
                     child: TextField(
                       controller: _bodyController,
                       maxLines: 10,
+                      maxLength: 1000,
                       decoration: InputDecoration(
                           labelText: '문의내용', border: OutlineInputBorder()),
                     ),
