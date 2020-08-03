@@ -8,6 +8,7 @@ import 'chatRoom.dart';
 import 'package:h_safari/widget/widget.dart';
 
 class ChatList extends StatefulWidget {
+
   @override
   _ChatListState createState() => _ChatListState();
 }
@@ -17,6 +18,36 @@ class _ChatListState extends State<ChatList> {
 
   String email;
   FirebaseProvider fp;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+//  _ChatListState(){
+//    fp = Provider.of<FirebaseProvider>(context);
+//    email = fp.getUser().email.toString();
+//  }
+
+    @override
+  void initState() {
+
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      getUserInfoGetChats();
+    });
+    print(email);
+  }
+
+  getUserInfoGetChats() {
+    fp = Provider.of<FirebaseProvider>(context);
+    email = fp.getUser().email.toString();
+
+    databaseMethods.getUserChats(email).then((snapshots){
+      setState(() {
+        chatRooms = snapshots;
+        print(
+            "we got the data + ${chatRooms.toString()} this is name  $email");
+      });
+    });
+    print(email);
+  }
 
   Widget getChatList() {
     return StreamBuilder(
@@ -58,29 +89,7 @@ class _ChatListState extends State<ChatList> {
       },
     );
   }
-
-
-
-  @override
-  void initState() {
-    DatabaseMethods().getUserChats(email).then((snapshots) {
-      setState(() {
-        chatRooms = snapshots;
-      });
-    });
-    super.initState();
-
-    Future.delayed(Duration.zero, () {
-      getUserInfoGetChats();
-    });
-  }
-
-  getUserInfoGetChats() {
-    fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
-    email = currentUser.email.toString();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

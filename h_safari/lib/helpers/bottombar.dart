@@ -4,16 +4,21 @@ import '../views/main/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
 import '../views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class BottomBar extends StatefulWidget {
+
   @override
   _BottomBarState createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
+
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];
+  List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];
+
 
   void _onTap(int index) {
     setState(() {
@@ -31,6 +36,9 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
