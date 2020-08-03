@@ -68,7 +68,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     print("initState");
     super.initState();
-    Firestore.instance.collection("users").document(userEmail).getData();
+//    Firestore.instance.collection("users").document(userEmail).getData();
 //        .then((doc) {
 //      userDoc = doc;
 //    });
