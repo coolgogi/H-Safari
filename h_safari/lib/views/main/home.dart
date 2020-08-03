@@ -85,15 +85,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       appBar: MyAppBar(),
       body: TabBarView(
           children: <Widget>[
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                    allPostList(userEmail),//전체글
-                  ],//widget
-                ),//column
+            NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+//                  SliverAppBar(
+//
+//                  )
+                ];
+              },
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                      allPostList(userEmail),//전체글
+                    ],//widget
+                  ),//column
+                ),
               ),//padding
             ),//SingleChildScrollView
             SingleChildScrollView(
