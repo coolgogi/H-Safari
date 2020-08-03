@@ -99,6 +99,7 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildBar(BuildContext context) {
+
     return new AppBar(
         leading: IconButton(
           icon: Icon(
@@ -131,7 +132,6 @@ class _SearchState extends State<Search> {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.search, color: Colors.white),
                         onPressed: () {
-
                         },
                       )
                   ),
