@@ -17,6 +17,16 @@ class DatabaseMethods {
     });
   }
 
+  getUserData(String email) async {
+    return Firestore.instance
+        .collection("users")
+        .where("user", isEqualTo: email)
+        .getDocuments()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   searchByName(String searchField) {
     return Firestore.instance
         .collection("users")
@@ -90,4 +100,5 @@ class DatabaseMethods {
       'unread': false,
     });
   }
+
 }

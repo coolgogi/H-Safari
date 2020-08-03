@@ -6,11 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 import 'package:h_safari/widget/widget.dart';
-
+import '../chat/database.dart';
 
 class Home extends StatefulWidget {
 
-  
   @override
   _HomeState createState() => _HomeState();
 }
@@ -18,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   FirebaseProvider fp;
-
+  DatabaseMethods databaseMethods = new DatabaseMethods();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // 컬렉션명
   final String colName = "post";
@@ -33,12 +32,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
-
+  final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
+  final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
   TextEditingController _undNameCon = TextEditingController();
   TextEditingController _undDescCon = TextEditingController();
-
+  QuerySnapshot userInfoSnapshot;
+  DocumentSnapshot userDoc;
+  String userEmail;
   int _counter = 0;
 
   @override
@@ -51,62 +53,63 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+//
+  getUserData() {
+    print("initState");
+    Firestore.instance.collection("users").document(userEmail).get().then((doc){
+      setCategoryData(doc);
+    });
+  }
+
+  setCategoryData(DocumentSnapshot doc){
+      for(int i = 0 ; i < 8; i++){
+        categoryBool[i] = doc[categoryString[i]];
+        print(categoryBool[i]);
+      };
+  }
+
+  @override
   Widget build(BuildContext context) {
+//    getUserData();
+
     fp = Provider.of<FirebaseProvider>(context);
-    String userEmail = fp.getUser().email.toString();
+    userEmail = fp.getUser().email.toString();
 
     return Scaffold(
-
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: MyAppBar(),
-      body: Container(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
-                .collection("users")
-                .where('user', arrayContains: userEmail)
-                .snapshots(),
-            builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
-              if(snapshot.hasError) return Text("Error : ${snapshot.error}");
-              switch(snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Text("Loading...");
-                default:
-                  return TabBarView(
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: <Widget>[
-                              //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                              allPostList(userEmail),//전체글
-                            ],//widget
-                          ),//column
-                        ),//padding
-                      ),//SingleChildScrollView
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: <Widget>[
-                              myPostList(userEmail),//마이 카테고리
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );//TabBarView
-              }
-            }
-
-          )
-      )
-
-
-    );
-  }
+      body: TabBarView(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                    allPostList(userEmail),//전체글
+                  ],//widget
+                ),//column
+              ),//padding
+            ),//SingleChildScrollView
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    myPostList(userEmail, userDoc),//마이 카테고리
+                  ],
+                ),
+              ),
+            ),
+          ],
+        )//TabBarView
+    );//Scaffold
+  }//build
   // 문서 조회 (Read)
   void showDocument(String documentID) {
     Firestore.instance
@@ -309,13 +312,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }//postList
 
-  Widget myPostList(String email){
-    int testInt = 0;
-    DocumentSnapshot userDoc;
-    Firestore.instance.collection("users").document(email).get().then((doc){
-      userDoc = doc;
-      print("firebase");
-    });
+  Widget myPostList(String email, DocumentSnapshot userDoc){
+    int tempInt = 0;
+
     return Container(
       height: 500,
       child: StreamBuilder<QuerySnapshot>(
@@ -333,15 +332,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             default:
               return ListView(
                       children: snapshot.data.documents.map((DocumentSnapshot document) {
-
+                        print("userDoc : $userDoc");
                         Timestamp ts = document[fnDatetime];
                         String dt = timestampToStrDateTime(ts);
                         String _profileImageURL = document[fnImageUrl];
                         String postCategory = document[fnCategory];
-//                        print(userDoc["user"]);
-                        print(document[fnCategory]);
-//                        if(!userDoc[document[fnCategory]]){
-                        if(false){
+                        print("line 365 : $postCategory");
+
+                        for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
+
+
+                        if(document[fnCategory] == "의류") tempInt = 0;
+                        else if(document[fnCategory] == "서적") tempInt = 1;
+                        else if(document[fnCategory] == "음식") tempInt = 2;
+                        else if(document[fnCategory] == "생필품") tempInt = 3;
+                        else if(document[fnCategory] == "가구전자제품") tempInt = 4;
+                        else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
+                        else if(document[fnCategory] == "양도") tempInt = 6;
+                        else if(document[fnCategory] == "기타") tempInt = 7;
+//final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
+//final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
+
+                        if(!categoryBool[tempInt]){
                           return Card();
                         }else{
                           return Card(
@@ -441,35 +453,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 //    return rt;
 //  }
 //
-//  bool _myCategory(String category, DocumentSnapshot userDoc){
+//  bool _myCategory(String category, String email){
 //    print("_myCategory");
+//
+//
+//    Firestore.instance.collection("users").document(email).get().then(doc)({
+//
+//    });
+//
 //
 //    bool rt;
 //    rt = userDoc[category];
 //    return rt;
 //  }
-
-
-}
-
-class cardTile{
-
-  DocumentSnapshot postDoc;
-  DocumentSnapshot userDoc;
-
-  cardTile(DocumentSnapshot postDoc, DocumentSnapshot userDoc){
-    this.postDoc = postDoc;
-    this.userDoc = userDoc;
-  }
-
-
-  Widget build(BuildContext context){
-    return Card(
-
-
-
-    );
-  }
 
 
 }

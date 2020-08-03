@@ -8,6 +8,7 @@ import '../views/post/post.dart';
 
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 AuthPageState pageState;
@@ -28,7 +29,10 @@ class AuthPageState extends State<AuthPage> {
     fp = Provider.of<FirebaseProvider>(context);
     
     logger.d("user: ${fp.getUser()}");
+
+
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
+
       return BottomBar();
     } else {
       return SignIn();
