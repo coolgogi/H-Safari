@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,9 +13,7 @@ class _askingState extends State<asking> {
   List<String> attachments = [];
   bool isHTML = false;
 
-  final _recipientController = TextEditingController(
-    text: null,
-  );
+
 
   final _subjectController = TextEditingController(
     text: null,
@@ -30,9 +27,9 @@ class _askingState extends State<asking> {
 
   Future<void> send() async {
     final Email email = Email(
+      recipients: ['handongsafari@gmail.com'],
       body: _bodyController.text,
       subject: _subjectController.text,
-      recipients: ['handongsafari@gmail.com'],
       attachmentPaths: attachments,
       isHTML: isHTML,
     );
