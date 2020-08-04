@@ -242,8 +242,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     child:
                                                                         IconButton(
                                                                       icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
+                                                                          Icons.highlight_off),
                                                                       disabledColor:
                                                                           Colors
                                                                               .black,
@@ -537,18 +536,6 @@ class _MyWriteState extends State<MyWrite> {
                                                 color: Colors.white)),
                                       ),
                                     ),
-
-                                    RaisedButton(
-                                      //내꺼 게시글로 이동하기 위한 임시!! 버튼
-                                      child: Text('내꺼 게시글'),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MyPost()));
-                                      },
-                                    )
                                   ]))))),
             )),
       ),

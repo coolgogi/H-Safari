@@ -194,7 +194,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost() : Post(doc)));
+                userEmail == doc['email'] ? MyPost(doc) : Post(doc)));
   }
 
   // 문서 갱신 (Update)
