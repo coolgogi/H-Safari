@@ -242,8 +242,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     child:
                                                                         IconButton(
                                                                       icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
+                                                                          Icons.highlight_off),
                                                                       disabledColor:
                                                                           Colors
                                                                               .black,
