@@ -2,19 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/post/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
-import '../../models/firebase_provider.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 import 'package:h_safari/widget/widget.dart';
-import '../chat/database.dart';
+import 'package:h_safari/views/chat/database.dart';
 
 class Home extends StatefulWidget {
   String email;
-  DocumentSnapshot userDoc;
-
-  Home(String tp) {
+  
+  Home(String tp){
     email = tp;
   }
 
@@ -96,30 +95,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   getUserData(String passedEmail) {
-    print("getUserData");
     Firestore.instance
         .collection("users")
         .document(passedEmail)
         .get()
         .then((doc) {
-//      print("setCategory");
-//      for(int i = 0 ; i < 8; i++){
-//        categoryBool[i] = doc[categoryString[i]];
-//      };
       setCategoryData(doc);
     });
-    print("getUserData2");
   }
 
   setCategoryData(DocumentSnapshot doc) {
-    print("setCategory");
     for (int i = 0; i < 8; i++) {
       categoryBool[i] = doc[categoryString[i]];
     }
@@ -132,7 +118,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
 
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomPadding: false,
         //appBar: MyAppBar(),
@@ -141,17 +128,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             return <Widget>[
               SliverAppBar(
                 floating: true,
+                pinned: true,
+                snap: true,
                 backgroundColor: Colors.white,
                 leading: AppBarIcon(),
                 title: AppBarTitle(),
-                actions: <Widget>[
-                  AppBarIcon2(),
-                ],
+                actions: <Widget>[AppBarIcon2(),],
                 bottom: TabBar(
                   unselectedLabelColor: Colors.black45,
                   labelColor: Colors.green,
-                  labelStyle: TextStyle(
-                      fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
                   indicatorColor: Colors.green,
                   tabs: <Widget>[
                     Tab(text: '전체'),
@@ -161,6 +147,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               )
             ];
           },
+
           body: TabBarView(
             children: <Widget>[
               Padding(
@@ -183,8 +170,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
             ],
           ),
-        ));
-  } //build
+        )
+      ),
+    );
+  }//build
 
   // 문서 조회 (Read)
   void showDocument(String documentID) {
@@ -396,80 +385,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   Widget myPostList(String email, DocumentSnapshot userDoc) {
     int tempInt = 0;
-//<<<<<<< HEAD
-//    DocumentSnapshot doc = userDoc;
-//    return Container(
-//      height: 500,
-//      child: StreamBuilder<QuerySnapshot>(
-//        stream: Firestore.instance
-//            .collection(colName)
-//            .orderBy(fnDatetime, descending: true)
-//            .snapshots(),
-//        builder: (BuildContext context,
-//            AsyncSnapshot<QuerySnapshot> snapshot) {
-//          if (snapshot.hasError)
-//            return Text("Error: ${snapshot.error}");
-//          switch (snapshot.connectionState) {
-//            case ConnectionState.waiting:
-//              return Text("Loading...");
-//            default:
-//              return ListView(
-//                      children: snapshot.data.documents.map((DocumentSnapshot document) {
-//                        print("doc : $userDoc");
-//                        Timestamp ts = document[fnDatetime];
-//                        String dt = timestampToStrDateTime(ts);
-//                        String _profileImageURL = document[fnImageUrl];
-//                        String postCategory = document[fnCategory];
-//                        print("line 365 : $postCategory");
-//
-//                        for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
-//
-//
-//                        if(document[fnCategory] == "의류") tempInt = 0;
-//                        else if(document[fnCategory] == "서적") tempInt = 1;
-//                        else if(document[fnCategory] == "음식") tempInt = 2;
-//                        else if(document[fnCategory] == "생필품") tempInt = 3;
-//                        else if(document[fnCategory] == "가구전자제품") tempInt = 4;
-//                        else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
-//                        else if(document[fnCategory] == "양도") tempInt = 6;
-//                        else if(document[fnCategory] == "기타") tempInt = 7;
-////final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
-////final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
-//
-//                        if(!categoryBool[tempInt]){
-//                          return Container();
-//                        }else{
-//                          return Card(
-//                            elevation: 2,
-//                            child: InkWell(
-//                              // Read Document
-//                              onTap: () {
-//                                showDocument(document.documentID);
-//                              },
-//                              // Update or Delete Document
-//                              onLongPress: () {
-//                                showUpdateOrDeleteDocDialog(document, email);
-//                              },
-//                              child: Container(
-//                                padding: const EdgeInsets.all(8),
-//                                child: Row(
-//                                  crossAxisAlignment: CrossAxisAlignment.start,
-//                                  children: <Widget>[
-//                                    // 사진
-//                                    Container(
-//                                      width: MediaQuery
-//                                          .of(context)
-//                                          .size
-//                                          .width / 10 * 3,
-//                                      height: MediaQuery
-//                                          .of(context)
-//                                          .size
-//                                          .width / 10 * 3,
-//                                      color: Colors.green[200],
-//                                      child: Image.network(
-//                                        _profileImageURL, fit: BoxFit.fill,),
-//=======
-
     return Expanded(
       child: Container(
         height: 500,
@@ -486,8 +401,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+
+                  children: snapshot.data.documents.map((DocumentSnapshot document) {
                     print("userDoc : $userDoc");
                     Timestamp ts = document[fnDatetime];
                     String dt = timestampToStrDateTime(ts);
@@ -495,26 +410,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String postCategory = document[fnCategory];
                     print("line 365 : $postCategory");
 
-                    for (int i = 0; i < 8; i++)
-                      print("line 367 : $categoryBool");
+                    for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
 
-                    if (document[fnCategory] == "의류")
-                      tempInt = 0;
-                    else if (document[fnCategory] == "서적")
-                      tempInt = 1;
-                    else if (document[fnCategory] == "음식")
-                      tempInt = 2;
-                    else if (document[fnCategory] == "생필품")
-                      tempInt = 3;
-                    else if (document[fnCategory] == "가구전자제품")
-                      tempInt = 4;
-                    else if (document[fnCategory] == "뷰티잡화")
-                      tempInt = 5;
-                    else if (document[fnCategory] == "양도")
-                      tempInt = 6;
-                    else if (document[fnCategory] == "기타") tempInt = 7;
-//final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
-//final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
+
+                    if(document[fnCategory] == "의류") tempInt = 0;
+                    else if(document[fnCategory] == "서적") tempInt = 1;
+                    else if(document[fnCategory] == "음식") tempInt = 2;
+                    else if(document[fnCategory] == "생필품") tempInt = 3;
+                    else if(document[fnCategory] == "가구전자제품") tempInt = 4;
+                    else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
+                    else if(document[fnCategory] == "양도") tempInt = 6;
+                    else if(document[fnCategory] == "기타") tempInt = 7;
 
                     if (!categoryBool[tempInt]) {
                       return Container();
@@ -548,7 +454,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                     _profileImageURL,
                                     fit: BoxFit.fill,
                                   ),
-//>>>>>>> c754d29de620029a25b807d2e0bfa8be0e524766
                                 ),
                                 SizedBox(
                                   width: 8,
@@ -603,31 +508,4 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   } //postList
-
-//  bool myCategory(String email, DocumentSnapshot postDoc) {
-//    String currentCategory = postDoc['category'];
-//
-//    print("myCategory");
-//
-//    DocumentSnapshot userDoc;
-//    bool rt;
-//
-//
-//    return rt;
-//  }
-//
-//  bool _myCategory(String category, String email){
-//    print("_myCategory");
-//
-//
-//    Firestore.instance.collection("users").document(email).get().then(doc)({
-//
-//    });
-//
-//
-//    bool rt;
-//    rt = userDoc[category];
-//    return rt;
-//  }
-
 }

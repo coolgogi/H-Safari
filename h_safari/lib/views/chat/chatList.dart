@@ -33,29 +33,6 @@ class _ChatListState extends State<ChatList> {
   FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-//  @override
-//  void initState() {
-//
-//    databaseMethods.getUserChats(passedEmail).then((snapshots){
-//      setState(() {
-//        chatRooms = snapshots;
-//        print(
-//            "we got the data + ${chatRooms.toString()} this is name  $passedEmail");
-//      });
-//    });
-//
-//
-//    Future.delayed(Duration.zero, () {
-//      getUserInfoGetChats();
-//    });
-//    super.initState();
-//    print('in chatlist init $passedEmail');
-//  }
-//
-//  getUserInfoGetChats() {
-//    fp = Provider.of<FirebaseProvider>(context);
-//    passedEmail = fp.getUser().email.toString();
-//  }
   @override
   void initState() {
     databaseMethods.getUserChats(email).then((snapshots){
@@ -132,7 +109,7 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(email),
+      appBar: appBarMain("Chatting Rooms"),
       body: Container(
         child: getChatList(),
       ),
