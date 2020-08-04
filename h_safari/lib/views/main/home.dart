@@ -12,13 +12,8 @@ import 'package:h_safari/views/chat/database.dart';
 
 class Home extends StatefulWidget {
   String email;
-<<<<<<< HEAD
+  
   Home(String tp){
-=======
-  DocumentSnapshot userDoc;
-
-  Home(String tp) {
->>>>>>> faf78a58ff39b91bf97404d0ae1b4712b77f6ad0
     email = tp;
   }
 
