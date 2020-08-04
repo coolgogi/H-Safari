@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,9 +13,7 @@ class _askingState extends State<asking> {
   List<String> attachments = [];
   bool isHTML = false;
 
-  final _recipientController = TextEditingController(
-    text: null,
-  );
+
 
   final _subjectController = TextEditingController(
     text: null,
@@ -30,9 +27,9 @@ class _askingState extends State<asking> {
 
   Future<void> send() async {
     final Email email = Email(
+      recipients: ['handongsafari@gmail.com'],
       body: _bodyController.text,
       subject: _subjectController.text,
-      recipients: ['handongsafari@gmail.com'],
       attachmentPaths: attachments,
       isHTML: isHTML,
     );
@@ -103,6 +100,7 @@ class _askingState extends State<asking> {
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
                       controller: _subjectController,
+                      maxLines: 1,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: '제목',
@@ -114,6 +112,7 @@ class _askingState extends State<asking> {
                     child: TextField(
                       controller: _bodyController,
                       maxLines: 10,
+                      maxLength: 1000,
                       decoration: InputDecoration(
                           labelText: '문의내용', border: OutlineInputBorder()),
                     ),
