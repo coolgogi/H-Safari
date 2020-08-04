@@ -12,10 +12,13 @@ import 'package:h_safari/widget/widget.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
+  String documentID;
 
-  Post(DocumentSnapshot doc) {
-     tp = doc;
+  Post(DocumentSnapshot doc, String documentID) {
+    tp = doc;
+    this.documentID = documentID;
   }
+
   @override
   _PostState createState() => _PostState(tp);
 }
@@ -29,18 +32,19 @@ class _PostState extends State<Post> {
   String fnDate;
   String fnPrice;
   String fnImage;
-  List<String> fnImageList ;
+  List<String> fnImageList;
   String fnUid;
   String fnCategory;
-  String fnHow ;
+  String fnHow;
+
   String fnEmail;
 
 
-  _PostState(DocumentSnapshot doc){
+  _PostState(DocumentSnapshot doc) {
     fnName = doc['name'];
     fnDes = doc['description'];
-    var date = doc['datetime'].toDate();//timestamp to datetime
-    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);//datetime format
+    var date = doc['datetime'].toDate(); //timestamp to datetime
+    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date); //datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
 //    fnImageList = doc['imageList'];
@@ -53,8 +57,9 @@ class _PostState extends State<Post> {
   FirebaseProvider fp;
   bool favorite = false;
 
-  bool checkDelivery = false ;
-  bool checkDirect = false ;
+  bool checkDelivery = false;
+
+  bool checkDirect = false;
 
   int comment = 0; //댓글 갯수 표시용 변수
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
@@ -63,7 +68,7 @@ class _PostState extends State<Post> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
-    
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -80,7 +85,10 @@ class _PostState extends State<Post> {
         //appBar(context, '$fnName'),
         bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(bottom: MediaQuery
+                .of(context)
+                .viewInsets
+                .bottom),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -91,11 +99,12 @@ class _PostState extends State<Post> {
                       height: 30,
                       child: TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Comment',
-                            contentPadding: EdgeInsets.all(7.0),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                          hintText: 'Comment',
+                          contentPadding: EdgeInsets.all(7.0),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green)),
                         ),
                       ),
                     ),
@@ -110,7 +119,8 @@ class _PostState extends State<Post> {
                     height: 30,
                     child: FlatButton(
                       shape: OutlineInputBorder(),
-                      child: Text('댓글 등록', style: TextStyle(color: Colors.green),),
+                      child: Text('댓글 등록', style: TextStyle(color: Colors
+                          .green),),
                       onPressed: () {},
                     ),
                   ),
@@ -123,15 +133,15 @@ class _PostState extends State<Post> {
         body: NestedScrollView( //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-                SliverAppBar(
-                  iconTheme: IconThemeData(color: Colors.green),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  centerTitle: true,
-                  title: Text('$fnName', style: TextStyle(color: Colors.black),),
-                  floating: true,
-                ),
-              ];
+              SliverAppBar(
+                iconTheme: IconThemeData(color: Colors.green),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                centerTitle: true,
+                title: Text('$fnName', style: TextStyle(color: Colors.black),),
+                floating: true,
+              ),
+            ];
           },
           body: SingleChildScrollView(
             child: Column(
@@ -157,12 +167,14 @@ class _PostState extends State<Post> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('가격 : $fnPrice원', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                            Text('가격 : $fnPrice원', style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),),
                             ButtonTheme(
                               height: 30,
                               child: FlatButton(
                                 shape: OutlineInputBorder(),
-                                child: Text('구매신청', style: TextStyle(color: Colors.green),),
+                                child: Text('구매신청',
+                                  style: TextStyle(color: Colors.green),),
                                 onPressed: () {
                                   sendAlarm(context);
                                 },
@@ -173,7 +185,8 @@ class _PostState extends State<Post> {
                         Divider(color: Colors.black,),
                         SizedBox(height: 10,),
 
-                        Text('$fnName', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                        Text('$fnName', style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),),
                         SizedBox(height: 10,),
                         Text('$fnDes', style: TextStyle(fontSize: 15),),
                         SizedBox(height: 10,),
@@ -190,17 +203,22 @@ class _PostState extends State<Post> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('$fnCategory', style: TextStyle(fontSize: 15, color: Colors.black54),),
+                            Text('$fnCategory', style: TextStyle(
+                                fontSize: 15, color: Colors.black54),),
 
                             Row( //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
                               children: [
                                 Text('택배', style: TextStyle(fontSize: 15),),
-                                Icon(checkDelivery ? Icons.check_box : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,),
+                                Icon(checkDelivery ? Icons.check_box : Icons
+                                    .check_box_outline_blank,
+                                  color: checkDelivery ? Colors.green : Colors
+                                      .grey,),
                                 Text('      '),
                                 Text('직접거래', style: TextStyle(fontSize: 15),),
-                                Icon(checkDirect ? Icons.check_box : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,),
+                                Icon(checkDirect ? Icons.check_box : Icons
+                                    .check_box_outline_blank,
+                                  color: checkDelivery ? Colors.green : Colors
+                                      .grey,),
                               ],
                             ),
                           ],
@@ -209,7 +227,8 @@ class _PostState extends State<Post> {
                         Divider(color: Colors.black,),
                         SizedBox(height: 10,),
 
-                        Text('댓굴 $comment', style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text('댓굴 $comment',
+                          style: TextStyle(fontWeight: FontWeight.bold),),
 //              new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now())
 
                         Row( //임시 버튼
@@ -242,8 +261,8 @@ class _PostState extends State<Post> {
       ),
     );
   }
-  void sendMessage(String email) async {
 
+  void sendMessage(String email) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
 
@@ -253,33 +272,34 @@ class _PostState extends State<Post> {
 
     Map<String, dynamic> chatRoom = {
       "users": users,
-      "chatRoomId" : chatRoomId,
+      "chatRoomId": chatRoomId,
     };
 
     databaseMethods.addChatRoom(chatRoom, chatRoomId);
 
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ChatRoom(
-          chatRoomId: chatRoomId,
-        )
+        builder: (context) =>
+            ChatRoom(
+              chatRoomId: chatRoomId,
+            )
     ));
   }
 
-  void getHow(){
+  void getHow() {
     int tp = int.parse(fnHow);
-    if(tp == 3){
-      checkDelivery = true ;
-      checkDirect = true ;
-    }else if(tp == 2){
-      checkDelivery = false ;
-      checkDirect = true ;
-    }else if(tp == 1){
-      checkDelivery = true ;
-      checkDirect = false ;
+    if (tp == 3) {
+      checkDelivery = true;
+      checkDirect = true;
+    } else if (tp == 2) {
+      checkDelivery = false;
+      checkDirect = true;
+    } else if (tp == 1) {
+      checkDelivery = true;
+      checkDirect = false;
     }
   }
 
-  void sendAlarm(BuildContext context)async {
+  void sendAlarm(BuildContext context) async {
     String result = await showDialog(
         context: context,
         barrierDismissible: false,
@@ -298,51 +318,55 @@ class _PostState extends State<Post> {
                 child: Text('확인', style: TextStyle(color: Colors.green),),
                 onPressed: () {
                   Map<String, dynamic> alertToUser = {
-                    "postName" : fnName,
-                    "type" : "구매신청",
-                    "sendBy" : "",
-                    "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+                    "postName": fnName,
+                    "type": "구매신청",
+                    "sendBy": "",
+                    "time": new DateFormat('yyyy-MM-dd').add_Hms().format(
+                        DateTime.now()),
+                    "postID": widget.documentID,
                   };
                   sendAlert("구매신청", alertToUser);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
-              )],
+              )
+            ],
           );
         }
     );
   }
 
-  void sendAlert(String type, alertToUser){
-      Firestore.instance
-          .collection("users")
-          .document(fnEmail)
-          .collection("alert")
-          .add(alertToUser)
-          .catchError((e){
-            print(e.toString());
-      });
+  void sendAlert(String type, alertToUser) {
+    Firestore.instance
+        .collection("users")
+        .document(fnEmail)
+        .collection("alert")
+        .add(alertToUser)
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 }
 
 void ShowListnum(BuildContext context) async {
   String result = await showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('현재 대기번호', style: TextStyle(fontWeight: FontWeight.bold),),
-        content: Text('현재 나의 대기번호는 1번째 입니다.'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('확인'),
-            onPressed: (){
-              Navigator.pop(context, '확인');
-            },
-          )
-        ],
-      );
-    }
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            '현재 대기번호', style: TextStyle(fontWeight: FontWeight.bold),),
+          content: Text('현재 나의 대기번호는 1번째 입니다.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.pop(context, '확인');
+              },
+            )
+          ],
+        );
+      }
   );
 }
 
@@ -357,15 +381,15 @@ void Buy(BuildContext context) async {
           actions: <Widget>[
             FlatButton(
               child: Text('확인', style: TextStyle(color: Colors.green),),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context, '확인');
-                },
-            )],
+              },
+            )
+          ],
         );
       }
   );
 }
-
 
 
 getChatRoomId(String a, String b) {
