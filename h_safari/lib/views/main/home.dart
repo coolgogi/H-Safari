@@ -78,7 +78,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    print("initState");
     super.initState();
     Firestore.instance
         .collection("users")
@@ -194,8 +193,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost() : Post(doc)));
+//                userEmail == doc['email'] ? MyPost() : Post(doc)));
+                userEmail == doc['email'] ? Post(doc) : Post(doc)));
   }
+
 
   // 문서 갱신 (Update)
   void updateDoc(String docID, String name, String description) {
@@ -403,15 +404,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return ListView(
 
                   children: snapshot.data.documents.map((DocumentSnapshot document) {
-                    print("userDoc : $userDoc");
                     Timestamp ts = document[fnDatetime];
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
-                    print("line 365 : $postCategory");
-
-                    for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
-
 
                     if(document[fnCategory] == "의류") tempInt = 0;
                     else if(document[fnCategory] == "서적") tempInt = 1;

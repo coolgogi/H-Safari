@@ -40,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
+  String _profileImageURL = ""; // 대표사진
 
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
 
@@ -63,6 +63,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnDatetime = "datetime";
   final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
+  final String fnImageList = "imageList";
   final String fnCategory = "category";
   final String fnHow = 'how';
   final String fnUid = "uid";
@@ -75,6 +76,7 @@ class _MyWriteState extends State<MyWrite> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -134,9 +136,8 @@ class _MyWriteState extends State<MyWrite> {
                                               builder: (BuildContext context) {
                                                 // return object of type Dialog
                                                 return AlertDialog(
-                                                  title: new Text("사진 업로드 방식"),
-                                                  content: new Text(
-                                                      "사진 업로드 방식을 선택하세요."),
+                                                  title: new Text("사진 업로드"),
+                                                  content: new Text("방식을 선택하세요."),
                                                   actions: <Widget>[
                                                     // usually buttons at the bottom of the dialog
                                                     Row(
@@ -145,36 +146,23 @@ class _MyWriteState extends State<MyWrite> {
                                                                 .center,
                                                         children: <Widget>[
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("사진첩"),
+                                                            child: new Text("사진첩"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .gallery);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("카메라"),
+                                                            child: new Text("카메라"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .camera);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.camera);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "Close"),
+                                                            child: new Text("Close"),
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                         ]),
@@ -202,55 +190,37 @@ class _MyWriteState extends State<MyWrite> {
                                                     height: 130,
                                                     width: (picLength != 0)
                                                         ? (picWidth + 130) *
-                                                            pictures.length
-                                                        : picWidth,
+                                                            pictures.length : picWidth,
                                                     child: (picLength > 0)
                                                         ? GridView.count(
                                                             shrinkWrap: true,
-                                                            crossAxisCount:
-                                                                pictures.length,
-                                                            crossAxisSpacing:
-                                                                10,
-                                                            physics:
-                                                                ScrollPhysics(),
+                                                            crossAxisCount: pictures.length,
+                                                            crossAxisSpacing: 10,
+                                                            physics: ScrollPhysics(),
                                                             children:
                                                                 List.generate(
-                                                                    pictures
-                                                                        .length,
+                                                                    pictures.length,
                                                                     (index) {
                                                               return Stack(
-                                                                children: <
-                                                                    Widget>[
+                                                                children: <Widget>[
                                                                   Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                            image:
-                                                                                DecorationImage(
-                                                                      image: (_image !=
-                                                                              null)
-                                                                          ? FileImage(pictures[
-                                                                              index])
-                                                                          : NetworkImage(
-                                                                              tpUrl),
+                                                                    decoration: BoxDecoration(
+                                                                            image: DecorationImage(
+                                                                      image: (_image != null)
+                                                                          ? FileImage(pictures[index]) : NetworkImage(tpUrl),
                                                                       //fit: BoxFit.cover
-                                                                    )),
+                                                                      )
+                                                                    ),
                                                                   ),
                                                                   Align(
                                                                     alignment:
-                                                                        Alignment
-                                                                            .topRight,
+                                                                        Alignment.topRight,
                                                                     child:
                                                                         IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
-                                                                      disabledColor:
-                                                                          Colors
-                                                                              .black,
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
+                                                                      icon: Icon(Icons.highlight_off),
+                                                                      disabledColor: Colors.black,
+                                                                      onPressed: () {
+                                                                        setState(() {
                                                                           pictures
                                                                               .removeAt(index);
                                                                         });
@@ -406,10 +376,8 @@ class _MyWriteState extends State<MyWrite> {
                                                                       _value);
                                                                   setState(() {
                                                                     //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category =
-                                                                        _value;
-                                                                    previous =
-                                                                        _value;
+                                                                    _category = _value;
+                                                                    previous = _value;
                                                                   });
                                                                 }
                                                               },
@@ -510,25 +478,34 @@ class _MyWriteState extends State<MyWrite> {
                                               color: Colors.green,
                                             )),
                                         onPressed: () {
+                                          print("in register");
+                                          print("profileImageUrl : \n$_profileImageURL");
+                                          print("picURL : \n$picURL");
                                           //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
+                                            print("in register if===============");
+                                            print("profileImageUrl : \n$_profileImageURL");
+                                            print("picURL : \n$picURL");
                                             createDoc(
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
-                                                _profileImageURL);
+                                                _profileImageURL,
+                                                picURL);
                                             _newNameCon.clear();
                                             _newDescCon.clear();
                                             _newPriceCon.clear();
-                                            _profileImageURL = '';
+                                            _profileImageURL = "";
                                             _newCategoryCon.clear();
                                             _newHowCon.clear();
                                             pictures.clear();
                                             picURL.clear();
 //                                          myapp._currentIndex = 1;
 //                                          showDocument(document.documentID);
+                                          }else{
+                                            //경고 메세지 부탁
                                           }
                                         },
                                         child: Text('게시글 등록',
@@ -556,19 +533,25 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void createDoc(
-      String name, String description, String price, String imageURL) async {
+      String name, String description, String price, String imageURL, List<String> picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference = Firestore.instance.collection(colName).document();
+    print("==============\n==============\n==============\n"
+        "picURL : \n$picURL\n"
+        "imageUrl : \n$imageURL\n"
+        "==============\n==============\n==============");
+    List<String> test = ["test1","test2","test3","test4"];
     documentReference.setData({
-      fnName: name,
-      fnDescription: description,
-      fnDatetime: Timestamp.now(),
-      fnPrice: price,
-      fnImageUrl: imageURL,
-      fnCategory: _category,
-      fnHow: checkHow().toString(),
-      fnUid: user.uid.toString(),
-      fnEmail: user.email,
+      fnName : name,
+      fnDescription : description,
+      fnDatetime : Timestamp.now(),
+      fnPrice : price,
+      fnImageUrl : imageURL,
+      fnImageList : test,
+      fnCategory : _category,
+      fnHow : checkHow().toString(),
+      fnUid : user.uid.toString(),
+      fnEmail : user.email,
     });
     showDocument(documentReference.documentID);
   }
@@ -595,14 +578,8 @@ class _MyWriteState extends State<MyWrite> {
       _image = image;
       pictures.add(_image);
       picLength++;
-      picURL.add(_profileImageURL);
     });
 
-    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-//    StorageReference storageReference =
-//    _firebaseStorage.ref().child("profile/${_user.uid}");
-    // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
-    // 그래서 지금 uid + Timestamp를 쓰는 중
     StorageReference storageReference =
         _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
@@ -612,12 +589,15 @@ class _MyWriteState extends State<MyWrite> {
     // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
 
-    // 업로드한 사진의 URL 획득 //필요?
+    // 업로드한 사진의 URL 획득 //필요? -> 필요합니당
     String downloadURL = await storageReference.getDownloadURL();
 
-    // 업로드된 사진의 URL을 페이지에 반영 //필요??
+    // 업로드된 사진의 URL을 페이지에 반영 //필요?? -> 필요합니당
     setState(() {
       _profileImageURL = downloadURL;
+      picURL.add(_profileImageURL);
+      print("profileImageUrl : \n$_profileImageURL");
+      print("picURL : \n$picURL");
     });
   }
 }

@@ -29,11 +29,11 @@ class _PostState extends State<Post> {
   String fnDate;
   String fnPrice;
   String fnImage;
+  List<String> fnImageList ;
   String fnUid;
   String fnCategory;
   String fnHow ;
   String fnEmail;
-
 
 
   _PostState(DocumentSnapshot doc){
@@ -43,6 +43,7 @@ class _PostState extends State<Post> {
     fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date);//datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
+//    fnImageList = doc['imageList'];
     fnUid = doc['uid'];
     fnCategory = doc['category'];
     fnHow = doc['how'];

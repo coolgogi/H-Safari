@@ -47,7 +47,7 @@ class _ChatListState extends State<ChatList> {
     Future.delayed(Duration.zero, () {
       getUserInfoGetChats();
     });
-    print(email);
+    setState(() {});
   }
 
   getUserInfoGetChats() {
