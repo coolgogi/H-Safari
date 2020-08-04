@@ -72,9 +72,9 @@ class _MyWriteState extends State<MyWrite> {
   final String fnEmail = "email";
 
   List<File> pictures = List<File>();
+  List<String> picURL = List<String>();
   int picLength = 0;
   double picWidth = 0;
-  int _index;
 
   @override
   Widget build(BuildContext context) {
@@ -379,16 +379,19 @@ class _MyWriteState extends State<MyWrite> {
                                             borderRadius: BorderRadius.circular(30),
                                             side: BorderSide(color: Colors.green,)
                                         ),
-                                        onPressed: () { //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
+                                        onPressed: () {
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
-                                            createDoc(_newNameCon.text, _newDescCon.text, _newPriceCon.text, _profileImageURL);                                        _newNameCon.clear();
+                                            createDoc(_newNameCon.text, _newDescCon.text, _newPriceCon.text, _profileImageURL);
+                                            _newNameCon.clear();
                                             _newDescCon.clear();
                                             _newPriceCon.clear();
                                             _profileImageURL = '';
                                             _newCategoryCon.clear();
                                             _newHowCon.clear();
+                                            pictures.clear();
+                                            picURL.clear();
 //                                          myapp._currentIndex = 1;
 //                                          showDocument(document.documentID);
                                           }
@@ -455,6 +458,7 @@ class _MyWriteState extends State<MyWrite> {
       _image = image;
       pictures.add(_image);
       picLength++;
+      picURL.add(_profileImageURL);
     });
 
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거

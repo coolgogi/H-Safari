@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:h_safari/views/post/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -117,56 +118,60 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
 
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      //appBar: MyAppBar(),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              floating: true,
-              backgroundColor: Colors.white,
-              leading: AppBarIcon(),
-              title: AppBarTitle(),
-              actions: <Widget>[AppBarIcon2(),],
-              bottom: TabBar(
-                unselectedLabelColor: Colors.black45,
-                labelColor: Colors.green,
-                labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-                indicatorColor: Colors.green,
-                tabs: <Widget>[
-                  Tab(text: '전체'),
-                  Tab(text: 'My관심사'),
-                ],
-              ),
-            )
-          ];
-        },
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        resizeToAvoidBottomPadding: false,
+        //appBar: MyAppBar(),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                snap: true,
+                backgroundColor: Colors.white,
+                leading: AppBarIcon(),
+                title: AppBarTitle(),
+                actions: <Widget>[AppBarIcon2(),],
+                bottom: TabBar(
+                  unselectedLabelColor: Colors.black45,
+                  labelColor: Colors.green,
+                  labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+                  indicatorColor: Colors.green,
+                  tabs: <Widget>[
+                    Tab(text: '전체'),
+                    Tab(text: 'My관심사'),
+                  ],
+                ),
+              )
+            ];
+          },
 
-        body: TabBarView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                  allPostList(userEmail),//전체글
-                ],//widget
-              ),//column
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  myPostList(userEmail, userDoc),//마이 카테고리
-                ],
+          body: TabBarView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                    allPostList(userEmail),//전체글
+                  ],//widget
+                ),//column
               ),
-            ),
-          ],
-        ),
-      )
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    myPostList(userEmail, userDoc),//마이 카테고리
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ),
     );
   }//build
 
