@@ -304,6 +304,7 @@ class _PostState extends State<Post> {
                     "sendBy" : "",
                     "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
                     "postID" : widget.documentID,
+                    "unread" : true,
                   };
                   sendAlert("구매신청", alertToUser);
                   Navigator.pop(context, '확인');
