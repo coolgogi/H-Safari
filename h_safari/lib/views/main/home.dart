@@ -108,7 +108,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       categoryBool[i] = doc[categoryString[i]];
     };
     setState(() {
-//      resBody = json.decode(res.body);
     });
   }
 
