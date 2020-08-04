@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/post/post.dart';
-import '../../models/firebase_provider.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 import 'package:h_safari/widget/widget.dart';
-import '../chat/database.dart';
+import 'package:h_safari/views/chat/database.dart';
 
 
 
@@ -15,7 +15,6 @@ import '../chat/database.dart';
 class Home extends StatefulWidget {
 
   String email;
-  DocumentSnapshot userDoc;
   Home(String tp){
     email = tp;
   }
@@ -82,21 +81,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-
   getUserData(String passedEmail) {
 
     print("getUserData");
     Firestore.instance.collection("users").document(passedEmail).get().then((doc){
-//      print("setCategory");
-//      for(int i = 0 ; i < 8; i++){
-//        categoryBool[i] = doc[categoryString[i]];
-//      };
       setCategoryData(doc);
     });
     print("getUserData2");
@@ -487,8 +475,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                           else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
                           else if(document[fnCategory] == "양도") tempInt = 6;
                           else if(document[fnCategory] == "기타") tempInt = 7;
-//final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
-//final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
 
                           if(!categoryBool[tempInt]){
                             return Container();
@@ -579,32 +565,4 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   }//postList
-
-//  bool myCategory(String email, DocumentSnapshot postDoc) {
-//    String currentCategory = postDoc['category'];
-//
-//    print("myCategory");
-//
-//    DocumentSnapshot userDoc;
-//    bool rt;
-//
-//
-//    return rt;
-//  }
-//
-//  bool _myCategory(String category, String email){
-//    print("_myCategory");
-//
-//
-//    Firestore.instance.collection("users").document(email).get().then(doc)({
-//
-//    });
-//
-//
-//    bool rt;
-//    rt = userDoc[category];
-//    return rt;
-//  }
-
-
 }

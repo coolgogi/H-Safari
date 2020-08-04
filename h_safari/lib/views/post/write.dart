@@ -432,21 +432,6 @@ class _MyWriteState extends State<MyWrite> {
     });
   }
 
-//  void showDocument(String documentID) {
-//    Firestore.instance
-//        .collection(colName)
-//        .document(documentID)
-//        .get()
-//        .then((doc) {
-//      showReadPostPage(doc);
-//    });
-//  }
-
-//  void showReadPostPage(DocumentSnapshot doc) {
-//    _scaffoldKey.currentState..hideCurrentSnackBar();
-//    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
-//  }
-
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
 
