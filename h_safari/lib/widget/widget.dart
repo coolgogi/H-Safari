@@ -9,6 +9,7 @@ import 'package:h_safari/views/main/search.dart';
 
 // alarm.dart import
 import 'package:h_safari/views/main/alarm.dart';
+import 'package:h_safari/views/post/post.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {
@@ -133,8 +134,8 @@ final List<String> _category = [
   '서적',
   '음식',
   '생필품',
-  '가구/전자제품',
-  '뷰티/잡화',
+  '가구전자제품',
+  '뷰티잡화',
   '양도',
   '기타'
 ];
@@ -182,76 +183,6 @@ class categoryBox extends StatelessWidget {
                 ),
               ));
         }),
-      ),
-    );
-  }
-}
-
-// 알림 UI
-class alertTile extends StatelessWidget {
-  final String type;
-  final String sendBy;
-  final String time;
-  final String postName;
-
-  alertTile({this.type, this.sendBy, this.time, this.postName});
-  Color color = Colors.green[300]; // 기본 배경색
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
-        child: FlatButton(
-            color: color, // 기본 배경색 : color
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Icon(
-                  Icons.person, // 아이콘 종류
-                  color: Colors.white, // 아이콘 색
-                ),// 아이콘
-                SizedBox(
-                  width: 10,
-                ),// 아이콘과 글자들 사이의 박스 삽입
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-                  children: <Widget>[
-                    Text(
-                      '$postName', // 게시물 제목
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '$type', // 알람 내용
-                          style: TextStyle(fontSize: 10, color: Colors.black45), // 알림 내용 스타일 지정
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),// 아이콘과 글자들 사이의 박스 삽입
-
-                        Text(
-                          '$time', // 시간
-                          style: TextStyle(fontSize: 10, color: Colors.black45), // 시간 스타일 지정
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-
-              ],
-            ),
-            onPressed: () { // 클릭 시 변화림
-//                Navigator.push(context, MaterialPageRoute(builder: (context) =>
-//                  ())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
-//                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
-
-            }
-        ),
       ),
     );
   }
