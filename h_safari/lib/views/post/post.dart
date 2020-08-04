@@ -12,9 +12,11 @@ import 'package:h_safari/widget/widget.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
+  String documentID;
 
-  Post(DocumentSnapshot doc) {
+  Post(DocumentSnapshot doc, String documentID) {
      tp = doc;
+     this.documentID = documentID;
   }
   @override
   _PostState createState() => _PostState(tp);
@@ -301,6 +303,7 @@ class _PostState extends State<Post> {
                     "type" : "구매신청",
                     "sendBy" : "",
                     "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+                    "postID" : widget.documentID,
                   };
                   sendAlert("구매신청", alertToUser);
                   Navigator.pop(context, '확인');

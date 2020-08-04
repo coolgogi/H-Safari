@@ -571,7 +571,7 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc, null)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {

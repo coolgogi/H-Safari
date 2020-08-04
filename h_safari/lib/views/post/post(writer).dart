@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
+import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/views/post/write.dart';
 import '../main/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,17 +12,20 @@ import 'package:intl/intl.dart';
 import 'package:h_safari/widget/widget.dart';
 
 class MyPost extends StatefulWidget {
-  DocumentSnapshot tp;
 
-  MyPost(DocumentSnapshot doc) {
+  DocumentSnapshot tp;
+  String documentID;
+
+  MyPost(DocumentSnapshot doc, String documentID) {
     tp = doc;
+    this.documentID = documentID;
   }
+
   @override
   _MyPostState createState() => _MyPostState(tp);
 }
 
 class _MyPostState extends State<MyPost> {
-
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   String fnName;
@@ -180,6 +184,13 @@ class _MyPostState extends State<MyPost> {
                         SizedBox(height: 10,),
 
                         Text('$fnName', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                        Text('가격 : $fnPrice원', style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),),
+                        Divider(color: Colors.black,),
+                        SizedBox(height: 10,),
+
+                        Text('$fnName', style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),),
                         SizedBox(height: 10,),
                         Text('$fnDes', style: TextStyle(fontSize: 15),),
                         SizedBox(height: 10,),
@@ -239,7 +250,6 @@ class _MyPostState extends State<MyPost> {
   }
 
   void sendMessage(String email) async {
-
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
 
