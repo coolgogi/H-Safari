@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/models/firebase_provider.dart';
@@ -18,19 +19,20 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   FirebaseProvider fp;
-
+  ScrollController _controller = ScrollController();
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
+  String previousDate;
 
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
-    String previousDate;
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+          controller: _controller,
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
@@ -125,6 +127,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(
+      Duration(milliseconds: 100),
+          () => _controller.jumpTo(_controller.position.maxScrollExtent),
+    );
     return Scaffold(
       appBar: appBarSelect(context, '채팅방'),
       body: Column(
