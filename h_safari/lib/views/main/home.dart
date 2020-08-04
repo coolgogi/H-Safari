@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:h_safari/views/post/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,31 +10,25 @@ import 'dart:io';
 import 'package:h_safari/widget/widget.dart';
 import '../chat/database.dart';
 
-
-
-
 class Home extends StatefulWidget {
-
   String email;
   DocumentSnapshot userDoc;
-  Home(String tp){
+
+  Home(String tp) {
     email = tp;
   }
 
   @override
   _HomeState createState() => _HomeState(email);
-
-
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
-
   String email;
-
 
   FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   // 컬렉션명
   final String colName = "post";
 
@@ -47,8 +42,26 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
-  final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
-  List<bool> categoryBool = [false, false, false, false, false, false, false, false];
+  final List<String> categoryString = [
+    "의류",
+    "서적",
+    "음식",
+    "생필품",
+    "가구전자제품",
+    "뷰티잡화",
+    "양도",
+    "기타"
+  ];
+  List<bool> categoryBool = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
@@ -68,16 +81,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     print("initState");
     super.initState();
-    Firestore.instance.collection("users").document(userEmail).get()
+    Firestore.instance
+        .collection("users")
+        .document(userEmail)
+        .get()
         .then((doc) {
       userDoc = doc;
     });
     Future.delayed(Duration.zero, () {
       getUserData(userEmail);
     });
-
   }
-
 
   @override
   bool get wantKeepAlive => true;
@@ -88,11 +102,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
-
   getUserData(String passedEmail) {
-
     print("getUserData");
-    Firestore.instance.collection("users").document(passedEmail).get().then((doc){
+    Firestore.instance
+        .collection("users")
+        .document(passedEmail)
+        .get()
+        .then((doc) {
 //      print("setCategory");
 //      for(int i = 0 ; i < 8; i++){
 //        categoryBool[i] = doc[categoryString[i]];
@@ -102,73 +118,73 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     print("getUserData2");
   }
 
-  setCategoryData(DocumentSnapshot doc){
+  setCategoryData(DocumentSnapshot doc) {
     print("setCategory");
-    for(int i = 0 ; i < 8; i++){
+    for (int i = 0; i < 8; i++) {
       categoryBool[i] = doc[categoryString[i]];
-    };
-    setState(() {
-    });
+    }
+    ;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
 
     return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      //appBar: MyAppBar(),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              floating: true,
-              backgroundColor: Colors.white,
-              leading: AppBarIcon(),
-              title: AppBarTitle(),
-              actions: <Widget>[AppBarIcon2(),],
-              bottom: TabBar(
-                unselectedLabelColor: Colors.black45,
-                labelColor: Colors.green,
-                labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-                indicatorColor: Colors.green,
-                tabs: <Widget>[
-                  Tab(text: '전체'),
-                  Tab(text: 'My관심사'),
+        key: _scaffoldKey,
+        resizeToAvoidBottomPadding: false,
+        //appBar: MyAppBar(),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                floating: true,
+                backgroundColor: Colors.white,
+                leading: AppBarIcon(),
+                title: AppBarTitle(),
+                actions: <Widget>[
+                  AppBarIcon2(),
                 ],
+                bottom: TabBar(
+                  unselectedLabelColor: Colors.black45,
+                  labelColor: Colors.green,
+                  labelStyle: TextStyle(
+                      fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+                  indicatorColor: Colors.green,
+                  tabs: <Widget>[
+                    Tab(text: '전체'),
+                    Tab(text: 'My관심사'),
+                  ],
+                ),
+              )
+            ];
+          },
+          body: TabBarView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                    allPostList(userEmail),
+                    //전체글
+                  ], //widget
+                ), //column
               ),
-            )
-          ];
-        },
-
-        body: TabBarView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                  allPostList(userEmail),//전체글
-                ],//widget
-              ),//column
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  myPostList(userEmail, userDoc),//마이 카테고리
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    myPostList(userEmail, userDoc), //마이 카테고리
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      )
-    );
-  }//build
+            ],
+          ),
+        ));
+  } //build
 
   // 문서 조회 (Read)
   void showDocument(String documentID) {
@@ -184,7 +200,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                userEmail == doc['email'] ? MyPost() : Post(doc)));
   }
 
   // 문서 갱신 (Update)
@@ -200,11 +221,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     Firestore.instance.collection(colName).document(docID).delete();
   }
 
-
   //dialog
   void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
-
-    if(doc[fnEmail] != currentEmail) return ;
+    if (doc[fnEmail] != currentEmail) return;
 
     _undNameCon.text = doc[fnName];
     _undDescCon.text = doc[fnDescription];
@@ -266,8 +285,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .toString();
   }
 
-  Widget allPostList(String email){
-
+  Widget allPostList(String email) {
     return Expanded(
       child: Container(
         height: 500,
@@ -276,17 +294,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               .collection(colName)
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError)
-              return Text("Error: ${snapshot.error}");
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Text("Loading...");
               default:
                 return ListView(
-                  children: snapshot.data.documents
-                      .map((DocumentSnapshot document) {
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
                     Timestamp ts = document[fnDatetime];
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
@@ -310,26 +327,29 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             children: <Widget>[
                               // 사진
                               Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.green[200],
-                                ),
-                                width: MediaQuery.of(context).size.width/10 *3,
-                                height: MediaQuery.of(context).size.width/10 *3,
-
-                                child:
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(_profileImageURL, fit: BoxFit.fill, ),
-                                )
-
-
-                              ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green[200],
+                                  ),
+                                  width: MediaQuery.of(context).size.width /
+                                      10 *
+                                      3,
+                                  height: MediaQuery.of(context).size.width /
+                                      10 *
+                                      3,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: Image.network(
+                                      _profileImageURL,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )),
                               SizedBox(
                                 width: 8,
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width/20 *11,
+                                width:
+                                    MediaQuery.of(context).size.width / 20 * 11,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -346,26 +366,25 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                     Text(
                                       document[fnPrice] + '원',
                                       style: TextStyle(
-                                          color: Colors.black54,
-                                      fontSize: 12),
+                                          color: Colors.black54, fontSize: 12),
                                     ),
                                     // 게시물 내용 (3줄까지만)
                                     Text(
                                       document[fnDescription],
                                       style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,),
-                                        maxLines: 3,
+                                        color: Colors.black54,
+                                        fontSize: 12,
                                       ),
-                                    ],
-                                  ),
+                                      maxLines: 3,
+                                    ),
+                                  ],
                                 ),
-
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );//Card
+                      ),
+                    ); //Card
                   }).toList(),
                 );
             }
@@ -373,9 +392,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
-  }//postList
+  } //postList
 
-  Widget myPostList(String email, DocumentSnapshot userDoc){
+  Widget myPostList(String email, DocumentSnapshot userDoc) {
     int tempInt = 0;
 //<<<<<<< HEAD
 //    DocumentSnapshot doc = userDoc;
@@ -459,126 +478,131 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               .collection(colName)
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError)
-              return Text("Error: ${snapshot.error}");
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Text("Loading...");
               default:
                 return ListView(
-                        children: snapshot.data.documents.map((DocumentSnapshot document) {
-                          print("userDoc : $userDoc");
-                          Timestamp ts = document[fnDatetime];
-                          String dt = timestampToStrDateTime(ts);
-                          String _profileImageURL = document[fnImageUrl];
-                          String postCategory = document[fnCategory];
-                          print("line 365 : $postCategory");
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    print("userDoc : $userDoc");
+                    Timestamp ts = document[fnDatetime];
+                    String dt = timestampToStrDateTime(ts);
+                    String _profileImageURL = document[fnImageUrl];
+                    String postCategory = document[fnCategory];
+                    print("line 365 : $postCategory");
 
-                          for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
+                    for (int i = 0; i < 8; i++)
+                      print("line 367 : $categoryBool");
 
-
-                          if(document[fnCategory] == "의류") tempInt = 0;
-                          else if(document[fnCategory] == "서적") tempInt = 1;
-                          else if(document[fnCategory] == "음식") tempInt = 2;
-                          else if(document[fnCategory] == "생필품") tempInt = 3;
-                          else if(document[fnCategory] == "가구전자제품") tempInt = 4;
-                          else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
-                          else if(document[fnCategory] == "양도") tempInt = 6;
-                          else if(document[fnCategory] == "기타") tempInt = 7;
+                    if (document[fnCategory] == "의류")
+                      tempInt = 0;
+                    else if (document[fnCategory] == "서적")
+                      tempInt = 1;
+                    else if (document[fnCategory] == "음식")
+                      tempInt = 2;
+                    else if (document[fnCategory] == "생필품")
+                      tempInt = 3;
+                    else if (document[fnCategory] == "가구전자제품")
+                      tempInt = 4;
+                    else if (document[fnCategory] == "뷰티잡화")
+                      tempInt = 5;
+                    else if (document[fnCategory] == "양도")
+                      tempInt = 6;
+                    else if (document[fnCategory] == "기타") tempInt = 7;
 //final List<String> categoryString = ["의류", "서적", "음식", "생필품", "가구전자제품", "뷰티잡화", "양도", "기타"];
 //final List<bool> categoryBool = [false, false, false, false, false, false, false, false];
 
-                          if(!categoryBool[tempInt]){
-                            return Container();
-                          }else{
-                            return Card(
-                              elevation: 2,
-                              child: InkWell(
-                                // Read Document
-                                onTap: () {
-                                  showDocument(document.documentID);
-                                },
-                                // Update or Delete Document
-                                onLongPress: () {
-                                  showUpdateOrDeleteDocDialog(document, email);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // 사진
-                                      Container(
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width / 10 * 3,
-                                        height: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width / 10 * 3,
-                                        color: Colors.green[200],
-                                        child: Image.network(
-                                          _profileImageURL, fit: BoxFit.fill,),
+                    if (!categoryBool[tempInt]) {
+                      return Container();
+                    } else {
+                      return Card(
+                        elevation: 2,
+                        child: InkWell(
+                          // Read Document
+                          onTap: () {
+                            showDocument(document.documentID);
+                          },
+                          // Update or Delete Document
+                          onLongPress: () {
+                            showUpdateOrDeleteDocDialog(document, email);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // 사진
+                                Container(
+                                  width: MediaQuery.of(context).size.width /
+                                      10 *
+                                      3,
+                                  height: MediaQuery.of(context).size.width /
+                                      10 *
+                                      3,
+                                  color: Colors.green[200],
+                                  child: Image.network(
+                                    _profileImageURL,
+                                    fit: BoxFit.fill,
+                                  ),
 //>>>>>>> c754d29de620029a25b807d2e0bfa8be0e524766
-
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Container(
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width / 20 * 11,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: <Widget>[
-                                            // 게시물 제목
-                                            Text(
-                                              document[fnName],
-                                              style: TextStyle(
-                                                color: Colors.blueGrey,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            // 게시물 가격
-                                            Text(
-                                              document[fnPrice] + '원',
-                                              style: TextStyle(
-                                                  color: Colors.black54,
-                                                  fontSize: 12),
-                                            ),
-                                            // 게시물 내용 (3줄까지만)
-                                            Text(
-                                              document[fnDescription],
-                                              style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 12,),
-                                              maxLines: 3,
-                                            ),
-                                          ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width /
+                                      20 *
+                                      11,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // 게시물 제목
+                                      Text(
+                                        document[fnName],
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                      ),
+                                      // 게시물 가격
+                                      Text(
+                                        document[fnPrice] + '원',
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12),
+                                      ),
+                                      // 게시물 내용 (3줄까지만)
+                                      Text(
+                                        document[fnDescription],
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 12,
+                                        ),
+                                        maxLines: 3,
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
-                            );//Card
-                          }//else
-                    }).toList(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ); //Card
+                    } //else
+                  }).toList(),
                 );
-
-            }//
+            } //
           },
         ),
       ),
     );
-  }//postList
+  } //postList
 
 //  bool myCategory(String email, DocumentSnapshot postDoc) {
 //    String currentCategory = postDoc['category'];
@@ -605,6 +629,5 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 //    rt = userDoc[category];
 //    return rt;
 //  }
-
 
 }
