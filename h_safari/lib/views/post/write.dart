@@ -535,18 +535,6 @@ class _MyWriteState extends State<MyWrite> {
                                                 color: Colors.white)),
                                       ),
                                     ),
-
-                                    RaisedButton(
-                                      //내꺼 게시글로 이동하기 위한 임시!! 버튼
-                                      child: Text('내꺼 게시글'),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MyPost()));
-                                      },
-                                    )
                                   ]))))),
             )),
       ),
@@ -582,7 +570,7 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc, null)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {

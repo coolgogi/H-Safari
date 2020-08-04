@@ -193,19 +193,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .document(documentID)
         .get()
         .then((doc) {
-      showReadPostPage(doc);
+      showReadPostPage(doc, documentID);
     });
   }
 
   //문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc) {
+  void showReadPostPage(DocumentSnapshot doc, String documentID) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
 
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost() : Post(doc)));
+                userEmail == doc['email'] ? MyPost(doc, documentID) : Post(doc, documentID)));
   }
 
   // 문서 갱신 (Update)
