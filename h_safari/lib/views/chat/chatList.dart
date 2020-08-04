@@ -142,7 +142,7 @@ class ChatRoomsTile extends StatelessWidget {
                 builder: (context) => ChatRoom(
                       chatRoomId: chatRoomId,
                     )));
-        sendBy != friendName ? null: DatabaseMethods().updateUnread(chatRoomId);
+        sendBy != friendName ? null: DatabaseMethods().updateUnreadMessagy(chatRoomId);
       },
       child: Container(
         height: 75,

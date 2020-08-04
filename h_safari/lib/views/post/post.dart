@@ -318,12 +318,12 @@ class _PostState extends State<Post> {
                 child: Text('확인', style: TextStyle(color: Colors.green),),
                 onPressed: () {
                   Map<String, dynamic> alertToUser = {
-                    "postName": fnName,
-                    "type": "구매신청",
-                    "sendBy": "",
-                    "time": new DateFormat('yyyy-MM-dd').add_Hms().format(
-                        DateTime.now()),
-                    "postID": widget.documentID,
+                    "postName" : fnName,
+                    "type" : "구매신청",
+                    "sendBy" : "",
+                    "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+                    "postID" : widget.documentID,
+                    "unread" : true,
                   };
                   sendAlert("구매신청", alertToUser);
                   Navigator.pop(context, '확인');

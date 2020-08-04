@@ -242,18 +242,54 @@ class _MyWriteState extends State<MyWrite> {
                                                                     .black,
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    pictures
-                                                                        .removeAt(
-                                                                        index);
-                                                                  });
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      }))
-                                                  : SizedBox(
-                                                width: 0,
+                                                                    pictures.length,
+                                                                    (index) {
+                                                              return Stack(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                            image:
+                                                                                DecorationImage(
+                                                                      image: (_image !=
+                                                                              null)
+                                                                          ? FileImage(pictures[
+                                                                              index])
+                                                                          : NetworkImage(
+                                                                              tpUrl),
+                                                                      //fit: BoxFit.cover
+                                                                    )),
+                                                                  ),
+                                                                  Align(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topRight,
+                                                                    child:
+                                                                        IconButton(
+                                                                      icon: Icon(
+                                                                          Icons.highlight_off),
+                                                                      disabledColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          pictures
+                                                                              .removeAt(index);
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }))
+                                                        : SizedBox(
+                                                            width: 0,
+                                                          ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),

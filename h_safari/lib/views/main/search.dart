@@ -121,6 +121,7 @@ class _SearchState extends State<Search> {
             child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: TextFormField(
+
                   controller: _searchQuery,
                   autofocus: true,
                   style: TextStyle(color: Colors.white),
