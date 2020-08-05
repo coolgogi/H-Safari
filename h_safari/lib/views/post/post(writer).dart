@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/post.dart';
+import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/write.dart';
 import '../main/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -152,7 +153,11 @@ class _MyPostState extends State<MyPost> {
                       IconButton(
                         icon: Icon(Icons.border_color, color: Colors.green),
                         onPressed: () {
-                          showUpdateOrDeleteDocDialog(widget.tp);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      postUpdateDelete(widget.tp)));
                         },
                       ),
                     ],
@@ -336,86 +341,86 @@ class _MyPostState extends State<MyPost> {
     );
   }
 
-  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
-    _undNameCon.text = fnName;
-    _undPriceCon.text = fnPrice;
-    _undDescCon.text = fnDes;
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))
-          ),
-          title: Text("Update/Delete Document"),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(labelText: "Name"),
-                  controller: _undNameCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Price"),
-                  controller: _undPriceCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: _undDescCon,
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                _undNameCon.clear();
-                _undDescCon.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Update"),
-              onPressed: () {
-                if (_undNameCon.text.isNotEmpty &&
-                    _undDescCon.text.isNotEmpty) {
-                  updateDoc(doc.documentID, _undNameCon.text, _undPriceCon.text ,_undDescCon.text);
-                  fnName = _undNameCon.text;
-                  fnPrice = _undPriceCon.text;
-                  fnDes = _undDescCon.text;
-                }
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Delete"),
-              onPressed: () {
-                deleteDoc(doc.documentID);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  // 문서 갱신 (Update)
-  void updateDoc(String docID, String name, String price, String description) {
-    Firestore.instance.collection('post').document(docID).updateData({
-      "name": name,
-      "price": price,
-      "description": description,
-    });
-  }
-
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection('post').document(docID).delete();
-  }
+//  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
+//    _undNameCon.text = fnName;
+//    _undPriceCon.text = fnPrice;
+//    _undDescCon.text = fnDes;
+//    showDialog(
+//      barrierDismissible: false,
+//      context: context,
+//      builder: (context) {
+//        return AlertDialog(
+//          shape: RoundedRectangleBorder(
+//              borderRadius: BorderRadius.all(Radius.circular(10.0))
+//          ),
+//          title: Text("Update/Delete Document"),
+//          content: Container(
+//            height: 200,
+//            child: Column(
+//              children: <Widget>[
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Name"),
+//                  controller: _undNameCon,
+//                ),
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Price"),
+//                  controller: _undPriceCon,
+//                ),
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Description"),
+//                  controller: _undDescCon,
+//                )
+//              ],
+//            ),
+//          ),
+//          actions: <Widget>[
+//            FlatButton(
+//              child: Text("Cancel"),
+//              onPressed: () {
+//                _undNameCon.clear();
+//                _undDescCon.clear();
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Update"),
+//              onPressed: () {
+//                if (_undNameCon.text.isNotEmpty &&
+//                    _undDescCon.text.isNotEmpty) {
+//                  updateDoc(doc.documentID, _undNameCon.text, _undPriceCon.text ,_undDescCon.text);
+//                  fnName = _undNameCon.text;
+//                  fnPrice = _undPriceCon.text;
+//                  fnDes = _undDescCon.text;
+//                }
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Delete"),
+//              onPressed: () {
+//                deleteDoc(doc.documentID);
+//                Navigator.pop(context);
+//              },
+//            )
+//          ],
+//        );
+//      },
+//    );
+//  }
+//
+//  // 문서 갱신 (Update)
+//  void updateDoc(String docID, String name, String price, String description) {
+//    Firestore.instance.collection('post').document(docID).updateData({
+//      "name": name,
+//      "price": price,
+//      "description": description,
+//    });
+//  }
+//
+//  // 문서 삭제 (Delete)
+//  void deleteDoc(String docID) {
+//    Firestore.instance.collection('post').document(docID).delete();
+//  }
 
   void sendMessage(String email) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
