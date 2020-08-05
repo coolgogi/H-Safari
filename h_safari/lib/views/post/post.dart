@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/write.dart';
@@ -6,9 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../chat/database.dart';
+import '../../services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:h_safari/widget/widget.dart';
+import 'write.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
@@ -32,7 +34,7 @@ class _PostState extends State<Post> {
   String fnDate;
   String fnPrice;
   String fnImage;
-  List<String> fnImageList;
+  List<dynamic> fnImageList;
   String fnUid;
   String fnCategory;
   String fnHow;
@@ -46,7 +48,7 @@ class _PostState extends State<Post> {
     fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date); //datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
-//    fnImageList = doc['imageList'];
+    fnImageList = doc['imageList'];
     fnUid = doc['uid'];
     fnCategory = doc['category'];
     fnHow = doc['how'];
@@ -73,15 +75,6 @@ class _PostState extends State<Post> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        //extendBodyBehindAppBar: true,
-//        appBar: AppBar(
-//          iconTheme: IconThemeData(color: Colors.green),
-//          backgroundColor: Colors.transparent,
-//          elevation: 0,
-//          centerTitle: true,
-//          title: Text('$fnName', style: TextStyle(color: Colors.green),),
-//        ),
-        //appBar(context, '$fnName'),
         bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
             padding: EdgeInsets.only(bottom: MediaQuery
@@ -150,14 +143,26 @@ class _PostState extends State<Post> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
-                          height: 250,
-                          //이미지 넣는건 구현했지만 두 가지 더 구현해야해요.
-                          // 1. 연동시켜서 사용자가 올린 사진을 가져올 것,
-                          // 2. 사진 사이즈가 크면 화면 밖으로 나가지 않게 사이즈 조절
-                          // 3. 사진 여러 장 올리면 옆으로 밀어서 더 볼 수 있게
-                          //확인
-                          child: Center(child: Image.network(fnImage)),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
+                            height: 250,
+                            width: MediaQuery.of(context).size.width * fnImageList.length.toDouble(),
+                            child: GridView.count(
+                                crossAxisCount: fnImageList.length,
+                                crossAxisSpacing: 10,
+                                children: List.generate(fnImageList.length, (index) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(fnImageList[index]),
+                                          //fit: BoxFit.fitHeight
+                                        )
+                                    ),
+                                  );
+                                })
+                            )
+                          ),
                         ),
 
                         Divider(color: Colors.black,),

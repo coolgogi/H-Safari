@@ -111,8 +111,7 @@ class _MyWriteState extends State<MyWrite> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
                                           '사진 업로드*',
@@ -141,41 +140,26 @@ class _MyWriteState extends State<MyWrite> {
                                                   actions: <Widget>[
                                                     // usually buttons at the bottom of the dialog
                                                     Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "사진첩"),
+                                                            child: new Text("사진첩"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .gallery);
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "카메라"),
+                                                            child: new Text("카메라"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .camera);
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.camera);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "Close"),
+                                                            child: new Text("Close"),
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                         ]),
@@ -190,8 +174,7 @@ class _MyWriteState extends State<MyWrite> {
                                     //SizedBox(height: 10),
 
                                     //사진 업로드
-                                    picLength != 0
-                                        ? Column(
+                                    picLength != 0 ? Column(
                                       mainAxisAlignment:
                                       MainAxisAlignment.start,
                                       children: <Widget>[
@@ -201,67 +184,44 @@ class _MyWriteState extends State<MyWrite> {
                                           child: Flexible(
                                             child: Container(
                                               height: 130,
-                                              width: (picLength != 0)
-                                                  ? (picWidth + 130) *
-                                                  pictures.length : picWidth,
-                                              child: (picLength > 0)
-                                                  ? GridView.count(
+                                              width: (picLength != 0) ? (picWidth + 130) * pictures.length : picWidth,
+                                              child: (picLength > 0) ? GridView.count(
                                                   shrinkWrap: true,
-                                                  crossAxisCount: pictures
-                                                      .length,
+                                                  crossAxisCount: pictures.length,
                                                   crossAxisSpacing: 10,
                                                   physics: ScrollPhysics(),
-                                                  children:
-                                                  List.generate(
-                                                      pictures.length,
-                                                          (index) {
+                                                  children: List.generate(pictures.length, (index) {
                                                         return Stack(
                                                           children: <Widget>[
                                                             Container(
                                                               decoration: BoxDecoration(
                                                                   image: DecorationImage(
-                                                                    image: (_image !=
-                                                                        null)
-                                                                        ? FileImage(
-                                                                        pictures[index])
-                                                                        : NetworkImage(
-                                                                        tpUrl),
+                                                                    image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
                                                                     //fit: BoxFit.cover
                                                                   )
                                                               ),
                                                             ),
                                                             Align(
-                                                              alignment:
-                                                              Alignment
-                                                                  .topRight,
-                                                              child:
-                                                              IconButton(
-                                                                icon: Icon(Icons
-                                                                    .highlight_off),
-                                                                disabledColor: Colors
-                                                                    .black,
+                                                              alignment: Alignment.topRight,
+                                                              child: IconButton(
+                                                                icon: Icon(Icons.highlight_off),
+                                                                disabledColor: Colors.black,
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    pictures
-                                                                        .removeAt(
-                                                                        index);
+                                                                    pictures.removeAt(index);
                                                                   });
                                                                 },
                                                               ),
                                                             ),
                                                           ],
                                                         );
-                                                      }))
-                                                  : SizedBox(
-                                                width: 0,
+                                                      })) : SizedBox(width: 0,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ],
-                                    )
-                                        : SizedBox(
-                                      width: 0,
+                                    ) : SizedBox(width: 0,
                                     ),
 
                                     SizedBox(height: 30),
@@ -548,8 +508,7 @@ class _MyWriteState extends State<MyWrite> {
 
   void createDoc(String name, String description, String price, String imageURL, String picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DocumentReference documentReference = Firestore.instance.collection(colName)
-        .document();
+    DocumentReference documentReference = Firestore.instance.collection(colName).document();
 
     List<String> splitString = picURL.split(',');
     documentReference.setData({

@@ -6,7 +6,8 @@ import 'package:h_safari/views/post/post.dart';
 // widget import
 
 class Search extends StatefulWidget {
-  Search({ Key key }) : super(key: key);
+
+  Search({Key key}) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
@@ -27,6 +28,7 @@ class _SearchState extends State<Search> {
 
 
   Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
+
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
   List<String> _list;
@@ -47,8 +49,7 @@ class _SearchState extends State<Search> {
           _IsSearching = false;
           _searchText = "";
         });
-      }
-      else {
+      } else {
         setState(() {
           _IsSearching = true;
           _searchText = _searchQuery.text;
@@ -61,19 +62,8 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     _IsSearching = false;
-//    init();
   }
 
-//  void init() {
-//    _list = List();
-//    postList = List();
-//    Firestore.instance.collection("post").orderBy("datetime").snapshots().then((snapshots){
-//      postItem tp = new postItem(doc.documentID, doc['name'], doc['description'], doc['datetime']);
-//      postList.add(tp);
-//    });
-//    setState(() {});
-//
-//  }
 
   var _blankFocusnode = new FocusNode();
 
@@ -190,6 +180,7 @@ class _SearchState extends State<Search> {
           },
         ),
       )
+
     );
   }
 
@@ -234,15 +225,12 @@ class _SearchState extends State<Search> {
                 color: Colors.green,
                 borderRadius: BorderRadius.all(Radius.circular(15))
             ),
-
             child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: TextFormField(
-
                   controller: _searchQuery,
                   autofocus: true,
                   style: TextStyle(color: Colors.white),
-
                   decoration: new InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search...",
@@ -259,47 +247,5 @@ class _SearchState extends State<Search> {
         )
     );
   }
-
-
 }
 
-//class ChildItem extends StatelessWidget {
-//  final String name;
-//
-//  ChildItem(this.name);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return new ListTile(title: new Text(this.name));
-//  }
-//
-//}
-//
-//class postItem{
-//  String postID;
-//  String postTitle;
-//  String postDes;
-//  String postDate ;
-//
-//  postItem(String id, String title, String des, String date){
-//    postID = id;
-//    postTitle = title;
-//    postDes = des;
-//    postDate = date ;
-//  }
-
-//  @override
-//  Widget postCard(BuildContext context){
-//    return Card(
-//      child: Column(
-//        mainAxisSize: MainAxisSize.min,
-//        children: <Widget>[
-//          const ListTile(
-//            title: Text(postTitle),
-//            subtitle: Text("$postDes\n$postDate"),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//}
