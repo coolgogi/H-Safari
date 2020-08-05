@@ -43,12 +43,6 @@ class _BottomBarState extends State<BottomBar> {
     });
   }
 
-  void onPageChanged(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   final pageController = PageController();
 
   @override
