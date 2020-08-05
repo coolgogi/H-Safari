@@ -475,14 +475,12 @@ class _MyWriteState extends State<MyWrite> {
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
 
-
-
                                             createDoc(
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
                                                 _profileImageURL,
-                                                picURL.join(','));
+                                                picURL.join(','));// "picURL[0],picURL[1],..."
                                             _newNameCon.clear();
                                             _newDescCon.clear();
                                             _newPriceCon.clear();
@@ -514,14 +512,13 @@ class _MyWriteState extends State<MyWrite> {
     DocumentReference documentReference = Firestore.instance.collection(colName).document();
 
     List<String> splitString = picURL.split(',');
-
     documentReference.setData({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
       fnPrice: price,
-      fnImageUrl: imageURL,
-      fnImageList: splitString,
+      fnImageUrl: imageURL,//대표사진
+      fnImageList: splitString,//사진 리스트
       fnCategory: _category,
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
