@@ -243,7 +243,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                 onPressed: () {
                                                                   setState(() {
                                                                     pictures
-//<<<<<<< HEAD
                                                                         .removeAt(
                                                                         index);
                                                                   });
@@ -255,56 +254,6 @@ class _MyWriteState extends State<MyWrite> {
                                                       }))
                                                   : SizedBox(
                                                 width: 0,
-//=======
-//                                                                        .length,
-//                                                                    (index) {
-//                                                              return Stack(
-//                                                                children: <
-//                                                                    Widget>[
-//                                                                  Container(
-//                                                                    decoration:
-//                                                                        BoxDecoration(
-//                                                                            image:
-//                                                                                DecorationImage(
-//                                                                      image: (_image !=
-//                                                                              null)
-//                                                                          ? FileImage(pictures[
-//                                                                              index])
-//                                                                          : NetworkImage(
-//                                                                              tpUrl),
-//                                                                      //fit: BoxFit.cover
-//                                                                    )),
-//                                                                  ),
-//                                                                  Align(
-//                                                                    alignment:
-//                                                                        Alignment
-//                                                                            .topRight,
-//                                                                    child:
-//                                                                        IconButton(
-//                                                                      icon: Icon(
-//                                                                          Icons.highlight_off),
-//                                                                      disabledColor:
-//                                                                          Colors
-//                                                                              .black,
-//                                                                      onPressed:
-//                                                                          () {
-//                                                                        setState(
-//                                                                            () {
-//                                                                          pictures
-//                                                                              .removeAt(index);
-//                                                                        });
-//                                                                      },
-//                                                                    ),
-//                                                                  ),
-//                                                                ],
-//                                                              );
-//                                                            }))
-//                                                        : SizedBox(
-//                                                            width: 0,
-//                                                          ),
-//                                                  ),
-//                                                ),
-//>>>>>>> 7a6c0076f4053127499fe8340466c151261c8cff
                                               ),
                                             ),
                                           ),
@@ -564,17 +513,15 @@ class _MyWriteState extends State<MyWrite> {
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
-                                            print(
-                                                "in register if===============");
-                                            print(
-                                                "profileImageUrl : \n$_profileImageURL");
-                                            print("picURL : \n$picURL");
+
+
+
                                             createDoc(
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
                                                 _profileImageURL,
-                                                picURL);
+                                                picURL.join(','));
                                             _newNameCon.clear();
                                             _newDescCon.clear();
                                             _newPriceCon.clear();
@@ -601,23 +548,20 @@ class _MyWriteState extends State<MyWrite> {
     );
   }
 
-  void createDoc(String name, String description, String price, String imageURL,
-      List<String> picURL) async {
+  void createDoc(String name, String description, String price, String imageURL, String picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference = Firestore.instance.collection(colName)
         .document();
-    print("==============\n==============\n==============\n"
-        "picURL : \n$picURL\n"
-        "imageUrl : \n$imageURL\n"
-        "==============\n==============\n==============");
-    List<String> test = ["test1", "test2", "test3", "test4"];
+
+    List<String> splitString = picURL.split(',');
+
     documentReference.setData({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
       fnPrice: price,
       fnImageUrl: imageURL,
-      fnImageList: test,
+      fnImageList: splitString,
       fnCategory: _category,
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
@@ -696,8 +640,8 @@ class _ListCatState extends State<ListCat> {
     '서적',
     '음식',
     '생필품',
-    '가구/전자제품',
-    '뷰티/잡화',
+    '가구전자제품',
+    '뷰티잡화',
     '양도',
     '기타',
   ];
