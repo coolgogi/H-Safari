@@ -86,10 +86,26 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     fnUid = doc['uid'];
     fnCategory = doc['category'];
     fnHow = doc['how'];
+
     fnEmail = doc['email'];
     _newNameCon.text = fnName;
     _newPriceCon.text = fnPrice;
     _newDescCon.text = fnDes;
+    _category = fnCategory;
+    _value = fnCategory;
+    if(fnHow == '3'){
+      _delivery = true ;
+      _direct = true ;
+    }else if(fnHow == '2'){
+      _delivery = false ;
+      _direct = true ;
+    }else if(fnHow == '1'){
+      _delivery = true ;
+      _direct = false ;
+    }else{
+      _delivery = false ;
+      _direct = false ;
+    }
   }
 
   @override
@@ -390,7 +406,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                     Text(
                                                       _category,
                                                       style: TextStyle(
-                                                          fontSize: 15),
+                                                          fontSize: 15
+                                                      ),
                                                     ),
                                                     Icon(Icons.arrow_drop_down),
                                                   ],
@@ -409,40 +426,30 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                             FlatButton(
                                                               child: Text('취소'),
                                                               onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                _value =
-                                                                    previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                Navigator.pop(context);
+                                                                _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
                                                               },
                                                             ),
                                                             FlatButton(
                                                               child: Text('확인'),
                                                               onPressed: () {
-                                                                if (_value !=
-                                                                    null) {
-                                                                  Navigator.pop(
-                                                                      context,
-                                                                      _value);
+                                                                if (_value != null) {
+                                                                  Navigator.pop(context, _value);
                                                                   setState(() {
                                                                     //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category =
-                                                                        _value;
-                                                                    previous =
-                                                                        _value;
+                                                                    _category = _value;
+                                                                    previous = _value;
                                                                   });
                                                                 }
                                                               },
                                                             ),
                                                           ],
                                                           content: Container(
-                                                            width: double
-                                                                .maxFinite,
+                                                            width: double.maxFinite,
                                                             child: Column(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: <
-                                                                  Widget>[
+                                                                  MainAxisAlignment.center,
+                                                              children: <Widget>[
                                                                 ListCat(),
                                                                 //다이얼로그 안에서 radioButton을 불러오는 함수
                                                               ],
@@ -551,11 +558,16 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                             if (_newDescCon.text.isNotEmpty &&
                                                 _newNameCon.text.isNotEmpty &&
                                                 _newPriceCon.text.isNotEmpty) {
+                                              fnCategory = _category;
+                                              fnHow = checkHow().toString();
+
                                               updateDoc(
                                                   widget.tp.documentID,
                                                   _newNameCon.text,
                                                   _newPriceCon.text,
-                                                  _newDescCon.text);
+                                                  _newDescCon.text,
+                                                  fnCategory,
+                                                  fnHow);
                                               showDocument(widget.tp.documentID);
                                               _newNameCon.clear();
                                               _newDescCon.clear();
@@ -601,11 +613,13 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     );
   }
 
-  void updateDoc(String docID, String name, String price, String description) {
+  void updateDoc(String docID, String name, String price, String description,String category, String how) {
     Firestore.instance.collection('post').document(docID).updateData({
       "name": name,
       "price": price,
       "description": description,
+      "category" : category,
+      "how" : how,
     });
   }
 
@@ -659,6 +673,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
       print("picURL : \n$picURL");
     });
   }
+
+
 
   int checkHow() {
     if ((_delivery == false) && (_direct == false))

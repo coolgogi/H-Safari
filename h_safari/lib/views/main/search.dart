@@ -203,7 +203,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  //문서 읽기 (Read)
+//  문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Post(doc, documentID)));
