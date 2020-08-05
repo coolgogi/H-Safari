@@ -89,12 +89,12 @@ class _MyWriteState extends State<MyWrite> {
               return <Widget>[
                 SliverAppBar(
                   elevation: 2,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.green[100],
                   iconTheme: IconThemeData(color: Colors.green),
                   centerTitle: true,
                   title: Text(
                     '게시물 작성',
-                    style: TextStyle(color: Colors.green),
+                    style: TextStyle(color: Colors.black),
                   ),
                   floating: true,
                 ),
@@ -305,11 +305,7 @@ class _MyWriteState extends State<MyWrite> {
                                     //이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
                                     Row(
                                       children: <Widget>[
-                                        Text(
-                                          "카테고리* ",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
+                                        Text("카테고리* ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                         ),
                                         SizedBox(width: 50),
                                         Container(
@@ -318,13 +314,9 @@ class _MyWriteState extends State<MyWrite> {
                                             child: FlatButton(
                                                 shape: OutlineInputBorder(),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Text(
-                                                      _category,
-                                                      style: TextStyle(
-                                                          fontSize: 15),
+                                                    Text(_category, style: TextStyle(fontSize: 15),
                                                     ),
                                                     Icon(Icons.arrow_drop_down),
                                                   ],
@@ -341,45 +333,31 @@ class _MyWriteState extends State<MyWrite> {
                                                             title: Text('카테고리'),
                                                             actions: <Widget>[
                                                               FlatButton(
-                                                                child: Text(
-                                                                    '취소'),
+                                                                child: Text('취소'),
                                                                 onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  _value =
-                                                                      previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                  Navigator.pop(context);
+                                                                  _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
                                                                 },
                                                               ),
                                                               FlatButton(
-                                                                child: Text(
-                                                                    '확인'),
+                                                                child: Text('확인'),
                                                                 onPressed: () {
-                                                                  if (_value !=
-                                                                      null) {
-                                                                    Navigator
-                                                                        .pop(
-                                                                        context,
-                                                                        _value);
+                                                                  if (_value != null) {
+                                                                    Navigator.pop(context, _value);
                                                                     setState(() {
                                                                       //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                      _category =
-                                                                          _value;
-                                                                      previous =
-                                                                          _value;
+                                                                      _category = _value;
+                                                                      previous = _value;
                                                                     });
                                                                   }
                                                                 },
                                                               ),
                                                             ],
                                                             content: Container(
-                                                              width: double
-                                                                  .maxFinite,
+                                                              width: double.maxFinite,
                                                               child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: <
-                                                                    Widget>[
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: <Widget>[
                                                                   ListCat(),
                                                                   //다이얼로그 안에서 radioButton을 불러오는 함수
                                                                 ],
@@ -489,6 +467,7 @@ class _MyWriteState extends State<MyWrite> {
                                             _newHowCon.clear();
                                             pictures.clear();
                                             picURL.clear();
+                                            picLength = 0;
 //                                          myapp._currentIndex = 1;
 //                                          showDocument(document.documentID);
                                           } else {
@@ -539,7 +518,7 @@ class _MyWriteState extends State<MyWrite> {
 
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Post(doc, null)));
+        context, MaterialPageRoute(builder: (context) => MyPost(doc, doc.documentID)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {

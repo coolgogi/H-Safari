@@ -147,20 +147,23 @@ class _PostState extends State<Post> {
                           scrollDirection: Axis.horizontal,
                           child: Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
                             height: 250,
-                            width: MediaQuery.of(context).size.width * fnImageList.length.toDouble(),
-                            child: GridView.count(
-                                crossAxisCount: fnImageList.length,
-                                crossAxisSpacing: 10,
-                                children: List.generate(fnImageList.length, (index) {
-                                  return Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: PageView.builder(
+                                itemCount: fnImageList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                 return Transform.scale(
+                                   scale: 0.9,
+                                   child: Container(
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(fnImageList[index]),
-                                          //fit: BoxFit.fitHeight
+                                          fit: BoxFit.fitHeight,
+                                          //fit: BoxFit.cover
                                         )
                                     ),
-                                  );
-                                })
+                                  ),
+                                 );
+                                }
                             )
                           ),
                         ),
