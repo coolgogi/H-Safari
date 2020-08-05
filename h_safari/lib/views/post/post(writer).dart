@@ -34,6 +34,7 @@ class _MyPostState extends State<MyPost> {
   String fnDate;
   String fnPrice;
   String fnImage;
+  List<dynamic> fnImageList;
   String fnUid;
   String fnHow;
 
@@ -47,6 +48,7 @@ class _MyPostState extends State<MyPost> {
     fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date); //datetime format
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
+    fnImageList = doc['imageList'];
     fnUid = doc['uid'];
     fnCategory = doc['category'];
     fnHow = doc['how'];
@@ -175,15 +177,29 @@ class _MyPostState extends State<MyPost> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
-                          height: 250,
-                          //이미지 넣는건 구현했지만 두 가지 더 구현해야해요.
-                          // 1. 연동시켜서 사용자가 올린 사진을 가져올 것,
-                          // 2. 사진 사이즈가 크면 화면 밖으로 나가지 않게 사이즈 조절
-                          // 3. 사진 여러 장 올리면 옆으로 밀어서 더 볼 수 있게
-                          //확인
-                          child: Center(child: Image.network(fnImage)),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
+                              height: 250,
+                              width: MediaQuery.of(context).size.width,
+                              child: PageView.builder(
+                                  itemCount: fnImageList.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Transform.scale(
+                                      scale: 0.9,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(fnImageList[index]),
+                                              fit: BoxFit.fitHeight,
+                                              //fit: BoxFit.cover
+                                            )
+                                        ),
+                                      ),
+                                    );
+                                  }
+                              )
+                          ),
                         ),
 
                         Divider(
