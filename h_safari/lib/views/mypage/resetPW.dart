@@ -15,8 +15,12 @@ class _resetPWState extends State<resetPW> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
+
+        // appBar
         appBar: appBar(context, '비밀번호'),
         body: SingleChildScrollView(
+
+          // Padding : padding값을 상하좌우 지정
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -24,42 +28,10 @@ class _resetPWState extends State<resetPW> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: 60,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '변경 전',
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '변경 후',
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '변경 후 확인',
-                      ),
-                    ),
-                  ),
-                ),
+                inputTextField('변경 전'),
+                inputTextField('변경 후'),
+                inputTextField('변경 후 확인'),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -81,6 +53,26 @@ class _resetPWState extends State<resetPW> {
                 )
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget inputTextField(String title) {
+    return Container(
+      // height : 높이 지정
+      height: 60,
+
+      // Paddign : padding값을 상하좌우 지정
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+
+        // TextField : 입력
+        child: TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: '$title',
           ),
         ),
       ),
