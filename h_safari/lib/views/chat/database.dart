@@ -93,10 +93,21 @@ class DatabaseMethods {
     });
   }
 
-  updateUnread(String chatRoomId) {
+  updateUnreadMessagy(String chatRoomId) {
     return Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
+        .updateData({
+      'unread': false,
+    });
+  }
+
+  updateUnreadAlram(String myEmail, String documentID) {
+    return Firestore.instance
+        .collection("users")
+        .document(myEmail)
+    .collection("alert")
+    .document(documentID)
         .updateData({
       'unread': false,
     });

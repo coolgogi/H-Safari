@@ -40,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
+  String _profileImageURL = ""; // 대표사진
 
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
 
@@ -63,6 +63,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnDatetime = "datetime";
   final String fnPrice = "price";
   final String fnImageUrl = "imageUrl";
+  final String fnImageList = "imageList";
   final String fnCategory = "category";
   final String fnHow = 'how';
   final String fnUid = "uid";
@@ -81,7 +82,7 @@ class _MyWriteState extends State<MyWrite> {
           FocusScope.of(context).requestFocus(_blankFocusnode);
         },
         child: NestedScrollView(
-            //화면 스크롤 가능하게
+          //화면 스크롤 가능하게
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
@@ -110,8 +111,7 @@ class _MyWriteState extends State<MyWrite> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
                                           '사진 업로드*',
@@ -126,7 +126,7 @@ class _MyWriteState extends State<MyWrite> {
                                                 fontSize: 15,
                                                 color: Colors.green,
                                                 decoration:
-                                                    TextDecoration.underline),
+                                                TextDecoration.underline),
                                           ),
                                           onPressed: () {
                                             showDialog(
@@ -134,47 +134,32 @@ class _MyWriteState extends State<MyWrite> {
                                               builder: (BuildContext context) {
                                                 // return object of type Dialog
                                                 return AlertDialog(
-                                                  title: new Text("사진 업로드 방식"),
+                                                  title: new Text("사진 업로드"),
                                                   content: new Text(
-                                                      "사진 업로드 방식을 선택하세요."),
+                                                      "방식을 선택하세요."),
                                                   actions: <Widget>[
                                                     // usually buttons at the bottom of the dialog
                                                     Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("사진첩"),
+                                                            child: new Text("사진첩"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .gallery);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("카메라"),
+                                                            child: new Text("카메라"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .camera);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.camera);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "Close"),
+                                                            child: new Text("Close"),
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                         ]),
@@ -189,88 +174,55 @@ class _MyWriteState extends State<MyWrite> {
                                     //SizedBox(height: 10),
 
                                     //사진 업로드
-                                    picLength != 0
-                                        ? Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Flexible(
-                                                  child: Container(
-                                                    height: 130,
-                                                    width: (picLength != 0)
-                                                        ? (picWidth + 130) *
-                                                            pictures.length
-                                                        : picWidth,
-                                                    child: (picLength > 0)
-                                                        ? GridView.count(
-                                                            shrinkWrap: true,
-                                                            crossAxisCount:
-                                                                pictures.length,
-                                                            crossAxisSpacing:
-                                                                10,
-                                                            physics:
-                                                                ScrollPhysics(),
-                                                            children:
-                                                                List.generate(
-                                                                    pictures
-                                                                        .length,
-                                                                    (index) {
-                                                              return Stack(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                            image:
-                                                                                DecorationImage(
-                                                                      image: (_image !=
-                                                                              null)
-                                                                          ? FileImage(pictures[
-                                                                              index])
-                                                                          : NetworkImage(
-                                                                              tpUrl),
-                                                                      //fit: BoxFit.cover
-                                                                    )),
-                                                                  ),
-                                                                  Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .topRight,
-                                                                    child:
-                                                                        IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
-                                                                      disabledColor:
-                                                                          Colors
-                                                                              .black,
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          pictures
-                                                                              .removeAt(index);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            }))
-                                                        : SizedBox(
-                                                            width: 0,
-                                                          ),
-                                                  ),
-                                                ),
+                                    picLength != 0 ? Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        SingleChildScrollView(
+                                          scrollDirection:
+                                          Axis.horizontal,
+                                          child: Flexible(
+                                            child: Container(
+                                              height: 130,
+                                              width: (picLength != 0) ? (picWidth + 130) * pictures.length : picWidth,
+                                              child: (picLength > 0) ? GridView.count(
+                                                  shrinkWrap: true,
+                                                  crossAxisCount: pictures.length,
+                                                  crossAxisSpacing: 10,
+                                                  physics: ScrollPhysics(),
+                                                  children: List.generate(pictures.length, (index) {
+                                                        return Stack(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                    image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
+                                                                    //fit: BoxFit.cover
+                                                                  )
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment: Alignment.topRight,
+                                                              child: IconButton(
+                                                                icon: Icon(Icons.highlight_off),
+                                                                disabledColor: Colors.black,
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    pictures.removeAt(index);
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      })) : SizedBox(width: 0,
                                               ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: 0,
+                                            ),
                                           ),
+                                        ),
+                                      ],
+                                    ) : SizedBox(width: 0,
+                                    ),
 
                                     SizedBox(height: 30),
 
@@ -366,7 +318,7 @@ class _MyWriteState extends State<MyWrite> {
                                                 shape: OutlineInputBorder(),
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
                                                       _category,
@@ -384,52 +336,55 @@ class _MyWriteState extends State<MyWrite> {
                                                         //기존 dopdownButton에서 alertDialog list로 수정!
                                                         //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
                                                         return //DropCat();
-                                                            AlertDialog(
-                                                          title: Text('카테고리'),
-                                                          actions: <Widget>[
-                                                            FlatButton(
-                                                              child: Text('취소'),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                _value =
-                                                                    previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                              },
-                                                            ),
-                                                            FlatButton(
-                                                              child: Text('확인'),
-                                                              onPressed: () {
-                                                                if (_value !=
-                                                                    null) {
+                                                          AlertDialog(
+                                                            title: Text('카테고리'),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text(
+                                                                    '취소'),
+                                                                onPressed: () {
                                                                   Navigator.pop(
-                                                                      context,
-                                                                      _value);
-                                                                  setState(() {
-                                                                    //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category =
-                                                                        _value;
-                                                                    previous =
-                                                                        _value;
-                                                                  });
-                                                                }
-                                                              },
+                                                                      context);
+                                                                  _value =
+                                                                      previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                },
+                                                              ),
+                                                              FlatButton(
+                                                                child: Text(
+                                                                    '확인'),
+                                                                onPressed: () {
+                                                                  if (_value !=
+                                                                      null) {
+                                                                    Navigator
+                                                                        .pop(
+                                                                        context,
+                                                                        _value);
+                                                                    setState(() {
+                                                                      //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                      _category =
+                                                                          _value;
+                                                                      previous =
+                                                                          _value;
+                                                                    });
+                                                                  }
+                                                                },
+                                                              ),
+                                                            ],
+                                                            content: Container(
+                                                              width: double
+                                                                  .maxFinite,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  ListCat(),
+                                                                  //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ],
-                                                          content: Container(
-                                                            width: double
-                                                                .maxFinite,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: <
-                                                                  Widget>[
-                                                                ListCat(),
-                                                                //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
+                                                          );
                                                       });
                                                 })),
                                       ],
@@ -505,30 +460,40 @@ class _MyWriteState extends State<MyWrite> {
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(30),
+                                            BorderRadius.circular(30),
                                             side: BorderSide(
                                               color: Colors.green,
                                             )),
                                         onPressed: () {
+                                          print("in register");
+                                          print(
+                                              "profileImageUrl : \n$_profileImageURL");
+                                          print("picURL : \n$picURL");
                                           //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
+
+
+
                                             createDoc(
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
-                                                _profileImageURL);
+                                                _profileImageURL,
+                                                picURL.join(','));
                                             _newNameCon.clear();
                                             _newDescCon.clear();
                                             _newPriceCon.clear();
-                                            _profileImageURL = '';
+                                            _profileImageURL = "";
                                             _newCategoryCon.clear();
                                             _newHowCon.clear();
                                             pictures.clear();
                                             picURL.clear();
 //                                          myapp._currentIndex = 1;
 //                                          showDocument(document.documentID);
+                                          } else {
+                                            //경고 메세지 부탁
                                           }
                                         },
                                         child: Text('게시글 등록',
@@ -543,17 +508,19 @@ class _MyWriteState extends State<MyWrite> {
     );
   }
 
-  void createDoc(
-      String name, String description, String price, String imageURL) async {
+  void createDoc(String name, String description, String price, String imageURL, String picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DocumentReference documentReference =
-        Firestore.instance.collection(colName).document();
+    DocumentReference documentReference = Firestore.instance.collection(colName).document();
+
+    List<String> splitString = picURL.split(',');
+
     documentReference.setData({
       fnName: name,
       fnDescription: description,
       fnDatetime: Timestamp.now(),
       fnPrice: price,
       fnImageUrl: imageURL,
+      fnImageList: splitString,
       fnCategory: _category,
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
@@ -585,16 +552,10 @@ class _MyWriteState extends State<MyWrite> {
       _image = image;
       pictures.add(_image);
       picLength++;
-      picURL.add(_profileImageURL);
     });
 
-    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-//    StorageReference storageReference =
-//    _firebaseStorage.ref().child("profile/${_user.uid}");
-    // 프로필 사진을 업로드할 경로와 파일명을 정의. uid를 이용하지말고 documentId를 이용하기 위해 찾아보는중
-    // 그래서 지금 uid + Timestamp를 쓰는 중
     StorageReference storageReference =
-        _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
+    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
     // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
@@ -602,12 +563,15 @@ class _MyWriteState extends State<MyWrite> {
     // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
 
-    // 업로드한 사진의 URL 획득 //필요?
+    // 업로드한 사진의 URL 획득 //필요? -> 필요합니당
     String downloadURL = await storageReference.getDownloadURL();
 
-    // 업로드된 사진의 URL을 페이지에 반영 //필요??
+    // 업로드된 사진의 URL을 페이지에 반영 //필요?? -> 필요합니당
     setState(() {
       _profileImageURL = downloadURL;
+      picURL.add(_profileImageURL);
+      print("profileImageUrl : \n$_profileImageURL");
+      print("picURL : \n$picURL");
     });
   }
 }
@@ -635,8 +599,8 @@ class _ListCatState extends State<ListCat> {
     '서적',
     '음식',
     '생필품',
-    '가구/전자제품',
-    '뷰티/잡화',
+    '가구전자제품',
+    '뷰티잡화',
     '양도',
     '기타',
   ];

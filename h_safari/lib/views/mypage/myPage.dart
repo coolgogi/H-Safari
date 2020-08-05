@@ -38,8 +38,8 @@ class _MyPageState extends State<MyPage> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: ListView(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
+            Container(
+              margin: EdgeInsets.only(top: 10, bottom: 7, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

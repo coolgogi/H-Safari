@@ -20,26 +20,31 @@ class Alarm extends StatefulWidget {
 class _AlarmState extends State<Alarm> {
   Stream alarm;
   FirebaseProvider fp;
+  String userEmail;
 
   Widget alarmList() {
     fp = Provider.of<FirebaseProvider>(context);
+    userEmail = fp.getUser().email.toString();
 
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
       stream: alarm,
       builder: (context, snapshot) {
         return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.documents.length,
+            ? ListView(
                 shrinkWrap: true,
-                itemBuilder: (context, index) {
+                children: snapshot.data.documents.map((DocumentSnapshot document){
                   return alertTile(
-                    snapshot.data.documents[index].data['type'],
-                    snapshot.data.documents[index].data['sendBy'],
-                    snapshot.data.documents[index].data['time'],
-                    snapshot.data.documents[index].data['postName'],
-                    snapshot.data.documents[index].data['postID'],
+                    document['type'],
+                    document['sendBy'],
+                    document['time'],
+                    document['postName'],
+                    document['postID'],
+                    document['unread'],
+                    document.documentID,
                   );
-                })
+                }).toList(),
+        )
+
             : Container();
       },
     );
@@ -74,13 +79,13 @@ class _AlarmState extends State<Alarm> {
   }
 
   Widget alertTile(
-      String type, String sendBy, String time, String postName, String postID) {
+      String type, String sendBy, String time, String postName, String postID, bool unread, String documentID) {
     return Container(
       height: 50,
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
         child: FlatButton(
-            color: Colors.green[300], // 기본 배경색 : color
+            color: unread ? Colors.green[300] : Colors.grey[300], // 기본 배경색 : color
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -128,10 +133,7 @@ class _AlarmState extends State<Alarm> {
             ),
             onPressed: () {
               showDocument(postID);
-              // 클릭 시 변화림
-//                Navigator.push(context, MaterialPageRoute(builder: (context) =>
-//                  ())); // 알림을 누를 시 알람이 가르키는 페이지로 이동
-//                color = Colors.white; // 알림을 누를 시 읽음 표시를 위한 배경색 변화
+              DatabaseMethods().updateUnreadAlram(userEmail, documentID);
             }),
       ),
     );

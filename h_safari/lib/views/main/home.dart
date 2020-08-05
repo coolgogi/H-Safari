@@ -12,8 +12,8 @@ import 'package:h_safari/views/chat/database.dart';
 
 class Home extends StatefulWidget {
   String email;
-  
-  Home(String tp){
+
+  Home(String tp) {
     email = tp;
   }
 
@@ -78,7 +78,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    print("initState");
     super.initState();
     Firestore.instance
         .collection("users")
@@ -116,64 +115,69 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    userEmail = fp.getUser().email.toString();
+    userEmail = fp
+        .getUser()
+        .email
+        .toString();
 
     return SafeArea(
       child: Scaffold(
-        key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
-        //appBar: MyAppBar(),
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                floating: true,
-                pinned: true,
-                snap: true,
-                backgroundColor: Colors.white,
-                leading: AppBarIcon(),
-                title: AppBarTitle(),
-                actions: <Widget>[AppBarIcon2(),],
-                bottom: TabBar(
-                  unselectedLabelColor: Colors.black45,
-                  labelColor: Colors.green,
-                  labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-                  indicatorColor: Colors.green,
-                  tabs: <Widget>[
-                    Tab(text: '전체'),
-                    Tab(text: 'My관심사'),
-                  ],
-                ),
-              )
-            ];
-          },
+          key: _scaffoldKey,
+          resizeToAvoidBottomPadding: false,
+          //appBar: MyAppBar(),
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context,
+                bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  floating: true,
+                  pinned: true,
+                  snap: true,
+                  backgroundColor: Colors.white,
+                  leading: AppBarIcon(),
+                  title: AppBarTitle(),
+                  actions: <Widget>[AppBarIcon2(),],
+                  bottom: TabBar(
+                    unselectedLabelColor: Colors.black45,
+                    labelColor: Colors.green,
+                    labelStyle: TextStyle(
+                        fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+                    indicatorColor: Colors.green,
+                    tabs: <Widget>[
+                      Tab(text: '전체'),
+                      Tab(text: 'My관심사'),
+                    ],
+                  ),
+                )
+              ];
+            },
 
-          body: TabBarView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
-                    allPostList(userEmail),
-                    //전체글
-                  ], //widget
-                ), //column
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    myPostList(userEmail, userDoc), //마이 카테고리
-                  ],
+            body: TabBarView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
+                      allPostList(userEmail),
+                      //전체글
+                    ], //widget
+                  ), //column
                 ),
-              ),
-            ],
-          ),
-        )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      myPostList(userEmail, userDoc), //마이 카테고리
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
       ),
     );
-  }//build
+  } //build
 
   // 문서 조회 (Read)
   void showDocument(String documentID) {
@@ -194,8 +198,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost(doc, documentID) : Post(doc, documentID)));
+
+            userEmail == doc['email'] ? MyPost(doc, documentID) : Post(
+                doc, documentID)));
   }
+
 
   // 문서 갱신 (Update)
   void updateDoc(String docID, String name, String description) {
@@ -292,7 +299,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               default:
                 return ListView(
                   children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  snapshot.data.documents.map((DocumentSnapshot document) {
                     Timestamp ts = document[fnDatetime];
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
@@ -320,10 +327,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.green[200],
                                   ),
-                                  width: MediaQuery.of(context).size.width /
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width /
                                       10 *
                                       3,
-                                  height: MediaQuery.of(context).size.width /
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width /
                                       10 *
                                       3,
                                   child: ClipRRect(
@@ -338,7 +351,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                               ),
                               Container(
                                 width:
-                                    MediaQuery.of(context).size.width / 20 * 11,
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 20 * 11,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -402,25 +418,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               default:
                 return ListView(
 
-                  children: snapshot.data.documents.map((DocumentSnapshot document) {
-                    print("userDoc : $userDoc");
+                  children: snapshot.data.documents.map((
+                      DocumentSnapshot document) {
                     Timestamp ts = document[fnDatetime];
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
-                    print("line 365 : $postCategory");
 
-                    for(int i = 0; i < 8; i ++) print("line 367 : $categoryBool");
-
-
-                    if(document[fnCategory] == "의류") tempInt = 0;
-                    else if(document[fnCategory] == "서적") tempInt = 1;
-                    else if(document[fnCategory] == "음식") tempInt = 2;
-                    else if(document[fnCategory] == "생필품") tempInt = 3;
-                    else if(document[fnCategory] == "가구전자제품") tempInt = 4;
-                    else if(document[fnCategory] == "뷰티잡화") tempInt = 5;
-                    else if(document[fnCategory] == "양도") tempInt = 6;
-                    else if(document[fnCategory] == "기타") tempInt = 7;
+                    if (document[fnCategory] == "의류")
+                      tempInt = 0;
+                    else if (document[fnCategory] == "서적")
+                      tempInt = 1;
+                    else if (document[fnCategory] == "음식")
+                      tempInt = 2;
+                    else if (document[fnCategory] == "생필품")
+                      tempInt = 3;
+                    else if (document[fnCategory] == "가구전자제품")
+                      tempInt = 4;
+                    else if (document[fnCategory] == "뷰티잡화")
+                      tempInt = 5;
+                    else if (document[fnCategory] == "양도")
+                      tempInt = 6;
+                    else if (document[fnCategory] == "기타") tempInt = 7;
 
                     if (!categoryBool[tempInt]) {
                       return Container();
@@ -443,10 +462,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                               children: <Widget>[
                                 // 사진
                                 Container(
-                                  width: MediaQuery.of(context).size.width /
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width /
                                       10 *
                                       3,
-                                  height: MediaQuery.of(context).size.width /
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width /
                                       10 *
                                       3,
                                   color: Colors.green[200],
@@ -459,12 +484,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                   width: 8,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width /
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width /
                                       20 *
                                       11,
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
                                       // 게시물 제목
                                       Text(

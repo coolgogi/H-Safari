@@ -72,7 +72,7 @@ class _categoryViewState extends State<categoryView> {
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
                   String postCategory = document[fnCategory];
-                  postCategory.replaceAll("/", "");
+//                  postCategory.replaceAll("/", "");
 
                   if (!(postCategory == select))
                     return Container();

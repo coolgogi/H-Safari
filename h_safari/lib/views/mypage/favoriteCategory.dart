@@ -49,8 +49,8 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     '서적',
     '음식',
     '생필품',
-    '가구/전자제품',
-    '뷰티/잡화',
+    '가구전자제품',
+    '뷰티잡화',
     '양도',
     '기타',
   ];

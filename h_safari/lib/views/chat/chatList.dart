@@ -47,7 +47,7 @@ class _ChatListState extends State<ChatList> {
     Future.delayed(Duration.zero, () {
       getUserInfoGetChats();
     });
-    print(email);
+    setState(() {});
   }
 
   getUserInfoGetChats() {
@@ -142,7 +142,7 @@ class ChatRoomsTile extends StatelessWidget {
                 builder: (context) => ChatRoom(
                       chatRoomId: chatRoomId,
                     )));
-        sendBy != friendName ? null: DatabaseMethods().updateUnread(chatRoomId);
+        sendBy != friendName ? null: DatabaseMethods().updateUnreadMessagy(chatRoomId);
       },
       child: Container(
         height: 75,

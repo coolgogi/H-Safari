@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 // widget import
 
 class Search extends StatefulWidget {
-  Search({ Key key }) : super(key: key);
+  Search({Key key}) : super(key: key);
+
   @override
   _SearchState createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
-
-  Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
+  Icon actionIcon = new Icon(
+    Icons.search,
+    color: Colors.white,
+  );
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
   List<String> _list;
@@ -25,8 +28,7 @@ class _SearchState extends State<Search> {
           _IsSearching = false;
           _searchText = "";
         });
-      }
-      else {
+      } else {
         setState(() {
           _IsSearching = true;
           _searchText = _searchQuery.text;
@@ -40,7 +42,6 @@ class _SearchState extends State<Search> {
     super.initState();
     _IsSearching = false;
     init();
-
   }
 
   void init() {
@@ -58,21 +59,22 @@ class _SearchState extends State<Search> {
     _list.add("Java");
     _list.add("RxAndroid");
   }
+
   var _blankFocusnode = new FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: key,
       appBar: buildBar(context),
       body: GestureDetector(
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          children: _IsSearching ? _buildSearchList() : _buildList(),
-        ),
+          child: ListView(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            children: _IsSearching ? _buildSearchList() : _buildList(),
+          ),
           onTap: () {
-          FocusScope.of(context).requestFocus(_blankFocusnode);
-          }
-      ),
+            FocusScope.of(context).requestFocus(_blankFocusnode);
+          }),
     );
   }
 
@@ -82,24 +84,24 @@ class _SearchState extends State<Search> {
 
   List<ChildItem> _buildSearchList() {
     if (_searchText.isEmpty) {
-      return _list.map((contact) => new ChildItem(contact))
-          .toList();
-    }
-    else {
+      return _list.map((contact) => new ChildItem(contact)).toList();
+    } else {
       List<String> _searchList = List();
       for (int i = 0; i < _list.length; i++) {
-        String  name = _list.elementAt(i);
+        String name = _list.elementAt(i);
         if (name.toLowerCase().contains(_searchText.toLowerCase())) {
           _searchList.add(name);
         }
       }
-      return _searchList.map((contact) => new ChildItem(contact))
-          .toList();
+      return _searchList.map((contact) => new ChildItem(contact)).toList();
     }
   }
 
-  Widget buildBar(BuildContext context) {
 
+
+
+
+  Widget buildBar(BuildContext context) {
     return new AppBar(
         leading: IconButton(
           icon: Icon(
@@ -114,17 +116,14 @@ class _SearchState extends State<Search> {
         title: Container(
             height: 35,
             decoration: BoxDecoration(
-                color : Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(15))
-            ),
-
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(15))),
             child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: TextFormField(
                   controller: _searchQuery,
                   autofocus: true,
                   style: TextStyle(color: Colors.white),
-
                   decoration: new InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search...",
@@ -132,6 +131,7 @@ class _SearchState extends State<Search> {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.search, color: Colors.white),
                         onPressed: () {
+
                         },
                       )
                   ),
@@ -139,22 +139,16 @@ class _SearchState extends State<Search> {
             )
         )
     );
-
   }
-
-
 }
 
 class ChildItem extends StatelessWidget {
   final String name;
+
   ChildItem(this.name);
+
   @override
   Widget build(BuildContext context) {
     return new ListTile(title: new Text(this.name));
   }
-
 }
-
-
-
-
