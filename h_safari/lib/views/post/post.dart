@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../chat/database.dart';
+import '../../services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:h_safari/widget/widget.dart';
 

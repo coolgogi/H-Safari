@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/firebase_provider.dart';
-import 'database.dart';
+import '../../services/database.dart';
 import 'chatRoom.dart';
 import 'package:h_safari/widget/widget.dart';
 
