@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/post.dart';
+import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/write.dart';
 import '../main/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:h_safari/widget/widget.dart';
+import 'dart:math';
 
 class MyPost extends StatefulWidget {
   DocumentSnapshot tp;
@@ -152,7 +154,11 @@ class _MyPostState extends State<MyPost> {
                       IconButton(
                         icon: Icon(Icons.border_color, color: Colors.green),
                         onPressed: () {
-                          showUpdateOrDeleteDocDialog(widget.tp);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      postUpdateDelete(widget.tp)));
                         },
                       ),
                     ],
@@ -336,86 +342,86 @@ class _MyPostState extends State<MyPost> {
     );
   }
 
-  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
-    _undNameCon.text = fnName;
-    _undPriceCon.text = fnPrice;
-    _undDescCon.text = fnDes;
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))
-          ),
-          title: Text("Update/Delete Document"),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(labelText: "Name"),
-                  controller: _undNameCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Price"),
-                  controller: _undPriceCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: _undDescCon,
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                _undNameCon.clear();
-                _undDescCon.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Update"),
-              onPressed: () {
-                if (_undNameCon.text.isNotEmpty &&
-                    _undDescCon.text.isNotEmpty) {
-                  updateDoc(doc.documentID, _undNameCon.text, _undPriceCon.text ,_undDescCon.text);
-                  fnName = _undNameCon.text;
-                  fnPrice = _undPriceCon.text;
-                  fnDes = _undDescCon.text;
-                }
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Delete"),
-              onPressed: () {
-                deleteDoc(doc.documentID);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  // 문서 갱신 (Update)
-  void updateDoc(String docID, String name, String price, String description) {
-    Firestore.instance.collection('post').document(docID).updateData({
-      "name": name,
-      "price": price,
-      "description": description,
-    });
-  }
-
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection('post').document(docID).delete();
-  }
+//  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
+//    _undNameCon.text = fnName;
+//    _undPriceCon.text = fnPrice;
+//    _undDescCon.text = fnDes;
+//    showDialog(
+//      barrierDismissible: false,
+//      context: context,
+//      builder: (context) {
+//        return AlertDialog(
+//          shape: RoundedRectangleBorder(
+//              borderRadius: BorderRadius.all(Radius.circular(10.0))
+//          ),
+//          title: Text("Update/Delete Document"),
+//          content: Container(
+//            height: 200,
+//            child: Column(
+//              children: <Widget>[
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Name"),
+//                  controller: _undNameCon,
+//                ),
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Price"),
+//                  controller: _undPriceCon,
+//                ),
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Description"),
+//                  controller: _undDescCon,
+//                )
+//              ],
+//            ),
+//          ),
+//          actions: <Widget>[
+//            FlatButton(
+//              child: Text("Cancel"),
+//              onPressed: () {
+//                _undNameCon.clear();
+//                _undDescCon.clear();
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Update"),
+//              onPressed: () {
+//                if (_undNameCon.text.isNotEmpty &&
+//                    _undDescCon.text.isNotEmpty) {
+//                  updateDoc(doc.documentID, _undNameCon.text, _undPriceCon.text ,_undDescCon.text);
+//                  fnName = _undNameCon.text;
+//                  fnPrice = _undPriceCon.text;
+//                  fnDes = _undDescCon.text;
+//                }
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Delete"),
+//              onPressed: () {
+//                deleteDoc(doc.documentID);
+//                Navigator.pop(context);
+//              },
+//            )
+//          ],
+//        );
+//      },
+//    );
+//  }
+//
+//  // 문서 갱신 (Update)
+//  void updateDoc(String docID, String name, String price, String description) {
+//    Firestore.instance.collection('post').document(docID).updateData({
+//      "name": name,
+//      "price": price,
+//      "description": description,
+//    });
+//  }
+//
+//  // 문서 삭제 (Delete)
+//  void deleteDoc(String docID) {
+//    Firestore.instance.collection('post').document(docID).delete();
+//  }
 
   void sendMessage(String email) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -559,19 +565,65 @@ class _WaitingState extends State<Waiting> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: 3,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 100,
-            width: double.maxFinite,
-            child: //Text('$test[index]'),
+    // 이름 만드는 리스트
+    var deco = ['귀여운', '잘생긴', '못생긴', '뚱뚱한', '착한', '한동대', '키가 큰', '키가 작은'];
+    var animal = ['토끼', '강아지', '기린', '큰부리새', '김광일?', '코뿔소', '하마', '코끼리', '표범'];
+
+    // 랜덤 변수 지정
+    final _random = new Random();
+
+    // 이름 값을 저장하는 리스트. (DB랑 연결되면 DB에 저장이 될 예정)
+    List<String> names = [];
+
+
+    for (int j = 1; j <= 10 ; j++) {
+
+      // decoWord : 꾸미는 단어 랜덤으로 뽑기
+      var decoWord = deco[_random.nextInt(deco.length)];
+      // animal : 동물 단어 랜덤으로 뽑기
+      var animalWord = animal[_random.nextInt(animal.length)];
+      // userWord : 유저별 랜덤이름
+      var userWord = decoWord + ' ' + animalWord;
+
+      // userWord를 리스트 names에 삽입. (DB랑 연결되면 DB에 추가할 예정)
+      names.add(userWord);
+    }
+    return GestureDetector(
+      child: ListView.builder(
+        // shrinkWrap : (무슨 역할인지,, 모르겠어요)
+          shrinkWrap: true,
+
+          // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
+          itemCount: names.length,
+
+          // itemBuilder : userName이 보여지는 공간
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              // padding : padding을 아래 10px 지정
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Container(
+
+                // ListTile의 스타일 지정
+                decoration: BoxDecoration(
+
+                  // 모서리 둥근 정도
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    // 배경색
+                    color : Colors.green[200]
+                ),
+                height: 55,
+                width: double.maxFinite,
+                child: //Text('$test[index]'),
                 ListTile(
-              title: Text('왜안되냐아ㅏㅏ아ㅏ'),
-              onTap: () {},
-            ),
-          );
-        });
+                    title: Text('[' + (index+1).toString() + '] ' + names[index])
+                ),
+              ),
+            );
+          }
+      ),
+    );
+
   }
+
 }
+

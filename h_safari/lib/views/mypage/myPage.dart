@@ -11,6 +11,7 @@ import 'package:h_safari/widget/widget.dart';
 import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/views/mypage/settingAlarm.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +24,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
-  bool isSwitched = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,18 +135,12 @@ class _MyPageState extends State<MyPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text('알림 설정'),
-                  Switch(
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                      });
-                    },
-                    activeTrackColor: Colors.lightGreenAccent[100],
-                    activeColor: Colors.green[400],
-                  ),
                 ],
               ),
+              onTap: () {
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) => settingAlarm()));
+              }
             ),
             ListTile(
               leading: Icon(Icons.favorite),
