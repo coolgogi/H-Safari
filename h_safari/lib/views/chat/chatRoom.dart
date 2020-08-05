@@ -127,10 +127,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(
-      Duration(milliseconds: 100),
-          () => _controller.jumpTo(_controller.position.maxScrollExtent),
-    );
+//    Timer(
+//      Duration(seconds: 1),
+//          () => _controller.jumpTo(_controller.position.maxScrollExtent),
+//    );
     return Scaffold(
       appBar: appBarSelect(context, '채팅방'),
       body: Column(

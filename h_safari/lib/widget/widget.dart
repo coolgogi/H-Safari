@@ -271,6 +271,7 @@ class AppBarTitle extends StatelessWidget {
       children: <Widget>[
         InkWell(
           child: Container(
+            width: 270,
             height: 35,
             decoration: BoxDecoration(
                 color : Colors.green,
@@ -287,7 +288,7 @@ class AppBarTitle extends StatelessWidget {
                         fontSize: 15),),
                 ),
                 SizedBox(
-                  width: 33,
+                  width: 90,
                 ),
                 IconButton(
                   icon : Icon(Icons.search, color: Colors.white),
