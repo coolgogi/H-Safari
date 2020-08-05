@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/widget/widget.dart';
+import 'dart:math';
 
 class settingAlarm extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _settingAlarmState extends State<settingAlarm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, '이용약관'),
+      appBar: appBar(context, '알림설정'),
       body: Column(
         children: <Widget>[
           SetAlarm(context, '전체알림', 0),
@@ -36,10 +37,12 @@ class _settingAlarmState extends State<settingAlarm> {
   // SetAlarm : 알림설정 문구 & 스위치 위젯
   // title(알림문구), num(알림설정 순서)
   Widget SetAlarm(BuildContext context, String title, int num){
+
     return Row(
       children: <Widget>[
         // mySize(4) : 화면 width의 4분의 1크기만큼 자리차지
         mySize(4),
+
 
         // Container : 알림문구를 감싸고 역할
         Container(
@@ -47,7 +50,7 @@ class _settingAlarmState extends State<settingAlarm> {
             child: Text('$title')),
 
         // mySize(8) : 화면 width의 8분의 1크기만큼 자리차지
-
+        mySize(8),
         // Container : Switch를 감싸고 역할
         Container(
           child: Switch(
@@ -58,7 +61,6 @@ class _settingAlarmState extends State<settingAlarm> {
             onChanged: (value) {
               setState(() {
                 _isSwitchedNum[num] = value;
-                print(value);
               });
             },
 
