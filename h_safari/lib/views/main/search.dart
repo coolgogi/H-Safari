@@ -69,9 +69,13 @@ class _SearchState extends State<Search> {
           padding: EdgeInsets.symmetric(vertical: 8.0),
           children: _IsSearching ? _buildSearchList() : _buildList(),
         ),
-          onTap: () {
-          FocusScope.of(context).requestFocus(_blankFocusnode);
-          }
+
+
+
+
+//          onTap: () {
+//          FocusScope.of(context).requestFocus(_blankFocusnode);
+//          }
       ),
     );
   }
@@ -97,6 +101,10 @@ class _SearchState extends State<Search> {
           .toList();
     }
   }
+
+
+
+
 
   Widget buildBar(BuildContext context) {
 

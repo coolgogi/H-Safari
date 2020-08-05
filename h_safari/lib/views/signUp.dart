@@ -324,7 +324,6 @@ class _SignUpState extends State<SignUp> {
     Map<String,dynamic> user = {
       "user" : email,
       "가입일" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-//      "category" : category,
       "의류" : clothe,
       "서적" : book,
       "음식" : food,
