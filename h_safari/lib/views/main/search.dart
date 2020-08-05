@@ -182,7 +182,8 @@ class _SearchState extends State<Search> {
                           }).toList(),
                         ),
                         onTap: () {
-                          FocusScope.of(context).requestFocus(_blankFocusnode);
+//                          FocusScope.of(context).requestFocus(_blankFocusnode);
+
                         }
                       );
             }
@@ -214,52 +215,6 @@ class _SearchState extends State<Search> {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Post(doc, documentID)));
   }
-
-  List<ChildItem> _buildList() {
-    return _list.map((contact) => new ChildItem(contact)).toList();
-  }
-
-  List<ChildItem> _buildSearchList() {
-    if (_searchText.isEmpty) {
-      return _list.map((contact) => new ChildItem(contact)).toList();
-    }
-    else {
-      List<String> _searchList = List();
-      for (int i = 0; i < _list.length; i++) {
-        String name = _list.elementAt(i);
-        if (name.toLowerCase().contains(_searchText.toLowerCase())) {
-          _searchList.add(name);
-        }
-      }
-      return _searchList.map((contact) => new ChildItem(contact)).toList();
-    }
-  }
-//
-//  List<postItem> _buildPostList() {
-//    return postList.map((contact) => new postItem(contact)).toList();
-//  }
-//
-//  List<postItem> _buildSearchPostList() {
-//    if (_searchText.isEmpty) {
-//      return postList.map((contact) => new postItem(contact)).toList();
-//    }
-//    else {
-//      List<String> _searchPostList = List();
-//      for (int i = 0; i < postList.length; i++) {
-//        for(int j = 0; j < postList[i].length; j++){
-//
-//        }
-//        String name = postList[i].elementAt(i);
-//        if (name.toLowerCase().contains(_searchText.toLowerCase())) {
-//          _searchPostList.add(name);
-//        }
-//      }
-//      return _searchPostList.map((contact) => new postItem(contact)).toList();
-//    }
-//  }
-
-
-
 
   Widget buildBar(BuildContext context) {
     return new AppBar(
@@ -294,7 +249,9 @@ class _SearchState extends State<Search> {
                       hintStyle: new TextStyle(color: Colors.white),
                       suffixIcon: IconButton(
                         icon: Icon(Icons.search, color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(_blankFocusnode);
+                        },
                       )
                   ),
                 )
@@ -306,17 +263,17 @@ class _SearchState extends State<Search> {
 
 }
 
-class ChildItem extends StatelessWidget {
-  final String name;
-
-  ChildItem(this.name);
-
-  @override
-  Widget build(BuildContext context) {
-    return new ListTile(title: new Text(this.name));
-  }
-
-}
+//class ChildItem extends StatelessWidget {
+//  final String name;
+//
+//  ChildItem(this.name);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return new ListTile(title: new Text(this.name));
+//  }
+//
+//}
 //
 //class postItem{
 //  String postID;
