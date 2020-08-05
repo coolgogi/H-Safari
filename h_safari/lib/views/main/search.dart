@@ -97,7 +97,8 @@ class _SearchState extends State<Search> {
                             String _profileImageURL = document[fnImageUrl];
                             String postCategory = document[fnCategory];
 
-                            if (!title.contains(_searchQuery.text))
+                            if(!_IsSearching) return Container();
+                            else if (!title.contains(_searchQuery.text))
                               return Container();
                             else {
                               return Card(
@@ -191,18 +192,19 @@ class _SearchState extends State<Search> {
 
   // 문서 조회 (Read)
   void showDocument(String documentID) {
+
     Firestore.instance
         .collection('post')
         .document(documentID)
         .get()
         .then((doc) {
+      print("showReadPostPage");
       showReadPostPage(doc, documentID);
     });
   }
 
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID) {
-    _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Post(doc, documentID)));
   }
