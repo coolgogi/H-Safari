@@ -36,7 +36,6 @@ class _PostState extends State<Post> {
   String fnUid;
   String fnCategory;
   String fnHow;
-
   String fnEmail;
 
 
@@ -320,7 +319,7 @@ class _PostState extends State<Post> {
                   Map<String, dynamic> alertToUser = {
                     "postName" : fnName,
                     "type" : "구매신청",
-                    "sendBy" : "",
+                    "sendBy" : fnEmail,
                     "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
                     "postID" : widget.documentID,
                     "unread" : true,
