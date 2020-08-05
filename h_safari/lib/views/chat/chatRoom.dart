@@ -5,7 +5,7 @@ import 'package:h_safari/models/firebase_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'database.dart';
+import '../../services/database.dart';
 import 'package:h_safari/widget/widget.dart';
 
 class ChatRoom extends StatefulWidget {
