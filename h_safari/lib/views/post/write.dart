@@ -242,7 +242,8 @@ class _MyWriteState extends State<MyWrite> {
                                                                     child:
                                                                         IconButton(
                                                                       icon: Icon(
-                                                                          Icons.highlight_off),
+                                                                          Icons
+                                                                              .highlight_off),
                                                                       disabledColor:
                                                                           Colors
                                                                               .black,
@@ -545,7 +546,8 @@ class _MyWriteState extends State<MyWrite> {
   void createDoc(
       String name, String description, String price, String imageURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DocumentReference documentReference = Firestore.instance.collection(colName).document();
+    DocumentReference documentReference =
+        Firestore.instance.collection(colName).document();
     documentReference.setData({
       fnName: name,
       fnDescription: description,
@@ -571,7 +573,8 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc, null)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Post(doc, null)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {

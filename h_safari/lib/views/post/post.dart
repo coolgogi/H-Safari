@@ -70,15 +70,6 @@ class _PostState extends State<Post> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        //extendBodyBehindAppBar: true,
-//        appBar: AppBar(
-//          iconTheme: IconThemeData(color: Colors.green),
-//          backgroundColor: Colors.transparent,
-//          elevation: 0,
-//          centerTitle: true,
-//          title: Text('$fnName', style: TextStyle(color: Colors.green),),
-//        ),
-        //appBar(context, '$fnName'),
         bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
