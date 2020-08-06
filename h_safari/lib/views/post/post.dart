@@ -147,7 +147,7 @@ class _PostState extends State<Post> {
                                 child: Text('구매신청',
                                   style: TextStyle(color: Colors.green),),
                                 onPressed: () {
-                                  sendAlarm(context);
+                                  purchaseApplication(context);
                                 },
                               ),
                             ),
@@ -320,7 +320,7 @@ class _PostState extends State<Post> {
     }
   }
 
-  void sendAlarm(BuildContext context) async {
+  void purchaseApplication(BuildContext context) async {
     String result = await showDialog(
         context: context,
         barrierDismissible: false,
@@ -339,7 +339,7 @@ class _PostState extends State<Post> {
                 child: Text('확인', style: TextStyle(color: Colors.green),),
                 onPressed: () {
                   //users에 저장
-                  Map<String, dynamic> alertToUser = {
+                  Map<String, dynamic> purchaseApplication = {
                     "postName" : fnName,
                     "type" : "구매신청",
                     "sendBy" : currentEmail,
@@ -348,7 +348,7 @@ class _PostState extends State<Post> {
                     "unread" : true,
                   };
                   // post에 저장
-                  sendAlert("구매신청", alertToUser);
+                  sendPurchaseApplicationNotification(purchaseApplication);
                   sendWant(fnId);
                   Navigator.pop(context, '확인');
                   Buy(context);
@@ -360,12 +360,12 @@ class _PostState extends State<Post> {
     );
   }
 
-  void sendAlert(String type, alertToUser) {
+  void sendPurchaseApplicationNotification(purchaseApplication) {
     Firestore.instance
         .collection("users")
         .document(fnEmail)
-        .collection("alert")
-        .add(alertToUser)
+        .collection("notification")
+        .add(purchaseApplication)
         .catchError((e) {
       print(e.toString());
     });
@@ -389,7 +389,16 @@ class _PostState extends State<Post> {
         "comment": commentEditingController.text,
         'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       };
+      Map<String, dynamic> commentNotification = {
+        "postName" : fnName,
+        "type" : "댓글",
+        "sendBy" : currentUser.email,
+        "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+        "postID" : widget.documentID,
+        "unread" : true,
+      };
       DatabaseMethods().addComment(widget.documentID, commentMap);
+      DatabaseMethods().sendCommentNotification(fnEmail, commentNotification);
       setState(() {
         commentEditingController.text = "";
       });
