@@ -619,8 +619,6 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
       "category" : category,
       "how" : how,
     });
-    Navigator.pop(context);
-    Navigator.pop(context);
   }
 
   // 문서 삭제 (Delete)
@@ -640,6 +638,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
 
   void showReadPostPage(DocumentSnapshot doc) {
     setState(() {});
+    Navigator.pop(context);
+    Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) => MyPost(doc, doc.documentID)));
   }
 
@@ -700,8 +700,8 @@ class _ListCatState extends State<ListCat> {
     '서적',
     '음식',
     '생필품',
-    '가구/전자제품',
-    '뷰티/잡화',
+    '가구전자제품',
+    '뷰티잡화',
     '양도',
     '기타',
   ];
