@@ -175,6 +175,19 @@ class MessageTile extends StatelessWidget {
 
     return Column(
       children: <Widget>[
+        previousDate != todayDate
+            ? Container(
+          margin: EdgeInsets.only(bottom: 10),
+          height: 20,
+          child: Center(
+              child: Text(
+                todayDate,
+                style: TextStyle(fontSize: 12),
+              )),
+        )
+            : Container(
+          child: null,
+        ),
         Row(
           mainAxisAlignment:
               sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -235,19 +248,6 @@ class MessageTile extends StatelessWidget {
                   ),
           ],
         ),
-        previousDate != todayDate
-            ? Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 20,
-                child: Center(
-                    child: Text(
-                  todayDate,
-                  style: TextStyle(fontSize: 12),
-                )),
-              )
-            : Container(
-                child: null,
-              ),
       ],
     );
   }
