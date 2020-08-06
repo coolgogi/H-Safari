@@ -70,6 +70,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnHow = 'how';
   final String fnUid = "uid";
   final String fnEmail = "email";
+  final String fnList = "userList";
 
   List<File> pictures = List<File>();
   List<String> picURL = List<String>();
@@ -498,6 +499,7 @@ class _MyWriteState extends State<MyWrite> {
     DocumentReference documentReference = Firestore.instance.collection(colName).document();
 
     List<String> splitString = picURL.split(',');
+    List<String> tp = List();
     documentReference.setData({
       fnName: name,
       fnDescription: description,
@@ -509,6 +511,7 @@ class _MyWriteState extends State<MyWrite> {
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
       fnEmail: user.email,
+      fnList : tp,
     });
     Navigator.pop(context);
     showDocument(documentReference.documentID);

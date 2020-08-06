@@ -50,7 +50,7 @@ class DatabaseMethods {
         .collection("chatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .orderBy('date')
+        .orderBy('date', descending: true)
         .snapshots();
   }
 
