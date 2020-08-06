@@ -112,11 +112,7 @@ class _MyPostState extends State<MyPost> {
                       IconButton(
                         icon: Icon(Icons.border_color, color: Colors.green),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      postUpdateDelete(widget.tp)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => postUpdateDelete(widget.tp)));
                         },
                       ),
                     ],
@@ -225,32 +221,17 @@ class _MyPostState extends State<MyPost> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              '$fnCategory',
-                              style: TextStyle(fontSize: 15, color: Colors.black54),
-                            ),
+                            Text('$fnCategory', style: TextStyle(fontSize: 15, color: Colors.black54),),
                             Row(
                               //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
                               children: [
-                                Text(
-                                  '택배',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Icon(
-                                  checkDelivery
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank,
+                                Text('택배', style: TextStyle(fontSize: 15),),
+                                Icon(checkDelivery ? Icons.check_box : Icons.check_box_outline_blank,
                                   color: checkDelivery ? Colors.green : Colors.grey,
                                 ),
                                 Text('      '),
-                                Text(
-                                  '직접거래',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Icon(
-                                  checkDirect
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank,
+                                Text('직접거래', style: TextStyle(fontSize: 15),),
+                                Icon(checkDirect ? Icons.check_box : Icons.check_box_outline_blank,
                                   color: checkDelivery ? Colors.green : Colors.grey,
                                 ),
                               ],
@@ -265,9 +246,7 @@ class _MyPostState extends State<MyPost> {
                           height: 10,
                         ),
 
-                        Text(
-                          '댓글 $comment',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Text('댓글 $comment', style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     )),
@@ -277,7 +256,6 @@ class _MyPostState extends State<MyPost> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/views/post/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,6 +21,9 @@ class postUpdateDelete extends StatefulWidget {
   _postUpdateDeleteState createState() => _postUpdateDeleteState(tp);
 }
 
+String _value; //radioButton에서 값을 저장하는 변수
+String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변수
+
 class _postUpdateDeleteState extends State<postUpdateDelete> {
   String currentUid;
   String tpUrl =
@@ -30,8 +34,6 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   bool _delivery = false; //택배버튼
   bool _direct = false; //직거래 버튼
   String _category = '카테고리 미정'; //카테고리 선택시 값이 변하도록 하기 위한 변수
-  String _value; //radioButton에서 값을 저장하는 변수
-  String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변수
 
   TextEditingController _newNameCon = TextEditingController(); //제목저장
   TextEditingController _newDescCon = TextEditingController(); //설명저장
@@ -420,42 +422,41 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                         //기존 dopdownButton에서 alertDialog list로 수정!
                                                         //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
                                                         return //DropCat();
-                                                            AlertDialog(
-                                                          title: Text('카테고리'),
-                                                          actions: <Widget>[
-                                                            FlatButton(
-                                                              child: Text('취소'),
-                                                              onPressed: () {
-                                                                Navigator.pop(context);
-                                                                _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                              },
+                                                          AlertDialog(
+                                                            title: Text('카테고리'),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text('취소'),
+                                                                onPressed: () {
+                                                                  Navigator.pop(context);
+                                                                  _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                },
+                                                              ),
+                                                              FlatButton(
+                                                                child: Text('확인'),
+                                                                onPressed: () {
+                                                                  if (_value != null) {
+                                                                    Navigator.pop(context, _value);
+                                                                    setState(() {
+                                                                      //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                      _category = _value;
+                                                                      previous = _value;
+                                                                    });
+                                                                  }
+                                                                },
+                                                              ),
+                                                            ],
+                                                            content: Container(
+                                                              width: double.maxFinite,
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: <Widget>[
+                                                                  ListCat(),
+                                                                  //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                                ],
+                                                              ),
                                                             ),
-                                                            FlatButton(
-                                                              child: Text('확인'),
-                                                              onPressed: () {
-                                                                if (_value != null) {
-                                                                  Navigator.pop(context, _value);
-                                                                  setState(() {
-                                                                    //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category = _value;
-                                                                    previous = _value;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                          content: Container(
-                                                            width: double.maxFinite,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
-                                                              children: <Widget>[
-                                                                ListCat(),
-                                                                //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
+                                                          );
                                                       });
                                                 })),
                                       ],
@@ -583,10 +584,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                               //경고 메세지 부탁
                                             }
                                           },
-                                          child: Text('업데이트',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
+                                          child: Text('업데이트', style: TextStyle(fontSize: 15, color: Colors.white)),
                                         ),
                                         RaisedButton(
                                           color: Colors.green,
@@ -621,6 +619,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
       "category" : category,
       "how" : how,
     });
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   // 문서 삭제 (Delete)
@@ -639,8 +639,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   }
 
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Post(doc, doc.documentID)));
+    setState(() {});
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyPost(doc, doc.documentID)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {
@@ -686,18 +686,28 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     else
       return 3;
   }
+}
 
-  Widget ListCat() {
-    List<String> drop = [
-      '의류',
-      '서적',
-      '음식',
-      '생필품',
-      '가구전자제품',
-      '뷰티잡화',
-      '양도',
-      '기타',
-    ];
+class ListCat extends StatefulWidget {
+  @override
+  _ListCatState createState() => _ListCatState();
+}
+
+class _ListCatState extends State<ListCat> {
+  //카테고리 이름을 저장하는 리스트 배열
+  List<String> drop = [
+    '의류',
+    '서적',
+    '음식',
+    '생필품',
+    '가구/전자제품',
+    '뷰티/잡화',
+    '양도',
+    '기타',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: 8,
@@ -717,3 +727,4 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     );
   }
 }
+
