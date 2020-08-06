@@ -173,7 +173,7 @@ class _SearchState extends State<Search> {
                           }).toList(),
                         ),
                         onTap: () {
-//                          FocusScope.of(context).requestFocus(_blankFocusnode);
+                          FocusScope.of(context).requestFocus(_blankFocusnode);
 
                         }
                       );
@@ -238,11 +238,12 @@ class _SearchState extends State<Search> {
                       hintText: "Search...",
                       hintStyle: new TextStyle(color: Colors.white),
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.search, color: Colors.white),
+                        icon: Icon(Icons.clear, color: Colors.white,),
                         onPressed: () {
-                          FocusScope.of(context).requestFocus(_blankFocusnode);
+                          _searchQuery.clear();
                         },
-                      )
+                      ),
+
                   ),
                 )
             )

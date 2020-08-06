@@ -29,6 +29,9 @@ class MyPost extends StatefulWidget {
 class _MyPostState extends State<MyPost> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
+  TextEditingController commentEditingController = new TextEditingController();
+  Stream<QuerySnapshot> comments;
+
   String fnName;
   String fnDes;
   String fnDate;
@@ -80,53 +83,6 @@ class _MyPostState extends State<MyPost> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        bottomNavigationBar: BottomAppBar(
-          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 30,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Comment',
-                          contentPadding: EdgeInsets.all(7.0),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonTheme(
-                    height: 30,
-                    child: FlatButton(
-                      shape: OutlineInputBorder(),
-                      child: Text(
-                        '댓글 등록',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
         body: NestedScrollView(
           //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -179,7 +135,8 @@ class _MyPostState extends State<MyPost> {
                       children: [
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
+                          child: Container(
+                              //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
                               height: 250,
                               width: MediaQuery.of(context).size.width,
                               child: PageView.builder(
@@ -190,16 +147,13 @@ class _MyPostState extends State<MyPost> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                              image: NetworkImage(fnImageList[index]),
-                                              fit: BoxFit.fitHeight,
-                                              //fit: BoxFit.cover
-                                            )
-                                        ),
+                                          image: NetworkImage(fnImageList[index]),
+                                          fit: BoxFit.fitHeight,
+                                          //fit: BoxFit.cover
+                                        )),
                                       ),
                                     );
-                                  }
-                              )
-                          ),
+                                  })),
                         ),
 
                         Divider(
@@ -273,8 +227,7 @@ class _MyPostState extends State<MyPost> {
                           children: <Widget>[
                             Text(
                               '$fnCategory',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.black54),
+                              style: TextStyle(fontSize: 15, color: Colors.black54),
                             ),
                             Row(
                               //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
@@ -287,9 +240,7 @@ class _MyPostState extends State<MyPost> {
                                   checkDelivery
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery
-                                      ? Colors.green
-                                      : Colors.grey,
+                                  color: checkDelivery ? Colors.green : Colors.grey,
                                 ),
                                 Text('      '),
                                 Text(
@@ -300,9 +251,7 @@ class _MyPostState extends State<MyPost> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery
-                                      ? Colors.green
-                                      : Colors.grey,
+                                  color: checkDelivery ? Colors.green : Colors.grey,
                                 ),
                               ],
                             ),
@@ -317,23 +266,62 @@ class _MyPostState extends State<MyPost> {
                         ),
 
                         Text(
-                          '댓굴 $comment',
+                          '댓글 $comment',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-//              new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now())
-
-                        RawMaterialButton(
-                          //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
-                          shape: OutlineInputBorder(),
-                          //잠깐 메세지 버튼으로 쓸게요~~
-                          child: Text('댓글 & 메세지'),
-                          onPressed: () {
-                            sendMessage(fnEmail);
-//                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
-                          },
-                        )
                       ],
                     )),
+                commentWindow(),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 30,
+                      child: TextFormField(
+                        controller: commentEditingController,
+                        decoration: InputDecoration(
+                          hintText: 'Comment',
+                          contentPadding: EdgeInsets.all(7.0),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ButtonTheme(
+                    height: 30,
+                    child: FlatButton(
+                      shape: OutlineInputBorder(),
+                      child: Text(
+                        '댓글 등록',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () {
+                        addComment();
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -553,6 +541,66 @@ class _MyPostState extends State<MyPost> {
       return "$a\_$b";
     }
   }
+
+  addComment() {
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    if (commentEditingController.text.isNotEmpty) {
+      Map<String, dynamic> commentMap = {
+        "sendBy": currentUser.email,
+        "comment": commentEditingController.text,
+        'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+      };
+      DatabaseMethods().addComment(widget.documentID, commentMap);
+      setState(() {
+        commentEditingController.text = "";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getComments(widget.documentID).then((val) {
+      setState(() {
+        comments = val;
+      });
+    });
+    super.initState();
+  }
+
+  Widget commentTile(String name, String comment, String date) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(name),
+          Text(comment),
+          Text(date, style: TextStyle(color: Colors.black38, fontSize: 12),),
+          Divider(color: Colors.black,)
+        ],
+      ),
+    );
+  }
+
+  commentWindow() {
+    return StreamBuilder(
+      stream: comments,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return commentTile(
+                      snapshot.data.documents[index].data["sendBy"],
+                      snapshot.data.documents[index].data["comment"],
+                      snapshot.data.documents[index].data["date"]);
+                })
+            : Container();
+      },
+    );
+  }
 }
 
 class Waiting extends StatefulWidget {
@@ -575,9 +623,7 @@ class _WaitingState extends State<Waiting> {
     // 이름 값을 저장하는 리스트. (DB랑 연결되면 DB에 저장이 될 예정)
     List<String> names = [];
 
-
-    for (int j = 1; j <= 10 ; j++) {
-
+    for (int j = 1; j <= 10; j++) {
       // decoWord : 꾸미는 단어 랜덤으로 뽑기
       var decoWord = deco[_random.nextInt(deco.length)];
       // animal : 동물 단어 랜덤으로 뽑기
@@ -590,7 +636,7 @@ class _WaitingState extends State<Waiting> {
     }
     return GestureDetector(
       child: ListView.builder(
-        // shrinkWrap : (무슨 역할인지,, 모르겠어요)
+          // shrinkWrap : (무슨 역할인지,, 모르겠어요)
           shrinkWrap: true,
 
           // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
@@ -602,28 +648,24 @@ class _WaitingState extends State<Waiting> {
               // padding : padding을 아래 10px 지정
               padding: const EdgeInsets.only(bottom: 10),
               child: Container(
-
                 // ListTile의 스타일 지정
                 decoration: BoxDecoration(
 
-                  // 모서리 둥근 정도
+                    // 모서리 둥근 정도
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     // 배경색
-                    color : Colors.green[200]
-                ),
+                    color: Colors.green[200]),
                 height: 55,
                 width: double.maxFinite,
                 child: //Text('$test[index]'),
-                ListTile(
-                    title: Text('[' + (index+1).toString() + '] ' + names[index])
-                ),
+                    ListTile(
+                        title: Text('[' +
+                            (index + 1).toString() +
+                            '] ' +
+                            names[index])),
               ),
             );
-          }
-      ),
+          }),
     );
-
   }
-
 }
-
