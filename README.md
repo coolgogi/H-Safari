@@ -23,6 +23,8 @@ CRA vacation project 2020-summer
 
 > 댓글 기능 구현 필요  @@@ -(구현 완료) 예진
 
+> 댓글쓰면 알림가는 기능 - 예진
+
 ### post(writer).dart
 > 해당 게시물 작성자가 보는 화면 구현 및 기능 추가 필요. @@@ - 예진
 
@@ -62,8 +64,6 @@ CRA vacation project 2020-summer
 
 > 사진 총 몇개고, 몇번째 사진을 보고 있는지 표시 - (구현중) 광일
 
-> 댓글쓰면 알림가는 기능(postwrite 동일) - (구현중) 예진
-
 
 ### myPage.dart
 > 푸시알림기능 구현 - 나중에
@@ -72,6 +72,8 @@ CRA vacation project 2020-summer
 
 ### post(write).dart
 > 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- (구현중) 수현
+
+> 댓글쓰면 알림가는 기능(답글인경우만)
 
 ### write.dart
 
