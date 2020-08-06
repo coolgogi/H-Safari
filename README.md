@@ -72,6 +72,8 @@ CRA vacation project 2020-summer
 
 > 탈퇴기능
 
+> 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기 
+
 ### post(write).dart
 > 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- (구현중) 수현
 
