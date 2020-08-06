@@ -80,6 +80,7 @@ class _MyWriteState extends State<MyWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
