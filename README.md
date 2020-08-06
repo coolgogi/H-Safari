@@ -80,3 +80,12 @@ CRA vacation project 2020-summer
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
+
+### myPage.dart 
+
+### ???
+> 거래 완료 시, home에서 워터마크처럼 표시해주기
+
+> Post(write)에서 워터파크처럼 표시해주기
+
+> Post(write)에서 상단 버튼(리스트보기, 수정하기) disable
