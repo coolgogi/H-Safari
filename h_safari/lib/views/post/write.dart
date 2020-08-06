@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/helpers/bottombar.dart';
 import 'package:h_safari/views/post/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:image_picker/image_picker.dart';
@@ -352,6 +353,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                   }
                                                                 },
                                                               ),
+//                                                              (copyIndex!=2) ? _value=null : _value=_value,
                                                             ],
                                                             content: Container(
                                                               width: double.maxFinite,
@@ -578,8 +580,8 @@ class _ListCatState extends State<ListCat> {
     '서적',
     '음식',
     '생필품',
-    '가구전자제품',
-    '뷰티잡화',
+    '가구/전자제품',
+    '뷰티/잡화',
     '양도',
     '기타',
   ];
@@ -597,7 +599,7 @@ class _ListCatState extends State<ListCat> {
           groupValue: _value,
           onChanged: (value) {
             setState(() {
-              _value = value;
+                _value = value;
             });
           },
         );

@@ -233,23 +233,7 @@ class _MyPostState extends State<MyPost> {
                         Divider(
                           color: Colors.black,
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
 
-                        Text(
-                          '$fnName',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '가격 : $fnPrice원',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Divider(
-                          color: Colors.black,
-                        ),
                         SizedBox(
                           height: 10,
                         ),
