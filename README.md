@@ -67,6 +67,8 @@ CRA vacation project 2020-summer
 
 > 대댓글 @
 
+> 키보드를 누르면 화면이 같이 올라가서 키보드 위에 화면 마지막이 보이도록
+
 ### myPage.dart
 > 푸시알림기능 구현 - 나중에
 
