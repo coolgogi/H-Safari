@@ -34,6 +34,10 @@ CRA vacation project 2020-summer
 ### write.dart
 > 게시글 등록 버튼을 누르면 작성한 게시물로 이동하는 기능 구현 필요. @@ -예진
 
+> write에서 등록하고 home으로 가기 - (구현중) 연희
+
+> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
+
 ### mypage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
 
@@ -52,9 +56,11 @@ CRA vacation project 2020-summer
 ### Post.dart
 > 대기번호 기능 구현 필요 @@@ - (구현중) 수현
 
-> 상태표시 ex)거래중, 거래 완료 - (구현중) 예진
+> 상태표시 ex)거래중, 거래 마감 - (구현중) 예진(거래마감 완료)
 
 > 사진 총 몇개고, 몇번째 사진을 보고 있는지 표시 - (구현중) 광일
+
+> 댓글쓰면 알림가는 기능(postwrite 동일) - (구현중) 예진
 
 
 ### myPage.dart
@@ -68,9 +74,7 @@ CRA vacation project 2020-summer
 > 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨)
 
 ### write.dart
-> write에서 등록하고 home으로 가기 - (구현중) 연희
 
-> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???

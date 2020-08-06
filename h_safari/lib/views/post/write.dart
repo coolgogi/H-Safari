@@ -94,12 +94,17 @@ class _MyWriteState extends State<MyWrite> {
                 SliverAppBar(
                   elevation: 2,
                   backgroundColor: Colors.green[100],
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _value = null;
+                      previous = null;
+                      Navigator.pop(context);
+                    },
+                  ),
                   iconTheme: IconThemeData(color: Colors.green),
                   centerTitle: true,
-                  title: Text(
-                    '게시물 작성',
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  title: Text('게시물 작성', style: TextStyle(color: Colors.black),),
                   floating: true,
                 ),
               ];

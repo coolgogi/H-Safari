@@ -47,7 +47,6 @@ class _BottomBarState extends State<BottomBar> {
         _currentIndex = index;
       });
     }
-
   }
 
   final pageController = PageController();

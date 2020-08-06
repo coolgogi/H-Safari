@@ -47,6 +47,7 @@ class _MyPostState extends State<MyPost> {
   String fnEmail;
   bool fnDoing;
   bool fnClose;
+  List<dynamic> fnUserList;
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -62,6 +63,7 @@ class _MyPostState extends State<MyPost> {
     fnEmail = doc['email'];
     fnDoing = doc['doing'];
     fnClose = doc['close'];
+    fnUserList = doc['userList'];
   }
 
   FirebaseProvider fp;
@@ -83,7 +85,7 @@ class _MyPostState extends State<MyPost> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
-
+    Stream:
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -147,13 +149,15 @@ class _MyPostState extends State<MyPost> {
                               width: MediaQuery.of(context).size.width,
                               child: PageView.builder(
                                   itemCount: fnImageList.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return Transform.scale(
                                       scale: 0.9,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                          image: NetworkImage(fnImageList[index]),
+                                          image:
+                                              NetworkImage(fnImageList[index]),
                                           fit: BoxFit.fitHeight,
                                           //fit: BoxFit.cover
                                         )),
@@ -181,10 +185,12 @@ class _MyPostState extends State<MyPost> {
                                 shape: OutlineInputBorder(),
                                 child: Text(
                                   fnClose ? '마감됨' : '거래마감',
-                                  style: TextStyle(color: fnClose ? Colors.red: Colors.green),
+                                  style: TextStyle(
+                                      color:
+                                          fnClose ? Colors.red : Colors.green),
                                 ),
                                 onPressed: () {
-                                  fnClose ? null: Close(context);
+                                  fnClose ? null : Close(context);
                                 },
                               ),
                             ),
@@ -233,7 +239,8 @@ class _MyPostState extends State<MyPost> {
                           children: <Widget>[
                             Text(
                               '$fnCategory',
-                              style: TextStyle(fontSize: 15, color: Colors.black54),
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black54),
                             ),
                             Row(
                               //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
@@ -246,7 +253,9 @@ class _MyPostState extends State<MyPost> {
                                   checkDelivery
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,
+                                  color: checkDelivery
+                                      ? Colors.green
+                                      : Colors.grey,
                                 ),
                                 Text('      '),
                                 Text(
@@ -257,7 +266,9 @@ class _MyPostState extends State<MyPost> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,
+                                  color: checkDelivery
+                                      ? Colors.green
+                                      : Colors.grey,
                                 ),
                               ],
                             ),
@@ -283,7 +294,6 @@ class _MyPostState extends State<MyPost> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -413,7 +423,6 @@ class _MyPostState extends State<MyPost> {
         });
   }
 
-
   void Close(BuildContext context) async {
     String result = await showDialog(
         context: context,
@@ -440,8 +449,7 @@ class _MyPostState extends State<MyPost> {
                   DatabaseMethods().closePost(widget.documentID);
                   Navigator.pop(context, '취소');
                   fnClose = true;
-                  setState(() {
-                  });
+                  setState(() {});
                 },
               )
             ],
@@ -459,7 +467,9 @@ class _MyPostState extends State<MyPost> {
               '현재 신청자',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Waiting(),
+            content: ListTile(
+              title: Text(fnUserList[0]),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text('확인'),
@@ -536,8 +546,13 @@ class _MyPostState extends State<MyPost> {
         children: <Widget>[
           Text(name),
           Text(comment),
-          Text(date, style: TextStyle(color: Colors.black38, fontSize: 12),),
-          Divider(color: Colors.black,)
+          Text(
+            date,
+            style: TextStyle(color: Colors.black38, fontSize: 12),
+          ),
+          Divider(
+            color: Colors.black,
+          )
         ],
       ),
     );
