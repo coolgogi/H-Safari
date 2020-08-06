@@ -19,10 +19,10 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   FirebaseProvider fp;
-  ScrollController _controller = ScrollController();
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
   String previousDate;
+  var _blankFocusnode = new FocusNode();
 
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
@@ -32,7 +32,7 @@ class _ChatRoomState extends State<ChatRoom> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-          controller: _controller,
+                reverse: true,
                 padding: EdgeInsets.all(15),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
@@ -42,10 +42,10 @@ class _ChatRoomState extends State<ChatRoom> {
                     sendByMe: currentUser.email ==
                         snapshot.data.documents[index].data["sendBy"],
                     date: snapshot.data.documents[index].data["date"],
-                    previousDate: index == 0
+                    previousDate: index == snapshot.data.documents.length - 1
                         ? previousDate = "0"
                         : previousDate =
-                            ((snapshot.data.documents[index - 1].data["date"])
+                            ((snapshot.data.documents[index + 1].data["date"])
                                 .split(RegExp(r" |:")))[0],
                   );
                 })
@@ -127,17 +127,18 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-//    Timer(
-//      Duration(seconds: 1),
-//          () => _controller.jumpTo(_controller.position.maxScrollExtent),
-//    );
-    return Scaffold(
-      appBar: appBarSelect(context, '채팅방'),
-      body: Column(
-        children: [
-          Expanded(child: chatMessages()),
-          sendMessageBox(),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(_blankFocusnode);
+      },
+      child: Scaffold(
+        appBar: appBarSelect(context, '채팅방'),
+        body: Column(
+          children: [
+            Expanded(child: chatMessages()),
+            sendMessageBox(),
+          ],
+        ),
       ),
     );
   }
@@ -174,19 +175,6 @@ class MessageTile extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        previousDate != todayDate
-            ? Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 20,
-                child: Center(
-                    child: Text(
-                  todayDate,
-                  style: TextStyle(fontSize: 12),
-                )),
-              )
-            : Container(
-                child: null,
-              ),
         Row(
           mainAxisAlignment:
               sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -247,6 +235,19 @@ class MessageTile extends StatelessWidget {
                   ),
           ],
         ),
+        previousDate != todayDate
+            ? Container(
+                margin: EdgeInsets.only(bottom: 10),
+                height: 20,
+                child: Center(
+                    child: Text(
+                  todayDate,
+                  style: TextStyle(fontSize: 12),
+                )),
+              )
+            : Container(
+                child: null,
+              ),
       ],
     );
   }
