@@ -187,14 +187,15 @@ class _MyPostState extends State<MyPost> {
                         Divider(
                           color: Colors.black,
                         ),
+
                         SizedBox(
                           height: 10,
                         ),
 
                         Text(
                           '$fnName',
-                          style:
-                              TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 10,
