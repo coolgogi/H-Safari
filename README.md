@@ -69,6 +69,8 @@ CRA vacation project 2020-summer
 
 > 키보드를 누르면 화면이 같이 올라가서 키보드 위에 화면 마지막이 보이도록
 
+> 현재 댓글부분이 하나의 Container를 이루고 있어서 분리되어있는데 하나로 만
+
 ### myPage.dart
 > 푸시알림기능 구현 - 나중에
 
