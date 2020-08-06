@@ -106,6 +106,7 @@ class _PostState extends State<Post> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Container( //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
