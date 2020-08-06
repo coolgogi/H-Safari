@@ -70,6 +70,9 @@ class _MyWriteState extends State<MyWrite> {
   final String fnHow = 'how';
   final String fnUid = "uid";
   final String fnEmail = "email";
+  final String fnList = "userList";
+  final String fnDoing = "doing";
+  final String fnClose = "close";
 
   List<File> pictures = List<File>();
   List<String> picURL = List<String>();
@@ -79,6 +82,7 @@ class _MyWriteState extends State<MyWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -91,12 +95,17 @@ class _MyWriteState extends State<MyWrite> {
                 SliverAppBar(
                   elevation: 2,
                   backgroundColor: Colors.green[100],
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _value = null;
+                      previous = null;
+                      Navigator.pop(context);
+                    },
+                  ),
                   iconTheme: IconThemeData(color: Colors.green),
                   centerTitle: true,
-                  title: Text(
-                    '게시물 작성',
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  title: Text('게시물 작성', style: TextStyle(color: Colors.black),),
                   floating: true,
                 ),
               ];
@@ -493,6 +502,7 @@ class _MyWriteState extends State<MyWrite> {
     DocumentReference documentReference = Firestore.instance.collection(colName).document();
 
     List<String> splitString = picURL.split(',');
+    List<String> tp = List();
     documentReference.setData({
       fnName: name,
       fnDescription: description,
@@ -504,6 +514,9 @@ class _MyWriteState extends State<MyWrite> {
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
       fnEmail: user.email,
+      fnList : tp,
+      fnDoing : false,
+      fnClose : false,
     });
     Navigator.pop(context);
     showDocument(documentReference.documentID);

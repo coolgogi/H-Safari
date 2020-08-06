@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/post.dart';
@@ -45,6 +47,11 @@ class _MyPostState extends State<MyPost> {
 
   String fnCategory;
   String fnEmail;
+  bool fnDoing;
+  bool fnClose;
+  List<dynamic> fnUserList;
+
+  Stream<QuerySnapshot> userList;
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -58,6 +65,20 @@ class _MyPostState extends State<MyPost> {
     fnCategory = doc['category'];
     fnHow = doc['how'];
     fnEmail = doc['email'];
+    fnDoing = doc['doing'];
+    fnClose = doc['close'];
+    fnUserList = doc['userList'];
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getComments(widget.documentID).then((val) {
+      setState(() {
+        comments = val;
+      });
+    });
+    userList = getUserList(widget.documentID);
+    super.initState();
   }
 
   FirebaseProvider fp;
@@ -77,8 +98,10 @@ class _MyPostState extends State<MyPost> {
 
   @override
   Widget build(BuildContext context) {
+
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
+    Stream: userList;
 
     return GestureDetector(
       onTap: () {
@@ -108,7 +131,12 @@ class _MyPostState extends State<MyPost> {
                           color: Colors.green,
                         ),
                         onPressed: () {
+
                           Navigator.push(context, MaterialPageRoute(builder: (context) => Waiting()));
+
+//                          ShowList(context);
+//                          showList(context);
+
                         },
                       ),
                       IconButton(
@@ -143,13 +171,15 @@ class _MyPostState extends State<MyPost> {
                               width: MediaQuery.of(context).size.width,
                               child: PageView.builder(
                                   itemCount: fnImageList.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return Transform.scale(
                                       scale: 0.9,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                          image: NetworkImage(fnImageList[index]),
+                                          image:
+                                              NetworkImage(fnImageList[index]),
                                           fit: BoxFit.fitHeight,
                                           //fit: BoxFit.cover
                                         )),
@@ -176,11 +206,13 @@ class _MyPostState extends State<MyPost> {
                               child: FlatButton(
                                 shape: OutlineInputBorder(),
                                 child: Text(
-                                  '구매완료',
-                                  style: TextStyle(color: Colors.green),
+                                  fnClose ? '마감됨' : '거래마감',
+                                  style: TextStyle(
+                                      color:
+                                          fnClose ? Colors.red : Colors.green),
                                 ),
                                 onPressed: () {
-                                  Close(context);
+                                  fnClose ? null : Close(context);
                                 },
                               ),
                             ),
@@ -229,7 +261,8 @@ class _MyPostState extends State<MyPost> {
                           children: <Widget>[
                             Text(
                               '$fnCategory',
-                              style: TextStyle(fontSize: 15, color: Colors.black54),
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black54),
                             ),
                             Row(
                               //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
@@ -242,7 +275,9 @@ class _MyPostState extends State<MyPost> {
                                   checkDelivery
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,
+                                  color: checkDelivery
+                                      ? Colors.green
+                                      : Colors.grey,
                                 ),
                                 Text('      '),
                                 Text(
@@ -253,7 +288,9 @@ class _MyPostState extends State<MyPost> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery ? Colors.green : Colors.grey,
+                                  color: checkDelivery
+                                      ? Colors.green
+                                      : Colors.grey,
                                 ),
                               ],
                             ),
@@ -279,7 +316,6 @@ class _MyPostState extends State<MyPost> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
           child: Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -332,87 +368,6 @@ class _MyPostState extends State<MyPost> {
     );
   }
 
-//  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc) {
-//    _undNameCon.text = fnName;
-//    _undPriceCon.text = fnPrice;
-//    _undDescCon.text = fnDes;
-//    showDialog(
-//      barrierDismissible: false,
-//      context: context,
-//      builder: (context) {
-//        return AlertDialog(
-//          shape: RoundedRectangleBorder(
-//              borderRadius: BorderRadius.all(Radius.circular(10.0))
-//          ),
-//          title: Text("Update/Delete Document"),
-//          content: Container(
-//            height: 200,
-//            child: Column(
-//              children: <Widget>[
-//                TextField(
-//                  decoration: InputDecoration(labelText: "Name"),
-//                  controller: _undNameCon,
-//                ),
-//                TextField(
-//                  decoration: InputDecoration(labelText: "Price"),
-//                  controller: _undPriceCon,
-//                ),
-//                TextField(
-//                  decoration: InputDecoration(labelText: "Description"),
-//                  controller: _undDescCon,
-//                )
-//              ],
-//            ),
-//          ),
-//          actions: <Widget>[
-//            FlatButton(
-//              child: Text("Cancel"),
-//              onPressed: () {
-//                _undNameCon.clear();
-//                _undDescCon.clear();
-//                Navigator.pop(context);
-//              },
-//            ),
-//            FlatButton(
-//              child: Text("Update"),
-//              onPressed: () {
-//                if (_undNameCon.text.isNotEmpty &&
-//                    _undDescCon.text.isNotEmpty) {
-//                  updateDoc(doc.documentID, _undNameCon.text, _undPriceCon.text ,_undDescCon.text);
-//                  fnName = _undNameCon.text;
-//                  fnPrice = _undPriceCon.text;
-//                  fnDes = _undDescCon.text;
-//                }
-//                Navigator.pop(context);
-//              },
-//            ),
-//            FlatButton(
-//              child: Text("Delete"),
-//              onPressed: () {
-//                deleteDoc(doc.documentID);
-//                Navigator.pop(context);
-//              },
-//            )
-//          ],
-//        );
-//      },
-//    );
-//  }
-//
-//  // 문서 갱신 (Update)
-//  void updateDoc(String docID, String name, String price, String description) {
-//    Firestore.instance.collection('post').document(docID).updateData({
-//      "name": name,
-//      "price": price,
-//      "description": description,
-//    });
-//  }
-//
-//  // 문서 삭제 (Delete)
-//  void deleteDoc(String docID) {
-//    Firestore.instance.collection('post').document(docID).delete();
-//  }
-
   void sendMessage(String email) async {
 
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -451,7 +406,7 @@ class _MyPostState extends State<MyPost> {
     }
   }
 
-  void Close(BuildContext context) async {
+  void Doing(BuildContext context) async {
     String result = await showDialog(
         context: context,
         barrierDismissible: false,
@@ -492,6 +447,40 @@ class _MyPostState extends State<MyPost> {
         });
   }
 
+  void Close(BuildContext context) async {
+    String result = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('판매 글을 마감하시겠습니까?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '취소',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '취소');
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  DatabaseMethods().closePost(widget.documentID);
+                  Navigator.pop(context, '취소');
+                  fnClose = true;
+                  setState(() {});
+                },
+              )
+            ],
+          );
+        });
+  }
+
   void ShowList(BuildContext context) async {
     showDialog(
         context: context,
@@ -502,7 +491,11 @@ class _MyPostState extends State<MyPost> {
               '현재 신청자',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-//            content: Waiting(),
+
+            content: ListTile(
+              title: Text(fnUserList[0]),
+            ),
+
             actions: <Widget>[
               FlatButton(
                 child: Text('확인'),
@@ -513,6 +506,51 @@ class _MyPostState extends State<MyPost> {
             ],
           );
         });
+  }
+
+  Widget showList(BuildContext context){
+    return StreamBuilder(
+      stream: userList,
+      builder: (context, snapshot){
+        return snapshot.hasData
+            ?  showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  '현재 신청자',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: ListTile(
+                  title : Text(fnUserList[0]),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.pop(context, '확인');
+                    },
+                  )
+                ],
+              );
+            })
+
+//        Dialog(
+//              child :  ListView.builder(
+//                        itemCount : snapshot.data.documents.length,
+//                        shrinkWrap : true,
+//                        itemBuilder : (context, index) {
+//                          return ListTile(
+//                            title : Text(snapshot.data.documents[index].data['sendBy']),
+//                            subtitle : Text(snapshot.data.documents[index].data['time']),
+//                          );
+//                        }
+//                      )
+//        )
+            : Container(); //ListView.builder
+      },
+    );//StreamBuilder
   }
 
   void CloseDialog(BuildContext context) async {
@@ -562,14 +600,15 @@ class _MyPostState extends State<MyPost> {
     }
   }
 
-  @override
-  void initState() {
-    DatabaseMethods().getComments(widget.documentID).then((val) {
-      setState(() {
-        comments = val;
-      });
-    });
-    super.initState();
+
+
+  Stream<QuerySnapshot> getUserList(String documentID) {
+    return Firestore.instance
+              .collection('post')
+              .document(documentID)
+              .collection("userList")
+              .orderBy("time")
+              .snapshots();
   }
 
   Widget commentTile(String name, String comment, String date) {
@@ -579,8 +618,13 @@ class _MyPostState extends State<MyPost> {
         children: <Widget>[
           Text(name),
           Text(comment),
-          Text(date, style: TextStyle(color: Colors.black38, fontSize: 12),),
-          Divider(color: Colors.black,)
+          Text(
+            date,
+            style: TextStyle(color: Colors.black38, fontSize: 12),
+          ),
+          Divider(
+            color: Colors.black,
+          )
         ],
       ),
     );

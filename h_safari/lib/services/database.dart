@@ -50,7 +50,7 @@ class DatabaseMethods {
         .collection("chatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .orderBy('date')
+        .orderBy('date', descending: true)
         .snapshots();
   }
 
@@ -97,7 +97,8 @@ class DatabaseMethods {
     return Firestore.instance
         .collection("users")
         .document(name)
-        .collection("alert")
+        .collection("notification")
+        .orderBy('time', descending: true)
         .snapshots();
   }
 
@@ -126,11 +127,29 @@ class DatabaseMethods {
     return Firestore.instance
         .collection("users")
         .document(myEmail)
-    .collection("alert")
+    .collection("notification")
     .document(documentID)
         .updateData({
       'unread': false,
     });
   }
 
+  closePost(String docId) {
+    return Firestore.instance
+        .collection("post")
+        .document(docId)
+        .updateData({
+      'close': true,
+    });
+  }
+  void sendCommentNotification(String userId, commentNotification) {
+    Firestore.instance
+        .collection("users")
+        .document(userId)
+        .collection("notification")
+        .add(commentNotification)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
 }
