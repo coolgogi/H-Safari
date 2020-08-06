@@ -45,6 +45,8 @@ class _MyPostState extends State<MyPost> {
   String fnEmail;
   List<dynamic> fnUserList;
 
+  Stream<QuerySnapshot> userList;
+
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -59,6 +61,17 @@ class _MyPostState extends State<MyPost> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnUserList = doc['userList'];
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getComments(widget.documentID).then((val) {
+      setState(() {
+        comments = val;
+      });
+    });
+    userList = getUserList(widget.documentID);
+    super.initState();
   }
 
   FirebaseProvider fp;
@@ -78,9 +91,10 @@ class _MyPostState extends State<MyPost> {
 
   @override
   Widget build(BuildContext context) {
+
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
-    Stream:
+    Stream: userList;
 
     return GestureDetector(
       onTap: () {
@@ -111,6 +125,7 @@ class _MyPostState extends State<MyPost> {
                         ),
                         onPressed: () {
                           ShowList(context);
+//                          showList(context);
                         },
                       ),
                       IconButton(
@@ -496,6 +511,51 @@ class _MyPostState extends State<MyPost> {
         });
   }
 
+  Widget showList(BuildContext context){
+    return StreamBuilder(
+      stream: userList,
+      builder: (context, snapshot){
+        return snapshot.hasData
+            ?  showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  '현재 신청자',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: ListTile(
+                  title : Text(fnUserList[0]),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.pop(context, '확인');
+                    },
+                  )
+                ],
+              );
+            })
+
+//        Dialog(
+//              child :  ListView.builder(
+//                        itemCount : snapshot.data.documents.length,
+//                        shrinkWrap : true,
+//                        itemBuilder : (context, index) {
+//                          return ListTile(
+//                            title : Text(snapshot.data.documents[index].data['sendBy']),
+//                            subtitle : Text(snapshot.data.documents[index].data['time']),
+//                          );
+//                        }
+//                      )
+//        )
+            : Container(); //ListView.builder
+      },
+    );//StreamBuilder
+  }
+
   void CloseDialog(BuildContext context) async {
     String result = await showDialog(
         context: context,
@@ -543,14 +603,15 @@ class _MyPostState extends State<MyPost> {
     }
   }
 
-  @override
-  void initState() {
-    DatabaseMethods().getComments(widget.documentID).then((val) {
-      setState(() {
-        comments = val;
-      });
-    });
-    super.initState();
+
+
+  Stream<QuerySnapshot> getUserList(String documentID) {
+    return Firestore.instance
+              .collection('post')
+              .document(documentID)
+              .collection("userList")
+              .orderBy("time")
+              .snapshots();
   }
 
   Widget commentTile(String name, String comment, String date) {
