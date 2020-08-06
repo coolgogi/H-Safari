@@ -43,6 +43,8 @@ class _MyPostState extends State<MyPost> {
 
   String fnCategory;
   String fnEmail;
+  List<dynamic> fnUserList;
+
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -56,6 +58,7 @@ class _MyPostState extends State<MyPost> {
     fnCategory = doc['category'];
     fnHow = doc['how'];
     fnEmail = doc['email'];
+    fnUserList = doc['userList'];
   }
 
   FirebaseProvider fp;
@@ -77,6 +80,7 @@ class _MyPostState extends State<MyPost> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
+    Stream:
 
     return GestureDetector(
       onTap: () {
@@ -489,6 +493,7 @@ class _MyPostState extends State<MyPost> {
   }
 
   void ShowList(BuildContext context) async {
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -498,7 +503,9 @@ class _MyPostState extends State<MyPost> {
               '현재 신청자',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Waiting(),
+            content: ListTile(
+              title : Text(fnUserList[0]),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text('확인'),

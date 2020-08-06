@@ -347,9 +347,14 @@ class _PostState extends State<Post> {
                     "postID" : widget.documentID,
                     "unread" : true,
                   };
+                  Map<String, dynamic> userList = {
+                    "sendBy" : currentEmail,
+                    "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+                    "postID" : widget.documentID,
+                  };
                   // post에 저장
-                  sendAlert("구매신청", alertToUser);
-                  sendWant(fnId);
+                  sendAlert(alertToUser); //구매신청
+                  sendWant(userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -360,7 +365,7 @@ class _PostState extends State<Post> {
     );
   }
 
-  void sendAlert(String type, alertToUser) {
+  void sendAlert(alertToUser) {
     Firestore.instance
         .collection("users")
         .document(fnEmail)
@@ -371,13 +376,15 @@ class _PostState extends State<Post> {
     });
   }
 
-  void sendWant(String docID){
+  void sendWant(userList){
     fnUserList.add(currentEmail);
     Firestore.instance
         .collection("post")
-        .document(docID)
-        .updateData({
-      "userList" : fnUserList,
+        .document(widget.documentID)
+        .collection("userList")
+        .add(userList)
+        .catchError((e) {
+      print(e.toString());
     });
   }
   void addComment() {
