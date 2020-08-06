@@ -68,7 +68,8 @@ class _SignUpState extends State<SignUp> {
       ),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(_blankFocusnode);},
+          FocusScope.of(context).requestFocus(_blankFocusnode);
+        },
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

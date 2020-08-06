@@ -6,15 +6,11 @@ import 'package:h_safari/views/mypage/resetPW.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:h_safari/widget/widget.dart';
-
-//from SH
-import '../../models/firebase_provider.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/mypage/settingAlarm.dart';
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 class MyPage extends StatefulWidget {
   @override
@@ -153,8 +149,32 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.build),
               title: Text('비밀번호 재설정'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => resetPW()));
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context) => resetPW()));
+                fp.sendPasswordResetEmail();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Please check your email"),
+                      content: Container(
+                        height: 200,
+                        child: Text("We sent email that can change password\n\nThank you for reading")
+
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("you’re welcome"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+
+
+                      ],
+                    );
+                  },
+                );
               },
             ),
             ListTile(

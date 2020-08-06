@@ -68,15 +68,18 @@ class _BottomBarState extends State<BottomBar> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.menu),
                     title: Text('Category'),
-                    backgroundColor: Colors.blueGrey),
+                    backgroundColor: Colors.blueGrey
+                ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.add_box),
                     title: Text('Write'),
-                    backgroundColor: Colors.blueGrey),
+                    backgroundColor: Colors.blueGrey
+                ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.chat_bubble_outline),
                     title: Text('Chat'),
-                    backgroundColor: Colors.blueGrey),
+                    backgroundColor: Colors.blueGrey
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
                   title: Text('MyPage'),
