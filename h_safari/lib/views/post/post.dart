@@ -43,7 +43,7 @@ class _PostState extends State<Post> {
   String fnHow;
   String fnEmail;
   String userList;
-
+  List<dynamic> fnUserList;
   String fnId;
 
   String currentEmail;
@@ -62,6 +62,7 @@ class _PostState extends State<Post> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnId = doc.documentID;
+    fnUserList = doc['userList'];
   }
 
   FirebaseProvider fp;
@@ -337,7 +338,7 @@ class _PostState extends State<Post> {
               FlatButton(
                 child: Text('확인', style: TextStyle(color: Colors.green),),
                 onPressed: () {
-                  //users에 저
+                  //users에 저장
                   Map<String, dynamic> alertToUser = {
                     "postName" : fnName,
                     "type" : "구매신청",
@@ -368,19 +369,15 @@ class _PostState extends State<Post> {
         .catchError((e) {
       print(e.toString());
     });
-
-
-
   }
 
   void sendWant(String docID){
-    List<String> id;
-    id.add(currentEmail);
+    fnUserList.add(currentEmail);
     Firestore.instance
         .collection("post")
         .document(docID)
         .updateData({
-      "userList" : id,
+      "userList" : fnUserList,
     });
   }
   void addComment() {
