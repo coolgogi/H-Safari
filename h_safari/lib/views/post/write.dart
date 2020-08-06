@@ -82,6 +82,7 @@ class _MyWriteState extends State<MyWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -593,8 +594,8 @@ class _ListCatState extends State<ListCat> {
     '서적',
     '음식',
     '생필품',
-    '가구/전자제품',
-    '뷰티/잡화',
+    '가구전자제품',
+    '뷰티잡화',
     '양도',
     '기타',
   ];

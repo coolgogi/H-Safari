@@ -624,6 +624,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   // 문서 삭제 (Delete)
   void deleteDoc(String docID) {
     Firestore.instance.collection('post').document(docID).delete();
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void showDocument(String documentID) {

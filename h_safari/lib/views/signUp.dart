@@ -58,6 +58,7 @@ class _SignUpState extends State<SignUp> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       key: _scaffoldKey, //from SH (?)
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.green),

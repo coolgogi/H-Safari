@@ -109,6 +109,7 @@ class _PostState extends State<Post> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Container(
