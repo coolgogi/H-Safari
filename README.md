@@ -34,6 +34,10 @@ CRA vacation project 2020-summer
 ### write.dart
 > 게시글 등록 버튼을 누르면 작성한 게시물로 이동하는 기능 구현 필요. @@ -예진
 
+> write에서 등록하고 home으로 가기 - (구현중) 연희
+
+> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
+
 ### mypage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
 
@@ -70,9 +74,7 @@ CRA vacation project 2020-summer
 > 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨)
 
 ### write.dart
-> write에서 등록하고 home으로 가기 - (구현중) 연희
 
-> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
