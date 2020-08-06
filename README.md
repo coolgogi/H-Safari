@@ -11,7 +11,7 @@ CRA vacation project 2020-summer
 
 > 15학번 박수현
 
-## 구현 중이 기능
+## 구현 중인 기능
 
 > Post.dart
 
