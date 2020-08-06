@@ -29,6 +29,9 @@ class _PostState extends State<Post> {
 
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
+  TextEditingController commentEditingController = new TextEditingController();
+  Stream<QuerySnapshot> comments;
+
   String fnName;
   String fnDes;
   String fnDate;
@@ -82,53 +85,6 @@ class _PostState extends State<Post> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
-          child: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery
-                .of(context)
-                .viewInsets
-                .bottom),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 30,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Comment',
-                          contentPadding: EdgeInsets.all(7.0),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(width: 10,),
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonTheme(
-                    height: 30,
-                    child: FlatButton(
-                      shape: OutlineInputBorder(),
-                      child: Text('댓글 등록', style: TextStyle(color: Colors
-                          .green),),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
         body: NestedScrollView( //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -268,6 +224,56 @@ class _PostState extends State<Post> {
                       ],
                     )
                 ),
+                commentWindow(),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar( //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
+          child: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery
+                .of(context)
+                .viewInsets
+                .bottom),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 30,
+                      child: TextFormField(
+                        controller: commentEditingController,
+                        decoration: InputDecoration(
+                          hintText: 'Comment',
+                          contentPadding: EdgeInsets.all(7.0),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(width: 10,),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ButtonTheme(
+                    height: 30,
+                    child: FlatButton(
+                      shape: OutlineInputBorder(),
+                      child: Text('댓글 등록', style: TextStyle(color: Colors
+                          .green),),
+                      onPressed: () {
+                        addComment();
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -377,7 +383,69 @@ class _PostState extends State<Post> {
       "userList" : id,
     });
   }
+  void addComment() {
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    if (commentEditingController.text.isNotEmpty) {
+      Map<String, dynamic> commentMap = {
+        "sendBy": currentUser.email,
+        "comment": commentEditingController.text,
+        'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+      };
+      DatabaseMethods().addComment(widget.documentID, commentMap);
+      setState(() {
+        commentEditingController.text = "";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getComments(widget.documentID).then((val) {
+      setState(() {
+        comments = val;
+      });
+    });
+    super.initState();
+  }
+
+  commentWindow() {
+    return StreamBuilder(
+      stream: comments,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            itemCount: snapshot.data.documents.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return commentTile(
+                  snapshot.data.documents[index].data["sendBy"],
+                  snapshot.data.documents[index].data["comment"],
+                  snapshot.data.documents[index].data["date"]);
+            })
+            : Container();
+      },
+    );
+  }
+
+  Widget commentTile(String name, String comment, String date) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(name),
+          Text(comment),
+          Text(date, style: TextStyle(color: Colors.black38, fontSize: 12),),
+          Divider(color: Colors.black,)
+        ],
+      ),
+    );
+  }
+
+
 }
+
 
 void ShowListnum(BuildContext context) async {
   String result = await showDialog(

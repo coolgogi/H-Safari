@@ -65,6 +65,26 @@ class DatabaseMethods {
     });
   }
 
+  Future<dynamic> getComments(String docId) async {
+    return Firestore.instance
+        .collection("post")
+        .document(docId)
+        .collection("comments")
+        .orderBy('date')
+        .snapshots();
+  }
+
+  Future<void> addComment(String docId, commentData) {
+    Firestore.instance
+        .collection("post")
+        .document(docId)
+        .collection("comments")
+        .add(commentData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   Future<dynamic> getUserChats(String itIsMyName) async {
     return Firestore.instance
         .collection("chatRoom")
