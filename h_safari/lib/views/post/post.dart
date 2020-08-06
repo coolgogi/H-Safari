@@ -39,6 +39,11 @@ class _PostState extends State<Post> {
   String fnCategory;
   String fnHow;
   String fnEmail;
+  String userList;
+
+  String fnId;
+
+  String currentEmail;
 
 
   _PostState(DocumentSnapshot doc) {
@@ -53,6 +58,7 @@ class _PostState extends State<Post> {
     fnCategory = doc['category'];
     fnHow = doc['how'];
     fnEmail = doc['email'];
+    fnId = doc.documentID;
   }
 
   FirebaseProvider fp;
@@ -69,6 +75,7 @@ class _PostState extends State<Post> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
+    currentEmail = fp.getUser().email.toString();
 
     return GestureDetector(
       onTap: () {
@@ -324,15 +331,18 @@ class _PostState extends State<Post> {
               FlatButton(
                 child: Text('확인', style: TextStyle(color: Colors.green),),
                 onPressed: () {
+                  //users에 저
                   Map<String, dynamic> alertToUser = {
                     "postName" : fnName,
                     "type" : "구매신청",
-                    "sendBy" : fnEmail,
+                    "sendBy" : currentEmail,
                     "time" : new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
                     "postID" : widget.documentID,
                     "unread" : true,
                   };
+                  // post에 저장
                   sendAlert("구매신청", alertToUser);
+                  sendWant(fnId);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -351,6 +361,20 @@ class _PostState extends State<Post> {
         .add(alertToUser)
         .catchError((e) {
       print(e.toString());
+    });
+
+
+
+  }
+
+  void sendWant(String docID){
+    List<String> id;
+    id.add(currentEmail);
+    Firestore.instance
+        .collection("post")
+        .document(docID)
+        .updateData({
+      "userList" : id,
     });
   }
 }
