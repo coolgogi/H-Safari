@@ -503,6 +503,7 @@ class _MyWriteState extends State<MyWrite> {
       fnUid: user.uid.toString(),
       fnEmail: user.email,
     });
+    Navigator.pop(context);
     showDocument(documentReference.documentID);
   }
 

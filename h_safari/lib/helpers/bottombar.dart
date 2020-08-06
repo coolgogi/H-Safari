@@ -38,9 +38,15 @@ class _BottomBarState extends State<BottomBar> {
   @override
 
   void _onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if(index ==2 ){
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyWrite()));
+    }else{
+      setState(() {
+        _currentIndex = index;
+      });
+    }
+
   }
 
   final pageController = PageController();
