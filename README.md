@@ -28,6 +28,8 @@ CRA vacation project 2020-summer
 
 > 게시글 수정 @@@ - 예진
 
+> 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨) - 연희
+
 ### categoryView.dart
 > 카테고리별 게시물 가져오는 구현 필요. @@@ -수현
 
@@ -70,8 +72,6 @@ CRA vacation project 2020-summer
 
 ### post(write).dart
 > 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- (구현중) 수현
-
-> 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨)
 
 ### write.dart
 
