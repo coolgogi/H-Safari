@@ -71,6 +71,8 @@ class _MyWriteState extends State<MyWrite> {
   final String fnUid = "uid";
   final String fnEmail = "email";
   final String fnList = "userList";
+  final String fnDoing = "doing";
+  final String fnClose = "close";
 
   List<File> pictures = List<File>();
   List<String> picURL = List<String>();
@@ -513,6 +515,8 @@ class _MyWriteState extends State<MyWrite> {
       fnUid: user.uid.toString(),
       fnEmail: user.email,
       fnList : tp,
+      fnDoing : false,
+      fnClose : false,
     });
     Navigator.pop(context);
     showDocument(documentReference.documentID);

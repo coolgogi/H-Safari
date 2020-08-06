@@ -23,16 +23,24 @@ CRA vacation project 2020-summer
 
 > 댓글 기능 구현 필요  @@@ -(구현 완료) 예진
 
+> 댓글쓰면 알림가는 기능 - 예진
+
 ### post(writer).dart
 > 해당 게시물 작성자가 보는 화면 구현 및 기능 추가 필요. @@@ - 예진
 
 > 게시글 수정 @@@ - 예진
+
+> 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨) - 연희
 
 ### categoryView.dart
 > 카테고리별 게시물 가져오는 구현 필요. @@@ -수현
 
 ### write.dart
 > 게시글 등록 버튼을 누르면 작성한 게시물로 이동하는 기능 구현 필요. @@ -예진
+
+> write에서 등록하고 home으로 가기 - (구현중) 연희
+
+> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
 
 ### mypage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
@@ -56,8 +64,6 @@ CRA vacation project 2020-summer
 
 > 사진 총 몇개고, 몇번째 사진을 보고 있는지 표시 - (구현중) 광일
 
-> 댓글쓰면 알림가는 기능(postwrite 동일) - (구현중) 예진
-
 
 ### myPage.dart
 > 푸시알림기능 구현 - 나중에
@@ -67,12 +73,10 @@ CRA vacation project 2020-summer
 ### post(write).dart
 > 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- (구현중) 수현
 
-> 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨)
+> 댓글쓰면 알림가는 기능(답글인경우만)
 
 ### write.dart
-> write에서 등록하고 home으로 가기 - (구현중) 연희
 
-> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???

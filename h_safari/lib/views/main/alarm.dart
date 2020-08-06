@@ -32,7 +32,8 @@ class _AlarmState extends State<Alarm> {
         return snapshot.hasData
             ? ListView(
                 shrinkWrap: true,
-                children: snapshot.data.documents.map((DocumentSnapshot document){
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
                   return alertTile(
                     document['type'],
                     document['sendBy'],
@@ -43,8 +44,7 @@ class _AlarmState extends State<Alarm> {
                     document.documentID,
                   );
                 }).toList(),
-        )
-
+              )
             : Container();
       },
     );
@@ -78,65 +78,68 @@ class _AlarmState extends State<Alarm> {
     );
   }
 
-  Widget alertTile(
-      String type, String sendBy, String time, String postName, String postID, bool unread, String documentID) {
-    return Container(
-      height: 50,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
-        child: FlatButton(
-            color: unread ? Colors.green[300] : Colors.grey[300], // 기본 배경색 : color
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+  IconData getMyIcon(String type) {
+    if (type == "구매신청")
+      return Icons.notifications_active;
+    else if (type == "댓글")
+      return Icons.comment;
+    else if (type == "마감") return Icons.done;
+  }
+
+  Widget alertTile(String type, String sendBy, String time, String postName,
+      String postID, bool unread, String documentID) {
+    return FlatButton(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        color: unread ? Colors.yellow[50] : Colors.white, // 기본 배경색 : color
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      spreadRadius: 0.5,
+                    )
+                  ]),
+              child: Icon(
+                getMyIcon(type), // 아이콘 종류
+                color: Colors.brown, // 아이콘 색
+              ),
+            ), // 아이콘
+            SizedBox(
+              width: 14,
+            ), // 아이콘과 글자들 사이의 박스 삽입
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
               children: <Widget>[
-                Icon(
-                  Icons.person, // 아이콘 종류
-                  color: Colors.white, // 아이콘 색
-                ), // 아이콘
-                SizedBox(
-                  width: 10,
+                Text(
+                  type, // 게시물 제목
+                  style: TextStyle(
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
+                ),
+                Text(
+                  "게시글: $postName", // 알람 내용
+                  style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
                 ), // 아이콘과 글자들 사이의 박스 삽입
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-                  children: <Widget>[
-                    Text(
-                      '$postName', // 게시물 제목
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '$type', // 알람 내용
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black45), // 알림 내용 스타일 지정
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ), // 아이콘과 글자들 사이의 박스 삽입
-
-                        Text(
-                          '$time', // 시간
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black45), // 시간 스타일 지정
-                        )
-                      ],
-                    ),
-                  ],
+                Text(
+                  time, // 시간
+                  style: TextStyle(
+                      fontSize: 10, color: Colors.black45), // 시간 스타일 지정
                 ),
               ],
             ),
-            onPressed: () {
-              showDocument(postID);
-              DatabaseMethods().updateUnreadAlram(userEmail, documentID);
-            }),
-      ),
-    );
+          ],
+        ),
+        onPressed: () {
+          showDocument(postID);
+          DatabaseMethods().updateUnreadAlram(userEmail, documentID);
+        });
   }
 
   // 문서 조회 (Read)
