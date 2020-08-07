@@ -5,16 +5,19 @@ import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/write.dart';
-import '../main/home.dart';
+import 'package:h_safari/views/main/home.dart';
+import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/services/database.dart';
+import 'package:h_safari/widget/widget.dart';
+import 'package:h_safari/views/post/waiting.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../services/database.dart';
 import 'package:intl/intl.dart';
-import 'package:h_safari/widget/widget.dart';
+
 import 'dart:math';
-import 'package:h_safari/views/post/waiting.dart';
+
 
 class MyPost extends StatefulWidget {
   DocumentSnapshot tp;
@@ -51,7 +54,8 @@ class _MyPostState extends State<MyPost> {
   bool fnClose;
   List<dynamic> fnUserList;
 
-  Stream<QuerySnapshot> userList;
+  String fnId;
+
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -68,6 +72,7 @@ class _MyPostState extends State<MyPost> {
     fnDoing = doc['doing'];
     fnClose = doc['close'];
     fnUserList = doc['userList'];
+    fnId = doc.documentID;
   }
 
   @override
@@ -77,7 +82,7 @@ class _MyPostState extends State<MyPost> {
         comments = val;
       });
     });
-    userList = getUserList(widget.documentID);
+
     super.initState();
   }
 
@@ -101,7 +106,6 @@ class _MyPostState extends State<MyPost> {
 
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
-    Stream: userList;
 
     return GestureDetector(
       onTap: () {
@@ -132,10 +136,7 @@ class _MyPostState extends State<MyPost> {
                         ),
                         onPressed: () {
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Waiting()));
-
-//                          ShowList(context);
-//                          showList(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Waiting(fnId)));
 
                         },
                       ),
@@ -481,77 +482,7 @@ class _MyPostState extends State<MyPost> {
         });
   }
 
-  void ShowList(BuildContext context) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              '현재 신청자',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-
-            content: ListTile(
-              title: Text(fnUserList[0]),
-            ),
-
-            actions: <Widget>[
-              FlatButton(
-                child: Text('확인'),
-                onPressed: () {
-                  Navigator.pop(context, '확인');
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  Widget showList(BuildContext context){
-    return StreamBuilder(
-      stream: userList,
-      builder: (context, snapshot){
-        return snapshot.hasData
-            ?  showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(
-                  '현재 신청자',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                content: ListTile(
-                  title : Text(fnUserList[0]),
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('확인'),
-                    onPressed: () {
-                      Navigator.pop(context, '확인');
-                    },
-                  )
-                ],
-              );
-            })
-
-//        Dialog(
-//              child :  ListView.builder(
-//                        itemCount : snapshot.data.documents.length,
-//                        shrinkWrap : true,
-//                        itemBuilder : (context, index) {
-//                          return ListTile(
-//                            title : Text(snapshot.data.documents[index].data['sendBy']),
-//                            subtitle : Text(snapshot.data.documents[index].data['time']),
-//                          );
-//                        }
-//                      )
-//        )
-            : Container(); //ListView.builder
-      },
-    );//StreamBuilder
-  }
+ 
 
   void CloseDialog(BuildContext context) async {
     String result = await showDialog(
@@ -599,17 +530,7 @@ class _MyPostState extends State<MyPost> {
       });
     }
   }
-
-
-
-  Stream<QuerySnapshot> getUserList(String documentID) {
-    return Firestore.instance
-              .collection('post')
-              .document(documentID)
-              .collection("userList")
-              .orderBy("time")
-              .snapshots();
-  }
+  
 
   Widget commentTile(String name, String comment, String date) {
     return Container(

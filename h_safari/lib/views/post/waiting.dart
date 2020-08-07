@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:h_safari/widget/widget.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:h_safari/services/database.dart';
 
 class Waiting extends StatefulWidget {
+
+  String documentID;
+
+  Waiting(String id) {
+    documentID = id;
+  }
+
   @override
-  _WaitingState createState() => _WaitingState();
+  _WaitingState createState() => _WaitingState(documentID);
 }
 
 class _WaitingState extends State<Waiting> {
-  List<String> test = ['신청자1', '신청자2', '신청자3', '신청자4', '신청자5'];
+
+  String documentID;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  _WaitingState(String id) {
+    documentID = id;
+  }
+
+  //  List<String> test = ['신청자1', '신청자2', '신청자3', '신청자4', '신청자5'];
+  List<String> test = List();
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +42,12 @@ class _WaitingState extends State<Waiting> {
 
     // 이름 값을 저장하는 리스트. (DB랑 연결되면 DB에 저장이 될 예정)
     List<String> names = [];
+
+    @override //??
+    void initState() {
+      super.initState();
+    }
+
 
     for (int j = 1; j <= 10; j++) {
       // decoWord : 꾸미는 단어 랜덤으로 뽑기
@@ -35,39 +62,128 @@ class _WaitingState extends State<Waiting> {
     }
     return Scaffold(
         appBar: appBar(context, '대기신청자'),
-        body: Center(
-            child: GestureDetector(
-          child: ListView.builder(
-              // shrinkWrap : (무슨 역할인지,, 모르겠어요)
-              shrinkWrap: true,
+        body:
+        StreamBuilder(
+          stream: Firestore.instance
+              .collection('post')
+              .document(documentID)
+              .collection("userList")
+              .orderBy("time")
+              .snapshots(),
+          builder: (context, snapshot) {
+            return
+//              Center(
+//              child:
+                GestureDetector(
+                  child: ListView.builder(
+                    // shrinkWrap : (무슨 역할인지,, 모르겠어요)
+                      shrinkWrap: true,
+                      // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
+//                        itemCount: names.length,
+                      itemCount: snapshot.data.documents.length,
+                      // itemBuilder : userName이 보여지는 공간
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          // padding : padding을 아래 10px 지정
+                            padding: const EdgeInsets.only(
+                                left: 40, right: 40, top: 20),
+                            child: Container(
+                              // ListTile의 스타일 지정
+                              decoration: BoxDecoration(
 
-              // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
-              itemCount: names.length,
+                                // 모서리 둥근 정도
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10)),
+                                  // 배경색
+                                  color: Colors.green[200]),
+                              height: 55,
+                              width: double.maxFinite,
+                              child: //Text('$test[index]'),
+                              ListTile(
+//                                  title: Text('[' +
+//                                      (index + 1).toString() +
+//                                      '] ' +
+//                                      names[index])),
+                                title: Text(snapshot.data.documents[index]
+                                    .data['sendBy']),
+                                subtitle: Text(snapshot.data.documents[index]
+                                    .data['time']),
+                                leading: GestureDetector(
+//                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
 
-              // itemBuilder : userName이 보여지는 공간
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  // padding : padding을 아래 10px 지정
-                  padding: const EdgeInsets.only(left: 40, right : 40, top: 20),
-                  child: Container(
-                    // ListTile의 스타일 지정
-                    decoration: BoxDecoration(
+                                  },
+                                  child: Container(
+                                    width: 20,
+                                    height: 48,
+//                                    padding: EdgeInsets.symmetric(vertical: 4.0),
+//                                    alignment: Alignment.center,
+//                                    child: CircleAvatar(),
+                                  ),
+                                ),
 
-                        // 모서리 둥근 정도
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        // 배경색
-                        color: Colors.green[200]),
-                    height: 55,
-                    width: double.maxFinite,
-                    child: //Text('$test[index]'),
-                        ListTile(
-                            title: Text('[' +
-                                (index + 1).toString() +
-                                '] ' +
-                                names[index])),
-                  ),
-                );
-              }),
-        )));
+                              ), //ListTile
+                            ) //Container
+                        ); //Padding
+                      } //itembuilder
+                  ) //List.view builder
+              ); //GestureDetector
+//            ); //center
+          }, //builder
+        ) //streamBuilder
+    ); //Scaffold
+
+//    Widget showList(BuildContext context) {
+//      return StreamBuilder(
+//        stream: Firestore.instance
+//            .collection('post')
+//            .document(documentID)
+//            .collection("userList")
+//            .orderBy("time")
+//            .snapshots(),
+//        builder: (context, snapshot) {
+//          return snapshot.hasData
+//              ? showDialog(
+//              context: context,
+//              barrierDismissible: false,
+//              builder: (BuildContext context) {
+//                return ListView.builder(
+//                    itemCount: snapshot.data.documents.length,
+//                    shrinkWrap: true,
+//                    itemBuilder: (context, index) {
+//                      return ListTile(
+//                        title: Text(
+//                            snapshot.data.documents[index].data['sendBy']),
+//                        subtitle: Text(
+//                            snapshot.data.documents[index].data['time']),
+//                      );
+//                    }
+//                );
+//              }) : Container(); //ListView.builder
+//        },
+//      ); //StreamBuilder
+//    }
+  }
+  void sendMessage(String email) async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    String _user = user.email.toString();
+
+    List<String> users = [_user, email];
+
+    String chatRoomId = getChatRoomId(_user, email);
+
+    Map<String, dynamic> chatRoom = {
+      "users": users,
+      "chatRoomId": chatRoomId,
+    };
+
+    databaseMethods.addChatRoom(chatRoom, chatRoomId);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChatRoom(
+              chatRoomId: chatRoomId,
+            )));
   }
 }
