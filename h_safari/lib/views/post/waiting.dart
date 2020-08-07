@@ -1,16 +1,20 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
+
+
+
 
 class Waiting extends StatefulWidget {
 
@@ -26,6 +30,16 @@ class Waiting extends StatefulWidget {
 
 class _WaitingState extends State<Waiting> {
 
+
+  String documentID;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  _WaitingState(String id) {
+    documentID = id;
+  }
+
+  //  List<String> test = ['신청자1', '신청자2', '신청자3', '신청자4', '신청자5'];
+//  List<String> test = List();
+
   String documentID;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   _WaitingState(String id) {
@@ -36,9 +50,6 @@ class _WaitingState extends State<Waiting> {
   FirebaseProvider fp;
   String userEmail;
 
-
-  //  List<String> test = ['신청자1', '신청자2', '신청자3', '신청자4', '신청자5'];
-  List<String> test = List();
 
   Widget waitingList(){
     fp = Provider.of<FirebaseProvider>(context);
@@ -82,7 +93,6 @@ class _WaitingState extends State<Waiting> {
   }
   @override
   Widget build(BuildContext context) {
-
 //    // 이름 만드는 리스트
 //    var deco = ['귀여운', '잘생긴', '못생긴', '뚱뚱한', '착한', '한동대', '키가 큰', '키가 작은'];
 //    var animal = ['토끼', '강아지', '기린', '큰부리새', '김광일?', '코뿔소', '하마', '코끼리', '표범'];
@@ -102,161 +112,111 @@ class _WaitingState extends State<Waiting> {
 //      names.add(userWord);
 //    }
 
-
-
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: appBar(context, '대기신청자'),
-        body: Container(
-          child: waitingList(),
-        ),
+        body:
+        StreamBuilder(
+          stream: Firestore.instance
+              .collection('post')
+              .document(documentID)
+              .collection("userList")
+              .orderBy("time")
+              .snapshots(),
+          builder: (context, snapshot) {
+            return
+//              Center(
+//              child:
+                GestureDetector(
+                  child: ListView.builder(
+                    // shrinkWrap : (무슨 역할인지,, 모르겠어요)
+                      shrinkWrap: true,
+                      // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
+//                        itemCount: names.length,
+                      itemCount: snapshot.data.documents.length,
+                      // itemBuilder : userName이 보여지는 공간
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          // padding : padding을 아래 10px 지정
+                            padding: const EdgeInsets.only(
+                                left: 40, right: 40, top: 20),
+                            child: Container(
+                              // ListTile의 스타일 지정
+                              decoration: BoxDecoration(
+
+                                // 모서리 둥근 정도
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10)),
+                                  // 배경색
+                                  color: Colors.green[200]),
+                              height: 55,
+                              width: double.maxFinite,
+                              child: //Text('$test[index]'),
+                              ListTile(
+//                                  title: Text('[' +
+//                                      (index + 1).toString() +
+//                                      '] ' +
+//                                      names[index])),
+                                title: Text(snapshot.data.documents[index]
+                                    .data['sendBy']),
+                                subtitle: Text(snapshot.data.documents[index]
+                                    .data['time']),
+                                leading: GestureDetector(
+//                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+
+                                  },
+                                  child: Container(
+                                    width: 20,
+                                    height: 48,
+//                                    padding: EdgeInsets.symmetric(vertical: 4.0),
+//                                    alignment: Alignment.center,
+//                                    child: CircleAvatar(),
+                                  ),
+                                ),
+
+                              ), //ListTile
+                            ) //Container
+                        ); //Padding
+                      } //itembuilder
+                  ) //List.view builder
+              ); //GestureDetector
+//            ); //center
+          }, //builder
+        ) //streamBuilder
     ); //Scaffold
+
+//    Widget showList(BuildContext context) {
+//      return StreamBuilder(
+//        stream: Firestore.instance
+//            .collection('post')
+//            .document(documentID)
+//            .collection("userList")
+//            .orderBy("time")
+//            .snapshots(),
+//        builder: (context, snapshot) {
+//          return snapshot.hasData
+//              ? showDialog(
+//              context: context,
+//              barrierDismissible: false,
+//              builder: (BuildContext context) {
+//                return ListView.builder(
+//                    itemCount: snapshot.data.documents.length,
+//                    shrinkWrap: true,
+//                    itemBuilder: (context, index) {
+//                      return ListTile(
+//                        title: Text(
+//                            snapshot.data.documents[index].data['sendBy']),
+//                        subtitle: Text(
+//                            snapshot.data.documents[index].data['time']),
+//                      );
+//                    }
+//                );
+//              }) : Container(); //ListView.builder
+//        },
+//      ); //StreamBuilder
+//    }
   }
-//        StreamBuilder(
-//          stream: Firestore.instance
-//              .collection('post')
-//              .document(documentID)
-//              .collection("userList")
-//              .orderBy("time")
-//              .snapshots(),
-//          builder: (context, snapshot) {
-//            return
-////              Center(
-////              child:
-//                GestureDetector(
-//                  child: ListView.builder(
-//                    // shrinkWrap : (무슨 역할인지,, 모르겠어요)
-//                      shrinkWrap: true,
-//                      // itemCount : userName이 저장된 리스트 names의 길이만큼 다이어로그에 보여준다.
-////                        itemCount: names.length,
-//                      itemCount: snapshot.data.documents.length,
-//                      // itemBuilder : userName이 보여지는 공간
-//                      itemBuilder: (BuildContext context, int index) {
-//                        return Padding(
-//                          // padding : padding을 아래 10px 지정
-//                            padding: const EdgeInsets.only(
-//                                left: 40, right: 40, top: 20),
-//                            child: Container(
-//                              // ListTile의 스타일 지정
-//                              decoration: BoxDecoration(
-//
-//                                // 모서리 둥근 정도
-//                                  borderRadius: BorderRadius.all(
-//                                      Radius.circular(10)),
-//                                  // 배경색
-//                                  color: Colors.green[200]),
-//                              height: 55,
-//                              width: double.maxFinite,
-//                              child: //Text('$test[index]'),
-//                              ListTile(
-////                                  title: Text('[' +
-////                                      (index + 1).toString() +
-////                                      '] ' +
-////                                      names[index])),
-//                                title: Text(snapshot.data.documents[index]
-//                                    .data['sendBy']),
-//                                subtitle: Text(snapshot.data.documents[index]
-//                                    .data['time']),
-//                                onTap: () {
-////                                  sendMessage(snapshot.data.documents[index]
-////                                      .data['sendBy'].toString());
-//                                  AlertDialog(
-//                                    title : Text("hello"),
-//                                  );
-//                                },
-////                                leading: GestureDetector(
-////                                  behavior: HitTestBehavior.translucent,
-//
-//
-////                                  child: Container(
-////                                    width: 20,
-////                                    height: 48,
-//////                                    padding: EdgeInsets.symmetric(vertical: 4.0),
-//////                                    alignment: Alignment.center,
-//////                                    child: CircleAvatar(),
-////                                  ),
-////                                ),
-//
-//                              ), //ListTile
-//                            ) //Container
-//                        ); //Padding
-//                      } //itembuilder
-//                  ), //List.view builder
-//              ); //GestureDetector
-////            ); //center
-//          }, //builder
-//        ) //streamBuilder
-    //  ); //Scaffold
-    //}
-
-  IconData getMyIcon(String type) {
-    if (type == "구매신청")
-      return Icons.notifications_active;
-    else if (type == "댓글")
-      return Icons.comment;
-    else if (type == "마감") return Icons.done;
-  }
-
-  Widget waitingTile(String sendBy, String time, String documentID) {
-
-    fp = Provider.of<FirebaseProvider>(context);
-    userEmail = fp.getUser().email.toString();
-
-    return FlatButton(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        color: true ? Colors.yellow[50] : Colors.white, // 기본 배경색 : color
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-//            Container(
-//              padding: EdgeInsets.all(8),
-//              decoration: BoxDecoration(
-//                  color: Colors.white,
-//                  shape: BoxShape.circle,
-//                  boxShadow: [
-//                    BoxShadow(
-//                      color: Colors.black38,
-//                      spreadRadius: 0.5,
-//                    )
-//                  ]),
-//              child: Icon(
-//                getMyIcon(type), // 아이콘 종류
-//                color: Colors.brown, // 아이콘 색
-//              ),
-//            ), // 아이콘
-            SizedBox(
-              width: 14,
-            ), // 아이콘과 글자들 사이의 박스 삽입
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-              children: <Widget>[
-                Text(
-                  sendBy, // 게시물 제목
-                  style: TextStyle(
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-                ),
-                Text(
-                  time, // 알람 내용
-                  style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
-                ), // 아이콘과 글자들 사이의 박스 삽입
-//                Text(
-//                  time, // 시간
-//                  style: TextStyle(
-//                      fontSize: 10, color: Colors.black45), // 시간 스타일 지정
-//                ),
-              ],
-            ),
-          ],
-        ),
-        onPressed: () {
-//          showDocument(postID);
-//          DatabaseMethods().updateUnreadAlram(userEmail, documentID);
-          sendMessage(sendBy);
-        });
-  }
-
   void sendMessage(String email) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
@@ -274,6 +234,7 @@ class _WaitingState extends State<Waiting> {
 
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChatRoom(
+
               chatRoomId: chatRoomId,
             )));
   }
