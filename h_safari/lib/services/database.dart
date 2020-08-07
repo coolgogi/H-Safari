@@ -102,6 +102,15 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  getWaitingList(String documentID) async {
+    return Firestore.instance
+        .collection("post")
+        .document(documentID)
+        .collection("userList")
+        .orderBy('time', descending: true)
+        .snapshots();
+  }
+
   updateLast(String chatRoomId, String message, String date, String sendBy, bool unread) {
     return Firestore.instance
         .collection("chatRoom")

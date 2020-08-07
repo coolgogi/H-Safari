@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 import 'package:h_safari/views/post/write.dart';
-import '../main/home.dart';
+import 'package:h_safari/views/main/home.dart';
+import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/services/database.dart';
+import 'package:h_safari/widget/widget.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../services/database.dart';
 import 'package:intl/intl.dart';
-import 'package:h_safari/widget/widget.dart';
 import 'write.dart';
 
 class Post extends StatefulWidget {
