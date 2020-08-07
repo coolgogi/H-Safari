@@ -32,6 +32,8 @@ CRA vacation project 2020-summer
 
 > 수정하기에서 category 눌러도 변경안됨(UI만 변경 안됨) - 연희
 
+> 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- 수현
+
 ### categoryView.dart
 > 카테고리별 게시물 가져오는 구현 필요. @@@ -수현
 
@@ -69,7 +71,7 @@ CRA vacation project 2020-summer
 
 > 키보드를 누르면 화면이 같이 올라가서 키보드 위에 화면 마지막이 보이도록
 
-> 현재 댓글부분이 하나의 Container를 이루고 있어서 분리되어있는데 하나로 만
+> 현재 댓글부분이 하나의 Container를 이루고 있어서 분리되어있는데 하나로 만들기
 
 ### myPage.dart
 > 푸시알림기능 구현 - 나중에
@@ -79,12 +81,9 @@ CRA vacation project 2020-summer
 > 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기 
 
 ### post(write).dart
-> 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- (구현중) 수현
-
 > 댓글쓰면 알림가는 기능(답글인경우만)
 
 ### write.dart
-
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
