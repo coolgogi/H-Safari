@@ -18,7 +18,6 @@ import 'package:intl/intl.dart';
 
 import 'dart:math';
 
-
 class MyPost extends StatefulWidget {
   DocumentSnapshot tp;
   String documentID;
@@ -33,7 +32,6 @@ class MyPost extends StatefulWidget {
 }
 
 class _MyPostState extends State<MyPost> {
-
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   TextEditingController commentEditingController = new TextEditingController();
@@ -55,7 +53,6 @@ class _MyPostState extends State<MyPost> {
   List<dynamic> fnUserList;
 
   String fnId;
-
 
   _MyPostState(DocumentSnapshot doc) {
     fnName = doc['name'];
@@ -93,7 +90,6 @@ class _MyPostState extends State<MyPost> {
 
   bool checkDirect = false;
 
-  int comment = 0; //댓글 갯수 표시용 변수
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
   bool closed = false; //글 마감됐는지 아닌지 확인하는 변수 //문제가 글 하나가 아닌 내가 쓴 전체 글이 완료가 되어벌미
 
@@ -103,7 +99,6 @@ class _MyPostState extends State<MyPost> {
 
   @override
   Widget build(BuildContext context) {
-
     fp = Provider.of<FirebaseProvider>(context);
     getHow();
 
@@ -126,33 +121,37 @@ class _MyPostState extends State<MyPost> {
                   style: TextStyle(color: Colors.black),
                 ),
                 floating: true,
-                actions: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.assignment,
-                          color: Colors.green,
-                        ),
-                        onPressed: () {
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Waiting(fnId)));
-
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.border_color, color: Colors.green),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      postUpdateDelete(widget.tp)));
-                        },
-                      ),
-                    ],
-                  )
-                ],
+                actions: fnClose
+                    ? null
+                    : <Widget>[
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.assignment,
+                                color: Colors.green,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Waiting(fnId)));
+                              },
+                            ),
+                            IconButton(
+                              icon:
+                                  Icon(Icons.border_color, color: Colors.green),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            postUpdateDelete(widget.tp)));
+                              },
+                            ),
+                          ],
+                        )
+                      ],
               ),
             ];
           },
@@ -188,11 +187,9 @@ class _MyPostState extends State<MyPost> {
                                     );
                                   })),
                         ),
-
                         Divider(
                           color: Colors.black,
                         ),
-
                         //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +204,7 @@ class _MyPostState extends State<MyPost> {
                               child: FlatButton(
                                 shape: OutlineInputBorder(),
                                 child: Text(
-                                  fnClose ? '마감됨' : '거래마감',
+                                  fnClose ? '마감' : '거래마감',
                                   style: TextStyle(
                                       color:
                                           fnClose ? Colors.red : Colors.green),
@@ -222,11 +219,9 @@ class _MyPostState extends State<MyPost> {
                         Divider(
                           color: Colors.black,
                         ),
-
                         SizedBox(
                           height: 10,
                         ),
-
                         Text(
                           '$fnName',
                           style: TextStyle(
@@ -242,7 +237,6 @@ class _MyPostState extends State<MyPost> {
                         SizedBox(
                           height: 10,
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -256,7 +250,6 @@ class _MyPostState extends State<MyPost> {
                         Divider(
                           color: Colors.black,
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -280,7 +273,7 @@ class _MyPostState extends State<MyPost> {
                                       ? Colors.green
                                       : Colors.grey,
                                 ),
-                                Text('      '),
+                                SizedBox(width: 10,),
                                 Text(
                                   '직접거래',
                                   style: TextStyle(fontSize: 15),
@@ -297,16 +290,14 @@ class _MyPostState extends State<MyPost> {
                             ),
                           ],
                         ),
-
                         Divider(
                           color: Colors.black,
                         ),
                         SizedBox(
                           height: 10,
                         ),
-
                         Text(
-                          '댓글 $comment',
+                          '댓글',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -316,61 +307,63 @@ class _MyPostState extends State<MyPost> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 30,
-                      child: TextFormField(
-                        controller: commentEditingController,
-                        decoration: InputDecoration(
-                          hintText: 'Comment',
-                          contentPadding: EdgeInsets.all(7.0),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green)),
+        bottomNavigationBar: fnClose
+            ? null
+            : BottomAppBar(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 30,
+                            child: TextFormField(
+                              controller: commentEditingController,
+                              decoration: InputDecoration(
+                                hintText: 'Comment',
+                                contentPadding: EdgeInsets.all(7.0),
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.green)),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonTheme(
-                    height: 30,
-                    child: FlatButton(
-                      shape: OutlineInputBorder(),
-                      child: Text(
-                        '댓글 등록',
-                        style: TextStyle(color: Colors.green),
+                      SizedBox(
+                        width: 10,
                       ),
-                      onPressed: () {
-                        addComment();
-                      },
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ButtonTheme(
+                          height: 30,
+                          child: FlatButton(
+                            shape: OutlineInputBorder(),
+                            child: Text(
+                              '댓글 등록',
+                              style: TextStyle(color: Colors.green),
+                            ),
+                            onPressed: () {
+                              addComment();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
 
   void sendMessage(String email) async {
-
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
 
@@ -413,7 +406,6 @@ class _MyPostState extends State<MyPost> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-
             content: Text('판매 글을 마감하시겠습니까?'),
             actions: <Widget>[
               FlatButton(
@@ -482,8 +474,6 @@ class _MyPostState extends State<MyPost> {
         });
   }
 
- 
-
   void CloseDialog(BuildContext context) async {
     String result = await showDialog(
         context: context,
@@ -530,7 +520,6 @@ class _MyPostState extends State<MyPost> {
       });
     }
   }
-  
 
   Widget commentTile(String name, String comment, String date) {
     return Container(
