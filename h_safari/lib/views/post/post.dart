@@ -15,11 +15,9 @@ import 'write.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
-  String documentID;
 
-  Post(DocumentSnapshot doc, String documentID) {
+  Post(DocumentSnapshot doc) {
     tp = doc;
-    this.documentID = documentID;
   }
 
   @override
@@ -407,7 +405,7 @@ class _PostState extends State<Post> {
                     "time": new DateFormat('yyyy-MM-dd')
                         .add_Hms()
                         .format(DateTime.now()),
-                    "postID": widget.documentID,
+                    "postID": widget.tp.documentID,
                     "unread": true,
                   };
                   Map<String, dynamic> userList = {
@@ -415,7 +413,7 @@ class _PostState extends State<Post> {
                     "time": new DateFormat('yyyy-MM-dd')
                         .add_Hms()
                         .format(DateTime.now()),
-                    "postID": widget.documentID,
+                    "postID": widget.tp.documentID,
                   };
                   // post에 저장
                   sendPurchaseApplicationNotification(purchaseApplication);
@@ -444,7 +442,7 @@ class _PostState extends State<Post> {
     fnUserList.add(currentEmail);
     Firestore.instance
         .collection("post")
-        .document(widget.documentID)
+        .document(widget.tp.documentID)
         .collection("userList")
         .add(userList)
         .catchError((e) {
@@ -466,10 +464,10 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.documentID,
+        "postID": widget.tp.documentID,
         "unread": true,
       };
-      DatabaseMethods().addComment(widget.documentID, commentMap);
+      DatabaseMethods().addComment(widget.tp.documentID, commentMap);
       DatabaseMethods().sendCommentNotification(fnEmail, commentNotification);
       setState(() {
         commentEditingController.text = "";
@@ -479,7 +477,7 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.documentID).then((val) {
+    DatabaseMethods().getComments(widget.tp.documentID).then((val) {
       setState(() {
         comments = val;
       });

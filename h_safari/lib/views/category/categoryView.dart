@@ -177,6 +177,6 @@ class _categoryViewState extends State<categoryView> {
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc, documentID)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
   }
 }

@@ -1,30 +1,19 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
-import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
-import 'package:h_safari/views/post/write.dart';
-import 'package:h_safari/views/main/home.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
-import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/waiting.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-import 'dart:math';
-
 class MyPost extends StatefulWidget {
   DocumentSnapshot tp;
-  String documentID;
 
-  MyPost(DocumentSnapshot doc, String documentID) {
+  MyPost(DocumentSnapshot doc) {
     tp = doc;
-    this.documentID = documentID;
   }
 
   @override
@@ -74,7 +63,7 @@ class _MyPostState extends State<MyPost> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.documentID).then((val) {
+    DatabaseMethods().getComments(widget.tp.documentID).then((val) {
       setState(() {
         comments = val;
       });
@@ -463,7 +452,7 @@ class _MyPostState extends State<MyPost> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  DatabaseMethods().closePost(widget.documentID);
+                  DatabaseMethods().closePost(widget.tp.documentID);
                   Navigator.pop(context, '취소');
                   fnClose = true;
                   setState(() {});
@@ -514,7 +503,7 @@ class _MyPostState extends State<MyPost> {
         "comment": commentEditingController.text,
         'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
       };
-      DatabaseMethods().addComment(widget.documentID, commentMap);
+      DatabaseMethods().addComment(widget.tp.documentID, commentMap);
       setState(() {
         commentEditingController.text = "";
       });

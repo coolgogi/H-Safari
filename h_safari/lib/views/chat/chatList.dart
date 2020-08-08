@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/firebase_provider.dart';
@@ -7,24 +6,22 @@ import '../../services/database.dart';
 import 'chatRoom.dart';
 import 'package:h_safari/widget/widget.dart';
 
-
 class ChatList extends StatefulWidget {
-
   String email;
 
-  ChatList(String tp){
+  ChatList(String tp) {
     email = tp;
   }
+
   @override
   _ChatListState createState() => _ChatListState(email);
 }
 
 class _ChatListState extends State<ChatList> {
-
   String passedEmail;
   String email;
 
-  _ChatListState(String tp){
+  _ChatListState(String tp) {
     passedEmail = tp;
   }
 
@@ -35,11 +32,10 @@ class _ChatListState extends State<ChatList> {
 
   @override
   void initState() {
-    databaseMethods.getUserChats(email).then((snapshots){
+    databaseMethods.getUserChats(email).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
-        print(
-            "we got the data + ${chatRooms.toString()} this is name  $email");
+        print("we got the data + ${chatRooms.toString()} this is name  $email");
       });
     });
     super.initState();
@@ -55,8 +51,15 @@ class _ChatListState extends State<ChatList> {
     email = fp.getUser().email.toString();
   }
 
-
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBarMain("Chatting Rooms"),
+      body: Container(
+        child: getChatList(),
+      ),
+    );
+  }
 
   Widget getChatList() {
     return StreamBuilder(
@@ -68,36 +71,34 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  String tp = snapshot.data.documents[index].data['chatRoomId'].toString();
-                  if(tp.contains(email))
-                  {
+                  String tp = snapshot.data.documents[index].data['chatRoomId']
+                      .toString();
+                  if (tp.contains(email)) {
                     return ChatRoomsTile(
-                    friendName: snapshot.data.documents[index].data['chatRoomId']
-                        .toString()
-                        .replaceAll("_", "")
-                        .replaceAll(email, ""),
-                    message: snapshot.data.documents[index].data['lastMessage'],
-                    date: snapshot.data.documents[index].data['lastDate']
-                            .split(RegExp(r" |:|-"))[1] +
-                        '/' +
-                        snapshot.data.documents[index].data['lastDate']
-                            .split(RegExp(r" |:|-"))[2] +
-                        '\n' +
-                        snapshot.data.documents[index].data['lastDate']
-                            .split(RegExp(r" |:|-"))[3] +
-                        ':' +
-                        snapshot.data.documents[index].data['lastDate']
-                            .split(RegExp(r" |:|-"))[4],
-                    chatRoomId:
-                        snapshot.data.documents[index].data["chatRoomId"],
-                    sendBy: snapshot.data.documents[index].data["lastSendBy"],
-                    unread: snapshot.data.documents[index].data["lastSendBy"] ==
-                            email
-                        ? false
-                        : snapshot.data.documents[index].data['unread'],
-                  );
-                  }
-                  else {
+                      context,
+                      snapshot.data.documents[index].data['chatRoomId']
+                          .toString()
+                          .replaceAll("_", "")
+                          .replaceAll(email, ""),
+                      snapshot.data.documents[index].data["chatRoomId"],
+                      snapshot.data.documents[index].data['lastMessage'],
+                      snapshot.data.documents[index].data['lastDate']
+                              .split(RegExp(r" |:|-"))[1] +
+                          '/' +
+                          snapshot.data.documents[index].data['lastDate']
+                              .split(RegExp(r" |:|-"))[2] +
+                          '\n' +
+                          snapshot.data.documents[index].data['lastDate']
+                              .split(RegExp(r" |:|-"))[3] +
+                          ':' +
+                          snapshot.data.documents[index].data['lastDate']
+                              .split(RegExp(r" |:|-"))[4],
+                      snapshot.data.documents[index].data["lastSendBy"],
+                      snapshot.data.documents[index].data["lastSendBy"] == email
+                          ? false
+                          : snapshot.data.documents[index].data['unread'],
+                    );
+                  } else {
                     return Container();
                   }
                 })
@@ -105,44 +106,20 @@ class _ChatListState extends State<ChatList> {
       },
     );
   }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarMain("Chatting Rooms"),
-      body: Container(
-        child: getChatList(),
-      ),
-    );
-  }
-}
 
-class ChatRoomsTile extends StatelessWidget {
-  final String friendName;
-  final String chatRoomId;
-  final String message;
-  final String date;
-  final String sendBy;
-  final bool unread;
-
-  ChatRoomsTile(
-      {this.friendName,
-      @required this.chatRoomId,
-      @required this.message,
-      this.date,
-      this.unread, this.sendBy});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget ChatRoomsTile(BuildContext context, String friendName, String chatRoomId,
+      String message, String date, String sendBy, bool unread) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ChatRoom(
-                      chatRoomId: chatRoomId,
-                    )));
-        sendBy != friendName ? null: DatabaseMethods().updateUnreadMessagy(chatRoomId);
+                  chatRoomId: chatRoomId,
+                )));
+        sendBy != friendName
+            ? null
+            : DatabaseMethods().updateUnreadMessagy(chatRoomId);
       },
       child: Container(
         height: 75,
@@ -170,17 +147,17 @@ class ChatRoomsTile extends StatelessWidget {
                   children: <Widget>[
                     unread
                         ? Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            width: 7,
-                            height: 7,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.orangeAccent,
-                            ),
-                          )
+                      margin: const EdgeInsets.only(right: 8),
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.orangeAccent,
+                      ),
+                    )
                         : Container(
-                            child: null,
-                          ),
+                      child: null,
+                    ),
                     Text(
                       date,
                       textAlign: TextAlign.center,
