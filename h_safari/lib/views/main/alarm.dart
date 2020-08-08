@@ -155,7 +155,7 @@ class _AlarmState extends State<Alarm> {
 
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyPost(doc)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyPost(doc)));
   }
 }

@@ -262,7 +262,7 @@ class _MyPostState extends State<MyPost> {
                                       ? Colors.green
                                       : Colors.grey,
                                 ),
-                                SizedBox(width: 10,),
+                                SizedBox(width: 15,),
                                 Text(
                                   '직접거래',
                                   style: TextStyle(fontSize: 15),
@@ -387,46 +387,6 @@ class _MyPostState extends State<MyPost> {
       checkDelivery = true;
       checkDirect = false;
     }
-  }
-
-  void Doing(BuildContext context) async {
-    String result = await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('판매 글을 마감하시겠습니까?'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  '취소',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, '취소');
-                },
-              ),
-              FlatButton(
-                child: Text(
-                  '확인',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Map<String, dynamic> alertToUser = {
-                    "postName": fnName,
-                    "type": "구매신청",
-                    "sendBy": "",
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                  };
-                  Navigator.pop(context, '확인');
-                  CloseDialog(context);
-                },
-              )
-            ],
-          );
-        });
   }
 
   void Close(BuildContext context) async {

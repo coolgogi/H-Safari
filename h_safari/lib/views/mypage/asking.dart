@@ -13,8 +13,6 @@ class _askingState extends State<asking> {
   List<String> attachments = [];
   bool isHTML = false;
 
-
-
   final _subjectController = TextEditingController(
     text: null,
   );
@@ -60,7 +58,6 @@ class _askingState extends State<asking> {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-
         theme: ThemeData(primaryColor: Colors.green),
         home: Scaffold(
           key: _scaffoldKey,
@@ -84,7 +81,10 @@ class _askingState extends State<asking> {
             actions: <Widget>[
               IconButton(
                 onPressed: send,
-                icon: Icon(Icons.send, color: Colors.green,),
+                icon: Icon(
+                  Icons.send,
+                  color: Colors.green,
+                ),
               )
             ],
           ),
@@ -117,9 +117,8 @@ class _askingState extends State<asking> {
                           labelText: '문의내용', border: OutlineInputBorder()),
                     ),
                   ),
-
                   ...attachments.map(
-                        (item) => Text(
+                    (item) => Text(
                       item,
                       overflow: TextOverflow.fade,
                     ),

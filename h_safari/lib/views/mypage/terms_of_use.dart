@@ -11,7 +11,6 @@ class Terms extends StatelessWidget {
             'terms of use',
             style: TextStyle(fontSize: 24.0),
           ),
-        )
-    );
+        ));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/widget/widget.dart';
-import 'dart:math';
 
 class settingAlarm extends StatefulWidget {
   @override
@@ -8,15 +7,8 @@ class settingAlarm extends StatefulWidget {
 }
 
 class _settingAlarmState extends State<settingAlarm> {
-
   // _isSwitchedNum : 알림설정 스위치 별 bool 값을 가지고 있는 리스트
-  final List<bool> _isSwitchedNum = [
-    true,
-    true,
-    true,
-    true,
-    true
-  ];
+  final List<bool> _isSwitchedNum = [true, true, true, true, true];
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +28,15 @@ class _settingAlarmState extends State<settingAlarm> {
 
   // SetAlarm : 알림설정 문구 & 스위치 위젯
   // title(알림문구), num(알림설정 순서)
-  Widget SetAlarm(BuildContext context, String title, int num){
-
+  Widget SetAlarm(BuildContext context, String title, int num) {
     return Row(
       children: <Widget>[
         // mySize(4) : 화면 width의 4분의 1크기만큼 자리차지
         mySize(4),
 
-
         // Container : 알림문구를 감싸고 역할
         Container(
-            width:MediaQuery.of(context).size.width / 4,
+            width: MediaQuery.of(context).size.width / 4,
             child: Text('$title')),
 
         // mySize(8) : 화면 width의 8분의 1크기만큼 자리차지
@@ -78,9 +68,7 @@ class _settingAlarmState extends State<settingAlarm> {
   // SizedBox width 크기 지정 위젯
   Widget mySize(int size) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width /size,
+      width: MediaQuery.of(context).size.width / size,
     );
   }
-
 }
-

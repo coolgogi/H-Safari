@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class DatabaseMethods {
-  
   Future<void> addUserInfo(userData) async {
     Firestore.instance.collection("users").add(userData).catchError((e) {
       print(e.toString());
@@ -111,7 +111,8 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  updateLast(String chatRoomId, String message, String date, String sendBy, bool unread) {
+  updateLast(String chatRoomId, String message, String date, String sendBy,
+      bool unread) {
     return Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
@@ -136,21 +137,19 @@ class DatabaseMethods {
     return Firestore.instance
         .collection("users")
         .document(myEmail)
-    .collection("notification")
-    .document(documentID)
+        .collection("notification")
+        .document(documentID)
         .updateData({
       'unread': false,
     });
   }
 
   closePost(String docId) {
-    return Firestore.instance
-        .collection("post")
-        .document(docId)
-        .updateData({
+    return Firestore.instance.collection("post").document(docId).updateData({
       'close': true,
     });
   }
+
   void sendCommentNotification(String userId, commentNotification) {
     Firestore.instance
         .collection("users")
@@ -160,5 +159,45 @@ class DatabaseMethods {
         .catchError((e) {
       print(e.toString());
     });
+  }
+
+  sendPurchaseApplicationNotification(String email, purchaseApplication) {
+    Firestore.instance
+        .collection("users")
+        .document(email)
+        .collection("notification")
+        .add(purchaseApplication)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  sendWant(List<dynamic> fnUserList, String email, String docId, userList) {
+    fnUserList.add(email);
+    Firestore.instance
+        .collection("post")
+        .document(docId)
+        .collection("userList")
+        .add(userList)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  updatePostDoc(String docID, String name, String price, String description,
+      String category, String how) {
+    Firestore.instance.collection('post').document(docID).updateData({
+      "name": name,
+      "price": price,
+      "description": description,
+      "category": category,
+      "how": how,
+    });
+  }
+
+  deletePostDoc(BuildContext context, String docID) {
+    Firestore.instance.collection('post').document(docID).delete();
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }

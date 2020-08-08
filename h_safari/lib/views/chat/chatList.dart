@@ -35,7 +35,6 @@ class _ChatListState extends State<ChatList> {
     databaseMethods.getUserChats(email).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
-        print("we got the data + ${chatRooms.toString()} this is name  $email");
       });
     });
     super.initState();

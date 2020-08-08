@@ -67,9 +67,7 @@ Widget appBarSelect(BuildContext context, String title) {
 }
 
 // AppBar의 title (검색창)
-class AppBarTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+Widget AppBarTitle (BuildContext context) {
     return  Row(
       children: <Widget>[
         InkWell(
@@ -109,7 +107,7 @@ class AppBarTitle extends StatelessWidget {
       ],
     );
   }
-}
+
 
 
 //안쓰임

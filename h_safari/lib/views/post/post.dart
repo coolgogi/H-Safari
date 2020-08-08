@@ -1,17 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/chat/chatRoom.dart';
-import 'package:h_safari/views/post/write.dart';
-import 'package:h_safari/views/main/home.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
-import 'package:h_safari/widget/widget.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'write.dart';
 
 class Post extends StatefulWidget {
   DocumentSnapshot tp;
@@ -64,13 +58,20 @@ class _PostState extends State<Post> {
 
   FirebaseProvider fp;
   bool favorite = false;
-
   bool checkDelivery = false;
-
   bool checkDirect = false;
 
-  int comment = 0; //댓글 갯수 표시용 변수
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+
+  @override
+  void initState() {
+    DatabaseMethods().getComments(widget.tp.documentID).then((val) {
+      setState(() {
+        comments = val;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +223,7 @@ class _PostState extends State<Post> {
                                       ? Colors.green
                                       : Colors.grey,
                                 ),
-                                Text('      '),
+                                SizedBox(width: 15,),
                                 Text(
                                   '직접거래',
                                   style: TextStyle(fontSize: 15),
@@ -248,34 +249,32 @@ class _PostState extends State<Post> {
                         ),
 
                         Text(
-                          '댓굴 $comment',
+                          '댓글',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-//              new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now())
-
-                        Row(
-                          //임시 버튼
-                          children: <Widget>[
-                            RawMaterialButton(
-                              //내가 몇 번째로 구매 신청 버튼을 눌렀는지 확인하는 버튼. 메세지 창은 뜨지만 아직 내부(대기번호)는 미구현.
-                              shape: OutlineInputBorder(),
-                              child: Text('대기번호'),
-                              onPressed: () {
-                                ShowListnum(context);
-                              },
-                            ),
-                            RawMaterialButton(
-                              //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
-                              shape: OutlineInputBorder(),
-                              //잠깐 메세지 버튼으로 쓸게요~~
-                              child: Text('댓글 & 메세지'),
-                              onPressed: () {
-                                sendMessage(fnEmail);
-//                    Navigator.push(context, MaterialPageRoute(builder: (context) => Comment()));
-                              },
-                            ),
-                          ],
-                        )
+//안씀
+//                        Row(
+//                          //임시 버튼
+//                          children: <Widget>[
+//                            RawMaterialButton(
+//                              //내가 몇 번째로 구매 신청 버튼을 눌렀는지 확인하는 버튼. 메세지 창은 뜨지만 아직 내부(대기번호)는 미구현.
+//                              shape: OutlineInputBorder(),
+//                              child: Text('대기번호'),
+//                              onPressed: () {
+//                                ShowListnum(context);
+//                              },
+//                            ),
+//                            RawMaterialButton(
+//                              //누르면 게시글에 대한 댓글창을 띄우는 버튼(창은 이동하지만 댓글은 미구현)
+//                              shape: OutlineInputBorder(),
+//                              //잠깐 메세지 버튼으로 쓸게요~~
+//                              child: Text('댓글 & 메세지'),
+//                              onPressed: () {
+//                                sendMessage(fnEmail);
+//                              },
+//                            ),
+//                          ],
+//                        )
                       ],
                     )),
                 commentWindow(),
@@ -337,28 +336,29 @@ class _PostState extends State<Post> {
     );
   }
 
-  void sendMessage(String email) async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    String _user = user.email.toString();
-
-    List<String> users = [_user, email];
-
-    String chatRoomId = getChatRoomId(_user, email);
-
-    Map<String, dynamic> chatRoom = {
-      "users": users,
-      "chatRoomId": chatRoomId,
-    };
-
-    databaseMethods.addChatRoom(chatRoom, chatRoomId);
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ChatRoom(
-                  chatRoomId: chatRoomId,
-                )));
-  }
+//안씀
+//  void sendMessage(String email) async {
+//    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//    String _user = user.email.toString();
+//
+//    List<String> users = [_user, email];
+//
+//    String chatRoomId = getChatRoomId(_user, email);
+//
+//    Map<String, dynamic> chatRoom = {
+//      "users": users,
+//      "chatRoomId": chatRoomId,
+//    };
+//
+//    databaseMethods.addChatRoom(chatRoom, chatRoomId);
+//
+//    Navigator.push(
+//        context,
+//        MaterialPageRoute(
+//            builder: (context) => ChatRoom(
+//                  chatRoomId: chatRoomId,
+//                )));
+//  }
 
   void getHow() {
     int tp = int.parse(fnHow);
@@ -416,8 +416,8 @@ class _PostState extends State<Post> {
                     "postID": widget.tp.documentID,
                   };
                   // post에 저장
-                  sendPurchaseApplicationNotification(purchaseApplication);
-                  sendWant(userList);
+                  DatabaseMethods().sendPurchaseApplicationNotification(fnEmail,purchaseApplication);
+                  DatabaseMethods().sendWant(fnUserList, currentEmail, widget.tp.documentID ,userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -425,29 +425,6 @@ class _PostState extends State<Post> {
             ],
           );
         });
-  }
-
-  void sendPurchaseApplicationNotification(purchaseApplication) {
-    Firestore.instance
-        .collection("users")
-        .document(fnEmail)
-        .collection("notification")
-        .add(purchaseApplication)
-        .catchError((e) {
-      print(e.toString());
-    });
-  }
-
-  void sendWant(userList) {
-    fnUserList.add(currentEmail);
-    Firestore.instance
-        .collection("post")
-        .document(widget.tp.documentID)
-        .collection("userList")
-        .add(userList)
-        .catchError((e) {
-      print(e.toString());
-    });
   }
 
   void addComment() {
@@ -473,16 +450,6 @@ class _PostState extends State<Post> {
         commentEditingController.text = "";
       });
     }
-  }
-
-  @override
-  void initState() {
-    DatabaseMethods().getComments(widget.tp.documentID).then((val) {
-      setState(() {
-        comments = val;
-      });
-    });
-    super.initState();
   }
 
   commentWindow() {
@@ -523,57 +490,58 @@ class _PostState extends State<Post> {
       ),
     );
   }
-}
 
-void ShowListnum(BuildContext context) async {
-  String result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            '현재 대기번호',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          content: Text('현재 나의 대기번호는 1번째 입니다.'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('확인'),
-              onPressed: () {
-                Navigator.pop(context, '확인');
-              },
-            )
-          ],
-        );
-      });
-}
+  void ShowListnum(BuildContext context) async {
+    String result = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              '현재 대기번호',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: Text('현재 나의 대기번호는 1번째 입니다.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
+  }
 
-void Buy(BuildContext context) async {
-  String result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text('판매자에게 신청 알림을 보냈습니다.'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                '확인',
-                style: TextStyle(color: Colors.green),
-              ),
-              onPressed: () {
-                Navigator.pop(context, '확인');
-              },
-            )
-          ],
-        );
-      });
-}
-
-getChatRoomId(String a, String b) {
-  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-    return "$b\_$a";
-  } else {
-    return "$a\_$b";
+  void Buy(BuildContext context) async {
+    String result = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('판매자에게 신청 알림을 보냈습니다.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
   }
 }
+
+//안씀
+//getChatRoomId(String a, String b) {
+//  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+//    return "$b\_$a";
+//  } else {
+//    return "$a\_$b";
+//  }
+//}

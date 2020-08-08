@@ -103,7 +103,7 @@ class _SearchState extends State<Search> {
                             return InkWell(
                               // Read Document
                               onTap: () {
-                                showDocument(document.documentID);
+                                showReadPostPage(document);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -199,20 +199,8 @@ class _SearchState extends State<Search> {
         .toString();
   }
 
-  // 문서 조회 (Read)
-  void showDocument(String documentID) {
-    Firestore.instance
-        .collection('post')
-        .document(documentID)
-        .get()
-        .then((doc) {
-      print("showReadPostPage");
-      showReadPostPage(doc, documentID);
-    });
-  }
-
 //  문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc, String documentID) {
+  void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
   }
 

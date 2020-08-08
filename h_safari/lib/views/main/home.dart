@@ -134,7 +134,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     Icons.cake,
                     color: Colors.green,
                   ),
-                  title: AppBarTitle(),
+                  title: AppBarTitle(context),
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
@@ -188,17 +188,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   } //build
 
-  // 문서 조회 (Read)
-  void showDocument(String documentID) {
-    Firestore.instance
-        .collection(colName)
-        .document(documentID)
-        .get()
-        .then((doc) {
-      showReadPostPage(doc);
-    });
-  }
-
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
@@ -210,19 +199,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 : Post(doc)));
   }
 
-  // 문서 갱신 (Update)
-  void updateDoc(String docID, String name, String description) {
-    Firestore.instance.collection(colName).document(docID).updateData({
-      fnName: name,
-      fnDescription: description,
-    });
-  }
-
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection(colName).document(docID).delete();
-  }
-
+//안씀
 //  //dialog
 //  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
 //    if (doc[fnEmail] != currentEmail) return;
@@ -313,7 +290,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     return InkWell(
                       // Read Document
                       onTap: () {
-                        showDocument(document.documentID);
+                      showReadPostPage(document);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -438,7 +415,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       return InkWell(
                         // Read Document
                         onTap: () {
-                          showDocument(document.documentID);
+                          showReadPostPage(document);
                         },
                         child: Container(
                           decoration: BoxDecoration(

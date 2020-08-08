@@ -8,7 +8,6 @@ class MyCategory extends StatefulWidget {
 }
 
 class _MyCategoryState extends State<MyCategory> {
-
   // 카테고리 항목별 이름
   final List<String> _category = [
     '의류',
@@ -23,14 +22,38 @@ class _MyCategoryState extends State<MyCategory> {
 
 // 카테고리 항목별 들어갈 이미지
   final List<Widget> _categoryImage = [
-    Image.asset('assets/sample/clothes.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/book.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/food.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/life.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/furniture.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/beauty.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/home.jpg', fit: BoxFit.fill,),
-    Image.asset('assets/sample/etc.jpg', fit: BoxFit.fill,),
+    Image.asset(
+      'assets/sample/clothes.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/book.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/food.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/life.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/furniture.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/beauty.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/home.jpg',
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'assets/sample/etc.jpg',
+      fit: BoxFit.fill,
+    ),
   ];
 
   @override
@@ -45,28 +68,25 @@ class _MyCategoryState extends State<MyCategory> {
           children: List.generate(8, (index) {
             return Center(
                 child: Container(
-                  width: 150,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      InkWell(
-                          child: _categoryImage[index],
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-
-                                    builder: (context) => categoryView(select : _category[index])));
-                          }
-                      )
-                    ],
-                  ),
-                ));
+              width: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  InkWell(
+                      child: _categoryImage[index],
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    categoryView(select: _category[index])));
+                      })
+                ],
+              ),
+            ));
           }),
         ),
       ),
     );
   }
 }
-
-

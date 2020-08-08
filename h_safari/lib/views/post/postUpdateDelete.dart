@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/post/post(writer).dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -94,18 +95,18 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     _newDescCon.text = fnDes;
     _category = fnCategory;
     _value = fnCategory;
-    if(fnHow == '3'){
-      _delivery = true ;
-      _direct = true ;
-    }else if(fnHow == '2'){
-      _delivery = false ;
-      _direct = true ;
-    }else if(fnHow == '1'){
-      _delivery = true ;
-      _direct = false ;
-    }else{
-      _delivery = false ;
-      _direct = false ;
+    if (fnHow == '3') {
+      _delivery = true;
+      _direct = true;
+    } else if (fnHow == '2') {
+      _delivery = false;
+      _direct = true;
+    } else if (fnHow == '1') {
+      _delivery = true;
+      _direct = false;
+    } else {
+      _delivery = false;
+      _direct = false;
     }
   }
 
@@ -407,8 +408,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                     Text(
                                                       _category,
                                                       style: TextStyle(
-                                                          fontSize: 15
-                                                      ),
+                                                          fontSize: 15),
                                                     ),
                                                     Icon(Icons.arrow_drop_down),
                                                   ],
@@ -421,41 +421,52 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                         //기존 dopdownButton에서 alertDialog list로 수정!
                                                         //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
                                                         return //DropCat();
-                                                          AlertDialog(
-                                                            title: Text('카테고리'),
-                                                            actions: <Widget>[
-                                                              FlatButton(
-                                                                child: Text('취소'),
-                                                                onPressed: () {
-                                                                  Navigator.pop(context);
-                                                                  _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                                },
-                                                              ),
-                                                              FlatButton(
-                                                                child: Text('확인'),
-                                                                onPressed: () {
-                                                                  if (_value != null) {
-                                                                    Navigator.pop(context, _value);
-                                                                    setState(() {
-                                                                      //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                      _category = _value;
-                                                                      previous = _value;
-                                                                    });
-                                                                  }
-                                                                },
-                                                              ),
-                                                            ],
-                                                            content: Container(
-                                                              width: double.maxFinite,
-                                                              child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                  ListCat(),
-                                                                  //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                                ],
-                                                              ),
+                                                            AlertDialog(
+                                                          title: Text('카테고리'),
+                                                          actions: <Widget>[
+                                                            FlatButton(
+                                                              child: Text('취소'),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                _value =
+                                                                    previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                              },
                                                             ),
-                                                          );
+                                                            FlatButton(
+                                                              child: Text('확인'),
+                                                              onPressed: () {
+                                                                if (_value !=
+                                                                    null) {
+                                                                  Navigator.pop(
+                                                                      context,
+                                                                      _value);
+                                                                  setState(() {
+                                                                    //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                    _category =
+                                                                        _value;
+                                                                    previous =
+                                                                        _value;
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                          content: Container(
+                                                            width: double
+                                                                .maxFinite,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                ListCat(),
+                                                                //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
                                                       });
                                                 })),
                                       ],
@@ -526,14 +537,15 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                     //확인하고 게시글을 등록하는 버튼
                                     //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         RaisedButton(
                                           color: Colors.green,
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
@@ -560,15 +572,15 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                 _newPriceCon.text.isNotEmpty) {
                                               fnCategory = _category;
                                               fnHow = checkHow().toString();
-
-                                              updateDoc(
+                                              DatabaseMethods().updatePostDoc(
                                                   widget.tp.documentID,
                                                   _newNameCon.text,
                                                   _newPriceCon.text,
                                                   _newDescCon.text,
                                                   fnCategory,
                                                   fnHow);
-                                              showDocument(widget.tp.documentID);
+                                              showDocument(colName,
+                                                  widget.tp.documentID);
                                               _newNameCon.clear();
                                               _newDescCon.clear();
                                               _newPriceCon.clear();
@@ -577,25 +589,27 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                               _newHowCon.clear();
                                               pictures.clear();
                                               picURL.clear();
-//                                          myapp._currentIndex = 1;
-//                                          showDocument(document.documentID);
                                             } else {
                                               //경고 메세지 부탁
                                             }
                                           },
-                                          child: Text('업데이트', style: TextStyle(fontSize: 15, color: Colors.white)),
+                                          child: Text('업데이트',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white)),
                                         ),
                                         RaisedButton(
                                           color: Colors.green,
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
                                           onPressed: () {
-                                            deleteDoc(widget.tp.documentID);
+                                            DatabaseMethods().deletePostDoc(
+                                                context, widget.tp.documentID);
                                           },
                                           child: Text('삭제',
                                               style: TextStyle(
@@ -610,24 +624,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     );
   }
 
-  void updateDoc(String docID, String name, String price, String description,String category, String how) {
-    Firestore.instance.collection('post').document(docID).updateData({
-      "name": name,
-      "price": price,
-      "description": description,
-      "category" : category,
-      "how" : how,
-    });
-  }
-
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection('post').document(docID).delete();
-    Navigator.pop(context);
-    Navigator.pop(context);
-  }
-
-  void showDocument(String documentID) {
+  showDocument(String colName, String documentID) {
     Firestore.instance
         .collection(colName)
         .document(documentID)
@@ -641,7 +638,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     setState(() {});
     Navigator.pop(context);
     Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyPost(doc)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyPost(doc)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {
@@ -674,8 +672,6 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
       print("picURL : \n$picURL");
     });
   }
-
-
 
   int checkHow() {
     if ((_delivery == false) && (_direct == false))
@@ -728,4 +724,3 @@ class _ListCatState extends State<ListCat> {
     );
   }
 }
-
