@@ -416,8 +416,8 @@ class _PostState extends State<Post> {
                     "postID": widget.tp.documentID,
                   };
                   // post에 저장
-                  DatabaseMethods().sendPurchaseApplicationNotification(fnEmail,purchaseApplication);
-                  DatabaseMethods().sendWant(fnUserList, currentEmail, widget.tp.documentID ,userList);
+                  DatabaseMethods().sendNotification(fnEmail,purchaseApplication);
+                  DatabaseMethods().addWant(fnUserList, currentEmail, widget.tp.documentID ,userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -445,7 +445,7 @@ class _PostState extends State<Post> {
         "unread": true,
       };
       DatabaseMethods().addComment(widget.tp.documentID, commentMap);
-      DatabaseMethods().sendCommentNotification(fnEmail, commentNotification);
+      DatabaseMethods().sendNotification(fnEmail, commentNotification);
       setState(() {
         commentEditingController.text = "";
       });

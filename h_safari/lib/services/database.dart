@@ -150,7 +150,7 @@ class DatabaseMethods {
     });
   }
 
-  void sendCommentNotification(String userId, commentNotification) {
+  void sendNotification(String userId, commentNotification) {
     Firestore.instance
         .collection("users")
         .document(userId)
@@ -161,18 +161,7 @@ class DatabaseMethods {
     });
   }
 
-  sendPurchaseApplicationNotification(String email, purchaseApplication) {
-    Firestore.instance
-        .collection("users")
-        .document(email)
-        .collection("notification")
-        .add(purchaseApplication)
-        .catchError((e) {
-      print(e.toString());
-    });
-  }
-
-  sendWant(List<dynamic> fnUserList, String email, String docId, userList) {
+  addWant(List<dynamic> fnUserList, String email, String docId, userList) {
     fnUserList.add(email);
     Firestore.instance
         .collection("post")

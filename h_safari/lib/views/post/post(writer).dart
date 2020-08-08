@@ -124,7 +124,7 @@ class _MyPostState extends State<MyPost> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Waiting(fnId)));
+                                        builder: (context) => Waiting(fnId, fnName)));
                               },
                             ),
                             IconButton(

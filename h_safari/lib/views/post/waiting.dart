@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,9 +10,11 @@ import 'package:h_safari/views/chat/chatRoom.dart';
 
 class Waiting extends StatefulWidget {
   String documentID;
+  String postName;
 
-  Waiting(String id) {
+  Waiting(String id, String fnName) {
     documentID = id;
+    postName = fnName;
   }
 
   @override
@@ -87,38 +90,88 @@ class _WaitingState extends State<Waiting> {
   Widget waitingTile(int turn, String sendBy, String time, String documentID) {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
-    return FlatButton(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        color: true ? Colors.yellow[50] : Colors.white, // 기본 배경색 : color
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 14,
-            ), // 아이콘과 글자들 사이의 박스 삽입
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-              children: <Widget>[
-                Text(
-                  //sendBy, // 게시물 제목
-                  '$turn번째 신청자',
-                  style: TextStyle(
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-                ),
-                Text(
-                  time, // 알람 내용
-                  style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
-                ),
-              ],
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+            children: <Widget>[
+              Text(
+                //sendBy, // 게시물 제목
+                '$turn번째 신청자',
+                style: TextStyle(
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
+              ),
+              Text(
+                time, // 알람 내용
+                style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
+              ),
+            ],
+          ),
+          FlatButton(
+            shape: OutlineInputBorder(),
+            child: Text(
+              '거래하기',
+              style: TextStyle(color: Colors.green),
             ),
-          ],
-        ),
-        onPressed: () {
-          sendMessage(sendBy);
+            onPressed: () {
+              transaction(context, sendBy);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void transaction(BuildContext context, String sendBy) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('거래를 위한 채팅방을 만드시겠습니까?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '취소',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '취소');
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Map<String, dynamic> transaction = {
+                    "postName": widget.postName,
+                    "type": "거래수락",
+                    "sendBy": sendBy,
+                    "time": new DateFormat('yyyy-MM-dd')
+                        .add_Hms()
+                        .format(DateTime.now()),
+                    "postID": widget.documentID,
+                    "unread": true,
+                  };
+                  DatabaseMethods().sendNotification(sendBy, transaction);
+                  Navigator.pop(context, '확인');
+                  Navigator.pop(context, '확인');
+                  Navigator.pop(context, '확인');
+                  sendMessage(sendBy);
+                },
+              )
+            ],
+          );
         });
   }
+
 
   void sendMessage(String email) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
