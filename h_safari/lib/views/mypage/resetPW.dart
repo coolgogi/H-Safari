@@ -15,11 +15,9 @@ class _resetPWState extends State<resetPW> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-
         // appBar
         appBar: appBar(context, '비밀번호'),
         body: SingleChildScrollView(
-
           // Padding : padding값을 상하좌우 지정
           child: Padding(
             padding: EdgeInsets.all(8.0),
@@ -31,7 +29,6 @@ class _resetPWState extends State<resetPW> {
                 inputTextField('변경 전'),
                 inputTextField('변경 후'),
                 inputTextField('변경 후 확인'),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[

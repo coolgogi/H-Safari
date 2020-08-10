@@ -38,11 +38,12 @@ class _ChatRoomState extends State<ChatRoom> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return MessageTile(
-                    message: snapshot.data.documents[index].data["message"],
-                    sendByMe: currentUser.email ==
+                    context,
+                    snapshot.data.documents[index].data["message"],
+                    currentUser.email ==
                         snapshot.data.documents[index].data["sendBy"],
-                    date: snapshot.data.documents[index].data["date"],
-                    previousDate: index == snapshot.data.documents.length - 1
+                    snapshot.data.documents[index].data["date"],
+                    index == snapshot.data.documents.length - 1
                         ? previousDate = "0"
                         : previousDate =
                             ((snapshot.data.documents[index + 1].data["date"])
@@ -51,6 +52,34 @@ class _ChatRoomState extends State<ChatRoom> {
                 })
             : Container();
       },
+    );
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getChats(widget.chatRoomId).then((val) {
+      setState(() {
+        chats = val;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(_blankFocusnode);
+      },
+      child: Scaffold(
+        appBar: appBarSelect(context, '채팅방'),
+        body: Column(
+          children: [
+            Expanded(child: chatMessages()),
+            sendMessageBox(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -115,50 +144,8 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 
-  @override
-  void initState() {
-    DatabaseMethods().getChats(widget.chatRoomId).then((val) {
-      setState(() {
-        chats = val;
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(_blankFocusnode);
-      },
-      child: Scaffold(
-        appBar: appBarSelect(context, '채팅방'),
-        body: Column(
-          children: [
-            Expanded(child: chatMessages()),
-            sendMessageBox(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MessageTile extends StatelessWidget {
-  final String message;
-  final bool sendByMe;
-  final String date;
-  final String previousDate;
-
-  MessageTile({
-    @required this.message,
-    @required this.sendByMe,
-    this.date,
-    this.previousDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget MessageTile(BuildContext context, String message, bool sendByMe,
+      String date, String previousDate) {
     var allTime = date.split(RegExp(r" |:"));
     var todayDate = allTime[0];
     var hour = allTime[1];
@@ -177,17 +164,17 @@ class MessageTile extends StatelessWidget {
       children: <Widget>[
         previousDate != todayDate
             ? Container(
-          margin: EdgeInsets.only(bottom: 10),
-          height: 20,
-          child: Center(
-              child: Text(
-                todayDate,
-                style: TextStyle(fontSize: 12),
-              )),
-        )
+                margin: EdgeInsets.only(bottom: 10),
+                height: 20,
+                child: Center(
+                    child: Text(
+                  todayDate,
+                  style: TextStyle(fontSize: 12),
+                )),
+              )
             : Container(
-          child: null,
-        ),
+                child: null,
+              ),
         Row(
           mainAxisAlignment:
               sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,

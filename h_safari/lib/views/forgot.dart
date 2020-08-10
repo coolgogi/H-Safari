@@ -8,6 +8,7 @@ class FindPw extends StatefulWidget {
 
 class _FindPwState extends State<FindPw> {
   final _formkey = GlobalKey<FormState>();
+
 //page 구성부분
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class _FindPwState extends State<FindPw> {
   }
 }
 
-Widget appBarForgot(BuildContext context, String title){
+Widget appBarForgot(BuildContext context, String title) {
   return AppBar(
     title: Text(title, style: TextStyle(color: Colors.green)),
     iconTheme: IconThemeData(color: Colors.green),
@@ -28,7 +29,7 @@ Widget appBarForgot(BuildContext context, String title){
   );
 }
 
-Widget forgotBody(final _formkey){
+Widget forgotBody(final _formkey) {
   return Padding(
     padding: const EdgeInsets.all(30.0),
     child: Form(
@@ -36,7 +37,10 @@ Widget forgotBody(final _formkey){
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("아이디: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+          Text(
+            "아이디: ",
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
           SizedBox(height: 10),
           Container(
             alignment: Alignment.centerLeft,
@@ -46,15 +50,19 @@ Widget forgotBody(final _formkey){
               decoration: InputDecoration(
                 hintText: '학번을 입력하세요.',
                 helperText: ' ',
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green)),
               ),
               validator: (value) {
-                if(value.isEmpty) {return '아이디를 입력하지 않았습니다.';}},
+                if (value.isEmpty) {
+                  return '아이디를 입력하지 않았습니다.';
+                }
+              },
             ),
           ),
-
-          SizedBox(height: 30,),
-
+          SizedBox(
+            height: 30,
+          ),
           Center(
             child: ButtonTheme(
               minWidth: 150,
@@ -64,21 +72,30 @@ Widget forgotBody(final _formkey){
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: BorderSide(color: Colors.green,)
-                ),
+                    side: BorderSide(
+                      color: Colors.green,
+                    )),
                 onPressed: () {
-                  if(_formkey.currentState.validate()) {
-                    Scaffold.of(_formkey.currentContext).showSnackBar(
-                        SnackBar(
-                          content: Text('비밀번호 변경 메일을 발송하였습니다.', style: TextStyle(color: Colors.white),),
-                          backgroundColor: Colors.green,
-                          action: SnackBarAction(label: '확인', textColor: Colors.white , onPressed: () {},),
-                          duration: Duration(seconds: 2),
-                        )
-                    );
+                  if (_formkey.currentState.validate()) {
+                    Scaffold.of(_formkey.currentContext).showSnackBar(SnackBar(
+                      content: Text(
+                        '비밀번호 변경 메일을 발송하였습니다.',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.green,
+                      action: SnackBarAction(
+                        label: '확인',
+                        textColor: Colors.white,
+                        onPressed: () {},
+                      ),
+                      duration: Duration(seconds: 2),
+                    ));
                   }
                 },
-                child: Text('확인', style: TextStyle(fontSize: 17, color: Colors.white),),
+                child: Text(
+                  '확인',
+                  style: TextStyle(fontSize: 17, color: Colors.white),
+                ),
               ),
             ),
           ),

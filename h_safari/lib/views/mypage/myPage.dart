@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/delete/comment.dart';
 import 'package:h_safari/views/mypage/asking.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
-import 'package:h_safari/views/mypage/resetPW.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:h_safari/widget/widget.dart';
@@ -20,7 +18,6 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,27 +71,7 @@ class _MyPageState extends State<MyPage> {
                           height: 60,
                           alignment: Alignment.center,
                           child: Text(
-                            '내가 쓴 글',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border(
-                            right: BorderSide(
-                                style: BorderStyle.solid,
-                                color: Colors.black12),
-                          )),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 60,
-                          child: Text(
-                            '관심 글',
+                            '내가 쓴 게시글',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16),
                           ),
@@ -114,7 +91,7 @@ class _MyPageState extends State<MyPage> {
                           height: 60,
                           alignment: Alignment.center,
                           child: Text(
-                            '거래 글',
+                            '거래신청한 게시글',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16),
                           ),
@@ -126,18 +103,17 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('알림 설정'),
-                ],
-              ),
-              onTap: () {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context) => settingAlarm()));
-              }
-            ),
+                leading: Icon(Icons.notifications),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('알림 설정'),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => settingAlarm()));
+                }),
             ListTile(
               leading: Icon(Icons.favorite),
               title: Text('선호 카테고리 설정'),
@@ -149,8 +125,6 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.build),
               title: Text('비밀번호 재설정'),
               onTap: () {
-//                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => resetPW()));
                 fp.sendPasswordResetEmail();
                 showDialog(
                   context: context,
@@ -158,10 +132,9 @@ class _MyPageState extends State<MyPage> {
                     return AlertDialog(
                       title: Text("Please check your email"),
                       content: Container(
-                        height: 200,
-                        child: Text("We sent email that can change password\n\nThank you for reading")
-
-                      ),
+                          height: 200,
+                          child: Text(
+                              "We sent email that can change password\n\nThank you for reading")),
                       actions: <Widget>[
                         FlatButton(
                           child: Text("you’re welcome"),
@@ -169,8 +142,6 @@ class _MyPageState extends State<MyPage> {
                             Navigator.pop(context);
                           },
                         ),
-
-
                       ],
                     );
                   },
