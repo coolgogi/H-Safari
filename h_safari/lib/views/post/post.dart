@@ -84,6 +84,7 @@ class _PostState extends State<Post> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: NestedScrollView(
           //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
