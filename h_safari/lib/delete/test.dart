@@ -8,7 +8,7 @@ class Test1 extends StatelessWidget {
         appBar: appBar(context, '테스트'),
         body: Center(
           child: Text(
-            '테스트',
+            '테스트~',
             style: TextStyle(fontSize: 24.0),
           ),
         ));
