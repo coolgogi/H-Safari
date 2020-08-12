@@ -5,7 +5,7 @@ import 'package:h_safari/views/main/search.dart';
 Widget appBar(BuildContext context, String title) {
   return AppBar(
     elevation: 0.0,
-    backgroundColor: Colors.green[100],
+    backgroundColor: Colors.white,
     leading: InkWell(
       child: Icon(
         Icons.arrow_back_ios,
@@ -18,7 +18,7 @@ Widget appBar(BuildContext context, String title) {
     centerTitle: true,
     title: Text(
       '$title',
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
     ),
   );
 }
@@ -27,7 +27,7 @@ Widget appBar(BuildContext context, String title) {
 Widget appBarMain(String title) {
   return AppBar(
     elevation: 0.0,
-    backgroundColor: Colors.green[100],
+    backgroundColor: Colors.white,
     leading: Icon(
       Icons.cake,
       color: Colors.green,
@@ -35,7 +35,7 @@ Widget appBarMain(String title) {
     centerTitle: true,
     title: Text(
       '$title',
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
     ),
   );
 }
@@ -44,7 +44,7 @@ Widget appBarMain(String title) {
 Widget appBarSelect(BuildContext context, String title) {
   return AppBar(
     elevation: 0.0,
-    backgroundColor: Colors.green[100],
+    backgroundColor: Colors.white,
     leading: InkWell(
       child: Icon(
         Icons.arrow_back_ios,
@@ -60,7 +60,7 @@ Widget appBarSelect(BuildContext context, String title) {
       child: Center(
           child: Text(
             '$title',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           )),
     ),
   );
@@ -75,24 +75,22 @@ Widget AppBarTitle (BuildContext context) {
             width: 270,
             height: 35,
             decoration: BoxDecoration(
-                color : Colors.green,
+                color : Colors.grey[300],
                 borderRadius: BorderRadius.all(Radius.circular(15))
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
-                    'Search your word',
+                    '게시글을 검색해보세요!',
                     style: TextStyle(
-                        color : Colors.white,
-                        fontSize: 15),),
-                ),
-                SizedBox(
-                  width: 90,
+                        color : Colors.black54,
+                        fontSize: 13),),
                 ),
                 IconButton(
-                  icon : Icon(Icons.search, color: Colors.white),
+                  icon : Icon(Icons.search, color: Colors.black38),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
                   },
@@ -107,137 +105,3 @@ Widget AppBarTitle (BuildContext context) {
       ],
     );
   }
-
-
-
-//안쓰임
-//Widget appBarSearch(BuildContext context) {
-//  return AppBar(
-//    elevation: 0.0,
-//    backgroundColor: Colors.white,
-//    leading: IconButton(
-//      icon: Icon(
-//        Icons.arrow_back_ios,
-//        color: Colors.green,
-//      ),
-//      onPressed: () {
-//        Navigator.pop(context);
-//      },
-//    ),
-//    title: SearchBar(),
-//
-//
-//  );
-//}
-//
-//class SearchBar extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return  Container(
-//      height: 35,
-//      decoration: BoxDecoration(
-//          color : Colors.green,
-//          borderRadius: BorderRadius.all(Radius.circular(15))
-//      ),
-//
-//      child: Padding(
-//        padding: const EdgeInsets.only(left: 10),
-//        child: TextFormField(
-//          autofocus: true,
-//          style: TextStyle(color: Colors.white),
-//          cursorColor: Colors.white,
-//          decoration: InputDecoration(
-//              border: InputBorder.none,
-//              hintText: 'Search your world',
-//              hintStyle: TextStyle(color: Colors.white),
-//              suffixIcon: IconButton(
-//                icon: Icon(Icons.search, color: Colors.white),
-//                onPressed: () {
-//
-//                },
-//              )),
-//        ),
-//      ),
-//    );
-//  }
-//}
-
-//안쓰임
-//// home.dart의 appBar UI
-//class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
-//  @override
-//  Size get preferredSize => const Size.fromHeight(100);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return AppBar(
-//      // AppBar 배경색
-//      backgroundColor: Colors.white,
-//
-//      // AppBar의 leading (로고)
-//      leading: AppBarIcon(),
-//
-//      // AppBar의 title (검색창)
-//      title: AppBarTitle(),
-//
-//      // AppBar의 action (알람)
-//      actions: <Widget>[AppBarIcon2(),],
-//
-//      // AppBar의 TabBar
-//      bottom: TabBar(
-//
-//        // 선택되지 않은 탭바의 글자색
-//        unselectedLabelColor: Colors.black45,
-//
-//        // 선택된 탭바의 글자색과 스타일
-//        labelColor: Colors.green,
-//        labelStyle: TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
-//
-//        // 선택된 indicator의 색
-//        indicatorColor: Colors.green,
-//
-//        // 탭바 위젯
-//        tabs: <Widget>[
-//          Tab(text: '전체'),
-//          Tab(text: 'My관심사'),
-//        ],
-//      ),
-//    );
-//  }
-//}
-
-//얘네는 합침
-//// AppBar의 leading (로고)
-//class AppBarIcon extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Icon(
-//      Icons.cake,
-//      color: Colors.green,
-//    );
-//  }
-//}
-//// AppBar의 action (알람)
-//class AppBarIcon2 extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Row(
-//      children: <Widget>[
-//
-//        IconButton(
-//          icon: Icon(
-//            Icons.notifications,
-//            color: Colors.green,
-//          ),
-//          onPressed: () {
-//            Navigator.push(
-//                context, MaterialPageRoute(builder: (context) => Alarm()));
-//          },
-//        ),
-//      ],
-//    );
-//  }
-//}
-
-
-

@@ -65,7 +65,7 @@ class DatabaseMethods {
     });
   }
 
-  Future<dynamic> getComments(String docId) async {
+  getComments(String docId) async {
     return Firestore.instance
         .collection("post")
         .document(docId)
@@ -79,6 +79,19 @@ class DatabaseMethods {
         .collection("post")
         .document(docId)
         .collection("comments")
+        .add(commentData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<void> addReComment(String docId, String redocId, commentData) {
+    Firestore.instance
+        .collection("post")
+        .document(docId)
+        .collection("comments")
+        .document(redocId)
+        .collection("recomments")
         .add(commentData)
         .catchError((e) {
       print(e.toString());
