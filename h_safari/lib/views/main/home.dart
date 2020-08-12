@@ -6,9 +6,9 @@ import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
-
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
+import 'alarm.dart';
 
 class Home extends StatefulWidget {
   String email;
@@ -108,7 +108,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     for (int i = 0; i < 8; i++) {
       categoryBool[i] = doc[categoryString[i]];
     }
-    ;
     setState(() {});
   }
 
@@ -131,29 +130,42 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   pinned: true,
                   snap: true,
                   backgroundColor: Colors.white,
-                  leading: AppBarIcon(),
-                  title: AppBarTitle(),
+                  leading: Icon(
+                    Icons.cake,
+                    color: Colors.green,
+                  ),
+                  title: AppBarTitle(context),
                   actions: <Widget>[
-                    AppBarIcon2(),
+                    IconButton(
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Alarm()));
+                      },
+                    ),
                   ],
                   bottom: TabBar(
-                    unselectedLabelColor: Colors.black45,
+                    unselectedLabelColor: Colors.black38,
                     labelColor: Colors.green,
                     labelStyle: TextStyle(
-                        fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+                        fontSize: 16, height: 1, fontWeight: FontWeight.bold),
                     indicatorColor: Colors.green,
+                    indicatorWeight: 3,
                     tabs: <Widget>[
                       Tab(text: '전체'),
                       Tab(text: 'My관심사'),
                     ],
                   ),
-                )
+                ),
               ];
             },
             body: TabBarView(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
                       //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
@@ -163,7 +175,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   ), //column
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
                       myPostList(userEmail, userDoc), //마이 카테고리
@@ -176,100 +188,76 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   } //build
 
-  // 문서 조회 (Read)
-  void showDocument(String documentID) {
-    Firestore.instance
-        .collection(colName)
-        .document(documentID)
-        .get()
-        .then((doc) {
-      showReadPostPage(doc, documentID);
-    });
-  }
-
   //문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc, String documentID) {
+  void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => userEmail == doc['email']
-                ? MyPost(doc, documentID)
-                : Post(doc, documentID)));
+                ? MyPost(doc)
+                : Post(doc)));
   }
 
-  // 문서 갱신 (Update)
-  void updateDoc(String docID, String name, String description) {
-    Firestore.instance.collection(colName).document(docID).updateData({
-      fnName: name,
-      fnDescription: description,
-    });
-  }
-
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection(colName).document(docID).delete();
-  }
-
-  //dialog
-  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
-    if (doc[fnEmail] != currentEmail) return;
-
-    _undNameCon.text = doc[fnName];
-    _undDescCon.text = doc[fnDescription];
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Update/Delete Document"),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(labelText: "Name"),
-                  controller: _undNameCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: _undDescCon,
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                _undNameCon.clear();
-                _undDescCon.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Update"),
-              onPressed: () {
-                if (_undNameCon.text.isNotEmpty &&
-                    _undDescCon.text.isNotEmpty) {
-                  updateDoc(doc.documentID, _undNameCon.text, _undDescCon.text);
-                }
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Delete"),
-              onPressed: () {
-                deleteDoc(doc.documentID);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
+//안씀
+//  //dialog
+//  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
+//    if (doc[fnEmail] != currentEmail) return;
+//
+//    _undNameCon.text = doc[fnName];
+//    _undDescCon.text = doc[fnDescription];
+//    showDialog(
+//      barrierDismissible: false,
+//      context: context,
+//      builder: (context) {
+//        return AlertDialog(
+//          title: Text("Update/Delete Document"),
+//          content: Container(
+//            height: 200,
+//            child: Column(
+//              children: <Widget>[
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Name"),
+//                  controller: _undNameCon,
+//                ),
+//                TextField(
+//                  decoration: InputDecoration(labelText: "Description"),
+//                  controller: _undDescCon,
+//                )
+//              ],
+//            ),
+//          ),
+//          actions: <Widget>[
+//            FlatButton(
+//              child: Text("Cancel"),
+//              onPressed: () {
+//                _undNameCon.clear();
+//                _undDescCon.clear();
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Update"),
+//              onPressed: () {
+//                if (_undNameCon.text.isNotEmpty &&
+//                    _undDescCon.text.isNotEmpty) {
+//                  updateDoc(doc.documentID, _undNameCon.text, _undDescCon.text);
+//                }
+//                Navigator.pop(context);
+//              },
+//            ),
+//            FlatButton(
+//              child: Text("Delete"),
+//              onPressed: () {
+//                deleteDoc(doc.documentID);
+//                Navigator.pop(context);
+//              },
+//            )
+//          ],
+//        );
+//      },
+//    );
+//  }
 
   String timestampToStrDateTime(Timestamp ts) {
     return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
@@ -299,83 +287,78 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
-
-                    return Card(
-                      elevation: 2,
-                      child: InkWell(
-                        // Read Document
-                        onTap: () {
-                          showDocument(document.documentID);
-                        },
-                        // Update or Delete Document
-                        onLongPress: () {
-                          showUpdateOrDeleteDocDialog(document, email);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // 사진
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green[200],
-                                  ),
-                                  width: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  height: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      _profileImageURL,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 20 * 11,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 게시물 제목
-                                    Text(
-                                      document[fnName],
-                                      style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    // 게시물 가격
-                                    Text(
-                                      document[fnPrice] + '원',
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 12),
-                                    ),
-                                    // 게시물 내용 (3줄까지만)
-                                    Text(
-                                      document[fnDescription],
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ],
+                    return InkWell(
+                      // Read Document
+                      onTap: () {
+                      showReadPostPage(document);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.black12))),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // 사진
+                            Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.green[100],
                                 ),
+                                width:
+                                    MediaQuery.of(context).size.width / 10 * 3,
+                                height:
+                                    MediaQuery.of(context).size.width / 10 * 3,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  child: Image.network(
+                                    _profileImageURL,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Container(
+                              width:
+                                  MediaQuery.of(context).size.width / 20 * 11,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // 게시물 제목
+                                  Text(
+                                    document[fnName],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  // 게시물 가격
+                                  Text(
+                                    document[fnPrice] + '원',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  // 게시물 내용 (3줄까지만)
+                                  Text(
+                                    document[fnDescription],
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 3,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ); //Card
+                    );
                   }).toList(),
                 );
             }
@@ -429,84 +412,84 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     if (!categoryBool[tempInt]) {
                       return Container();
                     } else {
-                      return Card(
-                        elevation: 2,
-                        child: InkWell(
-                          // Read Document
-                          onTap: () {
-                            showDocument(document.documentID);
-                          },
-                          // Update or Delete Document
-                          onLongPress: () {
-                            showUpdateOrDeleteDocDialog(document, email);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                // 사진
-                                Container(
+                      return InkWell(
+                        // Read Document
+                        onTap: () {
+                          showReadPostPage(document);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.black12))),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              // 사진
+                              Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: Colors.green[100],
+                                  ),
                                   width: MediaQuery.of(context).size.width /
                                       10 *
                                       3,
                                   height: MediaQuery.of(context).size.width /
                                       10 *
                                       3,
-                                  color: Colors.green[200],
-                                  child: Image.network(
-                                    _profileImageURL,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width /
-                                      20 *
-                                      11,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // 게시물 제목
-                                      Text(
-                                        document[fnName],
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    child: Image.network(
+                                      _profileImageURL,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 20 * 11,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    // 게시물 제목
+                                    Text(
+                                      document[fnName],
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400,
                                       ),
-                                      // 게시물 가격
-                                      Text(
-                                        document[fnPrice] + '원',
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12),
+                                    ),
+                                    // 게시물 가격
+                                    Text(
+                                      document[fnPrice] + '원',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    // 게시물 내용 (3줄까지만)
+                                    Text(
+                                      document[fnDescription],
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12,
                                       ),
-                                      // 게시물 내용 (3줄까지만)
-                                      Text(
-                                        document[fnDescription],
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 3,
-                                      ),
-                                    ],
-                                  ),
+                                      maxLines: 3,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ); //Card
-                    } //else
+                      );
+                    }
                   }).toList(),
                 );
-            } //
+            }
           },
         ),
       ),

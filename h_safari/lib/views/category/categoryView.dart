@@ -82,7 +82,7 @@ class _categoryViewState extends State<categoryView> {
                       child: InkWell(
                         // Read Document
                         onTap: () {
-                          showDocument(document.documentID);
+                          showReadPostPage(document);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(8),
@@ -163,20 +163,9 @@ class _categoryViewState extends State<categoryView> {
         .toString();
   }
 
-  // 문서 조회 (Read)
-  void showDocument(String documentID) {
-    Firestore.instance
-        .collection('post')
-        .document(documentID)
-        .get()
-        .then((doc) {
-      showReadPostPage(doc, documentID);
-    });
-  }
-
   //문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc, String documentID) {
+  void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc, documentID)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
   }
 }

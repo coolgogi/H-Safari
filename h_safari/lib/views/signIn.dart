@@ -1,18 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'signUp.dart';
-import 'package:h_safari/views/mypage/favoriteCategory.dart';
-import 'signUp.dart';
-
-
-//added by SH
 import 'package:provider/provider.dart';
 import '../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot.dart';
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
 
 class SignIn extends StatefulWidget {
   @override
@@ -20,7 +12,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   //added by SH
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
@@ -46,25 +37,19 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
-
-  ////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////
   var _color = Colors.green;
   final _formkey = new GlobalKey<FormState>();
   String _idkey, _pwkey;
+
 //  bool _rememberId = false;
 
   @override
   Widget build(BuildContext context) {
     //added by SH
     fp = Provider.of<FirebaseProvider>(context);
-
     logger.d(fp.getUser());
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
     return Scaffold(
-
-      key : _scaffoldKey, //added by SH
+      key: _scaffoldKey, //added by SH
       resizeToAvoidBottomPadding: true, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
 //      appBar: AppBar(
 //        iconTheme: IconThemeData(color: _color),
@@ -73,9 +58,7 @@ class _SignInState extends State<SignIn> {
 //        title: Text('로그인 창', style: TextStyle(color: Colors.green),),
 //        elevation: 1, //숫자가 낮을수록 앱바 밑에 그림자?가 사라지게 함(플랫해진다)
 //      ),
-      body:
-
-      GestureDetector(
+      body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
         },
@@ -90,7 +73,6 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
                         SizedBox(height: 70),
 
                         Center(
@@ -111,16 +93,24 @@ class _SignInState extends State<SignIn> {
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 height: 50,
-                                child: TextFormField( //아이디를 입력하는 텍스트 필드
+                                child: TextFormField(
+                                  //아이디를 입력하는 텍스트 필드
                                   keyboardType: TextInputType.number,
-                                  controller: _mailCon, //added by SH
+                                  controller: _mailCon,
+                                  //added by SH
                                   decoration: InputDecoration(
                                     //hintText: '아이디를 입력하세요.',
                                     hintText: '아이디',
-                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.green)),
                                   ),
-                                  validator: (value) { //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                    if(value.isEmpty) {return 'ID를 입력하지 않았습니다.';}},
+                                  validator: (value) {
+                                    //아무것도 입력하지 않았을 때 뜨는 에러메세지.
+                                    if (value.isEmpty) {
+                                      return 'ID를 입력하지 않았습니다.';
+                                    }
+                                  },
                                   onSaved: (value) => _idkey = value,
                                 ),
                               ),
@@ -144,56 +134,83 @@ class _SignInState extends State<SignIn> {
                                   decoration: InputDecoration(
                                       //hintText: '비밀번호를 입력하세요.',
                                       hintText: '비밀번호',
-                                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.green)),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                            visiblepw ? Icons.visibility : Icons.visibility_off,
-                                            color: visiblepw ? Colors.green : Colors.grey,
+                                          visiblepw
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: visiblepw
+                                              ? Colors.green
+                                              : Colors.grey,
                                         ),
-                                        onPressed: ()  {
+                                        onPressed: () {
                                           setState(() {
                                             visiblepw = !visiblepw;
                                           });
                                         },
-                                      )
-                                  ),
-                                  validator: (value) { //마찬가지로 아무것도 입력하지 않으면 뜨는 에러 메세지
-                                    if(value.isEmpty) {return '비밀번호를 입력하지 않았습니다.';}},
+                                      )),
+                                  validator: (value) {
+                                    //마찬가지로 아무것도 입력하지 않으면 뜨는 에러 메세지
+                                    if (value.isEmpty) {
+                                      return '비밀번호를 입력하지 않았습니다.';
+                                    }
+                                  },
                                 ),
                               ),
                             ),
                           ],
                         ), //비밀번호 텍스트
 
-                        SizedBox(height: 30,),
+                        SizedBox(
+                          height: 30,
+                        ),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              children: [//아이디 저장유무를 확인하는 버튼. 다만 아직 실제 저장되는건 미구현입니다.
-                                Text('아이디 저장', style: TextStyle(fontSize: 15),), //아니면 자동 로그인?
+                              children: [
+                                //아이디 저장유무를 확인하는 버튼. 다만 아직 실제 저장되는건 미구현입니다.
+                                Text(
+                                  '아이디 저장',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                //아니면 자동 로그인?
                                 Checkbox(
                                   key: null,
-                                  value: doRemember,//from _rememberId
+                                  value: doRemember, //from _rememberId
                                   activeColor: Colors.green,
                                   onChanged: (bool value) {
                                     setState(() {
-                                      doRemember = value;//from _rememberId
+                                      doRemember = value; //from _rememberId
                                     });
                                   },
                                 ),
                               ],
                             ),
-                            RawMaterialButton(//비밀번호를 찾는 페이지로 이동하는 버튼. 겉모습은 버튼이 아니라 그냥 글자 모양.
-                              child: Text('Forgot Password?', style: TextStyle(fontSize: 15, decoration: TextDecoration.underline),),
+                            RawMaterialButton(
+                              //비밀번호를 찾는 페이지로 이동하는 버튼. 겉모습은 버튼이 아니라 그냥 글자 모양.
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline),
+                              ),
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => FindPw()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FindPw()));
                               },
                             ),
                           ],
                         ),
-                        SizedBox(height: 30,),
+                        SizedBox(
+                          height: 30,
+                        ),
 
                         Column(
                           children: <Widget>[
@@ -208,30 +225,44 @@ class _SignInState extends State<SignIn> {
                                     elevation: 0,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
-                                        side: BorderSide(color: Colors.green,)
-                                    ),
-                                    onPressed: () {//로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
-                                      FocusScope.of(context).requestFocus(new FocusNode());//added by SH
-                                      _signIn();//added by SH
-
+                                        side: BorderSide(
+                                          color: Colors.green,
+                                        )),
+                                    onPressed: () {
+                                      //로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
+                                      FocusScope.of(context).requestFocus(
+                                          new FocusNode()); //added by SH
+                                      _signIn(); //added by SH
                                     },
-                                    child: Text('로그인', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                    child: Text(
+                                      '로그인',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-
                             RawMaterialButton(
-                              onPressed: () {//회원가입 버튼. 누르면 회원가입 창으로 이동합니다
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                              onPressed: () {
+                                //회원가입 버튼. 누르면 회원가입 창으로 이동합니다
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUp()));
                               },
-                              child: Text('회원가입', style: TextStyle(fontSize: 15, color: Colors.grey, decoration: TextDecoration.underline),),
+                              child: Text(
+                                '회원가입',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.underline),
+                              ),
                             ),
                           ],
                         ),
                       ],
-                    )
-                ),
+                    )),
               ),
             ),
           ),
@@ -239,19 +270,19 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
   //added by SH
   void _signIn() async {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        duration: Duration(seconds: 10),
-        content: Row(
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Text("   Signing-In...")
-          ],
-        )
-      ));
+          duration: Duration(seconds: 10),
+          content: Row(
+            children: <Widget>[
+              CircularProgressIndicator(),
+              Text("   Signing-In...")
+            ],
+          )));
     bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false) showLastFBMessage();
