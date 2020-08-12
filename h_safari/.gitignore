@@ -48,3 +48,5 @@ app.*.map.json
 
 pubspec.lock
 pubspec.yaml
+
+.DS_Store
