@@ -86,6 +86,7 @@ class _PostState extends State<Post> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: NestedScrollView(
           //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -327,6 +328,7 @@ class _PostState extends State<Post> {
                       ),
                       onPressed: () {
                         addComment();
+                        FocusManager.instance.primaryFocus.unfocus();
                       },
                     ),
                   ),
@@ -461,6 +463,7 @@ class _PostState extends State<Post> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
