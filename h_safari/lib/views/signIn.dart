@@ -6,6 +6,8 @@ import '../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot.dart';
 
+import 'package:h_safari/views/cloudMessage.dart';
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -253,6 +255,21 @@ class _SignInState extends State<SignIn> {
                               },
                               child: Text(
                                 '회원가입',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ),
+                            RawMaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CloudFunctionsHelloWorld()));
+                              },
+                              child: Text(
+                                'Push 알림 test',
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.grey,
