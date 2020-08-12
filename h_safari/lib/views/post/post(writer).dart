@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MyPost extends StatefulWidget {
   DocumentSnapshot tp;
@@ -86,6 +87,17 @@ class _MyPostState extends State<MyPost> {
   TextEditingController _undPriceCon = TextEditingController();
   TextEditingController _undDescCon = TextEditingController();
 
+  CarouselSlider carouselSlider;
+  int _current = 0;
+
+  List<T> map<T>(List list, Function handler) {
+    List<T> result = [];
+    for (var i = 0; i < list.length; i++) {
+      result.add(handler(i, list[i]));
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
@@ -153,29 +165,63 @@ class _MyPostState extends State<MyPost> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Container(
-                              //사진이 없을때는 우리 로고 올리는 것도 좋을듯요.
-                              height: 250,
-                              width: MediaQuery.of(context).size.width,
-                              child: PageView.builder(
-                                  itemCount: fnImageList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Transform.scale(
-                                      scale: 0.9,
-                                      child: Container(
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              CarouselSlider(
+
+                                initialPage: 0,
+                                enlargeCenterPage: true,
+                                autoPlay: false,
+                                reverse: false,
+                                enableInfiniteScroll: false,
+                                autoPlayInterval: Duration(seconds: 2),
+                                autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                                pauseAutoPlayOnTouch: Duration(seconds: 2),
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                                items: fnImageList.map((imgUrl) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        margin: EdgeInsets.symmetric(horizontal: 10.0),
                                         decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                          image:
-                                              NetworkImage(fnImageList[index]),
-                                          fit: BoxFit.fitHeight,
-                                          //fit: BoxFit.cover
-                                        )),
-                                      ),
-                                    );
-                                  })),
+                                          color: Colors.green,
+                                        ),
+                                          child: imgUrl != '' ? Image.network(
+                                            imgUrl,
+                                            fit: BoxFit.fill,
+                                          ) : Image.asset('assets/sample/LOGO.jpg', fit: BoxFit.fill,)
+                                      );
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: map<Widget>(fnImageList, (index, url) {
+                                  return Container(
+                                    width: 15.0,
+                                    height: 15.0,
+                                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _current == index ? Colors.redAccent : Colors.green,
+                                    ),
+                                  );
+                                }),
+                              ),
+
+                            ],
+                          ),
                         ),
                         Divider(
                           color: Colors.black,
