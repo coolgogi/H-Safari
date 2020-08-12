@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // 알림과 firebase 연결 import
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/views/post/post(writer).dart';
+import 'package:h_safari/views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -137,25 +138,25 @@ class _AlarmState extends State<Alarm> {
           ],
         ),
         onPressed: () {
-          showDocument(postID);
+          showDocument(postID, type);
           DatabaseMethods().updateUnreadAlram(userEmail, documentID);
         });
   }
 
   // 문서 조회 (Read)
-  void showDocument(String documentID) {
+  void showDocument(String documentID, String type) {
     Firestore.instance
         .collection('post')
         .document(documentID)
         .get()
         .then((doc) {
-      showReadPostPage(doc, documentID);
+      showReadPostPage(doc, documentID, type);
     });
   }
 
   //문서 읽기 (Read)
-  void showReadPostPage(DocumentSnapshot doc, String documentID) {
+  void showReadPostPage(DocumentSnapshot doc, String documentID, String type) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MyPost(doc)));
+        context, MaterialPageRoute(builder: (context) => type != '거래수락' ? MyPost(doc) : Post(doc)));
   }
 }
