@@ -24,37 +24,6 @@ class _ChatRoomState extends State<ChatRoom> {
   String previousDate;
   var _blankFocusnode = new FocusNode();
 
-  Widget chatMessages() {
-    fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
-    return StreamBuilder(
-      stream: chats,
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                reverse: true,
-                padding: EdgeInsets.all(15),
-                itemCount: snapshot.data.documents.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return MessageTile(
-                    context,
-                    snapshot.data.documents[index].data["message"],
-                    currentUser.email ==
-                        snapshot.data.documents[index].data["sendBy"],
-                    snapshot.data.documents[index].data["date"],
-                    index == snapshot.data.documents.length - 1
-                        ? previousDate = "0"
-                        : previousDate =
-                            ((snapshot.data.documents[index + 1].data["date"])
-                                .split(RegExp(r" |:")))[0],
-                  );
-                })
-            : Container();
-      },
-    );
-  }
-
   @override
   void initState() {
     DatabaseMethods().getChats(widget.chatRoomId).then((val) {
@@ -82,6 +51,38 @@ class _ChatRoomState extends State<ChatRoom> {
       ),
     );
   }
+
+  Widget chatMessages() {
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+            reverse: true,
+            padding: EdgeInsets.all(15),
+            itemCount: snapshot.data.documents.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return MessageTile(
+                context,
+                snapshot.data.documents[index].data["message"],
+                currentUser.email ==
+                    snapshot.data.documents[index].data["sendBy"],
+                snapshot.data.documents[index].data["date"],
+                index == snapshot.data.documents.length - 1
+                    ? previousDate = "0"
+                    : previousDate =
+                ((snapshot.data.documents[index + 1].data["date"])
+                    .split(RegExp(r" |:")))[0],
+              );
+            })
+            : Container();
+      },
+    );
+  }
+
 
   addMessage() {
     fp = Provider.of<FirebaseProvider>(context);
@@ -122,11 +123,15 @@ class _ChatRoomState extends State<ChatRoom> {
             style: TextStyle(fontSize: 18),
             controller: messageEditingController,
             decoration: InputDecoration(
-                fillColor: Colors.grey[200],
-                filled: true,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 1, color: Colors.brown),
-                    borderRadius: BorderRadius.circular(20))),
+              contentPadding: EdgeInsets.fromLTRB(15, 23, 0, 0),
+              fillColor: Colors.grey[200],
+              filled: true,
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.brown, width: 1.5),
+                  borderRadius: BorderRadius.circular(20)),
+            ),
           )),
           SizedBox(
             width: 5,

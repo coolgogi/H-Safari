@@ -64,10 +64,11 @@ class _PostState extends State<Post> {
   bool checkDelivery = false;
   bool checkDirect = false;
 
-  ScrollController scrollController = ScrollController();
-
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
   var _recommentFocusnode = FocusNode();
+
+  bool isRecomment = false;
+  var redocId;
 
   @override
   void initState() {
@@ -90,7 +91,6 @@ class _PostState extends State<Post> {
     return result;
   }
 
-
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
@@ -99,12 +99,11 @@ class _PostState extends State<Post> {
 
     return GestureDetector(
       onTap: () {
+        isRecomment = false;
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        resizeToAvoidBottomPadding: true,
         body: NestedScrollView(
-          //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -121,7 +120,6 @@ class _PostState extends State<Post> {
             ];
           },
           body: SingleChildScrollView(
-            controller: scrollController,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -135,7 +133,7 @@ class _PostState extends State<Post> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               CarouselSlider(
-                                height : 250,
+                                height: 250,
                                 initialPage: 0,
                                 enlargeCenterPage: true,
                                 autoPlay: false,
@@ -154,36 +152,44 @@ class _PostState extends State<Post> {
                                   return Builder(
                                     builder: (BuildContext context) {
                                       return Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                        ),
-                                        child: imgUrl != '' ? Image.network(
-                                          imgUrl,
-                                          fit: BoxFit.fill,
-                                        ) : Image.asset('assets/sample/LOGO.jpg', fit: BoxFit.fill,)
-                                      );
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.green,
+                                          ),
+                                          child: imgUrl != ''
+                                              ? Image.network(
+                                                  imgUrl,
+                                                  fit: BoxFit.fill,
+                                                )
+                                              : Image.asset(
+                                                  'assets/sample/LOGO.jpg',
+                                                  fit: BoxFit.fill,
+                                                ));
                                     },
                                   );
                                 }).toList(),
                               ),
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: map<Widget>(fnImageList, (index, url) {
+                                children:
+                                    map<Widget>(fnImageList, (index, url) {
                                   return Container(
                                     width: 15.0,
                                     height: 15.0,
-                                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 2.0),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: _current == index ? Colors.redAccent : Colors.green,
+                                      color: _current == index
+                                          ? Colors.redAccent
+                                          : Colors.green,
                                     ),
                                   );
                                 }),
                               ),
-
                             ],
                           ),
                         ),
@@ -191,9 +197,6 @@ class _PostState extends State<Post> {
                         Divider(
                           color: Colors.black,
                         ),
-
-
-
                         //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,14 +302,12 @@ class _PostState extends State<Post> {
                             ),
                           ],
                         ),
-
                         Divider(
                           color: Colors.black,
                         ),
                         SizedBox(
                           height: 10,
                         ),
-
                         Text(
                           '댓글',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -318,61 +319,62 @@ class _PostState extends State<Post> {
             ),
           ),
         ),
-        bottomNavigationBar: fnClose ? null : BottomAppBar(
-          //화면 하단에 찜하기, 구매 신청 버튼, 대기번호, 댓글 버튼을 넣는 앱바
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 30,
-                      child: TextFormField(
-                        onTap: (){
-                          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-                        },
-                        focusNode: _recommentFocusnode,
-                        controller: commentEditingController,
-                        decoration: InputDecoration(
-                          hintText: 'Comment',
-                          contentPadding: EdgeInsets.all(7.0),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green)),
+        bottomNavigationBar: fnClose
+            ? null
+            : BottomAppBar(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.075,
+                    padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            focusNode: _recommentFocusnode,
+                            controller: commentEditingController,
+                            decoration: InputDecoration(
+                              hintText: '댓글 달기',
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                              contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              hintStyle:
+                                  TextStyle(color: Colors.grey, fontSize: 13),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green)),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          width: 60,
+                          child: FlatButton(
+                            shape: OutlineInputBorder(),
+                            child: Text(
+                              '등록', //아이콘으로 바꾸기
+                              style: TextStyle(color: Colors.green),
+                            ),
+                            onPressed: () {
+                              isRecomment
+                                  ? addReComment(redocId)
+                                  : addComment();
+                              isRecomment = false;
+                              FocusManager.instance.primaryFocus.unfocus();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonTheme(
-                    height: 30,
-                    child: FlatButton(
-                      shape: OutlineInputBorder(),
-                      child: Text(
-                        '댓글 등록',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      onPressed: () {
-                        addComment();
-                        FocusManager.instance.primaryFocus.unfocus();
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
@@ -471,29 +473,58 @@ class _PostState extends State<Post> {
     }
   }
 
-  commentWindow() {
+  void addReComment(redocId) {
+    print('실행된다');
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    if (commentEditingController.text.isNotEmpty) {
+      Map<String, dynamic> recommentMap = {
+        "sendBy": currentUser.email,
+        "recomment": commentEditingController.text,
+        'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+      };
+      Map<String, dynamic> recommentNotification = {
+        "postName": fnName,
+        "type": "댓글",
+        "sendBy": currentUser.email,
+        "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+        "postID": widget.tp.documentID,
+        "unread": true,
+      };
+      DatabaseMethods()
+          .addReComment(widget.tp.documentID, redocId, recommentMap);
+      DatabaseMethods().sendNotification(fnEmail, recommentNotification);
+      setState(() {
+        commentEditingController.text = "";
+      });
+    }
+  }
+
+  Widget commentWindow() {
     return StreamBuilder(
       stream: comments,
       builder: (context, snapshot) {
         return snapshot.hasData
-            ? ListView.builder(
+            ? ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
-                itemBuilder: (context, index) {
+                children:
+                    snapshot.data.documents.map<Widget>((DocumentSnapshot document) {
                   return commentTile(
-                      snapshot.data.documents[index].data["sendBy"],
-                      snapshot.data.documents[index].data["comment"],
-                      snapshot.data.documents[index].data["date"]);
-                })
-
+                    document['sendBy'],
+                    document['comment'],
+                    document['date'],
+                    document.documentID
+                  );
+                }).toList(),
+              )
             : Container();
       },
     );
   }
 
-  Widget commentTile(String name, String comment, String date) {
+  Widget commentTile(String name, String comment, String date, String documentID) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -511,8 +542,13 @@ class _PostState extends State<Post> {
                 height: 20,
                 width: 80,
                 child: FlatButton(
-                  child: Text('답글 달기', style: TextStyle(fontSize: 12),),
-                  onPressed: (){
+                  child: Text(
+                    '답글 달기',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  onPressed: () {
+                    isRecomment = true;
+                    redocId = documentID;
                     FocusScope.of(context).requestFocus(_recommentFocusnode);
                   },
                 ),
@@ -520,7 +556,7 @@ class _PostState extends State<Post> {
             ],
           ),
           Divider(
-            color: Colors.black,
+            color: Colors.black45,
           )
         ],
       ),

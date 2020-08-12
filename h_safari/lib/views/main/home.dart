@@ -151,9 +151,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     unselectedLabelColor: Colors.black38,
                     labelColor: Colors.green,
                     labelStyle: TextStyle(
-                        fontSize: 16, height: 1, fontWeight: FontWeight.bold),
+                        fontSize: 15, height: 1, fontWeight: FontWeight.bold),
                     indicatorColor: Colors.green,
-                    indicatorWeight: 3,
+                    indicatorWeight: 2.5,
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
                     tabs: <Widget>[
                       Tab(text: '전체'),
                       Tab(text: 'My관심사'),
