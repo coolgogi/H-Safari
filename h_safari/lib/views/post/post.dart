@@ -325,6 +325,7 @@ class _PostState extends State<Post> {
                       ),
                       onPressed: () {
                         addComment();
+                        FocusManager.instance.primaryFocus.unfocus();
                       },
                     ),
                   ),
@@ -459,6 +460,7 @@ class _PostState extends State<Post> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,

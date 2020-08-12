@@ -96,8 +96,9 @@ class _MyPostState extends State<MyPost> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        body: NestedScrollView(
-          //화면 스크롤 가능하게
+        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomPadding: true,
+        body: NestedScrollView(//화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -279,23 +280,24 @@ class _MyPostState extends State<MyPost> {
                             ),
                           ],
                         ),
-                        Divider(
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          '댓글',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        Divider(color: Colors.black,),
+
+                        SizedBox(height: 10,),
+
+                        Text('댓글', style: TextStyle(fontWeight: FontWeight.bold),),
+
+                        SizedBox(height: 10,),
                       ],
                     )),
                 commentWindow(),
+
+                SizedBox(height: 10,),
               ],
             ),
           ),
         ),
+
+
         bottomNavigationBar: fnClose
             ? null
             : BottomAppBar(
@@ -340,6 +342,7 @@ class _MyPostState extends State<MyPost> {
                             ),
                             onPressed: () {
                               addComment();
+                              FocusManager.instance.primaryFocus.unfocus();
                             },
                           ),
                         ),
@@ -495,6 +498,7 @@ class _MyPostState extends State<MyPost> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,

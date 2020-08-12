@@ -151,41 +151,26 @@ class _MyWriteState extends State<MyWrite> {
                                                   actions: <Widget>[
                                                     // usually buttons at the bottom of the dialog
                                                     Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("사진첩"),
+                                                            child: new Text("사진첩"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .gallery);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child:
-                                                                new Text("카메라"),
+                                                            child: new Text("카메라"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .camera);
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.camera);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text(
-                                                                "Close"),
+                                                            child: new Text("Close"),
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                         ]),
@@ -215,55 +200,31 @@ class _MyWriteState extends State<MyWrite> {
                                                         ? (picWidth + 130) *
                                                             pictures.length
                                                         : picWidth,
-                                                    child: (picLength > 0)
-                                                        ? GridView.count(
+                                                    child: (picLength > 0) ? GridView.count(
                                                             shrinkWrap: true,
-                                                            crossAxisCount:
-                                                                pictures.length,
-                                                            crossAxisSpacing:
-                                                                10,
-                                                            physics:
-                                                                ScrollPhysics(),
-                                                            children:
-                                                                List.generate(
-                                                                    pictures
-                                                                        .length,
-                                                                    (index) {
+                                                            crossAxisCount: pictures.length,
+                                                            crossAxisSpacing: 10,
+                                                            physics: ScrollPhysics(),
+                                                            children: List.generate(pictures.length,(index) {
                                                               return Stack(
-                                                                children: <
-                                                                    Widget>[
+                                                                children: <Widget>[
                                                                   Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                            image:
-                                                                                DecorationImage(
-                                                                      image: (_image !=
-                                                                              null)
-                                                                          ? FileImage(pictures[
-                                                                              index])
-                                                                          : NetworkImage(
-                                                                              tpUrl),
+                                                                    decoration: BoxDecoration(
+                                                                        image: DecorationImage(
+                                                                          image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
                                                                       //fit: BoxFit.cover
                                                                     )),
                                                                   ),
                                                                   Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .topRight,
+                                                                    alignment: Alignment.topRight,
                                                                     child:
                                                                         IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
+                                                                      icon: Icon(Icons.highlight_off),
                                                                       disabledColor:
-                                                                          Colors
-                                                                              .black,
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          pictures
-                                                                              .removeAt(index);
+                                                                          Colors.black,
+                                                                      onPressed: () {
+                                                                        setState(() {
+                                                                          pictures.removeAt(index);
                                                                         });
                                                                       },
                                                                     ),
@@ -534,7 +495,7 @@ class _MyWriteState extends State<MyWrite> {
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
-                                                _profileImageURL,
+                                                picURL[0],
                                                 picURL.join(
                                                     ',')); // "picURL[0],picURL[1],..."
                                             _newNameCon.clear();
@@ -552,10 +513,7 @@ class _MyWriteState extends State<MyWrite> {
                                             //경고 메세지 부탁
                                           }
                                         },
-                                        child: Text('게시글 등록',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white)),
+                                        child: Text('게시글 등록', style: TextStyle(fontSize: 15, color: Colors.white)),
                                       ),
                                     ),
                                   ]))))),
@@ -583,7 +541,7 @@ class _MyWriteState extends State<MyWrite> {
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
       fnEmail: user.email,
-      fnList: tp,
+      //fnList: tp,
       fnDoing: false,
       fnClose: false,
     });
