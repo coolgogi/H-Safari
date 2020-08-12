@@ -266,7 +266,7 @@ class _SignInState extends State<SignIn> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CloudFunctionsHelloWorld()));
+                                        builder: (context) => FcmFirstDemo()));
                               },
                               child: Text(
                                 'Push 알림 test',
