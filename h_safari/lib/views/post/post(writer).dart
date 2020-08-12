@@ -272,7 +272,7 @@ class _MyPostState extends State<MyPost> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDelivery
+                                  color: checkDirect
                                       ? Colors.green
                                       : Colors.grey,
                                 ),
