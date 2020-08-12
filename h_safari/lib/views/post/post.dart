@@ -38,6 +38,7 @@ class _PostState extends State<Post> {
   String userList;
   List<dynamic> fnUserList;
   String fnId;
+  bool fnClose;
 
   String currentEmail;
 
@@ -55,6 +56,7 @@ class _PostState extends State<Post> {
     fnEmail = doc['email'];
     fnId = doc.documentID;
     fnUserList = doc['userList'];
+    fnClose = doc['close'];
   }
 
   FirebaseProvider fp;
@@ -197,6 +199,7 @@ class _PostState extends State<Post> {
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
+                            fnClose ? Container() :
                             ButtonTheme(
                               height: 30,
                               child: FlatButton(
