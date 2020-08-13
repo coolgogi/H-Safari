@@ -28,10 +28,6 @@ Widget appBarMain(String title) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.white,
-    leading: Icon(
-      Icons.cake,
-      color: Colors.green,
-    ),
     centerTitle: true,
     title: Text(
       '$title',
@@ -70,9 +66,21 @@ Widget appBarSelect(BuildContext context, String title) {
 Widget AppBarTitle (BuildContext context) {
     return  Row(
       children: <Widget>[
+        Column(
+          children: <Widget>[
+            SizedBox(height: 7,),
+            Container(
+              width: 60,
+              child: Image.asset('Logo/h-safari_homeicon.png.png'),
+            ),
+          ],
+        ),
+
+        SizedBox(width: 10,),
+
         InkWell(
           child: Container(
-            width: 270,
+            width: 250,
             height: 35,
             decoration: BoxDecoration(
                 color : Colors.grey[300],
