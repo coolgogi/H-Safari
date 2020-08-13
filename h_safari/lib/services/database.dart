@@ -74,6 +74,18 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  getReComments(String docId, String redocId) async {
+    print(redocId);
+    return Firestore.instance
+        .collection("post")
+        .document(docId)
+        .collection("comments")
+        .document(redocId)
+        .collection("recomments")
+        .orderBy('date')
+        .snapshots();
+  }
+
   Future<void> addComment(String docId, commentData) {
     Firestore.instance
         .collection("post")

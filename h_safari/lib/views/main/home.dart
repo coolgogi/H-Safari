@@ -41,6 +41,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
+  final String fnClose = 'close';
   final List<String> categoryString = [
     "의류",
     "서적",
@@ -288,6 +289,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
+                    bool close = document[fnClose];
+
                     return InkWell(
                       // Read Document
                       onTap: () {
@@ -393,6 +396,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
+                    bool close = document[fnClose];
 
                     if (document[fnCategory] == "의류")
                       tempInt = 0;

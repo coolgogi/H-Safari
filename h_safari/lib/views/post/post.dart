@@ -78,6 +78,12 @@ class _PostState extends State<Post> {
         comments = val;
       });
     });
+    DatabaseMethods().getReComments(widget.tp.documentID, redocId).then((val) {
+      setState(() {
+        recomments = val;
+      });
+    });
+
     super.initState();
   }
 
@@ -154,7 +160,7 @@ class _PostState extends State<Post> {
                                     builder: (BuildContext context) {
                                       return Container(
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 10.0),
                                           decoration: BoxDecoration(
@@ -162,13 +168,13 @@ class _PostState extends State<Post> {
                                           ),
                                           child: imgUrl != ''
                                               ? Image.network(
-                                                  imgUrl,
-                                                  fit: BoxFit.fill,
-                                                )
+                                            imgUrl,
+                                            fit: BoxFit.fill,
+                                          )
                                               : Image.asset(
-                                                  'assets/sample/LOGO.jpg',
-                                                  fit: BoxFit.fill,
-                                                ));
+                                            'assets/sample/LOGO.jpg',
+                                            fit: BoxFit.fill,
+                                          ));
                                     },
                                   );
                                 }).toList(),
@@ -176,7 +182,7 @@ class _PostState extends State<Post> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children:
-                                    map<Widget>(fnImageList, (index, url) {
+                                map<Widget>(fnImageList, (index, url) {
                                   return Container(
                                     width: 15.0,
                                     height: 15.0,
@@ -215,7 +221,7 @@ class _PostState extends State<Post> {
                                   fnClose ? '마감' : '구매신청',
                                   style: TextStyle(
                                       color:
-                                          fnClose ? Colors.red : Colors.green),
+                                      fnClose ? Colors.red : Colors.green),
                                 ),
                                 onPressed: () {
                                   fnClose ? null : purchaseApplication(context);
@@ -295,9 +301,8 @@ class _PostState extends State<Post> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDirect
-                                      ? Colors.green
-                                      : Colors.grey,
+                                  color:
+                                  checkDirect ? Colors.green : Colors.grey,
                                 ),
                               ],
                             ),
@@ -323,59 +328,59 @@ class _PostState extends State<Post> {
         bottomNavigationBar: fnClose
             ? null
             : BottomAppBar(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            focusNode: _recommentFocusnode,
-                            controller: commentEditingController,
-                            decoration: InputDecoration(
-                              hintText: '댓글 달기',
-                              fillColor: Colors.grey[200],
-                              filled: true,
-                              contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              hintStyle:
-                                  TextStyle(color: Colors.grey, fontSize: 13),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green)),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                          width: 60,
-                          child: FlatButton(
-                            shape: OutlineInputBorder(),
-                            child: Text(
-                              '등록', //아이콘으로 바꾸기
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            onPressed: () {
-                              isRecomment
-                                  ? addReComment(redocId)
-                                  : addComment();
-                              isRecomment = false;
-                              FocusManager.instance.primaryFocus.unfocus();
-                            },
-                          ),
-                        ),
-                      ],
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.075,
+              padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    child: TextFormField(
+                      focusNode: _recommentFocusnode,
+                      controller: commentEditingController,
+                      decoration: InputDecoration(
+                        hintText: '댓글 달기',
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        hintStyle:
+                        TextStyle(color: Colors.grey, fontSize: 13),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green)),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    width: 60,
+                    child: FlatButton(
+                      shape: OutlineInputBorder(),
+                      child: Text(
+                        '등록', //아이콘으로 바꾸기
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () {
+                        isRecomment
+                            ? addReComment(redocId)
+                            : addComment();
+                        isRecomment = false;
+                        FocusManager.instance.primaryFocus.unfocus();
+                      },
+                    ),
+                  ),
+                ],
               ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -506,36 +511,45 @@ class _PostState extends State<Post> {
       stream: comments,
       builder: (context, snapshot) {
         return snapshot.hasData
-            ? ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                shrinkWrap: true,
-                children:
-                    snapshot.data.documents.map<Widget>((DocumentSnapshot document) {
-                  return commentTile(
-                    document['sendBy'],
-                    document['comment'],
-                    document['date'],
-                    document.documentID
-                  );
-                }).toList(),
-              )
+            ?
+        StreamBuilder(
+          stream: recomments,
+          builder: (context, snapshots) {
+            print('실행??');
+            print(snapshots.hasData);
+            return snapshots.hasData ?
+            ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              shrinkWrap: true,
+              children: snapshots.data.documents.map<Widget>(
+                      (DocumentSnapshot document) {
+                    print('실행!!');
+                    return commentTile(document['sendBy'], document['recomment'],
+                        document['date'], document.documentID);
+                  }
+              ).toList(),): Container();
+          },
+        )
+//        ListView(
+//                physics: const NeverScrollableScrollPhysics(),
+//                padding: EdgeInsets.symmetric(horizontal: 10),
+//                shrinkWrap: true,
+//                children: snapshot.data.documents.map<Widget>(
+//                  (DocumentSnapshot document) {
+//                    return commentTile(document['sendBy'], document['recomment'],
+//                        document['date'], document.documentID);
+//                  },
+//                ).toList(),
+//              )
             : Container();
       },
     );
   }
 
-
-
-
-  Widget commentTile(String name, String comment, String date, String documentID) {
-
-    recomments = Firestore.instance.collection("post").document(documentID).collection("recomments").snapshots();
-    print("==============");
-    print(recomments);
-    print(documentID);
-    print("==============");
-
+  Widget commentTile(
+      String name, String comment, String date, String documentID) {
+    print('실행댐');
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,56 +577,6 @@ class _PostState extends State<Post> {
                     FocusScope.of(context).requestFocus(_recommentFocusnode);
                   },
                 ),
-              ),
-            ],
-          ),
-          StreamBuilder(
-            stream: recomments,
-            builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                shrinkWrap: true,
-                children:
-                snapshot.data.documents.map<Widget>((DocumentSnapshot document) {
-                  return recommentTile(
-                    document['sendBy'],
-                    document['recomment'],
-                    document['date'],
-                  );
-                }).toList(),
-              )
-                  : Container();
-            },
-          ),
-          Divider(
-            color: Colors.black45,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget recommentTile(String name, String comment, String date) {
-
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(name),
-          Text(comment),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                date,
-                style: TextStyle(color: Colors.black38, fontSize: 12),
-              ),
-              SizedBox(
-                height: 20,
-                width: 80,
-
               )
             ],
           ),
