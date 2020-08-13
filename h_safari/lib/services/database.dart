@@ -98,6 +98,26 @@ class DatabaseMethods {
     });
   }
 
+  deleteComment(String docID, String codocId) {
+    Firestore.instance
+        .collection('post')
+        .document(docID)
+        .collection('comments')
+        .document(codocId)
+        .delete();
+  }
+
+  deleteReComment(String docID, String codocId, String recodocId) {
+    Firestore.instance
+        .collection('post')
+        .document(docID)
+        .collection('comments')
+        .document(codocId)
+        .collection('recomments')
+        .document(recodocId)
+        .delete();
+  }
+
   Future<dynamic> getUserChats(String itIsMyName) async {
     return Firestore.instance
         .collection("chatRoom")
