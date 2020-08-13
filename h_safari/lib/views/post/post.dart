@@ -169,10 +169,7 @@ class _PostState extends State<Post> {
                                                   imgUrl,
                                                   fit: BoxFit.fill,
                                                 )
-                                                    : Image.asset(
-                                                  'assets/sample/LOGO.jpg',
-                                                  fit: BoxFit.fill,
-                                                ));
+                                                    : Image.asset('Logo/empty_Rabbit_green1_gloss.png.png', fit: BoxFit.cover,));
                                           },
                                         );
                                       }).toList(),

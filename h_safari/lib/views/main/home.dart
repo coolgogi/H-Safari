@@ -276,7 +276,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                               )
                                     ) : Stack(children: <Widget>[
                                       Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
-                                      Image.asset('assets/sample/close2.png')
                                     ],)
                                 ),
                                 SizedBox(
