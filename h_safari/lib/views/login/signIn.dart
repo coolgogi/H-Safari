@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/loading.dart';
+import 'package:h_safari/views/login/loading.dart';
 import 'signUp.dart';
 import 'package:provider/provider.dart';
-import '../models/firebase_provider.dart';
+import '../../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot.dart';
 
