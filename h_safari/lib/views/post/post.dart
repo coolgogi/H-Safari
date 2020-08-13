@@ -24,7 +24,6 @@ class _PostState extends State<Post> {
 
   TextEditingController commentEditingController = new TextEditingController();
   Stream<QuerySnapshot> comments;
-  Stream<QuerySnapshot> recomments;
 
   String fnName;
   String fnDes;
@@ -78,7 +77,6 @@ class _PostState extends State<Post> {
         comments = val;
       });
     });
-
 
     super.initState();
   }
@@ -158,23 +156,64 @@ class _PostState extends State<Post> {
                                         return Builder(
                                           builder: (BuildContext context) {
                                             return Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
                                                 margin: EdgeInsets.symmetric(
                                                     horizontal: 10.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                ),
                                                 child: imgUrl != ''
-                                                    ? Image.network(
-                                                        imgUrl,
-                                                        fit: BoxFit.fill,
-                                                      )
-                                                    : Image.asset(
-                                                        'assets/sample/LOGO.jpg',
-                                                        fit: BoxFit.fill,
-                                                      ));
+                                                    ? fnClose
+                                                        ? Stack(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .network(
+                                                                    imgUrl,
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'assets/sample/close2.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        : Image.network(
+                                                            imgUrl,
+                                                            fit: BoxFit.fill,
+                                                          )
+                                                    : fnClose
+                                                        ? Stack(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                width: 250,
+                                                                height: 250,
+                                                                child:
+                                                                    Image.asset(
+                                                                  'assets/sample/safarilogo.png',
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'assets/sample/close2.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/sample/LOGO.jpg',
+                                                            fit: BoxFit.fill,
+                                                          ));
                                           },
                                         );
                                       }).toList(),
@@ -195,70 +234,46 @@ class _PostState extends State<Post> {
                                                 ? Colors.redAccent
                                                 : Colors.green,
                                           ),
-                                          child: imgUrl != ''
-                                              ? Image.network(
-                                            imgUrl,
-                                            fit: BoxFit.fill,
-                                          )
-                                              : Image.asset(
-                                            'assets/sample/LOGO.jpg',
-                                            fit: BoxFit.fill,
-                                          ));
-                                    },
-                                  );
-                                }).toList(),
+                                        );
+                                      }),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Divider(
                                 color: Colors.black,
                               ),
                               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:
-                                map<Widget>(fnImageList, (index, url) {
-                                  return Container(
-                                    width: 15.0,
-                                    height: 15.0,
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 2.0),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: _current == index
-                                          ? Colors.redAccent
-                                          : Colors.green,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    '가격 : $fnPrice원',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  ButtonTheme(
+                                    height: 30,
+                                    child: FlatButton(
+                                      shape: OutlineInputBorder(),
+                                      child: Text(
+                                        fnClose ? '마감' : '구매신청',
+                                        style: TextStyle(
+                                            color: fnClose
+                                                ? Colors.red
+                                                : Colors.green),
+                                      ),
+                                      onPressed: () {
+                                        fnClose
+                                            ? null
+                                            : purchaseApplication(context);
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-
-                        Divider(
-                          color: Colors.black,
-                        ),
-                        //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '가격 : $fnPrice원',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            ButtonTheme(
-                              height: 30,
-                              child: FlatButton(
-                                shape: OutlineInputBorder(),
-                                child: Text(
-                                  fnClose ? '마감' : '구매신청',
-                                  style: TextStyle(
-                                      color:
-                                      fnClose ? Colors.red : Colors.green),
-                                ),
-                                onPressed: () {
-                                  fnClose ? null : purchaseApplication(context);
-                                },
                               Divider(
                                 color: Colors.black,
                               ),
@@ -281,6 +296,7 @@ class _PostState extends State<Post> {
                               SizedBox(
                                 height: 10,
                               ),
+
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
@@ -587,9 +603,8 @@ class _PostState extends State<Post> {
                                           document['sendBy'],
                                           document['recomment'],
                                           document['date'],
-                                        codocId,
-                                        document.documentID
-                                      );
+                                          codocId,
+                                          document.documentID);
                                     }).toList(),
                                   )
                                 : Container();
@@ -607,7 +622,6 @@ class _PostState extends State<Post> {
       },
     );
   }
-
 
   Widget text(String name) {
     if (name == fnEmail)
@@ -689,7 +703,8 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget recommentTile(String name, String comment, String date, String codocId, String documentID) {
+  Widget recommentTile(String name, String comment, String date, String codocId,
+      String documentID) {
     var allTime = date.split(RegExp(r"-| |:"));
     var month = allTime[1];
     var day = allTime[2];
@@ -714,18 +729,18 @@ class _PostState extends State<Post> {
                     text(name),
                     name == currentEmail
                         ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 16,
-                          color: Colors.black45,
-                        ),
-                        onTap: () {
-                          deleteReComment(codocId, documentID);
-                        },
-                      ),
-                    )
+                            padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
+                            child: InkWell(
+                              child: Icon(
+                                Icons.delete_outline,
+                                size: 16,
+                                color: Colors.black45,
+                              ),
+                              onTap: () {
+                                deleteReComment(codocId, documentID);
+                              },
+                            ),
+                          )
                         : Container()
                   ],
                 ),
@@ -804,8 +819,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods()
-                        .deleteReComment(widget.tp.documentID, codocId, recodocId);
+                    DatabaseMethods().deleteReComment(
+                        widget.tp.documentID, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )
@@ -814,7 +829,6 @@ class _PostState extends State<Post> {
           }
         });
   }
-
 
   void ShowListnum(BuildContext context) async {
     String result = await showDialog(

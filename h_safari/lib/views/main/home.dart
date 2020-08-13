@@ -117,6 +117,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
+    bool _isSwitchedNum = true;
 
     return SafeArea(
       child: Scaffold(
@@ -171,7 +172,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
                       allPostList(userEmail),
                       //전체글
                     ], //widget
@@ -279,18 +279,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                             BorderRadius.circular(6.0),
                                         child: close
                                             ? Stack(children: <Widget>[
-                                                Image.network(
-                                                  _profileImageURL,
-                                                  fit: BoxFit.fill,
+                                                Container(
+                                                  width: 250,
+                                                  height: 250,
+                                                  child: Image.network(
+                                                    _profileImageURL,
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
-                                                Image.asset('assets/sample/close2.png')
-
+                                                Container(
+                                                    width: 250,
+                                                    height: 250,
+                                                    child: Image.asset(
+                                                        'assets/sample/close2.png'))
                                               ])
                                             : Image.network(
                                                 _profileImageURL,
                                                 fit: BoxFit.fill,
-                                              )
-                                    )),
+                                              ))),
                                 SizedBox(
                                   width: 15,
                                 ),
@@ -306,7 +312,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnName],
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: close
+                                              ? Colors.grey
+                                              : Colors.black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -315,7 +323,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnPrice] + '원',
                                         style: TextStyle(
-                                            color: Colors.black,
+                                            color: close
+                                                ? Colors.grey
+                                                : Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -323,7 +333,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnDescription],
                                         style: TextStyle(
-                                          color: Colors.black54,
+                                          color: close
+                                              ? Colors.grey
+                                              : Colors.black,
                                           fontSize: 12,
                                         ),
                                         maxLines: 3,
@@ -439,22 +451,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                               10 *
                                               3,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                        child: close
-                                            ? Stack(children: <Widget>[
-                                          Image.network(
-                                            _profileImageURL,
-                                            fit: BoxFit.fill,
-                                          ),
-                                          Image.asset('assets/sample/close2.png')
-
-                                        ])
-                                            : Image.network(
-                                          _profileImageURL,
-                                          fit: BoxFit.fill,
-                                        )
-                                      )),
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
+                                          child: close
+                                              ? Stack(children: <Widget>[
+                                                  Container(
+                                                    width: 250,
+                                                    height: 250,
+                                                    child: Image.network(
+                                                      _profileImageURL,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      width: 250,
+                                                      height: 250,
+                                                      child: Image.asset(
+                                                          'assets/sample/close2.png'))
+                                                ])
+                                              : Image.network(
+                                                  _profileImageURL,
+                                                  fit: BoxFit.fill,
+                                                ))),
                                   SizedBox(
                                     width: 15,
                                   ),
