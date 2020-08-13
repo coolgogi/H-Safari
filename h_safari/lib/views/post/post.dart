@@ -458,7 +458,7 @@ class _PostState extends State<Post> {
                   DatabaseMethods()
                       .sendNotification(fnEmail, purchaseApplication);
                   DatabaseMethods().addWant(
-                      fnUserList, currentEmail, widget.tp.documentID, userList);
+                      currentEmail, widget.tp.documentID, userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
