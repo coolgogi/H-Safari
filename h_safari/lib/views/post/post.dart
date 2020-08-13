@@ -24,6 +24,7 @@ class _PostState extends State<Post> {
 
   TextEditingController commentEditingController = new TextEditingController();
   Stream<QuerySnapshot> comments;
+  Stream<QuerySnapshot> recomments;
 
   String fnName;
   String fnDes;
@@ -524,7 +525,17 @@ class _PostState extends State<Post> {
     );
   }
 
+
+
+
   Widget commentTile(String name, String comment, String date, String documentID) {
+
+    recomments = Firestore.instance.collection("post").document(documentID).collection("recomments").snapshots();
+    print("==============");
+    print(recomments);
+    print(documentID);
+    print("==============");
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -552,6 +563,56 @@ class _PostState extends State<Post> {
                     FocusScope.of(context).requestFocus(_recommentFocusnode);
                   },
                 ),
+              ),
+            ],
+          ),
+          StreamBuilder(
+            stream: recomments,
+            builder: (context, snapshot) {
+              return snapshot.hasData
+                  ? ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                shrinkWrap: true,
+                children:
+                snapshot.data.documents.map<Widget>((DocumentSnapshot document) {
+                  return recommentTile(
+                    document['sendBy'],
+                    document['recomment'],
+                    document['date'],
+                  );
+                }).toList(),
+              )
+                  : Container();
+            },
+          ),
+          Divider(
+            color: Colors.black45,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget recommentTile(String name, String comment, String date) {
+
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(name),
+          Text(comment),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                date,
+                style: TextStyle(color: Colors.black38, fontSize: 12),
+              ),
+              SizedBox(
+                height: 20,
+                width: 80,
+
               )
             ],
           ),
