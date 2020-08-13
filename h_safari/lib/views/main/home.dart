@@ -41,6 +41,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
+  final String fnClose = 'close';
+
   final List<String> categoryString = [
     "의류",
     "서적",
@@ -194,70 +196,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => userEmail == doc['email']
-                ? MyPost(doc)
-                : Post(doc)));
+            builder: (context) =>
+                userEmail == doc['email'] ? MyPost(doc) : Post(doc)));
   }
-
-//안씀
-//  //dialog
-//  void showUpdateOrDeleteDocDialog(DocumentSnapshot doc, String currentEmail) {
-//    if (doc[fnEmail] != currentEmail) return;
-//
-//    _undNameCon.text = doc[fnName];
-//    _undDescCon.text = doc[fnDescription];
-//    showDialog(
-//      barrierDismissible: false,
-//      context: context,
-//      builder: (context) {
-//        return AlertDialog(
-//          title: Text("Update/Delete Document"),
-//          content: Container(
-//            height: 200,
-//            child: Column(
-//              children: <Widget>[
-//                TextField(
-//                  decoration: InputDecoration(labelText: "Name"),
-//                  controller: _undNameCon,
-//                ),
-//                TextField(
-//                  decoration: InputDecoration(labelText: "Description"),
-//                  controller: _undDescCon,
-//                )
-//              ],
-//            ),
-//          ),
-//          actions: <Widget>[
-//            FlatButton(
-//              child: Text("Cancel"),
-//              onPressed: () {
-//                _undNameCon.clear();
-//                _undDescCon.clear();
-//                Navigator.pop(context);
-//              },
-//            ),
-//            FlatButton(
-//              child: Text("Update"),
-//              onPressed: () {
-//                if (_undNameCon.text.isNotEmpty &&
-//                    _undDescCon.text.isNotEmpty) {
-//                  updateDoc(doc.documentID, _undNameCon.text, _undDescCon.text);
-//                }
-//                Navigator.pop(context);
-//              },
-//            ),
-//            FlatButton(
-//              child: Text("Delete"),
-//              onPressed: () {
-//                deleteDoc(doc.documentID);
-//                Navigator.pop(context);
-//              },
-//            )
-//          ],
-//        );
-//      },
-//    );
-//  }
 
   String timestampToStrDateTime(Timestamp ts) {
     return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
@@ -287,73 +228,109 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
+                    bool close = document[fnClose];
+
                     return InkWell(
                       // Read Document
                       onTap: () {
-                      showReadPostPage(document);
+                        showReadPostPage(document);
                       },
                       child: Container(
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black12))),
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: <Widget>[
-                            // 사진
-                            Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: Colors.green[100],
+//                            Row(
+//                              mainAxisAlignment: MainAxisAlignment.start,
+//                              children: <Widget>[
+//                                Container(
+//                                    width: 70,
+//                                    color: Colors.green,
+//                                    child: Center(
+//                                      child: Text(
+//                                        close ? '마감' : '판매중',
+//                                        style: TextStyle(
+//                                            fontSize: 15
+//                                        ),),
+//                                    )
+//                                ),
+//                              ],
+//                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // 사진
+                                Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      color: Colors.green[100],
+                                    ),
+                                    width: MediaQuery.of(context).size.width /
+                                        10 *
+                                        3,
+                                    height: MediaQuery.of(context).size.width /
+                                        10 *
+                                        3,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
+                                        child: close
+                                            ? Stack(children: <Widget>[
+                                                Image.network(
+                                                  _profileImageURL,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                Image.asset('assets/sample/close2.png')
+
+                                              ])
+                                            : Image.network(
+                                                _profileImageURL,
+                                                fit: BoxFit.fill,
+                                              )
+                                    )),
+                                SizedBox(
+                                  width: 15,
                                 ),
-                                width:
-                                    MediaQuery.of(context).size.width / 10 * 3,
-                                height:
-                                    MediaQuery.of(context).size.width / 10 * 3,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  child: Image.network(
-                                    _profileImageURL,
-                                    fit: BoxFit.fill,
+                                Container(
+                                  width: MediaQuery.of(context).size.width /
+                                      20 *
+                                      11,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // 게시물 제목
+                                      Text(
+                                        document[fnName],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      // 게시물 가격
+                                      Text(
+                                        document[fnPrice] + '원',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // 게시물 내용 (3줄까지만)
+                                      Text(
+                                        document[fnDescription],
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 12,
+                                        ),
+                                        maxLines: 3,
+                                      ),
+                                    ],
                                   ),
-                                )),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width / 20 * 11,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // 게시물 제목
-                                  Text(
-                                    document[fnName],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  // 게시물 가격
-                                  Text(
-                                    document[fnPrice] + '원',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  // 게시물 내용 (3줄까지만)
-                                  Text(
-                                    document[fnDescription],
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 12,
-                                    ),
-                                    maxLines: 3,
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -392,6 +369,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String dt = timestampToStrDateTime(ts);
                     String _profileImageURL = document[fnImageUrl];
                     String postCategory = document[fnCategory];
+                    bool close = document[fnClose];
 
                     if (document[fnCategory] == "의류")
                       tempInt = 0;
@@ -422,65 +400,101 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                               border: Border(
                                   bottom: BorderSide(color: Colors.black12))),
                           padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Column(
                             children: <Widget>[
-                              // 사진
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    color: Colors.green[100],
+//                              Row(
+//                                mainAxisAlignment: MainAxisAlignment.start,
+//                                children: <Widget>[
+//                                  Container(
+//                                      width: 70,
+//                                      color: Colors.green,
+//                                      child: Center(
+//                                        child: Text(
+//                                          close ? '마감' : '판매중',
+//                                          style: TextStyle(
+//                                              fontSize: 15
+//                                          ),),
+//                                      )
+//                                  ),
+//                                ],
+//                              ),
+//                              SizedBox(
+//                                height: 10,
+//                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // 사진
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: Colors.green[100],
+                                      ),
+                                      width: MediaQuery.of(context).size.width /
+                                          10 *
+                                          3,
+                                      height:
+                                          MediaQuery.of(context).size.width /
+                                              10 *
+                                              3,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
+                                        child: close
+                                            ? Stack(children: <Widget>[
+                                          Image.network(
+                                            _profileImageURL,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          Image.asset('assets/sample/close2.png')
+
+                                        ])
+                                            : Image.network(
+                                          _profileImageURL,
+                                          fit: BoxFit.fill,
+                                        )
+                                      )),
+                                  SizedBox(
+                                    width: 15,
                                   ),
-                                  width: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  height: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(6.0),
-                                    child: Image.network(
-                                      _profileImageURL,
-                                      fit: BoxFit.fill,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width /
+                                        20 *
+                                        11,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        // 게시물 제목
+                                        Text(
+                                          document[fnName],
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        // 게시물 가격
+                                        Text(
+                                          document[fnPrice] + '원',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // 게시물 내용 (3줄까지만)
+                                        Text(
+                                          document[fnDescription],
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
+                                          ),
+                                          maxLines: 3,
+                                        ),
+                                      ],
                                     ),
-                                  )),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 20 * 11,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 게시물 제목
-                                    Text(
-                                      document[fnName],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    // 게시물 가격
-                                    Text(
-                                      document[fnPrice] + '원',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    // 게시물 내용 (3줄까지만)
-                                    Text(
-                                      document[fnDescription],
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
