@@ -30,10 +30,9 @@ class AuthPageState extends State<AuthPage> {
     
     logger.d("user: ${fp.getUser()}");
 
-
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
       String tp = fp.getUser().email.toString();
-      
+
       return BottomBar(tp);
     } else {
       return SignIn();
