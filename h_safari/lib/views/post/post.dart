@@ -24,7 +24,6 @@ class _PostState extends State<Post> {
 
   TextEditingController commentEditingController = new TextEditingController();
   Stream<QuerySnapshot> comments;
-  Stream<QuerySnapshot> recomments;
 
   String fnName;
   String fnDes;
@@ -78,7 +77,6 @@ class _PostState extends State<Post> {
         comments = val;
       });
     });
-
 
     super.initState();
   }
@@ -168,97 +166,73 @@ class _PostState extends State<Post> {
                                                 ),
                                                 child: imgUrl != ''
                                                     ? Image.network(
-                                                        imgUrl,
-                                                        fit: BoxFit.fill,
-                                                      )
+                                                  imgUrl,
+                                                  fit: BoxFit.fill,
+                                                )
                                                     : Image.asset(
-                                                        'assets/sample/LOGO.jpg',
-                                                        fit: BoxFit.fill,
-                                                      ));
+                                                  'assets/sample/LOGO.jpg',
+                                                  fit: BoxFit.fill,
+                                                ));
                                           },
                                         );
                                       }).toList(),
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: map<Widget>(fnImageList,
-                                          (index, url) {
-                                        return Container(
-                                          width: 15.0,
-                                          height: 15.0,
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 2.0),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: _current == index
-                                                ? Colors.redAccent
-                                                : Colors.green,
-                                          ),
-                                          child: imgUrl != ''
-                                              ? Image.network(
-                                            imgUrl,
-                                            fit: BoxFit.fill,
-                                          )
-                                              : Image.asset(
-                                            'assets/sample/LOGO.jpg',
-                                            fit: BoxFit.fill,
-                                          ));
-                                    },
-                                  );
-                                }).toList(),
+                                              (index, url) {
+                                            return Container(
+                                              width: 15.0,
+                                              height: 15.0,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 10.0, horizontal: 2.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: _current == index
+                                                    ? Colors.redAccent
+                                                    : Colors.green,
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Divider(
                                 color: Colors.black,
                               ),
                               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:
-                                map<Widget>(fnImageList, (index, url) {
-                                  return Container(
-                                    width: 15.0,
-                                    height: 15.0,
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 2.0),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: _current == index
-                                          ? Colors.redAccent
-                                          : Colors.green,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    '가격 : $fnPrice원',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  ButtonTheme(
+                                    height: 30,
+                                    child: FlatButton(
+                                      shape: OutlineInputBorder(),
+                                      child: Text(
+                                        fnClose ? '마감' : '구매신청',
+                                        style: TextStyle(
+                                            color: fnClose
+                                                ? Colors.red
+                                                : Colors.green),
+                                      ),
+                                      onPressed: () {
+                                        fnClose
+                                            ? null
+                                            : purchaseApplication(context);
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-
-                        Divider(
-                          color: Colors.black,
-                        ),
-                        //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '가격 : $fnPrice원',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            ButtonTheme(
-                              height: 30,
-                              child: FlatButton(
-                                shape: OutlineInputBorder(),
-                                child: Text(
-                                  fnClose ? '마감' : '구매신청',
-                                  style: TextStyle(
-                                      color:
-                                      fnClose ? Colors.red : Colors.green),
-                                ),
-                                onPressed: () {
-                                  fnClose ? null : purchaseApplication(context);
-                                },
                               Divider(
                                 color: Colors.black,
                               ),
@@ -281,6 +255,7 @@ class _PostState extends State<Post> {
                               SizedBox(
                                 height: 10,
                               ),
+
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
@@ -295,7 +270,7 @@ class _PostState extends State<Post> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -361,14 +336,14 @@ class _PostState extends State<Post> {
               children: <Widget>[
                 isRecomment
                     ? Container(
-                        child: Text(
-                          '대댓글 작성중..',
-                        ),
-                        alignment: Alignment.centerLeft,
-                        height: 25,
-                        padding: EdgeInsets.only(left: 20),
-                        color: Colors.green[50],
-                      )
+                  child: Text(
+                    '대댓글 작성중..',
+                  ),
+                  alignment: Alignment.centerLeft,
+                  height: 25,
+                  padding: EdgeInsets.only(left: 20),
+                  color: Colors.green[50],
+                )
                     : Container(),
                 Container(
                   alignment: Alignment.bottomCenter,
@@ -388,7 +363,7 @@ class _PostState extends State<Post> {
                             filled: true,
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                             hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
+                            TextStyle(color: Colors.grey, fontSize: 13),
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green)),
@@ -550,74 +525,73 @@ class _PostState extends State<Post> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                shrinkWrap: true,
-                children: snapshot.data.documents.map<Widget>(
-                  (DocumentSnapshot document) {
-                    return Column(
-                      children: <Widget>[
-                        commentTile(document['sendBy'], document['comment'],
-                            document['date'], document.documentID),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        StreamBuilder(
-                          stream: Firestore.instance
-                              .collection("post")
-                              .document(widget.tp.documentID)
-                              .collection("comments")
-                              .document(document.documentID)
-                              .collection("recomments")
-                              .orderBy('date')
-                              .snapshots(),
-                          builder: (context, snapshots) {
-                            String codocId = document.documentID;
-                            return snapshots.hasData
-                                ? ListView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    shrinkWrap: true,
-                                    children: snapshots.data.documents
-                                        .map<Widget>(
-                                            (DocumentSnapshot document) {
-                                      return recommentTile(
-                                          document['sendBy'],
-                                          document['recomment'],
-                                          document['date'],
-                                        codocId,
-                                        document.documentID
-                                      );
-                                    }).toList(),
-                                  )
-                                : Container();
-                          },
-                        ),
-                        Divider(
-                          color: Colors.black45,
-                        )
-                      ],
-                    );
-                  },
-                ).toList(),
-              )
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          shrinkWrap: true,
+          children: snapshot.data.documents.map<Widget>(
+                (DocumentSnapshot document) {
+              return Column(
+                children: <Widget>[
+                  commentTile(document['sendBy'], document['comment'],
+                      document['date'], document.documentID),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  StreamBuilder(
+                    stream: Firestore.instance
+                        .collection("post")
+                        .document(widget.tp.documentID)
+                        .collection("comments")
+                        .document(document.documentID)
+                        .collection("recomments")
+                        .orderBy('date')
+                        .snapshots(),
+                    builder: (context, snapshots) {
+                      String codocId = document.documentID;
+                      return snapshots.hasData
+                          ? ListView(
+                        physics:
+                        const NeverScrollableScrollPhysics(),
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 10),
+                        shrinkWrap: true,
+                        children: snapshots.data.documents
+                            .map<Widget>(
+                                (DocumentSnapshot document) {
+                              return recommentTile(
+                                  document['sendBy'],
+                                  document['recomment'],
+                                  document['date'],
+                                  codocId,
+                                  document.documentID
+                              );
+                            }).toList(),
+                      )
+                          : Container();
+                    },
+                  ),
+                  Divider(
+                    color: Colors.black45,
+                  )
+                ],
+              );
+            },
+          ).toList(),
+        )
             : Container();
       },
     );
   }
 
-
   Widget text(String name) {
     if (name == fnEmail)
       return Text('글쓴이',
           style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
     else if (name == currentEmail)
       return Text('나',
           style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
     else
       return Text('익명',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black));
@@ -641,18 +615,18 @@ class _PostState extends State<Post> {
               text(name),
               name == currentEmail
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 16,
-                          color: Colors.black45,
-                        ),
-                        onTap: () {
-                          deleteComment(documentID);
-                        },
-                      ),
-                    )
+                padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
+                child: InkWell(
+                  child: Icon(
+                    Icons.delete_outline,
+                    size: 16,
+                    color: Colors.black45,
+                  ),
+                  onTap: () {
+                    deleteComment(documentID);
+                  },
+                ),
+              )
                   : Container()
             ],
           ),
