@@ -66,49 +66,46 @@ Widget appBarSelect(BuildContext context, String title) {
 Widget AppBarTitle (BuildContext context) {
     return  Row(
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            SizedBox(height: 7,),
-            Container(
-              width: 60,
-              child: Image.asset('Logo/h-safari_homeicon.png.png'),
-            ),
-          ],
-        ),
-
-        SizedBox(width: 10,),
-
-        InkWell(
-          child: Container(
-            width: 250,
-            height: 35,
-            decoration: BoxDecoration(
-                color : Colors.grey[300],
-                borderRadius: BorderRadius.all(Radius.circular(15))
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '게시글을 검색해보세요!',
-                    style: TextStyle(
-                        color : Colors.black54,
-                        fontSize: 13),),
-                ),
-                IconButton(
-                  icon : Icon(Icons.search, color: Colors.black38),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
-                  },
-                ),
-              ],
-            ),
+        Container(
+          width: 70,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10,6,0,0),
+            child: Image.asset('Logo/h-safari_homeicon.png.png'),
           ),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
-          },
+        ),
+        SizedBox(width: 8,),
+        Expanded(
+          child: InkWell(
+            child: Container(
+              height: 35,
+              decoration: BoxDecoration(
+                  color : Colors.grey[300],
+                  borderRadius: BorderRadius.all(Radius.circular(15))
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '게시글을 검색해보세요!',
+                      style: TextStyle(
+                          color : Colors.black54,
+                          fontSize: 13),),
+                  ),
+                  IconButton(
+                    icon : Icon(Icons.search, color: Colors.black38),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+                    },
+                  ),
+                ],
+              ),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+            },
+          ),
         ),
       ],
     );

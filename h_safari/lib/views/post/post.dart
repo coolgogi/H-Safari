@@ -55,7 +55,7 @@ class _PostState extends State<Post> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnId = doc.documentID;
-    fnUserList = doc['userList'];
+    fnUserList = doc['commentUserList'];
     fnClose = doc['close'];
   }
 
@@ -458,7 +458,7 @@ class _PostState extends State<Post> {
                   DatabaseMethods()
                       .sendNotification(fnEmail, purchaseApplication);
                   DatabaseMethods().addWant(
-                      fnUserList, currentEmail, widget.tp.documentID, userList);
+                      currentEmail, widget.tp.documentID, userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -490,6 +490,17 @@ class _PostState extends State<Post> {
       setState(() {
         commentEditingController.text = "";
       });
+      if(fnUserList.contains(fp.getUser().email)){
+      }else {
+        fnUserList.add(fp
+            .getUser()
+            .email);
+        Firestore.instance.collection('post')
+            .document(widget.tp.documentID)
+            .updateData({
+          "commentUserList": fnUserList,
+        });
+      }
     }
   }
 

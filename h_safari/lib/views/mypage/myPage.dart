@@ -32,7 +32,7 @@ class _MyPageState extends State<MyPage> {
       backgroundColor: Colors.white,
       appBar: appBarMain('마이페이지'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ListView(
           children: <Widget>[
             Container(

@@ -206,8 +206,7 @@ class DatabaseMethods {
     });
   }
 
-  addWant(List<dynamic> fnUserList, String email, String docId, userList) {
-    fnUserList.add(email);
+  addWant(String email, String docId, userList) {
     Firestore.instance
         .collection("post")
         .document(docId)
