@@ -3,7 +3,7 @@
 // 로그인 되어있는지 아닌지 확인하는 페이지.
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/signIn.dart';
+import 'package:h_safari/views/login/signIn.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/views/post/post.dart';
 

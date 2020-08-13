@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/main/search.dart';
+import 'package:h_safari/views/home/search.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {

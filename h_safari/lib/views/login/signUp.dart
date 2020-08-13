@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/firebase_provider.dart';
+import '../../models/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';

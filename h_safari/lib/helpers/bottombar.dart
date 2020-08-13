@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/category/category.dart';
-import 'package:h_safari/views/main/home.dart';
+import 'package:h_safari/views/home/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
 import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
