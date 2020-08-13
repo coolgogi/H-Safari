@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:h_safari/views/loading.dart';
 import 'signUp.dart';
 import 'package:provider/provider.dart';
 import '../models/firebase_provider.dart';
@@ -53,13 +54,6 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       key: _scaffoldKey, //added by SH
       resizeToAvoidBottomPadding: true, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
-//      appBar: AppBar(
-//        iconTheme: IconThemeData(color: _color),
-//        backgroundColor: Colors.white,
-//        centerTitle: true, //가운데 정렬
-//        title: Text('로그인 창', style: TextStyle(color: Colors.green),),
-//        elevation: 1, //숫자가 낮을수록 앱바 밑에 그림자?가 사라지게 함(플랫해진다)
-//      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -75,17 +69,15 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(height: 70),
-
                         Center(
-                          child: CircleAvatar(
-                            radius: 70,
-                            backgroundImage: NetworkImage(
-                                'http://www.palnews.co.kr/news/photo/201801/92969_25283_5321.jpg'),
-                          ),
+                          child: Container(
+                            width: 250,
+                              height: 250,
+                              child: Image.asset('Logo/h-safari_homeicon.png.png'),
+                          )
                         ),
 
-                        SizedBox(height: 40),
+                        SizedBox(height: 20),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -274,6 +266,13 @@ class _SignInState extends State<SignIn> {
                                     fontSize: 15,
                                     color: Colors.grey,
                                     decoration: TextDecoration.underline),
+                              ),
+                            ),
+
+                            RawMaterialButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Loading()));},
+                              child: Text('로딩화면', style: TextStyle(fontSize: 15, color: Colors.grey, decoration: TextDecoration.underline),
                               ),
                             ),
                           ],
