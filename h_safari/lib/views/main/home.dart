@@ -139,23 +139,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   automaticallyImplyLeading: true,
                   leading: null,
                   titleSpacing: 0,
-                  title: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: AppBarTitle(context),
-                  ),
+                  title: AppBarTitle(context),
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
                         Icons.notifications,
                         color: Colors.green,
-                        size: 30,
+                        size: 25,
                       ),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
                       },
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 3,),
                   ],
                   bottom: TabBar(
                     unselectedLabelColor: Colors.black38,

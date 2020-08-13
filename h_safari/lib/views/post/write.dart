@@ -90,7 +90,7 @@ class _MyWriteState extends State<MyWrite> {
               return <Widget>[
                 SliverAppBar(
                   elevation: 2,
-                  backgroundColor: Colors.green[100],
+                  backgroundColor: Colors.white,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back),
                     onPressed: () {
@@ -103,7 +103,7 @@ class _MyWriteState extends State<MyWrite> {
                   centerTitle: true,
                   title: Text(
                     '게시물 작성',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   floating: true,
                 ),
@@ -111,7 +111,7 @@ class _MyWriteState extends State<MyWrite> {
             },
             body: SingleChildScrollView(
               child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                       child: Padding(
                           padding: const EdgeInsets.all(.0),

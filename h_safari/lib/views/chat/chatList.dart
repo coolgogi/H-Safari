@@ -66,7 +66,7 @@ class _ChatListState extends State<ChatList> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
