@@ -256,17 +256,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                               children: <Widget>[
                                 // 사진
                                 Container(
+                                    width: MediaQuery.of(context).size.width / 10 * 3,
+                                    height: MediaQuery.of(context).size.width / 10 * 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),
-                                      color: Colors.green[100],
                                     ),
-                                    width: MediaQuery.of(context).size.width /
-                                        10 *
-                                        3,
-                                    height: MediaQuery.of(context).size.width /
-                                        10 *
-                                        3,
-                                    child: ClipRRect(
+                                    child: (_profileImageURL!="") ? ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(6.0),
                                         child: close
@@ -282,7 +277,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                 _profileImageURL,
                                                 fit: BoxFit.fill,
                                               )
-                                    )),
+                                    ) : Stack(children: <Widget>[
+                                      Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
+                                      Image.asset('assets/sample/close2.png')
+                                    ],)
+                                ),
                                 SizedBox(
                                   width: 15,
                                 ),

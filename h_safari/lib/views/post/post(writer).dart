@@ -198,7 +198,7 @@ class _MyPostState extends State<MyPost> {
                                           child: imgUrl != '' ? Image.network(
                                             imgUrl,
                                             fit: BoxFit.fill,
-                                          ) : Image.asset('assets/sample/LOGO.jpg', fit: BoxFit.fill,)
+                                          ) : Image.asset('Logo/empty_Rabbit_green1_gloss.png.png', fit: BoxFit.fill,)
                                       );
                                     },
                                   );
