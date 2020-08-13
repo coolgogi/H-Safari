@@ -66,7 +66,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnHow = 'how';
   final String fnUid = "uid";
   final String fnEmail = "email";
-  final String fnList = "userList";
+  final String fnList = "commentUserList";
   final String fnDoing = "doing";
   final String fnClose = "close";
 
@@ -541,7 +541,7 @@ class _MyWriteState extends State<MyWrite> {
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
       fnEmail: user.email,
-      //fnList: tp,
+      fnList: tp,
       fnDoing: false,
       fnClose: false,
     });
