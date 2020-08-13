@@ -26,7 +26,6 @@ class _AlarmState extends State<Alarm> {
   Widget alarmList() {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
-
     return StreamBuilder<QuerySnapshot>(
       stream: alarm,
       builder: (context, snapshot) {

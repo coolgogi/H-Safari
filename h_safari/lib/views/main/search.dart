@@ -86,8 +86,8 @@ class _SearchState extends State<Search> {
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                         children:
 //                          _IsSearching ? _buildSearchList() :
-                            snapshot.data.documents
-                                .map((DocumentSnapshot document) {
+                        snapshot.data.documents
+                            .map((DocumentSnapshot document) {
                           String title = document[fnName];
                           String postDes = document[fnDescription];
                           Timestamp ts = document[fnDatetime];
@@ -109,9 +109,9 @@ class _SearchState extends State<Search> {
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom:
-                                            BorderSide(color: Colors.black12))),
+                                        BorderSide(color: Colors.black12))),
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
+                                const EdgeInsets.symmetric(vertical: 15),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -119,20 +119,26 @@ class _SearchState extends State<Search> {
                                     Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(6),
+                                          BorderRadius.circular(6),
                                           color: Colors.green[100],
                                         ),
                                         width:
-                                            MediaQuery.of(context).size.width /
-                                                10 *
-                                                3,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width /
+                                            10 *
+                                            3,
                                         height:
-                                            MediaQuery.of(context).size.width /
-                                                10 *
-                                                3,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width /
+                                            10 *
+                                            3,
                                         child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(6.0),
+                                          BorderRadius.circular(6.0),
                                           child: Image.network(
                                             _profileImageURL,
                                             fit: BoxFit.fill,
@@ -142,12 +148,15 @@ class _SearchState extends State<Search> {
                                       width: 15,
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width /
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
                                           20 *
                                           11,
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           // 게시물 제목
                                           Text(
@@ -217,30 +226,29 @@ class _SearchState extends State<Search> {
         ),
         backgroundColor: Colors.white,
         title: Container(
-            height: 35,
+          height: 35,
             decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.grey[300],
                 borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: TextFormField(
-                  controller: _searchQuery,
-                  autofocus: true,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Search...",
-                    hintStyle: TextStyle(color: Colors.white),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        Icons.clear,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        _searchQuery.clear();
-                      },
-                    ),
+            child: TextFormField(
+              controller: _searchQuery,
+              autofocus: true,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 10),
+                border: InputBorder.none,
+                hintText: "게시글을 검색해보세요!",
+                hintStyle: TextStyle(color: Colors.black45, fontSize: 15),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.black45,
                   ),
-                ))));
+                  onPressed: () {
+                    _searchQuery.clear();
+                  },
+                ),
+              ),
+            )));
   }
 }
