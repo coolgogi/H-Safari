@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../views/category/category.dart';
-import '../views/main/home.dart';
+import 'package:h_safari/views/category/category.dart';
+import 'package:h_safari/views/main/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
-import '../views/post/write.dart';
+import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/firebase_provider.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
-
 
 int copyIndex = 0; //게시글 작성하고 초기화 시킬 때 사용할 인덱스 복사값
 
@@ -30,14 +29,12 @@ class _BottomBarState extends State<BottomBar> {
     print("_BottomBarState : $email");
   }
 
-
   int _currentIndex = 0;
 
-//  List<Widget> _children = [Home(), MyCategory(), MyWrite(), ChatList(), MyPage()];
   List<Widget> _children;
   FirebaseProvider fp;
-  @override
 
+  @override
   void _onTap(int index) {
     if(index ==2 ){
       Navigator.push(
