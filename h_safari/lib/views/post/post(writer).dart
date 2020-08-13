@@ -110,7 +110,8 @@ class _MyPostState extends State<MyPost> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         resizeToAvoidBottomPadding: true,
-        body: NestedScrollView(//화면 스크롤 가능하게
+        body: NestedScrollView(
+          //화면 스크롤 가능하게
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -137,7 +138,8 @@ class _MyPostState extends State<MyPost> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Waiting(fnId, fnName)));
+                                        builder: (context) =>
+                                            Waiting(fnId, fnName)));
                               },
                             ),
                             IconButton(
@@ -171,14 +173,14 @@ class _MyPostState extends State<MyPost> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               CarouselSlider(
-
                                 initialPage: 0,
                                 enlargeCenterPage: true,
                                 autoPlay: false,
                                 reverse: false,
                                 enableInfiniteScroll: false,
                                 autoPlayInterval: Duration(seconds: 2),
-                                autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                                autoPlayAnimationDuration:
+                                    Duration(milliseconds: 1000),
                                 pauseAutoPlayOnTouch: Duration(seconds: 2),
                                 scrollDirection: Axis.horizontal,
                                 onPageChanged: (index) {
@@ -190,36 +192,73 @@ class _MyPostState extends State<MyPost> {
                                   return Builder(
                                     builder: (BuildContext context) {
                                       return Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                        ),
-                                          child: imgUrl != '' ? Image.network(
-                                            imgUrl,
-                                            fit: BoxFit.fill,
-                                          ) : Image.asset('Logo/empty_Rabbit_green1_gloss.png.png', fit: BoxFit.cover,)
-                                      );
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.green,
+                                          ),
+                                          child: imgUrl != ''
+                                              ? fnClose
+                                                  ? Stack(
+                                                      children: <Widget>[
+                                                        Container(
+                                                            width: 250,
+                                                            height: 250,
+                                                            child:
+                                                                Image.network(
+                                                              imgUrl,
+                                                              fit: BoxFit.fill,
+                                                            )),
+                                                        Container(
+                                                            width: 250,
+                                                            height: 250,
+                                                            child: Image.asset(
+                                                              'assets/sample/close2.png',
+                                                              fit: BoxFit.fill,
+                                                            )),
+                                                      ],
+                                                    )
+                                                  : Image.network(
+                                                      imgUrl,
+                                                      fit: BoxFit.fill,
+                                                    )
+                                              : fnClose
+                                                  ? Stack(
+                                                      children: <Widget>[
+                                                        Image.asset(
+                                                          'assets/sample/safarilogo.png',
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                        Image.asset(
+                                                            'assets/sample/close2.png'),
+                                                      ],
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/sample/LOGO.jpg',
+                                                      fit: BoxFit.fill,
+                                                    ));
                                     },
                                   );
                                 }).toList(),
                               ),
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: map<Widget>(fnImageList, (index, url) {
+                                children:
+                                    map<Widget>(fnImageList, (index, url) {
                                   return Container(
                                     width: 15.0,
                                     height: 15.0,
-                                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 2.0),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: _current == index ? Colors.redAccent : Colors.green,
+                                      color: _current == index
+                                          ? Colors.redAccent
+                                          : Colors.green,
                                     ),
                                   );
                                 }),
                               ),
-
                             ],
                           ),
                         ),
@@ -309,7 +348,9 @@ class _MyPostState extends State<MyPost> {
                                       ? Colors.green
                                       : Colors.grey,
                                 ),
-                                SizedBox(width: 15,),
+                                SizedBox(
+                                  width: 15,
+                                ),
                                 Text(
                                   '직접거래',
                                   style: TextStyle(fontSize: 15),
@@ -318,32 +359,39 @@ class _MyPostState extends State<MyPost> {
                                   checkDirect
                                       ? Icons.check_box
                                       : Icons.check_box_outline_blank,
-                                  color: checkDirect
-                                      ? Colors.green
-                                      : Colors.grey,
+                                  color:
+                                      checkDirect ? Colors.green : Colors.grey,
                                 ),
                               ],
                             ),
                           ],
                         ),
-                        Divider(color: Colors.black,),
+                        Divider(
+                          color: Colors.black,
+                        ),
 
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
 
-                        Text('댓글', style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(
+                          '댓글',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
 
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ],
                     )),
                 commentWindow(),
-
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
         ),
-
-
         bottomNavigationBar: fnClose
             ? null
             : BottomAppBar(

@@ -156,20 +156,65 @@ class _PostState extends State<Post> {
                                         return Builder(
                                           builder: (BuildContext context) {
                                             return Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
                                                 margin: EdgeInsets.symmetric(
                                                     horizontal: 10.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                ),
                                                 child: imgUrl != ''
-                                                    ? Image.network(
-                                                  imgUrl,
-                                                  fit: BoxFit.fill,
-                                                )
-                                                    : Image.asset('Logo/empty_Rabbit_green1_gloss.png.png', fit: BoxFit.cover,));
+                                                    ? fnClose
+                                                        ? Stack(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .network(
+                                                                    imgUrl,
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'assets/sample/close2.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        : Image.network(
+                                                            imgUrl,
+                                                            fit: BoxFit.fill,
+                                                          )
+                                                    : fnClose
+                                                        ? Stack(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                width: 250,
+                                                                height: 250,
+                                                                child:
+                                                                    Image.asset(
+                                                                  'assets/sample/safarilogo.png',
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                  width: 250,
+                                                                  height: 250,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'assets/sample/close2.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/sample/LOGO.jpg',
+                                                            fit: BoxFit.fill,
+                                                          ));
+
                                           },
                                         );
                                       }).toList(),
@@ -178,20 +223,21 @@ class _PostState extends State<Post> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: map<Widget>(fnImageList,
-                                              (index, url) {
-                                            return Container(
-                                              width: 15.0,
-                                              height: 15.0,
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 10.0, horizontal: 2.0),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: _current == index
-                                                    ? Colors.redAccent
-                                                    : Colors.green,
-                                              ),
-                                            );
-                                          }),
+                                          (index, url) {
+                                        return Container(
+                                          width: 15.0,
+                                          height: 15.0,
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 2.0),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: _current == index
+                                                ? Colors.redAccent
+                                                : Colors.green,
+                                          ),
+                                        );
+                                      }),
+
                                     ),
                                   ],
                                 ),
@@ -201,8 +247,7 @@ class _PostState extends State<Post> {
                               ),
                               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '가격 : $fnPrice원',
@@ -454,8 +499,7 @@ class _PostState extends State<Post> {
                   // post에 저장
                   DatabaseMethods()
                       .sendNotification(fnEmail, purchaseApplication);
-                  DatabaseMethods().addWant(
-                      currentEmail, widget.tp.documentID, userList);
+                  DatabaseMethods().addWant(currentEmail, widget.tp.documentID, userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -533,59 +577,58 @@ class _PostState extends State<Post> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          shrinkWrap: true,
-          children: snapshot.data.documents.map<Widget>(
-                (DocumentSnapshot document) {
-              return Column(
-                children: <Widget>[
-                  commentTile(document['sendBy'], document['comment'],
-                      document['date'], document.documentID),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  StreamBuilder(
-                    stream: Firestore.instance
-                        .collection("post")
-                        .document(widget.tp.documentID)
-                        .collection("comments")
-                        .document(document.documentID)
-                        .collection("recomments")
-                        .orderBy('date')
-                        .snapshots(),
-                    builder: (context, snapshots) {
-                      String codocId = document.documentID;
-                      return snapshots.hasData
-                          ? ListView(
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 10),
-                        shrinkWrap: true,
-                        children: snapshots.data.documents
-                            .map<Widget>(
-                                (DocumentSnapshot document) {
-                              return recommentTile(
-                                  document['sendBy'],
-                                  document['recomment'],
-                                  document['date'],
-                                  codocId,
-                                  document.documentID
-                              );
-                            }).toList(),
-                      )
-                          : Container();
-                    },
-                  ),
-                  Divider(
-                    color: Colors.black45,
-                  )
-                ],
-              );
-            },
-          ).toList(),
-        )
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                shrinkWrap: true,
+                children: snapshot.data.documents.map<Widget>(
+                  (DocumentSnapshot document) {
+                    return Column(
+                      children: <Widget>[
+                        commentTile(document['sendBy'], document['comment'],
+                            document['date'], document.documentID),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        StreamBuilder(
+                          stream: Firestore.instance
+                              .collection("post")
+                              .document(widget.tp.documentID)
+                              .collection("comments")
+                              .document(document.documentID)
+                              .collection("recomments")
+                              .orderBy('date')
+                              .snapshots(),
+                          builder: (context, snapshots) {
+                            String codocId = document.documentID;
+                            return snapshots.hasData
+                                ? ListView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    shrinkWrap: true,
+                                    children: snapshots.data.documents
+                                        .map<Widget>(
+                                            (DocumentSnapshot document) {
+                                      return recommentTile(
+                                          document['sendBy'],
+                                          document['recomment'],
+                                          document['date'],
+                                          codocId,
+                                          document.documentID);
+                                    }).toList(),
+                                  )
+                                : Container();
+                          },
+                        ),
+                        Divider(
+                          color: Colors.black45,
+                        )
+                      ],
+                    );
+                  },
+                ).toList(),
+              )
             : Container();
       },
     );
@@ -671,7 +714,8 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget recommentTile(String name, String comment, String date, String codocId, String documentID) {
+  Widget recommentTile(String name, String comment, String date, String codocId,
+      String documentID) {
     var allTime = date.split(RegExp(r"-| |:"));
     var month = allTime[1];
     var day = allTime[2];
@@ -696,18 +740,18 @@ class _PostState extends State<Post> {
                     text(name),
                     name == currentEmail
                         ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 16,
-                          color: Colors.black45,
-                        ),
-                        onTap: () {
-                          deleteReComment(codocId, documentID);
-                        },
-                      ),
-                    )
+                            padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
+                            child: InkWell(
+                              child: Icon(
+                                Icons.delete_outline,
+                                size: 16,
+                                color: Colors.black45,
+                              ),
+                              onTap: () {
+                                deleteReComment(codocId, documentID);
+                              },
+                            ),
+                          )
                         : Container()
                   ],
                 ),
@@ -786,8 +830,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods()
-                        .deleteReComment(widget.tp.documentID, codocId, recodocId);
+                    DatabaseMethods().deleteReComment(
+                        widget.tp.documentID, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )
@@ -796,7 +840,6 @@ class _PostState extends State<Post> {
           }
         });
   }
-
 
   void ShowListnum(BuildContext context) async {
     String result = await showDialog(

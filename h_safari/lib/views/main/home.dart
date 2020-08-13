@@ -65,7 +65,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     false,
     false
   ];
-  bool wantToSeeFinished = false;//마감된글 볼지말지
+  bool wantToSeeFinished = false; //마감된글 볼지말지
 
   TextEditingController _newNameCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
@@ -121,6 +121,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
+    bool _isSwitchedNum = true;
 
     return SafeArea(
       child: Scaffold(
@@ -152,7 +153,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             MaterialPageRoute(builder: (context) => Alarm()));
                       },
                     ),
-                    SizedBox(width: 3,),
+                    SizedBox(
+                      width: 3,
+                    ),
                   ],
                   bottom: TabBar(
                     unselectedLabelColor: Colors.black38,
@@ -176,7 +179,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      //https://pub.dev/packages/carousel_slider 이 사이트로 배너 넣는 방법도 있음
                       allPostList(userEmail),
                       //전체글
                     ], //widget
@@ -253,31 +255,45 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                               children: <Widget>[
                                 // 사진
                                 Container(
-                                    width: MediaQuery.of(context).size.width / 10 * 3,
-                                    height: MediaQuery.of(context).size.width / 10 * 3,
+                                    width: MediaQuery.of(context).size.width /
+                                        10 *
+                                        3,
+                                    height: MediaQuery.of(context).size.width /
+                                        10 *
+                                        3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),
                                     ),
-                                    child: (_profileImageURL!="") ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                        child: close
-                                            ? Stack(children: <Widget>[
-                                                Image.network(
-                                                  _profileImageURL,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                                Image.asset('assets/sample/close2.png')
-
-                                              ])
-                                            : Image.network(
-                                                _profileImageURL,
-                                                fit: BoxFit.fill,
-                                              )
-                                    ) : Stack(children: <Widget>[
-                                      Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
-                                    ],)
-                                ),
+                                    child: (_profileImageURL != "")
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(6.0),
+                                            child: close
+                                                ? Stack(children: <Widget>[
+                                                    Container(
+                                                      width: 250,
+                                                      height: 250,
+                                                      child: Image.network(
+                                                        _profileImageURL,
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        width: 250,
+                                                        height: 250,
+                                                        child: Image.asset(
+                                                            'assets/sample/close2.png'))
+                                                  ])
+                                                : Image.network(
+                                                    _profileImageURL,
+                                                    fit: BoxFit.fill,
+                                                  ))
+                                        : Stack(
+                                            children: <Widget>[
+                                              Image.asset(
+                                                  'Logo/empty_Rabbit_green1_gloss.png.png'),
+                                            ],
+                                          )),
                                 SizedBox(
                                   width: 15,
                                 ),
@@ -293,7 +309,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnName],
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: close
+                                              ? Colors.grey
+                                              : Colors.black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -302,7 +320,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnPrice] + '원',
                                         style: TextStyle(
-                                            color: Colors.black,
+                                            color: close
+                                                ? Colors.grey
+                                                : Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -310,7 +330,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       Text(
                                         document[fnDescription],
                                         style: TextStyle(
-                                          color: Colors.black54,
+                                          color: close
+                                              ? Colors.grey
+                                              : Colors.black,
                                           fontSize: 12,
                                         ),
                                         maxLines: 3,
@@ -373,13 +395,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       tempInt = 5;
                     else if (document[fnCategory] == "양도")
                       tempInt = 6;
-                    else if (document[fnCategory] == "기타")
-                      tempInt = 7;
-
+                    else if (document[fnCategory] == "기타") tempInt = 7;
 
                     if (!categoryBool[tempInt]) {
                       return Container();
-                    } else if((close == true)&&(wantToSeeFinished == false)){
+                    } else if ((close == true) &&
+                        (wantToSeeFinished == false)) {
                       return Container();
                     } else {
                       return InkWell(
@@ -430,22 +451,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                               10 *
                                               3,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                        child: close
-                                            ? Stack(children: <Widget>[
-                                          Image.network(
-                                            _profileImageURL,
-                                            fit: BoxFit.fill,
-                                          ),
-                                          Image.asset('assets/sample/close2.png')
-
-                                        ])
-                                            : Image.network(
-                                          _profileImageURL,
-                                          fit: BoxFit.fill,
-                                        )
-                                      )),
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
+                                          child: close
+                                              ? Stack(children: <Widget>[
+                                                  Container(
+                                                    width: 250,
+                                                    height: 250,
+                                                    child: Image.network(
+                                                      _profileImageURL,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      width: 250,
+                                                      height: 250,
+                                                      child: Image.asset(
+                                                          'assets/sample/close2.png'))
+                                                ])
+                                              : Image.network(
+                                                  _profileImageURL,
+                                                  fit: BoxFit.fill,
+                                                ))),
                                   SizedBox(
                                     width: 15,
                                   ),
