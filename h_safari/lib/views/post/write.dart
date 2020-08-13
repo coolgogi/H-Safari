@@ -66,7 +66,7 @@ class _MyWriteState extends State<MyWrite> {
   final String fnHow = 'how';
   final String fnUid = "uid";
   final String fnEmail = "email";
-  final String fnList = "userList";
+  final String fnList = "commentUserList";
   final String fnDoing = "doing";
   final String fnClose = "close";
 
@@ -90,7 +90,7 @@ class _MyWriteState extends State<MyWrite> {
               return <Widget>[
                 SliverAppBar(
                   elevation: 2,
-                  backgroundColor: Colors.green[100],
+                  backgroundColor: Colors.white,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back),
                     onPressed: () {
@@ -103,7 +103,7 @@ class _MyWriteState extends State<MyWrite> {
                   centerTitle: true,
                   title: Text(
                     '게시물 작성',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   floating: true,
                 ),
@@ -111,7 +111,7 @@ class _MyWriteState extends State<MyWrite> {
             },
             body: SingleChildScrollView(
               child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                       child: Padding(
                           padding: const EdgeInsets.all(.0),
@@ -483,10 +483,6 @@ class _MyWriteState extends State<MyWrite> {
                                               color: Colors.green,
                                             )),
                                         onPressed: () {
-                                          print("in register");
-                                          print(
-                                              "profileImageUrl : \n$_profileImageURL");
-                                          print("picURL : \n$picURL");
                                           //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
@@ -495,7 +491,7 @@ class _MyWriteState extends State<MyWrite> {
                                                 _newNameCon.text,
                                                 _newDescCon.text,
                                                 _newPriceCon.text,
-                                                picURL[0],
+                                                picURL.isEmpty ?  "" :picURL[0],
                                                 picURL.join(
                                                     ',')); // "picURL[0],picURL[1],..."
                                             _newNameCon.clear();
@@ -541,7 +537,7 @@ class _MyWriteState extends State<MyWrite> {
       fnHow: checkHow().toString(),
       fnUid: user.uid.toString(),
       fnEmail: user.email,
-      //fnList: tp,
+      fnList: tp,
       fnDoing: false,
       fnClose: false,
     });
@@ -590,8 +586,6 @@ class _MyWriteState extends State<MyWrite> {
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);
-      print("profileImageUrl : \n$_profileImageURL");
-      print("picURL : \n$picURL");
     });
   }
 

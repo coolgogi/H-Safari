@@ -29,9 +29,6 @@ class _WaitingState extends State<Waiting> {
     documentID = id;
   }
 
-  //  List<String> test = ['신청자1', '신청자2', '신청자3', '신청자4', '신청자5'];
-//  List<String> test = List();
-
   Stream waitingUserList;
   FirebaseProvider fp;
   String userEmail;

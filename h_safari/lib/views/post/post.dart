@@ -55,7 +55,7 @@ class _PostState extends State<Post> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnId = doc.documentID;
-    fnUserList = doc['userList'];
+    fnUserList = doc['commentUserList'];
     fnClose = doc['close'];
   }
 
@@ -214,13 +214,14 @@ class _PostState extends State<Post> {
                                                             'assets/sample/LOGO.jpg',
                                                             fit: BoxFit.fill,
                                                           ));
+
                                           },
                                         );
                                       }).toList(),
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: map<Widget>(fnImageList,
                                           (index, url) {
                                         return Container(
@@ -236,6 +237,7 @@ class _PostState extends State<Post> {
                                           ),
                                         );
                                       }),
+
                                     ),
                                   ],
                                 ),
@@ -245,8 +247,7 @@ class _PostState extends State<Post> {
                               ),
                               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '가격 : $fnPrice원',
@@ -311,7 +312,7 @@ class _PostState extends State<Post> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -377,14 +378,14 @@ class _PostState extends State<Post> {
               children: <Widget>[
                 isRecomment
                     ? Container(
-                        child: Text(
-                          '대댓글 작성중..',
-                        ),
-                        alignment: Alignment.centerLeft,
-                        height: 25,
-                        padding: EdgeInsets.only(left: 20),
-                        color: Colors.green[50],
-                      )
+                  child: Text(
+                    '대댓글 작성중..',
+                  ),
+                  alignment: Alignment.centerLeft,
+                  height: 25,
+                  padding: EdgeInsets.only(left: 20),
+                  color: Colors.green[50],
+                )
                     : Container(),
                 Container(
                   alignment: Alignment.bottomCenter,
@@ -404,7 +405,7 @@ class _PostState extends State<Post> {
                             filled: true,
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                             hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
+                            TextStyle(color: Colors.grey, fontSize: 13),
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green)),
@@ -498,8 +499,7 @@ class _PostState extends State<Post> {
                   // post에 저장
                   DatabaseMethods()
                       .sendNotification(fnEmail, purchaseApplication);
-                  DatabaseMethods().addWant(
-                      fnUserList, currentEmail, widget.tp.documentID, userList);
+                  DatabaseMethods().addWant(currentEmail, widget.tp.documentID, userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                 },
@@ -531,6 +531,17 @@ class _PostState extends State<Post> {
       setState(() {
         commentEditingController.text = "";
       });
+      if(fnUserList.contains(fp.getUser().email)){
+      }else {
+        fnUserList.add(fp
+            .getUser()
+            .email);
+        Firestore.instance.collection('post')
+            .document(widget.tp.documentID)
+            .updateData({
+          "commentUserList": fnUserList,
+        });
+      }
     }
   }
 
@@ -627,11 +638,11 @@ class _PostState extends State<Post> {
     if (name == fnEmail)
       return Text('글쓴이',
           style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
     else if (name == currentEmail)
       return Text('나',
           style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
+          TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
     else
       return Text('익명',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black));
@@ -655,18 +666,18 @@ class _PostState extends State<Post> {
               text(name),
               name == currentEmail
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 16,
-                          color: Colors.black45,
-                        ),
-                        onTap: () {
-                          deleteComment(documentID);
-                        },
-                      ),
-                    )
+                padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
+                child: InkWell(
+                  child: Icon(
+                    Icons.delete_outline,
+                    size: 16,
+                    color: Colors.black45,
+                  ),
+                  onTap: () {
+                    deleteComment(documentID);
+                  },
+                ),
+              )
                   : Container()
             ],
           ),
