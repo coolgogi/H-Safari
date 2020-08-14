@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../models/firebase_provider.dart';
 import '../../services/database.dart';
 import 'chatRoom.dart';
@@ -14,17 +13,10 @@ class ChatList extends StatefulWidget {
   }
 
   @override
-  _ChatListState createState() => _ChatListState(email);
+  _ChatListState createState() => _ChatListState();
 }
 
 class _ChatListState extends State<ChatList> {
-  String passedEmail;
-  String email;
-
-  _ChatListState(String tp) {
-    passedEmail = tp;
-  }
-
   Stream<QuerySnapshot> chatRooms;
 
   FirebaseProvider fp;
@@ -32,22 +24,12 @@ class _ChatListState extends State<ChatList> {
 
   @override
   void initState() {
-    databaseMethods.getUserChats(email).then((snapshots) {
+    databaseMethods.getUserChats(widget.email).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
       });
     });
     super.initState();
-
-    Future.delayed(Duration.zero, () {
-      getUserInfoGetChats();
-    });
-    setState(() {});
-  }
-
-  getUserInfoGetChats() {
-    fp = Provider.of<FirebaseProvider>(context);
-    email = fp.getUser().email.toString();
   }
 
   @override
@@ -70,16 +52,10 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  String tp = snapshot.data.documents[index].data['chatRoomId']
-                      .toString();
-                  if (tp.contains(email)) {
                     return ChatRoomsTile(
                       context,
-                      snapshot.data.documents[index].data['chatRoomId']
-                          .toString()
-                          .replaceAll("_", "")
-                          .replaceAll(email, ""),
-                      snapshot.data.documents[index].data["chatRoomId"],
+                      snapshot.data.documencts[index].data['users'],
+                      snapshot.data.documents[index].data["chatRoomName"],
                       snapshot.data.documents[index].data['lastMessage'],
                       snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[1] +
@@ -93,21 +69,27 @@ class _ChatListState extends State<ChatList> {
                           snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[4],
                       snapshot.data.documents[index].data["lastSendBy"],
-                      snapshot.data.documents[index].data["lastSendBy"] == email
+                      snapshot.data.documents[index].data["lastSendBy"] == widget.email
                           ? false
                           : snapshot.data.documents[index].data['unread'],
                     );
-                  } else {
-                    return Container();
-                  }
                 })
             : Container();
       },
     );
   }
 
-  Widget ChatRoomsTile(BuildContext context, String friendName, String chatRoomId,
+  Widget ChatRoomsTile(BuildContext context, List users, String chatRoomId,
       String message, String date, String sendBy, bool unread) {
+    String friendName;
+    bool isMyPost = false;
+    if(users[0]==widget.email){
+      friendName = users[1];
+      isMyPost = true;}
+    else {
+      friendName = users[0];
+      isMyPost = false;
+    }
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -136,7 +118,7 @@ class _ChatListState extends State<ChatList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  friendName,
+                  isMyPost ? chatRoomId: chatRoomId.split(RegExp(r"_"))[1],
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -173,22 +155,71 @@ class _ChatListState extends State<ChatList> {
             SizedBox(
               height: 5,
             ),
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                message,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.black54,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    message,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    //글 수가 오버플로시 ...으로 표시
+                    maxLines: 1, //최대 글자줄수는 2줄
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-                //글 수가 오버플로시 ...으로 표시
-                maxLines: 1, //최대 글자줄수는 2줄
-              ),
+                InkWell(
+                  child: Icon(
+                    Icons.delete_outline,
+                    size: 16,
+                    color: Colors.black45,
+                  ),
+                  onTap: () {
+                    deleteChatRoom(chatRoomId);
+                  },
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  deleteChatRoom(String chatRoomId) async {
+    return await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          {
+            return AlertDialog(
+              content: Text('채팅방을 삭제하시겠습니까?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    '취소',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context, '취소');
+                  },
+                ),
+                FlatButton(
+                  child: Text(
+                    '확인',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () {
+                    DatabaseMethods().deleteChatRoom(chatRoomId);
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            );
+          }
+        });
   }
 }

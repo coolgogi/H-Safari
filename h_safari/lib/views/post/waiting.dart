@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
@@ -11,10 +10,12 @@ import 'package:h_safari/views/chat/chatRoom.dart';
 class Waiting extends StatefulWidget {
   String documentID;
   String postName;
+  List userList;
 
-  Waiting(String id, String fnName) {
+  Waiting(String id, String fnName, List waitingUserList) {
     documentID = id;
     postName = fnName;
+    userList = waitingUserList;
   }
 
   @override
@@ -29,15 +30,14 @@ class _WaitingState extends State<Waiting> {
     documentID = id;
   }
 
-  Stream waitingUserList;
   FirebaseProvider fp;
   String userEmail;
 
-  @override //??
-  void initState() {
-    getWaitingList(documentID);
-    super.initState();
-  }
+//  @override //??
+//  void initState() {
+//    getWaitingList(documentID);
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,69 +45,65 @@ class _WaitingState extends State<Waiting> {
       resizeToAvoidBottomPadding: false,
       appBar: appBar(context, '대기신청자'),
       body: Container(
-        child: waitingList(),
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.userList.length,
+            itemBuilder: (context, index) {
+              return waitingTile(
+                index+1,
+                widget.userList[index],
+              );
+            }),
       ),
     ); //Scaffold
   }
 
-  Widget waitingList() {
-    fp = Provider.of<FirebaseProvider>(context);
-    userEmail = fp.getUser().email.toString();
-    return StreamBuilder<QuerySnapshot>(
-      stream: waitingUserList,
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) {
-                  return waitingTile(
-                    index+1,
-                    snapshot.data.documents[index].data['sendBy'],
-                    snapshot.data.documents[index].data['time'],
-                    snapshot.data.documents[index].documentID,
-                  );
-                })
-            : Container();
-      },
-    );
-  }
+//  Widget waitingList() {
+//    fp = Provider.of<FirebaseProvider>(context);
+//    userEmail = fp.getUser().email.toString();
+//    return StreamBuilder<QuerySnapshot>(
+//      stream: waitingUserList,
+//      builder: (context, snapshot) {
+//        return snapshot.hasData
+//            ? ListView.builder(
+//                shrinkWrap: true,
+//                itemCount: snapshot.data.documents.length,
+//                itemBuilder: (context, index) {
+//                  return waitingTile(
+//                    index+1,
+//                    snapshot.data.documents[index].data['sendBy'],
+//                    snapshot.data.documents[index].data['time'],
+//                    snapshot.data.documents[index].documentID,
+//                  );
+//                })
+//            : Container();
+//      },
+//    );
+//  }
+//
+//  getWaitingList(String documentID) async {
+//    await FirebaseAuth.instance.currentUser();
+//    DatabaseMethods().getWaitingList(documentID).then((snapshots) {
+//      setState(() {
+//        waitingUserList = snapshots;
+//      });
+//    });
+//  }
 
-  getWaitingList(String documentID) async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DatabaseMethods().getWaitingList(documentID).then((snapshots) {
-      setState(() {
-        waitingUserList = snapshots;
-        print(
-            "we got the data + ${waitingUserList.toString()} this is name  $documentID");
-      });
-    });
-  }
-
-  Widget waitingTile(int turn, String sendBy, String time, String documentID) {
+  Widget waitingTile(int turn, String sendBy) {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
-            children: <Widget>[
-              Text(
-                //sendBy, // 게시물 제목
-                '$turn번째 신청자',
-                style: TextStyle(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
-              ),
-              Text(
-                time, // 알람 내용
-                style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
-              ),
-            ],
+          Text(
+            //sendBy, // 게시물 제목
+            '$turn번째 신청자',
+            style: TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
           ),
           FlatButton(
             shape: OutlineInputBorder(),
@@ -116,7 +112,7 @@ class _WaitingState extends State<Waiting> {
               style: TextStyle(color: Colors.green),
             ),
             onPressed: () {
-              transaction(context, sendBy);
+              transaction(context, sendBy, turn);
             },
           ),
         ],
@@ -124,7 +120,7 @@ class _WaitingState extends State<Waiting> {
     );
   }
 
-  void transaction(BuildContext context, String sendBy) async {
+  void transaction(BuildContext context, String sendBy, int turn) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -161,7 +157,7 @@ class _WaitingState extends State<Waiting> {
                   Navigator.pop(context, '확인');
                   Navigator.pop(context, '확인');
                   Navigator.pop(context, '확인');
-                  sendMessage(sendBy);
+                  sendMessage(sendBy, turn, widget.postName);
                 },
               )
             ],
@@ -170,34 +166,21 @@ class _WaitingState extends State<Waiting> {
   }
 
 
-  void sendMessage(String email) async {
+  void sendMessage(String friendEmail, int turn, String postName) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
-
-    List<String> users = [_user, email];
-
-    String chatRoomId = getChatRoomId(_user, email);
-
+    List<String> users = [_user, friendEmail];
+    String chatRoomName = "$turn번째_$postName";
     Map<String, dynamic> chatRoom = {
       "users": users,
-      "chatRoomId": chatRoomId,
+      "chatRoomName": chatRoomName,
     };
-
-    databaseMethods.addChatRoom(chatRoom, chatRoomId);
-
+    databaseMethods.addChatRoom(chatRoom, chatRoomName);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ChatRoom(
-                  chatRoomId: chatRoomId,
+                  chatRoomId: chatRoomName,
                 )));
-  }
-}
-
-String getChatRoomId(String a, String b) {
-  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-    return "$b\_$a";
-  } else {
-    return "$a\_$b";
   }
 }

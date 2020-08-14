@@ -41,6 +41,7 @@ class _PostState extends State<Post> {
   String fnEmail;
   String userList;
   List<dynamic> fnCommentUserList;
+  List<dynamic> fnWaitingUserList;
   String fnId;
   bool fnClose;
   String currentEmail;
@@ -59,6 +60,7 @@ class _PostState extends State<Post> {
     fnEmail = doc['email'];
     fnId = doc.documentID;
     fnCommentUserList = doc['commentUserList'];
+    fnWaitingUserList = doc['waitingUserList'];
     fnClose = doc['close'];
   }
 
@@ -138,7 +140,7 @@ class _PostState extends State<Post> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      Waiting(fnId, fnName)));
+                                                      Waiting(fnId, fnName, fnWaitingUserList)));
                                         },
                                       ),
                                       IconButton(
@@ -307,9 +309,9 @@ class _PostState extends State<Post> {
                                       onPressed: () {
                                         fnClose
                                             ? null
-                                            : (widget.isMine
+                                            : widget.isMine
                                                 ? Close(context)
-                                                : purchaseApplication(context));
+                                                : purchaseApplication(context);
                                       },
                                     ),
                                   ),
@@ -518,31 +520,42 @@ class _PostState extends State<Post> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  //users에 저장
-                  Map<String, dynamic> purchaseApplication = {
-                    "postName": fnName,
-                    "type": "구매신청",
-                    "sendBy": currentEmail,
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                    "postID": widget.doc.documentID,
-                    "unread": true,
-                  };
-                  Map<String, dynamic> userList = {
-                    "sendBy": currentEmail,
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                    "postID": widget.doc.documentID,
-                  };
-                  // post에 저장
-                  DatabaseMethods()
-                      .sendNotification(fnEmail, purchaseApplication);
-                  DatabaseMethods()
-                      .addWant(currentEmail, widget.doc.documentID, userList);
-                  Navigator.pop(context, '확인');
-                  Buy(context);
+                  if (fnWaitingUserList.contains(fp.getUser().email)) {
+                    Navigator.pop(context, '확인');
+                    already(context);
+                  } else {
+                    fnWaitingUserList.add(fp.getUser().email);
+                    Firestore.instance
+                        .collection('post')
+                        .document(widget.doc.documentID)
+                        .updateData({
+                      "waitingUserList": fnWaitingUserList,
+                    });
+                    Map<String, dynamic> purchaseApplication = {
+                      "postName": fnName,
+                      "type": "구매신청",
+                      "sendBy": currentEmail,
+                      "time": new DateFormat('yyyy-MM-dd')
+                          .add_Hms()
+                          .format(DateTime.now()),
+                      "postID": widget.doc.documentID,
+                      "unread": true,
+                    };
+                    Map<String, dynamic> userList = {
+                      "sendBy": currentEmail,
+                      "time": new DateFormat('yyyy-MM-dd')
+                          .add_Hms()
+                          .format(DateTime.now()),
+                      "postID": widget.doc.documentID,
+                    };
+                    // post에 저장
+                    DatabaseMethods()
+                        .sendNotification(fnEmail, purchaseApplication);
+                    DatabaseMethods()
+                        .addWant(currentEmail, widget.doc.documentID, userList);
+                    Navigator.pop(context, '확인');
+                    success(context);
+                  }
                 },
               )
             ],
@@ -988,13 +1001,35 @@ class _PostState extends State<Post> {
         });
   }
 
-  void Buy(BuildContext context) async {
+  void success(BuildContext context) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             content: Text('판매자에게 신청 알림을 보냈습니다.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void already(BuildContext context) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('이미 신청하신 상태입니다!'),
             actions: <Widget>[
               FlatButton(
                 child: Text(

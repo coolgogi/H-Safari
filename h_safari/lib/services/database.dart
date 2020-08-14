@@ -1,14 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-
-//import 'dart:io';
-//
-//import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:provider/provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-//import 'package:h_safari/models/firebase_provider.dart';
+
 class DatabaseMethods {
 
   final HttpsCallable sendFCM = CloudFunctions.instance
@@ -67,6 +60,10 @@ class DatabaseMethods {
         .collection("chats")
         .orderBy('date', descending: true)
         .snapshots();
+  }
+
+  deleteChatRoom(String docID) {
+    Firestore.instance.collection('chatRoom').document(docID).delete();
   }
 
   Future<void> addMessage(String chatRoomId, chatMessageData) {
@@ -171,9 +168,6 @@ class DatabaseMethods {
         .snapshots();
   }
 
-
-
-
   updateLast(String chatRoomId, String message, String date, String sendBy,
       bool unread) {
     return Firestore.instance
@@ -252,7 +246,6 @@ class DatabaseMethods {
     Navigator.pop(context);
     Navigator.pop(context);
   }
-
 
   void sendMessage(String userEmail){
     Firestore.instance
