@@ -215,7 +215,7 @@ class DatabaseMethods {
         .catchError((e) {
       print(e.toString());
     });
-    sendMessage(userId);
+    sendMessage(userId, commentNotification["type"]);
   }
 
   addWant(String email, String docId, userList) {
@@ -246,25 +246,28 @@ class DatabaseMethods {
     Navigator.pop(context);
   }
 
-  void sendMessage(String userEmail){
+  void sendMessage(String userEmail, String type){
     Firestore.instance
         .collection("users")
         .document(userEmail)
         .get()
         .then((doc){
-      sendSampleFCM(doc["token"]);
+      sendSampleFCM(doc["token"], type);
     });
   }
 
-  void sendSampleFCM(String token) async {
+  void sendSampleFCM(String token, String type) async {
     final HttpsCallableResult result = await sendFCM.call(
       <String, dynamic>{
         "token": token,
-        "title": "구매신청입니다",
-        "body": "누군가가 구매신청을 했습니다\n 알림을 확인하세요!"
+        "title": type,
+        "body": "알림을 확인하세요!"
       },
     );
   }
 
-
+  //type
+  //댓글
+  //구매신청
+  //거래수락
 }

@@ -655,6 +655,8 @@ class _PostState extends State<Post> {
         });
       }
       DatabaseMethods().addComment(widget.doc.documentID, commentMap);
+      DatabaseMethods()
+          .sendNotification(fnEmail, commentNotification);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
