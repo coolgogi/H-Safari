@@ -1,16 +1,10 @@
-// 기본 import
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-// 알림과 firebase 연결 import
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/delete/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// widget import
 import 'package:h_safari/widget/widget.dart';
 
 class Alarm extends StatefulWidget {
@@ -61,8 +55,6 @@ class _AlarmState extends State<Alarm> {
     DatabaseMethods().getUserAlarms(user.email.toString()).then((snapshots) {
       setState(() {
         alarm = snapshots;
-        print(
-            "we got the data + ${alarm.toString()} this is name  ${user.email.toString()}");
       });
     });
   }
@@ -78,19 +70,33 @@ class _AlarmState extends State<Alarm> {
     );
   }
 
-  IconData getMyIcon(String type) {
+  getMyIcon(String type) {
     if (type == "구매신청")
-      return Icons.notifications_active;
+      return Icons.record_voice_over;
     else if (type == "댓글")
       return Icons.comment;
     else if (type == "마감") return Icons.done;
+    else if (type == "거래수락") return Icons.favorite;
   }
+
+  getTitle(String type){
+    if (type == "구매신청")
+      return "누군가 구매를 희망합니다.\n게시글의 대기리스트를 확인하세요!";
+    else if (type == "댓글")
+      return "게시글에 댓글이 달렸습니다.";
+    else if (type == "마감")
+      return "게시글이 마감되었습니다";
+    else if (type == "거래수락")
+      return "거래가 수락되었어요, 채팅방을 통해 거래를 진행하세요!";
+  }
+
+
 
   Widget alertTile(String type, String sendBy, String time, String postName,
       String postID, bool unread, String documentID) {
     return FlatButton(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        color: unread ? Colors.yellow[50] : Colors.white, // 기본 배경색 : color
+        color: unread ? Colors.yellow[50] : Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,30 +113,30 @@ class _AlarmState extends State<Alarm> {
                     )
                   ]),
               child: Icon(
-                getMyIcon(type), // 아이콘 종류
-                color: Colors.brown, // 아이콘 색
+                getMyIcon(type),
+                color: Colors.brown,
               ),
-            ), // 아이콘
+            ),
             SizedBox(
               width: 14,
-            ), // 아이콘과 글자들 사이의 박스 삽입
+            ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 글자들을 왼쪽 정렬
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  type, // 게시물 제목
+                  "$type  (게시글: $postName) ",
                   style: TextStyle(
                       fontSize: 14.5,
-                      fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "게시글: $postName", // 알람 내용
-                  style: TextStyle(fontSize: 13), // 알림 내용 스타일 지정
-                ), // 아이콘과 글자들 사이의 박스 삽입
+                  getTitle(type),
+                  style: TextStyle(fontSize: 13),
+                ),
                 Text(
                   time, // 시간
                   style: TextStyle(
-                      fontSize: 10, color: Colors.black45), // 시간 스타일 지정
+                      fontSize: 10, color: Colors.black45),
                 ),
               ],
             ),
@@ -142,7 +148,6 @@ class _AlarmState extends State<Alarm> {
         });
   }
 
-  // 문서 조회 (Read)
   void showDocument(String documentID, String type) {
     Firestore.instance
         .collection('post')
@@ -153,7 +158,6 @@ class _AlarmState extends State<Alarm> {
     });
   }
 
-  //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID, String type) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => type != '거래수락' ? Post(doc, true) : Post(doc, false)));

@@ -165,7 +165,7 @@ final String fnClose = 'close';
 final String checkClose = "마감";
 
 // home, search 의 게시글 UI
-Widget listStyle(BuildContext context, DocumentSnapshot document) {
+Widget postTile(BuildContext context, DocumentSnapshot document) {
   bool close = document[fnClose];
   return Container(
     decoration: BoxDecoration(

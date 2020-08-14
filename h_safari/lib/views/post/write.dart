@@ -526,6 +526,7 @@ class _MyWriteState extends State<MyWrite> {
 
     List<String> splitString = picURL.split(',');
     List<String> co = List();
+    co[0] = user.email;
     List<String> wa = List();
     documentReference.setData({
       fnName: name,

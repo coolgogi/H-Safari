@@ -33,12 +33,6 @@ class _WaitingState extends State<Waiting> {
   FirebaseProvider fp;
   String userEmail;
 
-//  @override //??
-//  void initState() {
-//    getWaitingList(documentID);
-//    super.initState();
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,38 +51,6 @@ class _WaitingState extends State<Waiting> {
       ),
     ); //Scaffold
   }
-
-//  Widget waitingList() {
-//    fp = Provider.of<FirebaseProvider>(context);
-//    userEmail = fp.getUser().email.toString();
-//    return StreamBuilder<QuerySnapshot>(
-//      stream: waitingUserList,
-//      builder: (context, snapshot) {
-//        return snapshot.hasData
-//            ? ListView.builder(
-//                shrinkWrap: true,
-//                itemCount: snapshot.data.documents.length,
-//                itemBuilder: (context, index) {
-//                  return waitingTile(
-//                    index+1,
-//                    snapshot.data.documents[index].data['sendBy'],
-//                    snapshot.data.documents[index].data['time'],
-//                    snapshot.data.documents[index].documentID,
-//                  );
-//                })
-//            : Container();
-//      },
-//    );
-//  }
-//
-//  getWaitingList(String documentID) async {
-//    await FirebaseAuth.instance.currentUser();
-//    DatabaseMethods().getWaitingList(documentID).then((snapshots) {
-//      setState(() {
-//        waitingUserList = snapshots;
-//      });
-//    });
-//  }
 
   Widget waitingTile(int turn, String sendBy) {
     fp = Provider.of<FirebaseProvider>(context);
@@ -154,6 +116,7 @@ class _WaitingState extends State<Waiting> {
                     "unread": true,
                   };
                   DatabaseMethods().sendNotification(sendBy, transaction);
+                  DatabaseMethods().updateUnreadNotification(sendBy, true);
                   Navigator.pop(context, '확인');
                   Navigator.pop(context, '확인');
                   Navigator.pop(context, '확인');
@@ -181,6 +144,7 @@ class _WaitingState extends State<Waiting> {
         MaterialPageRoute(
             builder: (context) => ChatRoom(
                   chatRoomId: chatRoomName,
+              chatRoomName: chatRoomName,
                 )));
   }
 }

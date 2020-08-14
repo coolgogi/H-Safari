@@ -218,6 +218,16 @@ class DatabaseMethods {
     sendMessage(userId, commentNotification["type"]);
   }
 
+  updateUnreadNotification(String myEmail, how) {
+    return Firestore.instance
+        .collection("users")
+        .document(myEmail)
+        .updateData({
+      'unreadNotification': how,
+    });
+  }
+
+
   addWant(String email, String docId, userList) {
     Firestore.instance
         .collection("post")
@@ -265,9 +275,4 @@ class DatabaseMethods {
       },
     );
   }
-
-  //type
-  //댓글
-  //구매신청
-  //거래수락
 }

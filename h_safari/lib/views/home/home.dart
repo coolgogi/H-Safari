@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/delete/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -74,6 +73,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   QuerySnapshot userInfoSnapshot;
   DocumentSnapshot userDoc;
   String userEmail;
+  bool unreadNotification = false;
   int _counter = 0;
 
   _HomeState(String tp) {
@@ -105,6 +105,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .get()
         .then((doc) {
       setCategoryData(doc);
+      unreadNotification = doc['unreadNotification'];
     });
   }
 
@@ -143,13 +144,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
-                        Icons.notifications,
-                        color: Colors.green,
+                        unreadNotification ? Icons.notifications_active : Icons.notifications,
+                        color: unreadNotification ? Colors.orange : Colors.green,
                         size: 25,
                       ),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
+                        DatabaseMethods().updateUnreadNotification(email, false);
                       },
                     ),
                     SizedBox(
@@ -244,7 +246,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             onTap: () {
                               showReadPostPage(document);
                             },
-                            child: listStyle(context, document),
+                            child: postTile(context, document),
                           );
                   }).toList(),
                 );
@@ -308,7 +310,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         onTap: () {
                           showReadPostPage(document);
                         },
-                        child: listStyle(context, document)
+                        child: postTile(context, document)
                       );
                     }
                   }).toList(),

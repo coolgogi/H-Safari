@@ -83,7 +83,7 @@ class _categoryViewState extends State<categoryView> {
                       onTap: () {
                         showReadPostPage(document);
                       },
-                      child: listStyle(context, document)
+                      child: postTile(context, document)
                     );
                   } //Card
                 }).toList(),

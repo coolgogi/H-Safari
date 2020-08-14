@@ -551,6 +551,7 @@ class _PostState extends State<Post> {
                     // post에 저장
                     DatabaseMethods()
                         .sendNotification(fnEmail, purchaseApplication);
+                    DatabaseMethods().updateUnreadNotification(fnEmail, false);
                     DatabaseMethods()
                         .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
@@ -619,14 +620,6 @@ class _PostState extends State<Post> {
         });
   }
 
-  getChatRoomId(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
-  }
-
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -655,12 +648,12 @@ class _PostState extends State<Post> {
         });
       }
       DatabaseMethods().addComment(widget.doc.documentID, commentMap);
-      DatabaseMethods()
-          .sendNotification(fnEmail, commentNotification);
+      DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
               .sendNotification(fnCommentUserList[i], commentNotification);
+          DatabaseMethods().updateUnreadNotification(fnCommentUserList[i], true);
         }
       }
       setState(() {
@@ -702,6 +695,7 @@ class _PostState extends State<Post> {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
               .sendNotification(fnCommentUserList[i], recommentNotification);
+          DatabaseMethods().updateUnreadNotification(fnCommentUserList[i], true);
         }
       }
       setState(() {
