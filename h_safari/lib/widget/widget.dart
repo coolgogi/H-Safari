@@ -111,6 +111,41 @@ Widget AppBarTitle (BuildContext context) {
       ],
     );
   }
+
+// 뒤로가기 기능이 있는 page들을 위한 appBar 생성
+Widget myPostAppBar(BuildContext context, String title, String title1, String title2) {
+  return AppBar(
+    elevation: 0.0,
+    backgroundColor: Colors.white,
+    leading: InkWell(
+      child: Icon(
+        Icons.arrow_back_ios,
+        color: Colors.green,
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    ),
+    centerTitle: true,
+    title: Text(
+      '$title',
+      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+    ),
+    bottom: TabBar(
+      unselectedLabelColor: Colors.black38,
+      labelColor: Colors.green,
+      labelStyle: TextStyle(
+          fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+      indicatorColor: Colors.green,
+      indicatorWeight: 2.5,
+      indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+      tabs: <Widget>[
+        Tab(text: '$title1'),
+        Tab(text: '$title2'),
+      ],
+    ),
+  );
+}
 final String fnName = "name";
 final String fnDescription = "description";
 final String fnDatetime = "datetime";

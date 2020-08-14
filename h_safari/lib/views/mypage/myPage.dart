@@ -12,7 +12,8 @@ import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/cloudMessage.dart';
-
+import 'package:h_safari/views/mypage/myPost.dart';
+import 'package:h_safari/views/mypage/myWanna.dart';
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
@@ -69,7 +70,9 @@ class _MyPageState extends State<MyPage> {
                   children: <Widget>[
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => myPost()));
+                        },
                         child: Container(
                           height: 60,
                           alignment: Alignment.center,
@@ -89,7 +92,9 @@ class _MyPageState extends State<MyPage> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => myWanna()));
+                        },
                         child: Container(
                           height: 60,
                           alignment: Alignment.center,
