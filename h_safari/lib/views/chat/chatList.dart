@@ -105,6 +105,7 @@ class _ChatListState extends State<ChatList> {
             MaterialPageRoute(
                 builder: (context) => ChatRoom(
                   chatRoomId: chatRoomId,
+                  chatRoomName: isMyPost ? chatRoomId: chatRoomId.split(RegExp(r"_"))[1],
                 )));
         sendBy != friendName
             ? null

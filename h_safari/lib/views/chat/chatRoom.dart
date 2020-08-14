@@ -10,8 +10,9 @@ import 'package:h_safari/widget/widget.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
+  final String chatRoomName;
 
-  ChatRoom({this.chatRoomId});
+  ChatRoom({this.chatRoomId, this.chatRoomName});
 
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -41,7 +42,7 @@ class _ChatRoomState extends State<ChatRoom> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        appBar: appBarSelect(context, '채팅방'),
+        appBar: appBarSelect(context, widget.chatRoomName),
         body: Column(
           children: [
             Expanded(child: chatMessages()),

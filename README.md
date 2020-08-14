@@ -53,6 +53,8 @@ CRA vacation project 2020-summer
 ### mypage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
 
+> 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기(UI) - 광일
+
 ### search.dart
 > 검색 기능 구현 필요. @@@ - 수현
 
@@ -75,6 +77,18 @@ CRA vacation project 2020-summer
 > 상태표시 ex)거래중, 거래 마감 - 예진(거래마감 완료, post(write) 쪽에서만)
 > + UI쪽 조금 더 추가(구현중) 광일
 
+> 대기번호 기능 구현 필요 @@@ - 수현
+
+> 거래신청 중복 제거 - 예진
+
+### chatList.dart
+> 채팅방 삭제 기능 - 예진
+
+> 채팅방 이름 - 예진
+
+### waiting.dart
+> 대기리스트 중복 제거 - 예진
+
 ### ???
 > 거래 완료 시, home에서 워터마크처럼 표시해주기 - 광일
 
@@ -82,39 +96,23 @@ CRA vacation project 2020-summer
 
 > Post(write)에서 상단 버튼(리스트보기, 수정하기) disable
 
+> 로딩화면 -연희
+
 
 ## 구현 중이거나 구현 예정인 기능
-
-### Post.dart
-> 대기번호 기능 구현 필요 @@@ - (구현중) 수현
-
-> 거래신청 중복 제거
-
-### chatList.dart
-> 채팅방 삭제 기능 
 
 ### myPage.dart
 > 푸시알림기능 구현 - (구현중) 수현
 
 > 탈퇴기능
 
-> 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기 
-
-### post(write).dart
-
-
-### write.dart
-
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
 
-### myPage.dart 
-> 마감된 글 보기 
+### myPost.dart
+> 게시글 리스트 넣기 - (구현중) 수현
 
-### waiting.dart
-> 대기리스트 중복 제거
-
-### ???
-> 로딩화면
+### myWanna.dart
+> 게시글 리스트 넣기 - (구현중) 수현
 
 
