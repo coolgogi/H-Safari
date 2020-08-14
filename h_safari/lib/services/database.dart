@@ -145,7 +145,6 @@ class DatabaseMethods {
   Future<dynamic> getUserChats(String itIsMyName) async {
     return Firestore.instance
         .collection("chatRoom")
-        .where('users', arrayContains: itIsMyName)
         .orderBy('lastDate', descending: true)
         .snapshots();
   }
