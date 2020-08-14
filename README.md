@@ -53,6 +53,8 @@ CRA vacation project 2020-summer
 ### mypage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
 
+> 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기(UI) - 광일
+
 ### search.dart
 > 검색 기능 구현 필요. @@@ - 수현
 
@@ -94,6 +96,8 @@ CRA vacation project 2020-summer
 
 > Post(write)에서 상단 버튼(리스트보기, 수정하기) disable
 
+> 로딩화면 -연희
+
 
 ## 구현 중이거나 구현 예정인 기능
 
@@ -102,15 +106,13 @@ CRA vacation project 2020-summer
 
 > 탈퇴기능
 
-> 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기 - 광일(UI)
-
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
 
-### myPage.dart 
-> 마감된 글 보기 
+### myPost.dart
+> 게시글 리스트 넣기 - (구현중) 수현
 
-### ???
-> 로딩화면
+### myWanna.dart
+> 게시글 리스트 넣기 - (구현중) 수현
 
 
