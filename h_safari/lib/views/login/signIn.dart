@@ -268,13 +268,6 @@ class _SignInState extends State<SignIn> {
                                     decoration: TextDecoration.underline),
                               ),
                             ),
-
-                            RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Loading()));},
-                              child: Text('로딩화면', style: TextStyle(fontSize: 15, color: Colors.grey, decoration: TextDecoration.underline),
-                              ),
-                            ),
                           ],
                         ),
                       ],
