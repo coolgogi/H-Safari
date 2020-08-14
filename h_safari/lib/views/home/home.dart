@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/post/post(writer).dart';
+import 'package:h_safari/delete/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -204,7 +204,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost(doc) : Post(doc)));
+                userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
   String timestampToStrDateTime(Timestamp ts) {

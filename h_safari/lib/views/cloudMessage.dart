@@ -69,12 +69,11 @@ class CloudMessage{
     );
   }
 
-  String timestampToStrDateTime(Timestamp ts) {
-    if (ts == null) return "";
-    return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
-        .toString();
-  }
 }
+
+
+
+
 
 class FcmFirstDemo extends StatefulWidget {
   @override
@@ -93,9 +92,9 @@ class FcmFirstDemoState extends State<FcmFirstDemo> {
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
   // Firestore users fields
-  final String fName = "name";
+  final String fName = "user";
   final String fToken = "token";
-  final String fCreateTime = "createTime";
+  final String fCreateTime = "가입일";
   final String fPlatform = "platform";
 
   final TextStyle tsTitle = TextStyle(color: Colors.grey, fontSize: 13);
@@ -150,7 +149,7 @@ class FcmFirstDemoState extends State<FcmFirstDemo> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    if (didUpdateUserInfo == false) updateUserInfo();
+//    if (didUpdateUserInfo == false) updateUserInfo();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -165,7 +164,7 @@ class FcmFirstDemoState extends State<FcmFirstDemo> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _db.collection("users2").snapshots(),
+              stream: _db.collection("users").snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) return Text("Error: ${snapshot.error}");
@@ -177,8 +176,9 @@ class FcmFirstDemoState extends State<FcmFirstDemo> {
                     return ListView(
                       children:
                       snapshot.data.documents.map((DocumentSnapshot doc) {
-                        Timestamp ts = doc[fCreateTime];
-                        String dt = timestampToStrDateTime(ts);
+//                        Timestamp ts = doc[fCreateTime];
+//                        String dt = timestampToStrDateTime(ts);
+                        String dt = doc[fCreateTime];
 
                         if (!_map.containsKey(doc[fToken])) {
                           _map[doc[fToken]] = false;

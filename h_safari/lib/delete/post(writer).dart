@@ -83,10 +83,6 @@ class _MyPostState extends State<MyPost> {
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
   bool closed = false; //글 마감됐는지 아닌지 확인하는 변수 //문제가 글 하나가 아닌 내가 쓴 전체 글이 완료가 되어벌미
 
-  TextEditingController _undNameCon = TextEditingController();
-  TextEditingController _undPriceCon = TextEditingController();
-  TextEditingController _undDescCon = TextEditingController();
-
   CarouselSlider carouselSlider;
   int _current = 0;
 

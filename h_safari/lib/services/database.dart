@@ -1,7 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+//import 'dart:io';
+//
+//import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:provider/provider.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+//import 'package:h_safari/models/firebase_provider.dart';
 class DatabaseMethods {
+
+  final HttpsCallable sendFCM = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'sendFCM') // 호출할 Cloud Functions 의 함수명
+    ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
+
+
+
   Future<void> addUserInfo(userData) async {
     Firestore.instance.collection("users").add(userData).catchError((e) {
       print(e.toString());
@@ -156,6 +171,9 @@ class DatabaseMethods {
         .snapshots();
   }
 
+
+
+
   updateLast(String chatRoomId, String message, String date, String sendBy,
       bool unread) {
     return Firestore.instance
@@ -204,6 +222,7 @@ class DatabaseMethods {
         .catchError((e) {
       print(e.toString());
     });
+    sendMessage(userId);
   }
 
   addWant(String email, String docId, userList) {
@@ -233,4 +252,27 @@ class DatabaseMethods {
     Navigator.pop(context);
     Navigator.pop(context);
   }
+
+
+  void sendMessage(String userEmail){
+    Firestore.instance
+        .collection("users")
+        .document(userEmail)
+        .get()
+        .then((doc){
+      sendSampleFCM(doc["token"]);
+    });
+  }
+
+  void sendSampleFCM(String token) async {
+    final HttpsCallableResult result = await sendFCM.call(
+      <String, dynamic>{
+        "token": token,
+        "title": "구매신청입니다",
+        "body": "누군가가 구매신청을 했습니다\n 알림을 확인하세요!"
+      },
+    );
+  }
+
+
 }
