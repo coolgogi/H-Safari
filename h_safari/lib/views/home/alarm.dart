@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 // 알림과 firebase 연결 import
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/views/post/post(writer).dart';
+import 'package:h_safari/delete/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/services/database.dart';
@@ -156,6 +156,6 @@ class _AlarmState extends State<Alarm> {
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc, String documentID, String type) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => type != '거래수락' ? MyPost(doc) : Post(doc)));
+        context, MaterialPageRoute(builder: (context) => type != '거래수락' ? Post(doc, true) : Post(doc, false)));
   }
 }
