@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:h_safari/helpers/authPage.dart';
+import 'package:h_safari/views/login/loading.dart';
 
 //added from SH
 import 'models/firebase_provider.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-          home: AuthPage()
+          home: Loading()
       ),
     );
   }
