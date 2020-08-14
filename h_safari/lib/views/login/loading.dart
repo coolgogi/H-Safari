@@ -37,22 +37,18 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: ScaleTransition(
-                scale: _animation,
-                alignment: Alignment.center,
-                child: Image.asset(
-                  'Logo/loading page-shadow.png.png',
-                  fit: BoxFit.fitWidth,
-                ),
-              )
+      body: Expanded(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: ScaleTransition(
+            scale: _animation,
+            alignment: Alignment.center,
+            child: Image.asset(
+              'Logo/loading page-shadow.png.png',
+              fit: BoxFit.fitWidth,
             ),
-          ),
-        ],
+          )
+        ),
       ),
     );
   }
