@@ -84,69 +84,7 @@ class _categoryViewState extends State<categoryView> {
                         onTap: () {
                           showReadPostPage(document);
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // 사진
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green[200],
-                                  ),
-                                  width: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  height: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      _profileImageURL,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 20 * 11,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 게시물 제목
-                                    Text(
-                                      document[fnName],
-                                      style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    // 게시물 가격
-                                    Text(
-                                      document[fnPrice] + '원',
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 12),
-                                    ),
-                                    // 게시물 내용 (3줄까지만)
-                                    Text(
-                                      document[fnDescription],
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: listStyle(context, document)
                       ),
                     );
                   } //Card

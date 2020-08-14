@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/home/search.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {
@@ -109,4 +110,141 @@ Widget AppBarTitle (BuildContext context) {
         ),
       ],
     );
+  }
+final String fnName = "name";
+final String fnDescription = "description";
+final String fnDatetime = "datetime";
+final String fnImageUrl = 'imageUrl';
+final String fnPrice = 'price';
+final String fnCategory = 'category';
+final String fnHow = 'how'; //거래유형
+final String fnEmail = 'email';
+final String fnClose = 'close';
+final String checkClose = "마감";
+
+  // home, search 의 게시글 UI
+  Widget listStyle(BuildContext context, DocumentSnapshot document) {
+    bool close = document[fnClose];
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+              bottom:
+              BorderSide(color: Colors.black12))),
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(
+        children: <Widget>[
+          Row(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: <Widget>[
+              // 사진
+              listPhoto(context, document),
+              SizedBox(
+                width: 15,
+              ),
+              Container(
+                width:
+                MediaQuery.of(context).size.width /
+                    20 *
+                    11,
+                child: Column(
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // 게시물 제목
+                    Text(
+                      document[fnName],
+                      style: TextStyle(
+                        color: close
+                            ? Colors.grey
+                            : Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    // 게시물 가격
+                    Text(
+                      document[fnPrice] + '원',
+                      style: TextStyle(
+                          color: close
+                              ? Colors.grey
+                              : Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    // 게시물 내용 (3줄까지만)
+                    Text(
+                      document[fnDescription],
+                      style: TextStyle(
+                        color: close
+                            ? Colors.grey
+                            : Colors.black,
+                        fontSize: 12,
+                      ),
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // home, search 다트에서 보여지는 게시물의 UI 사진
+  Widget listPhoto(BuildContext context, DocumentSnapshot document) {
+
+    String _profileImageURL = document[fnImageUrl];
+    bool close = document[fnClose];
+
+  return Container(
+      width: MediaQuery.of(context)
+          .size
+          .width /
+          10 *
+          3,
+      height: MediaQuery.of(context)
+          .size
+          .width /
+          10 *
+          3,
+      decoration: BoxDecoration(
+        borderRadius:
+        BorderRadius.circular(6),
+      ),
+      child: (_profileImageURL != "")
+          ? ClipRRect(
+          borderRadius:
+          BorderRadius.circular(
+              6.0),
+          child: close
+              ? Stack(children: <
+              Widget>[
+            Container(
+              width: 250,
+              height: 250,
+              child:
+              Image.network(
+                _profileImageURL,
+                fit: BoxFit.fill,
+              ),
+            ),
+            Container(
+                width: 250,
+                height: 250,
+                child: Image.asset(
+                    'assets/sample/close2.png'))
+          ])
+              : Image.network(
+            _profileImageURL,
+            fit: BoxFit.fill,
+          ))
+          : Stack(
+        children: <Widget>[
+          Image.asset(
+              'Logo/empty_Rabbit_green1_gloss.png.png'),
+        ],
+      ));
   }
