@@ -41,6 +41,7 @@ class _PostState extends State<Post> {
   String fnEmail;
   String userList;
   List<dynamic> fnCommentUserList;
+  List<dynamic> fnWaitingUserList;
   String fnId;
   bool fnClose;
   String currentEmail;
@@ -59,6 +60,7 @@ class _PostState extends State<Post> {
     fnEmail = doc['email'];
     fnId = doc.documentID;
     fnCommentUserList = doc['commentUserList'];
+    fnWaitingUserList = doc['waitingUserList'];
     fnClose = doc['close'];
   }
 
@@ -122,39 +124,41 @@ class _PostState extends State<Post> {
                         style: TextStyle(color: Colors.black),
                       ),
                       floating: true,
-                      actions: widget.isMine ? (fnClose
-                          ? null
-                          : <Widget>[
-                        Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.assignment,
-                                color: Colors.green,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Waiting(fnId, fnName)));
-                              },
-                            ),
-                            IconButton(
-                              icon:
-                              Icon(Icons.border_color, color: Colors.green),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            postUpdateDelete(widget.doc)));
-                              },
-                            ),
-                          ],
-                        )
-                      ]):
-                        null,
+                      actions: widget.isMine
+                          ? (fnClose
+                              ? null
+                              : <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.assignment,
+                                          color: Colors.green,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Waiting(fnId, fnName, fnWaitingUserList)));
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.border_color,
+                                            color: Colors.green),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      postUpdateDelete(
+                                                          widget.doc)));
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ])
+                          : null,
                     ),
                   ];
                 },
@@ -294,7 +298,9 @@ class _PostState extends State<Post> {
                                     child: FlatButton(
                                       shape: OutlineInputBorder(),
                                       child: Text(
-                                        fnClose ? '마감' : (widget.isMine ? '거래마감' :'구매신청'),
+                                        fnClose
+                                            ? '마감'
+                                            : (widget.isMine ? '거래마감' : '구매신청'),
                                         style: TextStyle(
                                             color: fnClose
                                                 ? Colors.red
@@ -303,7 +309,9 @@ class _PostState extends State<Post> {
                                       onPressed: () {
                                         fnClose
                                             ? null
-                                            : (widget.isMine? Close(context): purchaseApplication(context));
+                                            : widget.isMine
+                                                ? Close(context)
+                                                : purchaseApplication(context);
                                       },
                                     ),
                                   ),
@@ -512,32 +520,42 @@ class _PostState extends State<Post> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  //users에 저장
-                  Map<String, dynamic> purchaseApplication = {
-                    "postName": fnName,
-                    "type": "구매신청",
-                    "sendBy": currentEmail,
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                    "postID": widget.doc.documentID,
-                    "unread": true,
-                  };
-                  Map<String, dynamic> userList = {
-                    "sendBy": currentEmail,
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                    "postID": widget.doc.documentID,
-                  };
-                  // post에 저장
-                  DatabaseMethods()
-                      .sendNotification(fnEmail, purchaseApplication);
-                  DatabaseMethods()
-                      .addWant(currentEmail, widget.doc.documentID, userList);
-                  Navigator.pop(context, '확인');
-                  Buy(context);
-                  
+                  if (fnWaitingUserList.contains(fp.getUser().email)) {
+                    Navigator.pop(context, '확인');
+                    already(context);
+                  } else {
+                    fnWaitingUserList.add(fp.getUser().email);
+                    Firestore.instance
+                        .collection('post')
+                        .document(widget.doc.documentID)
+                        .updateData({
+                      "waitingUserList": fnWaitingUserList,
+                    });
+                    Map<String, dynamic> purchaseApplication = {
+                      "postName": fnName,
+                      "type": "구매신청",
+                      "sendBy": currentEmail,
+                      "time": new DateFormat('yyyy-MM-dd')
+                          .add_Hms()
+                          .format(DateTime.now()),
+                      "postID": widget.doc.documentID,
+                      "unread": true,
+                    };
+                    Map<String, dynamic> userList = {
+                      "sendBy": currentEmail,
+                      "time": new DateFormat('yyyy-MM-dd')
+                          .add_Hms()
+                          .format(DateTime.now()),
+                      "postID": widget.doc.documentID,
+                    };
+                    // post에 저장
+                    DatabaseMethods()
+                        .sendNotification(fnEmail, purchaseApplication);
+                    DatabaseMethods()
+                        .addWant(currentEmail, widget.doc.documentID, userList);
+                    Navigator.pop(context, '확인');
+                    success(context);
+                  }
                 },
               )
             ],
@@ -609,7 +627,6 @@ class _PostState extends State<Post> {
     }
   }
 
-
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
     FirebaseUser currentUser = fp.getUser();
@@ -679,7 +696,6 @@ class _PostState extends State<Post> {
       }
       DatabaseMethods()
           .addReComment(widget.doc.documentID, redocId, recommentMap);
-      DatabaseMethods().addComment(widget.doc.documentID, recommentMap);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
@@ -756,14 +772,14 @@ class _PostState extends State<Post> {
   }
 
   Widget text(String name) {
-    if (name == fnEmail)
-      return Text('글쓴이',
-          style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
-    else if (name == currentEmail)
+    if (name == currentEmail)
       return Text('나',
           style:
               TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
+    else if (name == fnEmail)
+      return Text('글쓴이',
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
     else
       return Text('익명',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black));
@@ -787,7 +803,7 @@ class _PostState extends State<Post> {
               text(name),
               name == currentEmail
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
                       child: InkWell(
                         child: Icon(
                           Icons.delete_outline,
@@ -861,7 +877,7 @@ class _PostState extends State<Post> {
                     text(name),
                     name == currentEmail
                         ? Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 3, 6, 0),
                             child: InkWell(
                               child: Icon(
                                 Icons.delete_outline,
@@ -985,13 +1001,35 @@ class _PostState extends State<Post> {
         });
   }
 
-  void Buy(BuildContext context) async {
+  void success(BuildContext context) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             content: Text('판매자에게 신청 알림을 보냈습니다.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void already(BuildContext context) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('이미 신청하신 상태입니다!'),
             actions: <Widget>[
               FlatButton(
                 child: Text(

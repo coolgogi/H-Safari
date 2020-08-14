@@ -116,12 +116,57 @@ Widget AppBarTitle(BuildContext context) {
   );
 }
 
+// 뒤로가기 기능이 있는 page들을 위한 appBar 생성
+Widget myPostAppBar(
+    BuildContext context, String title, String title1, String title2) {
+  return AppBar(
+    elevation: 0.0,
+    backgroundColor: Colors.white,
+    leading: InkWell(
+      child: Icon(
+        Icons.arrow_back_ios,
+        color: Colors.green,
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    ),
+    centerTitle: true,
+    title: Text(
+      '$title',
+      style: TextStyle(
+          color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+    ),
+    bottom: TabBar(
+      unselectedLabelColor: Colors.black38,
+      labelColor: Colors.green,
+      labelStyle:
+          TextStyle(fontSize: 15, height: 1, fontWeight: FontWeight.bold),
+      indicatorColor: Colors.green,
+      indicatorWeight: 2.5,
+      indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+      tabs: <Widget>[
+        Tab(text: '$title1'),
+        Tab(text: '$title2'),
+      ],
+    ),
+  );
+}
+
+final String fnName = "name";
+final String fnDescription = "description";
+final String fnDatetime = "datetime";
+final String fnImageUrl = 'imageUrl';
+final String fnPrice = 'price';
+final String fnCategory = 'category';
+final String fnHow = 'how'; //거래유형
+final String fnEmail = 'email';
+final String fnClose = 'close';
+final String checkClose = "마감";
+
 // home, search 의 게시글 UI
 Widget listStyle(BuildContext context, DocumentSnapshot document) {
-   String fnName = "name";
-   String fnDescription = "description";
-   String fnPrice = 'price';
-   String fnClose = 'close';
+  bool close = document[fnClose];
   return Container(
     decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black12))),
@@ -145,7 +190,7 @@ Widget listStyle(BuildContext context, DocumentSnapshot document) {
                   Text(
                     document[fnName],
                     style: TextStyle(
-                      color: document[fnClose] ? Colors.grey : Colors.black,
+                      color: close ? Colors.grey : Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                     ),
@@ -154,7 +199,7 @@ Widget listStyle(BuildContext context, DocumentSnapshot document) {
                   Text(
                     document[fnPrice] + '원',
                     style: TextStyle(
-                        color: document[fnClose] ? Colors.grey : Colors.black,
+                        color: close ? Colors.grey : Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
@@ -162,7 +207,7 @@ Widget listStyle(BuildContext context, DocumentSnapshot document) {
                   Text(
                     document[fnDescription],
                     style: TextStyle(
-                      color: document[fnClose] ? Colors.grey : Colors.black,
+                      color: close ? Colors.grey : Colors.black,
                       fontSize: 12,
                     ),
                     maxLines: 3,
@@ -176,6 +221,7 @@ Widget listStyle(BuildContext context, DocumentSnapshot document) {
     ),
   );
 }
+
 
 // home, search 다트에서 보여지는 게시물의 UI 사진
 Widget listPhoto(BuildContext context, DocumentSnapshot document) {

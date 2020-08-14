@@ -131,11 +131,11 @@ class _MyPostState extends State<MyPost> {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Waiting(fnId, fnName)));
+//                                Navigator.push(
+//                                    context,
+//                                    MaterialPageRoute(
+//                                        builder: (context) =>
+////                                            Waiting(fnId, fnName)));
                               },
                             ),
                             IconButton(
