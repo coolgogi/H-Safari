@@ -83,18 +83,20 @@ class AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    if (didUpdateUserInfo == false) updateUserInfo();
 
     logger.d("user: ${fp.getUser()}");
 
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
       String tp = fp.getUser().email.toString();
 
+      if (didUpdateUserInfo == false) updateUserInfo();
+
       return BottomBar(tp);
     } else {
       return SignIn();
     }
   }
+  //수정 필
 
   void updateUserInfo() async {
     print("업데이트");
