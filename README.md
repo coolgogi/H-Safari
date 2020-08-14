@@ -35,6 +35,11 @@ CRA vacation project 2020-summer
 
 > 대기신청자 List 띄우기 - UI 완료 광일, DB만 하면됨- 수현
 
+> 댓글쓰면 알림가는 기능(답글인경우만) - 예진
+
+> post + post(write) 합치기 - 예진
+
+
 ### categoryView.dart
 > 카테고리별 게시물 가져오는 구현 필요. @@@ -수현
 
@@ -96,7 +101,7 @@ CRA vacation project 2020-summer
 > 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기 
 
 ### post(write).dart
-> 댓글쓰면 알림가는 기능(답글인경우만) -(구현중) 예진
+
 
 ### write.dart
 

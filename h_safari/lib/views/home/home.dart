@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/post/post(writer).dart';
+import 'package:h_safari/delete/post(writer).dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
   final String fnClose = 'close';
-
   final String checkClose = "마감";
 
   final List<String> categoryString = [
@@ -205,7 +204,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                userEmail == doc['email'] ? MyPost(doc) : Post(doc)));
+                userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
   String timestampToStrDateTime(Timestamp ts) {
@@ -238,116 +237,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String postCategory = document[fnCategory];
                     bool close = document[fnClose];
 
-                    return (close && !wantToSeeFinished) ? Container()
-                        :
-                    InkWell(
-                      // Read Document
-                      onTap: () {
-                         showReadPostPage(document);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black12))),
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                // 사진
-                                Container(
-                                    width: MediaQuery.of(context).size.width /
-                                        10 *
-                                        3,
-                                    height: MediaQuery.of(context).size.width /
-                                        10 *
-                                        3,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: (_profileImageURL != "")
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(6.0),
-                                            child: close
-                                                ? Stack(children: <Widget>[
-                                                    Container(
-                                                      width: 250,
-                                                      height: 250,
-                                                      child: Image.network(
-                                                        _profileImageURL,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                        width: 250,
-                                                        height: 250,
-                                                        child: Image.asset(
-                                                            'assets/sample/close2.png'))
-                                                  ])
-                                                : Image.network(
-                                                    _profileImageURL,
-                                                    fit: BoxFit.fill,
-                                                  ))
-                                        : Stack(
-                                            children: <Widget>[
-                                              Image.asset(
-                                                  'Logo/empty_Rabbit_green1_gloss.png.png'),
-                                            ],
-                                          )),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width /
-                                      20 *
-                                      11,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // 게시물 제목
-                                      Text(
-                                        document[fnName],
-                                        style: TextStyle(
-                                          color: close
-                                              ? Colors.grey
-                                              : Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      // 게시물 가격
-                                      Text(
-                                        document[fnPrice] + '원',
-                                        style: TextStyle(
-                                            color: close
-                                                ? Colors.grey
-                                                : Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      // 게시물 내용 (3줄까지만)
-                                      Text(
-                                        document[fnDescription],
-                                        style: TextStyle(
-                                          color: close
-                                              ? Colors.grey
-                                              : Colors.black,
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                    return (close && !wantToSeeFinished)
+                        ? Container()
+                        : InkWell(
+                            // Read Document
+                            onTap: () {
+                              showReadPostPage(document);
+                            },
+                            child: listStyle(context, document),
+                          );
                   }).toList(),
                 );
             }
@@ -378,10 +276,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
                     Timestamp ts = document[fnDatetime];
-                    String dt = timestampToStrDateTime(ts);
-                    String _profileImageURL = document[fnImageUrl];
-                    String postCategory = document[fnCategory];
                     bool close = document[fnClose];
+//                    String dt = timestampToStrDateTime(ts);
+//                    String _profileImageURL = document[fnImageUrl];
+//                    String postCategory = document[fnCategory];
 
                     if (document[fnCategory] == "의류")
                       tempInt = 0;
@@ -410,116 +308,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         onTap: () {
                           showReadPostPage(document);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.black12))),
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Column(
-                            children: <Widget>[
-//                              Row(
-//                                mainAxisAlignment: MainAxisAlignment.start,
-//                                children: <Widget>[
-//                                  Container(
-//                                      width: 70,
-//                                      color: Colors.green,
-//                                      child: Center(
-//                                        child: Text(
-//                                          close ? '마감' : '판매중',
-//                                          style: TextStyle(
-//                                              fontSize: 15
-//                                          ),),
-//                                      )
-//                                  ),
-//                                ],
-//                              ),
-//                              SizedBox(
-//                                height: 10,
-//                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // 사진
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.green[100],
-                                      ),
-                                      width: MediaQuery.of(context).size.width /
-                                          10 *
-                                          3,
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                              10 *
-                                              3,
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          child: close
-                                              ? Stack(children: <Widget>[
-                                                  Container(
-                                                    width: 250,
-                                                    height: 250,
-                                                    child: Image.network(
-                                                      _profileImageURL,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      width: 250,
-                                                      height: 250,
-                                                      child: Image.asset(
-                                                          'assets/sample/close2.png'))
-                                                ])
-                                              : Image.network(
-                                                  _profileImageURL,
-                                                  fit: BoxFit.fill,
-                                                ))),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width /
-                                        20 *
-                                        11,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        // 게시물 제목
-                                        Text(
-                                          document[fnName],
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        // 게시물 가격
-                                        Text(
-                                          document[fnPrice] + '원',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        // 게시물 내용 (3줄까지만)
-                                        Text(
-                                          document[fnDescription],
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12,
-                                          ),
-                                          maxLines: 3,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: listStyle(context, document)
                       );
                     }
                   }).toList(),

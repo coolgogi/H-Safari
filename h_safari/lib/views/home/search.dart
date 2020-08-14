@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/views/post/post.dart';
+import 'package:h_safari/widget/widget.dart';
+import 'package:provider/provider.dart';
 
 class Search extends StatefulWidget {
   Search({Key key}) : super(key: key);
@@ -18,8 +21,12 @@ class _SearchState extends State<Search> {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
+  final String fnClose = 'close';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  FirebaseProvider fp;
+  String currentEmail;
 
   Icon actionIcon = new Icon(
     Icons.search,
@@ -86,8 +93,8 @@ class _SearchState extends State<Search> {
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                         children:
 //                          _IsSearching ? _buildSearchList() :
-                        snapshot.data.documents
-                            .map((DocumentSnapshot document) {
+                            snapshot.data.documents
+                                .map((DocumentSnapshot document) {
                           String title = document[fnName];
                           String postDes = document[fnDescription];
                           Timestamp ts = document[fnDatetime];
@@ -109,54 +116,24 @@ class _SearchState extends State<Search> {
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom:
-                                        BorderSide(color: Colors.black12))),
+                                            BorderSide(color: Colors.black12))),
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 15),
+                                    const EdgeInsets.symmetric(vertical: 15),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     // 사진
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(6),
-                                          color: Colors.green[100],
-                                        ),
-                                        width:
-                                        MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width /
-                                            10 *
-                                            3,
-                                        height:
-                                        MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width /
-                                            10 *
-                                            3,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(6.0),
-                                          child: Image.network(
-                                            _profileImageURL,
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
+                                    listPhoto(context, document),
                                     SizedBox(
                                       width: 15,
                                     ),
                                     Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width /
+                                      width: MediaQuery.of(context).size.width /
                                           20 *
                                           11,
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           // 게시물 제목
                                           Text(
@@ -210,7 +187,9 @@ class _SearchState extends State<Search> {
 
 //  문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    fp = Provider.of<FirebaseProvider>(context);
+    currentEmail = fp.getUser().email.toString();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => currentEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
   Widget buildBar(BuildContext context) {
@@ -226,7 +205,7 @@ class _SearchState extends State<Search> {
         ),
         backgroundColor: Colors.white,
         title: Container(
-          height: 35,
+            height: 35,
             decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.all(Radius.circular(15))),

@@ -54,6 +54,7 @@ class _categoryViewState extends State<categoryView> {
 
   Widget categoryPostList(String email, String select) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('post')
@@ -77,77 +78,12 @@ class _categoryViewState extends State<categoryView> {
                   if (!(postCategory == select))
                     return Container();
                   else {
-                    return Card(
-                      elevation: 2,
-                      child: InkWell(
-                        // Read Document
-                        onTap: () {
-                          showReadPostPage(document);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // 사진
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green[200],
-                                  ),
-                                  width: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  height: MediaQuery.of(context).size.width /
-                                      10 *
-                                      3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      _profileImageURL,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 20 * 11,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 게시물 제목
-                                    Text(
-                                      document[fnName],
-                                      style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    // 게시물 가격
-                                    Text(
-                                      document[fnPrice] + '원',
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 12),
-                                    ),
-                                    // 게시물 내용 (3줄까지만)
-                                    Text(
-                                      document[fnDescription],
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    return InkWell(
+                      // Read Document
+                      onTap: () {
+                        showReadPostPage(document);
+                      },
+                      child: listStyle(context, document)
                     );
                   } //Card
                 }).toList(),
@@ -166,6 +102,6 @@ class _categoryViewState extends State<categoryView> {
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => email == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }
