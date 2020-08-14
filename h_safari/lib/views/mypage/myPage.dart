@@ -110,7 +110,7 @@ class _MyPageState extends State<MyPage> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('알림 설정'),
+                    Text('설정'),
                   ],
                 ),
                 onTap: () {

@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUp> {
   bool beauty = false; //'뷰티/잡화'
   bool house = false; //'양도'
   bool others = false; //'기타'
+  bool finished = false; //'마감'
   List<bool> category;
 
   var _color = Colors.black12;
@@ -399,6 +400,7 @@ class _SignUpState extends State<SignUp> {
       "뷰티잡화": beauty,
       "양도": house,
       "기타": others,
+      "마감": finished,
     };
 
     Firestore.instance

@@ -73,7 +73,7 @@ class _SignInState extends State<SignIn> {
                           child: Container(
                             width: 250,
                               height: 250,
-                              child: Image.asset('Logo/safarilogo.png.png'),
+                              child: Image.asset('Logo/h-safari_homeicon_shadow.png.png'),
                           )
                         ),
 

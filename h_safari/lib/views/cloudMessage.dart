@@ -9,6 +9,73 @@ import 'package:h_safari/models/firebase_provider.dart';
 
 FcmFirstDemoState pageState;
 
+class CloudMessage{
+  FirebaseProvider fp;
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+  // Firestore users fields
+  final String fName = "name";
+  final String fToken = "token";
+  final String fCreateTime = "createTime";
+  final String fPlatform = "platform";
+
+  Map<String, bool> _map = Map();
+
+
+  // Cloud Functions
+  final HttpsCallable sendFCM = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'sendFCM') // 호출할 Cloud Functions 의 함수명
+    ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
+
+  // token에 해당하는 디바이스로 FCM 전송
+  void sendSampleFCM(String token) async {
+    final HttpsCallableResult result = await sendFCM.call(
+      <String, dynamic>{
+        fToken: token,
+        "title": "Sample Title",
+        "body": "This is a Sample FCM"
+      },
+    );
+  }
+
+  // ken리스트에 해당하는 디바이스들로 FCM 전송
+  void sendSampleFCMtoSelectedDevice() async {
+    List<String> tokenList = List<String>();
+    _map.forEach((String key, bool value) {
+      if (value) {
+        tokenList.add(key);
+      }
+    });
+    if (tokenList.length == 0) return;
+    final HttpsCallableResult result = await sendFCM.call(
+      <String, dynamic>{
+        fToken: tokenList,
+        "title": "Sample Title",
+        "body": "This is a Sample FCM"
+      },
+    );
+  }
+
+  // koen에 해당하는 디바이스로 커스텀 FCM 전송
+  void sendCustomFCM(String token, String title, String body) async {
+    if (title.isEmpty || body.isEmpty) return;
+    final HttpsCallableResult result = await sendFCM.call(
+      <String, dynamic>{
+        fToken: token,
+        "title": title,
+        "body": body,
+      },
+    );
+  }
+
+  String timestampToStrDateTime(Timestamp ts) {
+    if (ts == null) return "";
+    return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
+        .toString();
+  }
+}
+
 class FcmFirstDemo extends StatefulWidget {
   @override
   FcmFirstDemoState createState() {

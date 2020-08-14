@@ -113,7 +113,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     for (int i = 0; i < 8; i++) {
       categoryBool[i] = doc[categoryString[i]];
     }
-//    wantToSeeFinished = doc[checkClose];
+    wantToSeeFinished = doc[checkClose];
     setState(() {});
   }
 
@@ -121,7 +121,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     userEmail = fp.getUser().email.toString();
-    bool _isSwitchedNum = true;
+//    bool _isSwitchedNum = true;
 
     return SafeArea(
       child: Scaffold(
@@ -238,10 +238,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     String postCategory = document[fnCategory];
                     bool close = document[fnClose];
 
-                    return InkWell(
+                    return (close && !wantToSeeFinished) ? Container()
+                        :
+                    InkWell(
                       // Read Document
                       onTap: () {
-                        showReadPostPage(document);
+                         showReadPostPage(document);
                       },
                       child: Container(
                         decoration: BoxDecoration(

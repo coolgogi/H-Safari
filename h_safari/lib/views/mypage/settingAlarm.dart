@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:h_safari/widget/widget.dart';
+import 'package:h_safari/models/firebase_provider.dart';
+
 
 class settingAlarm extends StatefulWidget {
   @override
@@ -7,11 +12,23 @@ class settingAlarm extends StatefulWidget {
 }
 
 class _settingAlarmState extends State<settingAlarm> {
+
+  FirebaseProvider fp;
   // _isSwitchedNum : 알림설정 스위치 별 bool 값을 가지고 있는 리스트
-  final List<bool> _isSwitchedNum = [true, true, true, true, true];
+  final List<bool> _isSwitchedNum = [true, true, true, true, true, false];
+
+
+
 
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
+    Firestore.instance.collection("users").document(fp.getUser().email).get().then((doc) {
+      _isSwitchedNum[5] = doc["마감"];
+      setState((){});
+    });
+
+
     return Scaffold(
       appBar: appBar(context, '알림설정'),
       body: Column(
@@ -21,6 +38,7 @@ class _settingAlarmState extends State<settingAlarm> {
           SetAlarm(context, '댓글알림', 2),
           SetAlarm(context, '물품마감알림', 3),
           SetAlarm(context, '구매신청알림', 4),
+          SetAlarm(context, '마감된 글 보기', 5),
         ],
       ),
     );
@@ -51,6 +69,11 @@ class _settingAlarmState extends State<settingAlarm> {
             onChanged: (value) {
               setState(() {
                 _isSwitchedNum[num] = value;
+
+
+              });
+              Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                "마감" : _isSwitchedNum[5],
               });
             },
 
