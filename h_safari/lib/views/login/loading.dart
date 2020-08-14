@@ -46,7 +46,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
                 scale: _animation,
                 alignment: Alignment.center,
                 child: Image.asset(
-                  'Logo/loading page-shadow.png.png',
+                  'Logo/loadingPage-shadow.png.png',
                   fit: BoxFit.fitWidth,
                 ),
               )
