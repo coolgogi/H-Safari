@@ -54,6 +54,7 @@ class _categoryViewState extends State<categoryView> {
 
   Widget categoryPostList(String email, String select) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('post')
@@ -77,15 +78,12 @@ class _categoryViewState extends State<categoryView> {
                   if (!(postCategory == select))
                     return Container();
                   else {
-                    return Card(
-                      elevation: 2,
-                      child: InkWell(
-                        // Read Document
-                        onTap: () {
-                          showReadPostPage(document);
-                        },
-                        child: listStyle(context, document)
-                      ),
+                    return InkWell(
+                      // Read Document
+                      onTap: () {
+                        showReadPostPage(document);
+                      },
+                      child: listStyle(context, document)
                     );
                   } //Card
                 }).toList(),
@@ -104,6 +102,6 @@ class _categoryViewState extends State<categoryView> {
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => email == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }

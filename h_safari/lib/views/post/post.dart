@@ -3,20 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/views/post/postUpdateDelete.dart';
+import 'package:h_safari/views/post/waiting.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Post extends StatefulWidget {
-  DocumentSnapshot tp;
+  DocumentSnapshot doc;
+  bool isMine;
 
-  Post(DocumentSnapshot doc) {
-    tp = doc;
+  Post(DocumentSnapshot document, bool me) {
+    doc = document;
+    isMine = me;
   }
 
   @override
-  _PostState createState() => _PostState(tp);
+  _PostState createState() => _PostState(doc);
 }
 
 class _PostState extends State<Post> {
@@ -36,10 +40,9 @@ class _PostState extends State<Post> {
   String fnHow;
   String fnEmail;
   String userList;
-  List<dynamic> fnUserList;
+  List<dynamic> fnCommentUserList;
   String fnId;
   bool fnClose;
-
   String currentEmail;
 
   _PostState(DocumentSnapshot doc) {
@@ -55,7 +58,7 @@ class _PostState extends State<Post> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnId = doc.documentID;
-    fnUserList = doc['commentUserList'];
+    fnCommentUserList = doc['commentUserList'];
     fnClose = doc['close'];
   }
 
@@ -72,12 +75,11 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.tp.documentID).then((val) {
+    DatabaseMethods().getComments(widget.doc.documentID).then((val) {
       setState(() {
         comments = val;
       });
     });
-
     super.initState();
   }
 
@@ -95,8 +97,8 @@ class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    getHow();
     currentEmail = fp.getUser().email.toString();
+    getHow();
     return GestureDetector(
       onTap: () {
         isRecomment = false;
@@ -120,6 +122,39 @@ class _PostState extends State<Post> {
                         style: TextStyle(color: Colors.black),
                       ),
                       floating: true,
+                      actions: widget.isMine ? (fnClose
+                          ? null
+                          : <Widget>[
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.assignment,
+                                color: Colors.green,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Waiting(fnId, fnName)));
+                              },
+                            ),
+                            IconButton(
+                              icon:
+                              Icon(Icons.border_color, color: Colors.green),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            postUpdateDelete(widget.doc)));
+                              },
+                            ),
+                          ],
+                        )
+                      ]):
+                        null,
                     ),
                   ];
                 },
@@ -214,14 +249,13 @@ class _PostState extends State<Post> {
                                                             'assets/sample/LOGO.jpg',
                                                             fit: BoxFit.fill,
                                                           ));
-
                                           },
                                         );
                                       }).toList(),
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: map<Widget>(fnImageList,
                                           (index, url) {
                                         return Container(
@@ -237,7 +271,6 @@ class _PostState extends State<Post> {
                                           ),
                                         );
                                       }),
-
                                     ),
                                   ],
                                 ),
@@ -247,7 +280,8 @@ class _PostState extends State<Post> {
                               ),
                               //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '가격 : $fnPrice원',
@@ -260,7 +294,7 @@ class _PostState extends State<Post> {
                                     child: FlatButton(
                                       shape: OutlineInputBorder(),
                                       child: Text(
-                                        fnClose ? '마감' : '구매신청',
+                                        fnClose ? '마감' : (widget.isMine ? '거래마감' :'구매신청'),
                                         style: TextStyle(
                                             color: fnClose
                                                 ? Colors.red
@@ -269,7 +303,7 @@ class _PostState extends State<Post> {
                                       onPressed: () {
                                         fnClose
                                             ? null
-                                            : purchaseApplication(context);
+                                            : (widget.isMine? Close(context): purchaseApplication(context));
                                       },
                                     ),
                                   ),
@@ -312,7 +346,7 @@ class _PostState extends State<Post> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -378,14 +412,14 @@ class _PostState extends State<Post> {
               children: <Widget>[
                 isRecomment
                     ? Container(
-                  child: Text(
-                    '대댓글 작성중..',
-                  ),
-                  alignment: Alignment.centerLeft,
-                  height: 25,
-                  padding: EdgeInsets.only(left: 20),
-                  color: Colors.green[50],
-                )
+                        child: Text(
+                          '대댓글 작성중..',
+                        ),
+                        alignment: Alignment.centerLeft,
+                        height: 25,
+                        padding: EdgeInsets.only(left: 20),
+                        color: Colors.green[50],
+                      )
                     : Container(),
                 Container(
                   alignment: Alignment.bottomCenter,
@@ -405,7 +439,7 @@ class _PostState extends State<Post> {
                             filled: true,
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 13),
+                                TextStyle(color: Colors.grey, fontSize: 13),
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green)),
@@ -456,7 +490,7 @@ class _PostState extends State<Post> {
   }
 
   void purchaseApplication(BuildContext context) async {
-    String result = await showDialog(
+    await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -486,7 +520,7 @@ class _PostState extends State<Post> {
                     "time": new DateFormat('yyyy-MM-dd')
                         .add_Hms()
                         .format(DateTime.now()),
-                    "postID": widget.tp.documentID,
+                    "postID": widget.doc.documentID,
                     "unread": true,
                   };
                   Map<String, dynamic> userList = {
@@ -494,12 +528,13 @@ class _PostState extends State<Post> {
                     "time": new DateFormat('yyyy-MM-dd')
                         .add_Hms()
                         .format(DateTime.now()),
-                    "postID": widget.tp.documentID,
+                    "postID": widget.doc.documentID,
                   };
                   // post에 저장
                   DatabaseMethods()
                       .sendNotification(fnEmail, purchaseApplication);
-                  DatabaseMethods().addWant(currentEmail, widget.tp.documentID, userList);
+                  DatabaseMethods()
+                      .addWant(currentEmail, widget.doc.documentID, userList);
                   Navigator.pop(context, '확인');
                   Buy(context);
                   
@@ -509,6 +544,71 @@ class _PostState extends State<Post> {
           );
         });
   }
+
+  void Close(BuildContext context) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('판매 글을 마감하시겠습니까?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '취소',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '취소');
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  DatabaseMethods().closePost(widget.doc.documentID);
+                  Navigator.pop(context, '취소');
+                  fnClose = true;
+                  setState(() {});
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void CloseDialog(BuildContext context) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('마감하였습니다.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+
 
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
@@ -524,25 +624,29 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.tp.documentID,
+        "postID": widget.doc.documentID,
         "unread": true,
       };
-      DatabaseMethods().addComment(widget.tp.documentID, commentMap);
-      DatabaseMethods().sendNotification(fnEmail, commentNotification);
+      if (fnCommentUserList.contains(fp.getUser().email)) {
+      } else {
+        fnCommentUserList.add(fp.getUser().email);
+        Firestore.instance
+            .collection('post')
+            .document(widget.doc.documentID)
+            .updateData({
+          "commentUserList": fnCommentUserList,
+        });
+      }
+      DatabaseMethods().addComment(widget.doc.documentID, commentMap);
+      for (int i = 0; i < fnCommentUserList.length; i++) {
+        if (fnCommentUserList[i] != fp.getUser().email) {
+          DatabaseMethods()
+              .sendNotification(fnCommentUserList[i], commentNotification);
+        }
+      }
       setState(() {
         commentEditingController.text = "";
       });
-      if(fnUserList.contains(fp.getUser().email)){
-      }else {
-        fnUserList.add(fp
-            .getUser()
-            .email);
-        Firestore.instance.collection('post')
-            .document(widget.tp.documentID)
-            .updateData({
-          "commentUserList": fnUserList,
-        });
-      }
     }
   }
 
@@ -560,12 +664,28 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.tp.documentID,
+        "postID": widget.doc.documentID,
         "unread": true,
       };
+      if (fnCommentUserList.contains(fp.getUser().email)) {
+      } else {
+        fnCommentUserList.add(fp.getUser().email);
+        Firestore.instance
+            .collection('post')
+            .document(widget.doc.documentID)
+            .updateData({
+          "commentUserList": fnCommentUserList,
+        });
+      }
       DatabaseMethods()
-          .addReComment(widget.tp.documentID, redocId, recommentMap);
-      DatabaseMethods().sendNotification(fnEmail, recommentNotification);
+          .addReComment(widget.doc.documentID, redocId, recommentMap);
+      DatabaseMethods().addComment(widget.doc.documentID, recommentMap);
+      for (int i = 0; i < fnCommentUserList.length; i++) {
+        if (fnCommentUserList[i] != fp.getUser().email) {
+          DatabaseMethods()
+              .sendNotification(fnCommentUserList[i], recommentNotification);
+        }
+      }
       setState(() {
         commentEditingController.text = "";
       });
@@ -593,7 +713,7 @@ class _PostState extends State<Post> {
                         StreamBuilder(
                           stream: Firestore.instance
                               .collection("post")
-                              .document(widget.tp.documentID)
+                              .document(widget.doc.documentID)
                               .collection("comments")
                               .document(document.documentID)
                               .collection("recomments")
@@ -639,11 +759,11 @@ class _PostState extends State<Post> {
     if (name == fnEmail)
       return Text('글쓴이',
           style:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
+              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
     else if (name == currentEmail)
       return Text('나',
           style:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
+              TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
     else
       return Text('익명',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black));
@@ -667,18 +787,18 @@ class _PostState extends State<Post> {
               text(name),
               name == currentEmail
                   ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
-                child: InkWell(
-                  child: Icon(
-                    Icons.delete_outline,
-                    size: 16,
-                    color: Colors.black45,
-                  ),
-                  onTap: () {
-                    deleteComment(documentID);
-                  },
-                ),
-              )
+                      padding: const EdgeInsets.fromLTRB(0, 3, 25, 0),
+                      child: InkWell(
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 16,
+                          color: Colors.black45,
+                        ),
+                        onTap: () {
+                          deleteComment(documentID);
+                        },
+                      ),
+                    )
                   : Container()
             ],
           ),
@@ -797,7 +917,7 @@ class _PostState extends State<Post> {
                   ),
                   onPressed: () {
                     DatabaseMethods()
-                        .deleteComment(widget.tp.documentID, codocId);
+                        .deleteComment(widget.doc.documentID, codocId);
                     Navigator.pop(context);
                   },
                 )
@@ -832,7 +952,7 @@ class _PostState extends State<Post> {
                   ),
                   onPressed: () {
                     DatabaseMethods().deleteReComment(
-                        widget.tp.documentID, codocId, recodocId);
+                        widget.doc.documentID, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )
@@ -866,7 +986,7 @@ class _PostState extends State<Post> {
   }
 
   void Buy(BuildContext context) async {
-    String result = await showDialog(
+    await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {

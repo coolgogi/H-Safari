@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
+import 'package:provider/provider.dart';
 
 class Search extends StatefulWidget {
   Search({Key key}) : super(key: key);
@@ -22,6 +24,9 @@ class _SearchState extends State<Search> {
   final String fnClose = 'close';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  FirebaseProvider fp;
+  String currentEmail;
 
   Icon actionIcon = new Icon(
     Icons.search,
@@ -182,7 +187,9 @@ class _SearchState extends State<Search> {
 
 //  문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Post(doc)));
+    fp = Provider.of<FirebaseProvider>(context);
+    currentEmail = fp.getUser().email.toString();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => currentEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
   Widget buildBar(BuildContext context) {
