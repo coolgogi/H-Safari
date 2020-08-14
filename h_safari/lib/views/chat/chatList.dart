@@ -54,7 +54,7 @@ class _ChatListState extends State<ChatList> {
                 itemBuilder: (context, index) {
                     return ChatRoomsTile(
                       context,
-                      snapshot.data.documencts[index].data['users'],
+                      snapshot.data.documents[index].data['users'],
                       snapshot.data.documents[index].data["chatRoomName"],
                       snapshot.data.documents[index].data['lastMessage'],
                       snapshot.data.documents[index].data['lastDate']
