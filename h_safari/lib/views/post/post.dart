@@ -36,10 +36,9 @@ class _PostState extends State<Post> {
   String fnHow;
   String fnEmail;
   String userList;
-  List<dynamic> fnUserList;
+  List<dynamic> fnCommentUserList;
   String fnId;
   bool fnClose;
-
   String currentEmail;
 
   _PostState(DocumentSnapshot doc) {
@@ -55,7 +54,7 @@ class _PostState extends State<Post> {
     fnHow = doc['how'];
     fnEmail = doc['email'];
     fnId = doc.documentID;
-    fnUserList = doc['commentUserList'];
+    fnCommentUserList = doc['commentUserList'];
     fnClose = doc['close'];
   }
 
@@ -77,7 +76,6 @@ class _PostState extends State<Post> {
         comments = val;
       });
     });
-
     super.initState();
   }
 
@@ -526,22 +524,26 @@ class _PostState extends State<Post> {
         "postID": widget.tp.documentID,
         "unread": true,
       };
-      DatabaseMethods().addComment(widget.tp.documentID, commentMap);
-      DatabaseMethods().sendNotification(fnEmail, commentNotification);
-      setState(() {
-        commentEditingController.text = "";
-      });
-      if(fnUserList.contains(fp.getUser().email)){
+      if(fnCommentUserList.contains(fp.getUser().email)){
       }else {
-        fnUserList.add(fp
+        fnCommentUserList.add(fp
             .getUser()
             .email);
         Firestore.instance.collection('post')
             .document(widget.tp.documentID)
             .updateData({
-          "commentUserList": fnUserList,
+          "commentUserList": fnCommentUserList,
         });
       }
+      DatabaseMethods().addComment(widget.tp.documentID, commentMap);
+      for(int i=0; i<fnCommentUserList.length; i++){
+        if(fnCommentUserList[i]!=fp.getUser().email){
+          DatabaseMethods().sendNotification(fnCommentUserList[i], commentNotification);
+        }
+      }
+      setState(() {
+        commentEditingController.text = "";
+      });
     }
   }
 
@@ -562,10 +564,25 @@ class _PostState extends State<Post> {
         "postID": widget.tp.documentID,
         "unread": true,
       };
+      if(fnCommentUserList.contains(fp.getUser().email)){
+      }else {
+        fnCommentUserList.add(fp
+            .getUser()
+            .email);
+        Firestore.instance.collection('post')
+            .document(widget.tp.documentID)
+            .updateData({
+          "commentUserList": fnCommentUserList,
+        });
+      }
       DatabaseMethods()
           .addReComment(widget.tp.documentID, redocId, recommentMap);
-      DatabaseMethods().sendNotification(fnEmail, recommentNotification);
-      setState(() {
+      DatabaseMethods().addComment(widget.tp.documentID, recommentMap);
+      for(int i=0; i<fnCommentUserList.length; i++){
+        if(fnCommentUserList[i]!=fp.getUser().email){
+          DatabaseMethods().sendNotification(fnCommentUserList[i], recommentNotification);
+        }
+      }      setState(() {
         commentEditingController.text = "";
       });
     }

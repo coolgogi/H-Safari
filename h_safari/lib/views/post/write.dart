@@ -538,7 +538,6 @@ class _MyWriteState extends State<MyWrite> {
       fnUid: user.uid.toString(),
       fnEmail: user.email,
       fnList: tp,
-      fnDoing: false,
       fnClose: false,
     });
     Navigator.pop(context);
