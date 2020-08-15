@@ -233,7 +233,8 @@ class _PostState extends State<Post> {
                                                                 height: 250,
                                                                 child:
                                                                     Image.asset(
-                                                                  'assets/sample/safarilogo.png',
+//                                                                  'assets/sample/safarilogo.png',
+                                                                  'Logo/empty_Rabbit_green1_gloss.png.png',
                                                                   fit: BoxFit
                                                                       .fill,
                                                                 ),
@@ -250,7 +251,7 @@ class _PostState extends State<Post> {
                                                             ],
                                                           )
                                                         : Image.asset(
-                                                            'assets/sample/LOGO.jpg',
+                                                            'Logo/empty_Rabbit_green1_gloss.png.png',
                                                             fit: BoxFit.fill,
                                                           ));
                                           },
@@ -651,9 +652,9 @@ class _PostState extends State<Post> {
       DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
-          DatabaseMethods()
-              .sendNotification(fnCommentUserList[i], commentNotification);
+          DatabaseMethods().sendNotification(fnCommentUserList[i], commentNotification);
           DatabaseMethods().updateUnreadNotification(fnCommentUserList[i], true);
+
         }
       }
       setState(() {

@@ -71,7 +71,7 @@ class _MyPageState extends State<MyPage> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => myPost()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => myPost(currentUser.email)));
                         },
                         child: Container(
                           height: 60,

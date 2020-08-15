@@ -401,6 +401,7 @@ class _SignUpState extends State<SignUp> {
       "양도": house,
       "기타": others,
       "마감": finished,
+      "unreadNotification" : false,
     };
 
     Firestore.instance

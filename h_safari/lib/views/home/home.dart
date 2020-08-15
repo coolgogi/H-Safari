@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/post/post.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+
+import 'package:h_safari/views/post/post.dart';
+import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
+
 import 'alarm.dart';
 
 class Home extends StatefulWidget {
@@ -127,7 +130,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       child: Scaffold(
           key: _scaffoldKey,
           resizeToAvoidBottomPadding: false,
-          //appBar: MyAppBar(),
+//          appBar: MyAppBar(),
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -149,9 +152,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         size: 25,
                       ),
                       onPressed: () {
+                        DatabaseMethods().updateUnreadNotification(email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
-                        DatabaseMethods().updateUnreadNotification(email, false);
                       },
                     ),
                     SizedBox(
@@ -233,10 +236,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return ListView(
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
-                    Timestamp ts = document[fnDatetime];
-                    String dt = timestampToStrDateTime(ts);
-                    String _profileImageURL = document[fnImageUrl];
-                    String postCategory = document[fnCategory];
+
                     bool close = document[fnClose];
 
                     return (close && !wantToSeeFinished)
@@ -277,11 +277,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return ListView(
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
-                    Timestamp ts = document[fnDatetime];
+
                     bool close = document[fnClose];
-//                    String dt = timestampToStrDateTime(ts);
-//                    String _profileImageURL = document[fnImageUrl];
-//                    String postCategory = document[fnCategory];
 
                     if (document[fnCategory] == "의류")
                       tempInt = 0;
