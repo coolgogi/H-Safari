@@ -155,6 +155,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         DatabaseMethods().updateUnreadNotification(email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
+                        setState((){
+                          getUserData(email);
+                        });
                       },
                     ),
                     SizedBox(
@@ -192,7 +195,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      myPostList(userEmail, userDoc), //마이 카테고리
+                      myPostList(userEmail), //마이 카테고리
                     ],
                   ),
                 ),
@@ -212,11 +215,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
-  String timestampToStrDateTime(Timestamp ts) {
-    return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
-        .toString();
-  }
-
+  //전체 게시글 - 마감글
   Widget allPostList(String email) {
     return Expanded(
       child: Container(
@@ -257,7 +256,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   } //postList
 
-  Widget myPostList(String email, DocumentSnapshot userDoc) {
+  //선호 카테고리 글 - 마감글
+  Widget myPostList(String email) {
     int tempInt = 0;
     return Expanded(
       child: Container(
