@@ -197,7 +197,7 @@ class _MyWriteState extends State<MyWrite> {
                                                     Axis.horizontal,
                                                 child: Flexible(
                                                   child: Container(
-                                                    height: 130,
+                                                    height: 150,
                                                     width: (picLength != 0)
                                                         ? (picWidth + 130) *
                                                             pictures.length
@@ -214,7 +214,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     decoration: BoxDecoration(
                                                                         image: DecorationImage(
                                                                           image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                                      //fit: BoxFit.cover
+                                                                      fit: BoxFit.cover
                                                                     )),
                                                                   ),
                                                                   Align(
