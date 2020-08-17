@@ -8,6 +8,8 @@ CRA vacation project 2020-summer
 
 > 19학번 김연희
 
+> 16학번 최예희
+
 > 15학번 박수현
 
 ## 완성된 기능
@@ -46,9 +48,11 @@ CRA vacation project 2020-summer
 ### write.dart
 > 게시글 등록 버튼을 누르면 작성한 게시물로 이동하는 기능 구현 필요. @@ -예진
 
-> write에서 등록하고 home으로 가기 - (구현중) 연희
+> write에서 등록하고 home으로 가기 - 연희
 
-> 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
+> 다른 page로 이동시, 초기화(category, 거래 방식) - 연희
+
+> 사진 업로드 완련 오류 해결 - 수현
 
 ### myPage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
@@ -94,11 +98,12 @@ CRA vacation project 2020-summer
 ### ???
 > 거래 완료 시, home에서 워터마크처럼 표시해주기 - 광일
 
-> Post(write)에서 워터파크처럼 표시해주기
+> Post(write)에서 워터파크처럼 표시해주기 - 광일
 
-> Post(write)에서 상단 버튼(리스트보기, 수정하기) disable
+> Post(write)에서 상단 버튼(리스트보기, 수정하기) disable - 예진
 
 > 로딩화면 -연희
+
 
 ### myPost.dart
 > 게시글 리스트 넣기 - 수현
@@ -109,6 +114,12 @@ CRA vacation project 2020-summer
 
 ## 구현 중이거나 구현 예정인 기능
 
+### category.dart
+> Icon 변경 예정 - (그리는 중) 예희
+
+### favoriteCategory.dart
+> Icon 변경 예정 - (그리는 중) 예희
+
 ### myPage.dart
 > 탈퇴기능
 
@@ -116,12 +127,12 @@ CRA vacation project 2020-summer
 > 이용약관 내용 삽입 필요 - ???
 
 ### write.dart
-> 사진 업로드 완련 오류 해결 - (해결중) 수현
-
 > 대표 이미지 수정 - (구현중) 연희
 
 ### settingAlarm.dart
 > UI 수정 - (구현중) 광일
 
 ### alarm.dart
-> 삭제된 게시글의 알림 처리 - (구현중) 
+> 삭제된 게시글의 알림 처리 - (구현중) 예진
+
+
