@@ -213,7 +213,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     decoration: BoxDecoration(
                                                                         image: DecorationImage(
                                                                           image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                                      //fit: BoxFit.cover
+//                                                                      fit: BoxFit.cover
                                                                     )),
                                                                   ),
                                                                   Align(
