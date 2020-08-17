@@ -154,12 +154,38 @@ class _AlarmState extends State<Alarm> {
         .document(documentID)
         .get()
         .then((doc) {
-      showReadPostPage(doc, documentID, type);
+          if(!doc.exists){
+            warning(context);
+          }
+      else
+        showReadPostPage(doc, documentID, type);
     });
   }
 
   void showReadPostPage(DocumentSnapshot doc, String documentID, String type) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => type != '거래수락' ? Post(doc, true) : Post(doc, false)));
+  }
+
+  void warning(BuildContext context)async{
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('삭제된 게시글입니다!'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '확인');
+                },
+              )
+            ],
+          );
+        });
   }
 }

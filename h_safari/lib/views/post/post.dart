@@ -178,15 +178,10 @@ class _PostState extends State<Post> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     CarouselSlider(
-                                      height: 250,
                                       initialPage: 0,
+                                      viewportFraction: 1.0,
                                       enlargeCenterPage: true,
-                                      autoPlay: false,
-                                      reverse: false,
                                       enableInfiniteScroll: false,
-//                                autoPlayInterval: Duration(seconds: 2),
-//                                autoPlayAnimationDuration: Duration(milliseconds: 1000),
-//                                pauseAutoPlayOnTouch: Duration(seconds: 2),
                                       scrollDirection: Axis.horizontal,
                                       onPageChanged: (index) {
                                         setState(() {
@@ -197,68 +192,43 @@ class _PostState extends State<Post> {
                                         return Builder(
                                           builder: (BuildContext context) {
                                             return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 10.0),
-                                                child: imgUrl != ''
-                                                    ? fnClose
-                                                        ? Stack(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                  width: 250,
-                                                                  height: 250,
-                                                                  child: Image
+                                                child: fnClose
+                                                    ? Stack(
+                                                        children: <Widget>[
+                                                          Container(
+                                                              child: imgUrl !=
+                                                                      ''
+                                                                  ? Image
                                                                       .network(
-                                                                    imgUrl,
-                                                                    fit: BoxFit.fill,
-                                                                  )),
-                                                              Container(
-                                                                  width: 250,
-                                                                  height: 250,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    'assets/sample/close2.png',
-                                                                    fit: BoxFit
-                                                                        .fill,
-                                                                  )),
-                                                            ],
-                                                          )
-                                                        : Container(
-                                                            width: 250,
-                                                            height: 250,
-                                                            child:
-                                                                Image.network(
-                                                              imgUrl,
-//                                                              fit: BoxFit.fill,
-                                                            ))
-                                                    : fnClose
-                                                        ? Stack(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                width: 250,
-                                                                height: 250,
-                                                                child:
-                                                                    Image.asset(
-//                                                                  'assets/sample/safarilogo.png',
-                                                                  'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                  width: 250,
-                                                                  height: 250,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    'assets/sample/close2.png',
-                                                                    fit: BoxFit
-                                                                        .fill,
-                                                                  )),
-                                                            ],
-                                                          )
-                                                        : Image.asset(
-                                                            'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                      imgUrl,
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    )
+                                                                  : Image.asset(
+                                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    )),
+                                                          Container(
+                                                              child:
+                                                                  Image.asset(
+                                                            'assets/sample/close2.png',
                                                             fit: BoxFit.fill,
-                                                          ));
+                                                          )),
+                                                        ],
+                                                      )
+                                                    : Container(
+                                                        child: imgUrl != ''
+                                                            ? Image.network(
+                                                                imgUrl,
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              )
+                                                            : Image.asset(
+                                                                'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              )));
                                           },
                                         );
                                       }).toList(),
@@ -269,15 +239,15 @@ class _PostState extends State<Post> {
                                       children: map<Widget>(fnImageList,
                                           (index, url) {
                                         return Container(
-                                          width: 15.0,
-                                          height: 15.0,
+                                          width: 10.0,
+                                          height: 10.0,
                                           margin: EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 2.0),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: _current == index
-                                                ? Colors.redAccent
-                                                : Colors.green,
+                                                ? Colors.green
+                                                : Colors.black26,
                                           ),
                                         );
                                       }),
@@ -422,67 +392,73 @@ class _PostState extends State<Post> {
                 ),
               ),
             ),
-            Column(
-              children: <Widget>[
-                isRecomment
-                    ? Container(
-                        child: Text(
-                          '대댓글 작성중..',
-                        ),
-                        alignment: Alignment.centerLeft,
-                        height: 25,
-                        padding: EdgeInsets.only(left: 20),
-                        color: Colors.green[50],
-                      )
-                    : Container(),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            fnClose
+                ? Container()
+                : Column(
                     children: <Widget>[
-                      Flexible(
-                        child: TextFormField(
-                          focusNode: _recommentFocusnode,
-                          controller: commentEditingController,
-                          decoration: InputDecoration(
-                            hintText: '댓글 달기',
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                            contentPadding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
+                      isRecomment
+                          ? Container(
+                              child: Text(
+                                '대댓글 작성중..',
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: 25,
+                              padding: EdgeInsets.only(left: 20),
+                              color: Colors.green[50],
+                            )
+                          : Container(),
                       Container(
-                        width: 60,
-                        child: FlatButton(
-                          shape: OutlineInputBorder(),
-                          child: Text(
-                            '등록', //아이콘으로 바꾸기
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          onPressed: () {
-                            isRecomment ? addReComment(redocId) : addComment();
-                            isRecomment = false;
-                            FocusManager.instance.primaryFocus.unfocus();
-                          },
+                        alignment: Alignment.bottomCenter,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.075,
+                        padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Flexible(
+                              child: TextFormField(
+                                focusNode: _recommentFocusnode,
+                                controller: commentEditingController,
+                                decoration: InputDecoration(
+                                  hintText: '댓글 달기',
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey, fontSize: 13),
+                                  border: OutlineInputBorder(),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.green)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Container(
+                              width: 60,
+                              child: FlatButton(
+                                shape: OutlineInputBorder(),
+                                child: Text(
+                                  '등록', //아이콘으로 바꾸기
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                                onPressed: () {
+                                  isRecomment
+                                      ? addReComment(redocId)
+                                      : addComment();
+                                  isRecomment = false;
+                                  FocusManager.instance.primaryFocus.unfocus();
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

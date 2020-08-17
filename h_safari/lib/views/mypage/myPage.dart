@@ -56,7 +56,7 @@ class _MyPageState extends State<MyPage> {
             Expanded(
               child: Container(
                 height: 60,
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.rectangle,
