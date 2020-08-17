@@ -170,6 +170,5 @@ class _myPostState extends State<myPost> {
             builder: (context) =>
             userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
-
 }
 
