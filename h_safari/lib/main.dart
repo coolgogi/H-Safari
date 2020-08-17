@@ -28,7 +28,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+          theme: ThemeData(
+              scaffoldBackgroundColor: Colors.white,
+            cursorColor: Colors.green,
+          ),
           home: Loading()
       ),
     );
