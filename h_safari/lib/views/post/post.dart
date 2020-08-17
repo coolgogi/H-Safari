@@ -229,7 +229,7 @@ class _PostState extends State<Post> {
                                                             child:
                                                                 Image.network(
                                                               imgUrl,
-                                                              fit: BoxFit.fill,
+//                                                              fit: BoxFit.fill,
                                                             ))
                                                     : fnClose
                                                         ? Stack(
