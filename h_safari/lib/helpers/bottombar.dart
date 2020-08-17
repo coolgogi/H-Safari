@@ -4,9 +4,7 @@ import 'package:h_safari/views/home/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
 import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:provider/provider.dart';
 
 int copyIndex = 0; //게시글 작성하고 초기화 시킬 때 사용할 인덱스 복사값
 
@@ -72,7 +70,7 @@ class _BottomBarState extends State<BottomBar> {
                     title: Text('Category'),
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.add_box),
+                    icon: Icon(Icons.add_circle_outline),
                     title: Text('Write'),
                 ),
                 BottomNavigationBarItem(
