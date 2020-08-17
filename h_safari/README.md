@@ -12,4 +12,6 @@ CRA vacation project 2020-summer
 
 > 19학번 김연희
 
+> 16학번 최예희
+
 > 15학번 박수현
