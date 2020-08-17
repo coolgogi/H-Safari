@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:h_safari/widget/widget.dart';
+import 'package:h_safari/views/post/post.dart';
 
 class myWanna extends StatefulWidget {
 
 
+  String userEmail;
   myWanna(String tp){
     userEmail = tp;
   }
 
   @override
-  _myWannaState createState() => _myWannaState();
+  _myWannaState createState() => _myWannaState(userEmail);
 }
 
 class _myWannaState extends State<myWanna> {
@@ -21,6 +26,7 @@ class _myWannaState extends State<myWanna> {
   String colName = "post";
   String fnClose = "close";
   String fnEmail = "email";
+  String fnWaitingList = "waitingUserList";
 
   _myWannaState(String email){
     userEmail = email;
@@ -36,7 +42,7 @@ class _myWannaState extends State<myWanna> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: myPostAppBar(context, '내가 쓴 게시글', '판매중', '마감'),
+        appBar: myPostAppBar(context, '거래신청한 게시글', '판매중', '마감'),
         body: TabBarView(
           children: <Widget>[
             Padding(
@@ -85,7 +91,7 @@ class _myWannaState extends State<myWanna> {
 
                     if(close){
                       return Container();
-                    }else if(document[fnEmail] == userEmail){
+                    }else if(document[fnWaitingList].contains(userEmail)){
                       return InkWell(
                         // Read Document
                         onTap: () {
@@ -129,7 +135,7 @@ class _myWannaState extends State<myWanna> {
 
                     if (!close) {
                       return Container();
-                    } else if(document[fnEmail] == userEmail) {
+                    }else if(document[fnWaitingList].contains(userEmail)){
                       return InkWell(
                         // Read Document
                           onTap: () {
@@ -151,11 +157,10 @@ class _myWannaState extends State<myWanna> {
 
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
-//    _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => Post(doc, false)));
+//            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }

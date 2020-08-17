@@ -34,13 +34,6 @@ class _myPostState extends State<myPost> {
   @override
   void initState() {
     super.initState();
-    Firestore.instance
-        .collection("users")
-        .document(userEmail)
-        .get()
-        .then((doc) {
-      userDoc = doc;
-    });
   }
 
   @override
@@ -64,7 +57,7 @@ class _myPostState extends State<myPost> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyClosedPostList(userEmail, userDoc), //마이 카테고리
+                  allMyClosedPostList(userEmail), //마이 카테고리
                 ],
               ),
             ),
@@ -117,7 +110,7 @@ class _myPostState extends State<myPost> {
     );
   } //postList
 
-  Widget allMyClosedPostList(String email, DocumentSnapshot userDoc) {
+  Widget allMyClosedPostList(String email) {
     int tempInt = 0;
     return Expanded(
       child: Container(
@@ -163,12 +156,11 @@ class _myPostState extends State<myPost> {
 
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
-//    _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => Post(doc, true)));
+//            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }
 

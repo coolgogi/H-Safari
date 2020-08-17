@@ -172,7 +172,7 @@ class AuthPageState extends State<AuthPage> {
     );
   }
 
-  // ken리스트에 해당하는 디바이스들로 FCM 전송
+  // token리스트에 해당하는 디바이스들로 FCM 전송
   void sendSampleFCMtoSelectedDevice() async {
     List<String> tokenList = List<String>();
     _map.forEach((String key, bool value) {
@@ -190,7 +190,7 @@ class AuthPageState extends State<AuthPage> {
     );
   }
 
-  // koen에 해당하는 디바이스로 커스텀 FCM 전송
+  // token에 해당하는 디바이스로 커스텀 FCM 전송
   void sendCustomFCM(String token, String title, String body) async {
     if (title.isEmpty || body.isEmpty) return;
     final HttpsCallableResult result = await sendFCM.call(

@@ -256,9 +256,23 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                       _profileImageURL,
                       fit: BoxFit.fill,
                     ))
-          : Stack(
-              children: <Widget>[
-                Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
-              ],
-            ));
+          : ClipRRect(
+                borderRadius: BorderRadius.circular(6.0),
+                child: document[fnClose]
+                    ? Stack(children: <Widget>[
+                        Container(
+                          width: 250,
+                          height: 250,
+                          child: Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
+                        ),
+                        Container(
+                          width: 250,
+                          height: 250,
+                          child: Image.asset('assets/sample/close2.png')
+                        )
+                      ])
+                    : Image.asset(
+                    'Logo/empty_Rabbit_green1_gloss.png.png'
+                    ))
+  );
 }

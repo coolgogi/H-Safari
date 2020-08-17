@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/views/mypage/asking.dart';
-import 'package:h_safari/views/mypage/favoriteCategory.dart';
+
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/cloudMessage.dart';
+
+import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
+import 'package:h_safari/views/mypage/asking.dart';
+import 'package:h_safari/views/mypage/favoriteCategory.dart';
+import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:h_safari/views/mypage/privacyPolicy.dart';
 
 class MyPage extends StatefulWidget {
@@ -40,7 +44,7 @@ class _MyPageState extends State<MyPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Student Number',
+                  Text('환영합니다!',
                       style: TextStyle(fontSize: 12, color: Colors.black54)),
                   Text(
                     '$currentId님',
@@ -73,8 +77,7 @@ class _MyPageState extends State<MyPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      myPost(currentUser.email)));
+                                  builder: (context) => myPost(currentUser.email)));
                         },
                         child: Container(
                           height: 60,
@@ -99,7 +102,7 @@ class _MyPageState extends State<MyPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => myWanna()));
+                                  builder: (context) => myWanna(currentUser.email)));
                         },
                         child: Container(
                           height: 60,
@@ -139,19 +142,42 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.build),
               title: Text('비밀번호 재설정'),
               onTap: () {
-                fp.sendPasswordResetEmail();
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text("Please check your email"),
+                      title: Text("비밀번호 재설정"),
                       content: Container(
-                          height: 200,
+                          height: 50,
                           child: Text(
-                              "We sent email that can change password\n\nThank you for reading")),
+                              "비밀번호 재설정 이메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text("you’re welcome"),
+                          child: Text("확인"),
+                          onPressed: () {
+                            fp.sendPasswordResetEmail();
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: ListTile(
+                                  title: Text("전송 완료!"),
+                                  subtitle: Text("이메일을 확인하세요!"),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("취소"),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -175,9 +201,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => Terms()));
-                    context,
-                    MaterialPageRoute(builder: (context) => FcmFirstDemo()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
@@ -185,9 +209,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('개인정보처리방침'),
               onTap: () {
                 Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => Terms()));
-                    context,
-                    MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                    context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
               },
             ),
             ListTile(
@@ -211,5 +233,22 @@ class _MyPageState extends State<MyPage> {
   void moveFavorite(DocumentSnapshot doc) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => FavoriteCategory(doc)));
+  }
+
+  Widget checkOk(){
+    return AlertDialog(
+      title: Text("전송되었습니다"),
+      content: Container(
+          height: 200,
+          child: Text("")),
+      actions: <Widget>[
+        FlatButton(
+            child:Text("확인"),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+        ),
+      ],
+    );
   }
 }
