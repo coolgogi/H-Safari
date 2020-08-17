@@ -1,12 +1,14 @@
 import 'dart:ui';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/delete/post(writer).dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import 'package:h_safari/views/post/post.dart';
 
 class MyWrite extends StatefulWidget {
   @override
@@ -503,10 +505,11 @@ class _MyWriteState extends State<MyWrite> {
                                             pictures.clear();
                                             picURL.clear();
                                             picLength = 0;
-//                                          myapp._currentIndex = 1;
-//                                          showDocument(document.documentID);
+//                                            myapp._currentIndex = 1;
+//                                            showDocument(document.documentID);
                                           } else {
                                             //경고 메세지 부탁
+                                            print("try again");
                                           }
                                         },
                                         child: Text('게시글 등록', style: TextStyle(fontSize: 15, color: Colors.white)),
@@ -526,8 +529,10 @@ class _MyWriteState extends State<MyWrite> {
 
     List<String> splitString = picURL.split(',');
     List<String> co = List();
-    co[0] = user.email;
+//    co[0] = user.email;
+    co.add(user.email);
     List<String> wa = List();
+
     documentReference.setData({
       fnName: name,
       fnDescription: description,
@@ -559,7 +564,7 @@ class _MyWriteState extends State<MyWrite> {
 
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MyPost(doc)));
+        context, MaterialPageRoute(builder: (context) => Post(doc, true)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {

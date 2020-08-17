@@ -72,7 +72,8 @@ class _MyPageState extends State<MyPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => myPost()));
+                                  builder: (context) =>
+                                      myPost(currentUser.email)));
                         },
                         child: Container(
                           height: 60,

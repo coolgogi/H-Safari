@@ -50,10 +50,12 @@ CRA vacation project 2020-summer
 
 > 다른 page로 이동시, 초기화(category, 거래 방식) -(구현중) 연희
 
-### mypage.dart
+### myPage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
 
 > 내가 쓴 글 누르면 TabBar 2개로 판매중, 판매완료 나누기(UI) - 광일
+
+> 푸시알림기능 구현 - 수현
 
 ### search.dart
 > 검색 기능 구현 필요. @@@ - 수현
@@ -98,21 +100,19 @@ CRA vacation project 2020-summer
 
 > 로딩화면 -연희
 
+### myPost.dart
+> 게시글 리스트 넣기 - 수현
+
+### myWanna.dart
+> 게시글 리스트 넣기 - 수현
+
 
 ## 구현 중이거나 구현 예정인 기능
 
 ### myPage.dart
-> 푸시알림기능 구현 - (구현중) 수현
-
 > 탈퇴기능
 
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
-
-### myPost.dart
-> 게시글 리스트 넣기 - (구현중) 수현
-
-### myWanna.dart
-> 게시글 리스트 넣기 - (구현중) 수현
 
 
