@@ -156,21 +156,21 @@ class _MyWriteState extends State<MyWrite> {
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
                                                           new FlatButton(
-                                                            child: new Text("사진첩"),
+                                                            child: new Text("사진첩", style: TextStyle(color: Colors.green),),
                                                             onPressed: () {
                                                               _uploadImageToStorage(ImageSource.gallery);
                                                               Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text("카메라"),
+                                                            child: new Text("카메라", style: TextStyle(color: Colors.green)),
                                                             onPressed: () {
                                                               _uploadImageToStorage(ImageSource.camera);
                                                               Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
-                                                            child: new Text("Close"),
+                                                            child: new Text("Close", style: TextStyle(color: Colors.green)),
                                                             onPressed: () {
                                                               Navigator.of(context).pop();
                                                             },
@@ -196,13 +196,12 @@ class _MyWriteState extends State<MyWrite> {
                                                 scrollDirection:
                                                     Axis.horizontal,
                                                 child: Flexible(
-                                                  child: Container(
-                                                    height: 150,
-                                                    width: (picLength != 0)
-                                                        ? (picWidth + 130) *
-                                                            pictures.length
-                                                        : picWidth,
-                                                    child: (picLength > 0) ? GridView.count(
+                                                  child: Stack(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        height: 130,
+                                                        width: (picLength != 0) ? (picWidth + 130) * pictures.length : picWidth,
+                                                        child: (picLength > 0) ? GridView.count(
                                                             shrinkWrap: true,
                                                             crossAxisCount: pictures.length,
                                                             crossAxisSpacing: 10,
@@ -214,16 +213,14 @@ class _MyWriteState extends State<MyWrite> {
                                                                     decoration: BoxDecoration(
                                                                         image: DecorationImage(
                                                                           image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                                      fit: BoxFit.cover
+//                                                                      fit: BoxFit.cover
                                                                     )),
                                                                   ),
                                                                   Align(
                                                                     alignment: Alignment.topRight,
-                                                                    child:
-                                                                        IconButton(
+                                                                    child: IconButton(
                                                                       icon: Icon(Icons.highlight_off),
-                                                                      disabledColor:
-                                                                          Colors.black,
+                                                                      disabledColor: Colors.black,
                                                                       onPressed: () {
                                                                         setState(() {
                                                                           pictures.removeAt(index);
@@ -236,17 +233,19 @@ class _MyWriteState extends State<MyWrite> {
                                                                 ],
                                                               );
                                                             }))
-                                                        : SizedBox(
-                                                            width: 0,
-                                                          ),
+                                                            : SizedBox(width: 0,),
+                                                      ),
+                                                      Align(
+                                                          alignment: Alignment.topLeft,
+                                                          child: Text('대표 이미지', style: TextStyle(color: Colors.green),)
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           )
-                                        : SizedBox(
-                                            width: 0,
-                                          ),
+                                        : SizedBox(width: 0,),
 
                                     SizedBox(height: 30),
 
@@ -364,28 +363,21 @@ class _MyWriteState extends State<MyWrite> {
                                                           title: Text('카테고리'),
                                                           actions: <Widget>[
                                                             FlatButton(
-                                                              child: Text('취소'),
+                                                              child: Text('취소',  style: TextStyle(color: Colors.green)),
                                                               onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                _value =
-                                                                    previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                Navigator.pop(context);
+                                                                _value = previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
                                                               },
                                                             ),
                                                             FlatButton(
-                                                              child: Text('확인'),
+                                                              child: Text('확인',  style: TextStyle(color: Colors.green)),
                                                               onPressed: () {
-                                                                if (_value !=
-                                                                    null) {
-                                                                  Navigator.pop(
-                                                                      context,
-                                                                      _value);
+                                                                if (_value != null) {
+                                                                  Navigator.pop(context, _value);
                                                                   setState(() {
                                                                     //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category =
-                                                                        _value;
-                                                                    previous =
-                                                                        _value;
+                                                                    _category = _value;
+                                                                    previous = _value;
                                                                   });
                                                                 }
                                                               },
@@ -393,14 +385,10 @@ class _MyWriteState extends State<MyWrite> {
 //                                                              (copyIndex!=2) ? _value=null : _value=_value,
                                                           ],
                                                           content: Container(
-                                                            width: double
-                                                                .maxFinite,
+                                                            width: double.maxFinite,
                                                             child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: <
-                                                                  Widget>[
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
                                                                 ListCat(),
                                                                 //다이얼로그 안에서 radioButton을 불러오는 함수
                                                               ],
@@ -507,6 +495,8 @@ class _MyWriteState extends State<MyWrite> {
                                             pictures.clear();
                                             picURL.clear();
                                             picLength = 0;
+                                            _value = null;
+                                            previous = null;
 //                                            myapp._currentIndex = 1;
 //                                            showDocument(document.documentID);
                                           } else {
