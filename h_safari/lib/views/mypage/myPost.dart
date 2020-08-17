@@ -160,7 +160,6 @@ class _myPostState extends State<myPost> {
         context,
         MaterialPageRoute(
             builder: (context) => Post(doc, true)));
-//            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }
 

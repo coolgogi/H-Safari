@@ -161,6 +161,5 @@ class _myWannaState extends State<myWanna> {
         context,
         MaterialPageRoute(
             builder: (context) => Post(doc, false)));
-//            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 }
