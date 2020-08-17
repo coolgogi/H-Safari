@@ -11,6 +11,7 @@ import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/cloudMessage.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
+import 'package:h_safari/views/mypage/privacyPolicy.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -180,7 +181,17 @@ class _MyPageState extends State<MyPage> {
               },
             ),
             ListTile(
-                leading: Icon(Icons.accessibility),
+              leading: Icon(Icons.accessibility),
+              title: Text('개인정보처리방침'),
+              onTap: () {
+                Navigator.push(
+//                    context, MaterialPageRoute(builder: (context) => Terms()));
+                    context,
+                    MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+              },
+            ),
+            ListTile(
+                leading: Icon(Icons.close),
                 title: Text('로그아웃'),
                 onTap: () {
                   fp.signOut();
