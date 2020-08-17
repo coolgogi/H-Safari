@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/views/mypage/asking.dart';
-import 'package:h_safari/views/mypage/favoriteCategory.dart';
+
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/cloudMessage.dart';
+
+import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
+import 'package:h_safari/views/mypage/asking.dart';
+import 'package:h_safari/views/mypage/favoriteCategory.dart';
+import 'package:h_safari/views/mypage/terms_of_use.dart';
+
 
 class MyPage extends StatefulWidget {
   @override
@@ -98,7 +103,8 @@ class _MyPageState extends State<MyPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => myWanna()));
+                                  builder: (context) =>
+                                      myWanna(currentUser.email)));
                         },
                         child: Container(
                           height: 60,
@@ -174,9 +180,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('이용 약관'),
               onTap: () {
                 Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => Terms()));
-                    context,
-                    MaterialPageRoute(builder: (context) => FcmFirstDemo()));
+                    context, MaterialPageRoute(builder: (context) => Terms()));
               },
             ),
             ListTile(
