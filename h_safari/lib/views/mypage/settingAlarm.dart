@@ -47,44 +47,52 @@ class _settingAlarmState extends State<settingAlarm> {
   // SetAlarm : 알림설정 문구 & 스위치 위젯
   // title(알림문구), num(알림설정 순서)
   Widget SetAlarm(BuildContext context, String title, int num) {
-    return Row(
-      children: <Widget>[
-        // mySize(4) : 화면 width의 4분의 1크기만큼 자리차지
-        mySize(4),
-
-        // Container : 알림문구를 감싸고 역할
-        Container(
-            width: MediaQuery.of(context).size.width / 4,
-            child: Text('$title')),
-
-        // mySize(8) : 화면 width의 8분의 1크기만큼 자리차지
-        mySize(8),
-        // Container : Switch를 감싸고 역할
-        Container(
-          child: Switch(
-            //value : _isSwitchedNum[num]의 기본값 저장 (true)
-            value: _isSwitchedNum[num],
-
-            // onChanged : 눌렀을 경우 value값을 가져와 _isSwitchedNum[num]에 지정하여 값을 변경
-            onChanged: (value) {
-              setState(() {
-                _isSwitchedNum[num] = value;
-
-
-              });
-              Firestore.instance.collection("users").document(fp.getUser().email).updateData({
-                "마감" : _isSwitchedNum[5],
-              });
-            },
-
-            // activeTrackColor : Switch 라인색
-            activeTrackColor: Colors.lightGreenAccent[100],
-
-            // activeColor : Switch 버튼색
-            activeColor: Colors.green[400],
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.grey[300]
         ),
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            // Container : 알림문구를 감싸고 역할
+            Container(
+                width: MediaQuery.of(context).size.width / 4,
+                child: Text('$title', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)),
+
+            // Container : Switch를 감싸고 역할
+            Container(
+              child: Transform.scale(
+                scale: 1.3,
+                child: Switch(
+                  //value : _isSwitchedNum[num]의 기본값 저장 (true)
+                  value: _isSwitchedNum[num],
+
+                  // onChanged : 눌렀을 경우 value값을 가져와 _isSwitchedNum[num]에 지정하여 값을 변경
+                  onChanged: (value) {
+                    setState(() {
+                      _isSwitchedNum[num] = value;
+
+
+                    });
+                    Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                      "마감" : _isSwitchedNum[5],
+                    });
+                  },
+
+                  // activeTrackColor : Switch 라인색
+                  activeTrackColor: Colors.lightGreenAccent[100],
+
+                  // activeColor : Switch 버튼색
+                  activeColor: Colors.green[400],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
