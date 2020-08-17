@@ -13,21 +13,7 @@ class myWanna extends StatefulWidget {
 }
 
 class _myWannaState extends State<myWanna> {
-  @override
-  Widget build(BuildContext context) {
-    return  DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: myPostAppBar(context, '거래신청한 게시글', '판매중', '마감'),
-        body : TabBarView(
-          children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit),
-          ],
-        ),
-      ),
-    );
-  }
+
   String userEmail;
   DocumentSnapshot userDoc;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
