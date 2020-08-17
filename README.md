@@ -115,4 +115,13 @@ CRA vacation project 2020-summer
 ### terms_of_use.dart 
 > 이용약관 내용 삽입 필요 - ???
 
+### write.dart
+> 사진 업로드 완련 오류 해결 - (해결중) 수현
 
+> 대표 이미지 수정 - (구현중) 연희
+
+### settingAlarm.dart
+> UI 수정 - (구현중) 광일
+
+### alarm.dart
+> 삭제된 게시글의 알림 처리 - (구현중) 
