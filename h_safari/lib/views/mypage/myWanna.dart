@@ -26,6 +26,7 @@ class _myWannaState extends State<myWanna> {
   String colName = "post";
   String fnClose = "close";
   String fnEmail = "email";
+  String fnWaitingList = "waitingUserList";
 
   _myWannaState(String email){
     userEmail = email;
@@ -34,13 +35,6 @@ class _myWannaState extends State<myWanna> {
   @override
   void initState() {
     super.initState();
-//    Firestore.instance
-//        .collection("users")
-//        .document(userEmail)
-//        .get()
-//        .then((doc) {
-//      userDoc = doc;
-//    });
   }
 
 
@@ -98,7 +92,7 @@ class _myWannaState extends State<myWanna> {
 
                     if(close){
                       return Container();
-                    }else if(document[fnEmail] == userEmail){
+                    }else if(document[fnWaitingList].contains(userEmail)){
                       return InkWell(
                         // Read Document
                         onTap: () {
@@ -142,7 +136,7 @@ class _myWannaState extends State<myWanna> {
 
                     if (!close) {
                       return Container();
-                    } else if(document[fnEmail] == userEmail) {
+                    }else if(document[fnWaitingList].contains(userEmail)){
                       return InkWell(
                         // Read Document
                           onTap: () {
@@ -164,12 +158,11 @@ class _myWannaState extends State<myWanna> {
 
   //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
-//    _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => Post(doc, false)));
+//            userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
 }

@@ -44,7 +44,7 @@ class _MyPageState extends State<MyPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Student Number',
+                  Text('환영합니다!',
                       style: TextStyle(fontSize: 12, color: Colors.black54)),
                   Text(
                     '$currentId님',
@@ -142,19 +142,42 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.build),
               title: Text('비밀번호 재설정'),
               onTap: () {
-                fp.sendPasswordResetEmail();
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text("Please check your email"),
+                      title: Text("비밀번호 재설정"),
                       content: Container(
-                          height: 200,
+                          height: 50,
                           child: Text(
-                              "We sent email that can change password\n\nThank you for reading")),
+                              "비밀번호 재설정 이메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text("you’re welcome"),
+                          child: Text("확인"),
+                          onPressed: () {
+                            fp.sendPasswordResetEmail();
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: ListTile(
+                                  title: Text("전송 완료!"),
+                                  subtitle: Text("이메일을 확인하세요!"),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("취소"),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -210,5 +233,22 @@ class _MyPageState extends State<MyPage> {
   void moveFavorite(DocumentSnapshot doc) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => FavoriteCategory(doc)));
+  }
+
+  Widget checkOk(){
+    return AlertDialog(
+      title: Text("전송되었습니다"),
+      content: Container(
+          height: 200,
+          child: Text("")),
+      actions: <Widget>[
+        FlatButton(
+            child:Text("확인"),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+        ),
+      ],
+    );
   }
 }

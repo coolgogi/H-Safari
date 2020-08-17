@@ -253,21 +253,6 @@ class _SignInState extends State<SignIn> {
                                     decoration: TextDecoration.underline),
                               ),
                             ),
-//                            RawMaterialButton(
-//                              onPressed: () {
-//                                Navigator.push(
-//                                    context,
-//                                    MaterialPageRoute(
-//                                        builder: (context) => FcmFirstDemo()));
-//                              },
-//                              child: Text(
-//                                'Push 알림 test',
-//                                style: TextStyle(
-//                                    fontSize: 15,
-//                                    color: Colors.grey,
-//                                    decoration: TextDecoration.underline),
-//                              ),
-//                            ),
                           ],
                         ),
                       ],
