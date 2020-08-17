@@ -139,8 +139,10 @@ class _PostState extends State<Post> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Waiting(fnId, fnName, fnWaitingUserList)));
+                                                  builder: (context) => Waiting(
+                                                      fnId,
+                                                      fnName,
+                                                      fnWaitingUserList)));
                                         },
                                       ),
                                       IconButton(
@@ -221,10 +223,14 @@ class _PostState extends State<Post> {
                                                                   )),
                                                             ],
                                                           )
-                                                        : Image.network(
-                                                            imgUrl,
-                                                            fit: BoxFit.fill,
-                                                          )
+                                                        : Container(
+                                                            width: 250,
+                                                            height: 250,
+                                                            child:
+                                                                Image.network(
+                                                              imgUrl,
+                                                              fit: BoxFit.fill,
+                                                            ))
                                                     : fnClose
                                                         ? Stack(
                                                             children: <Widget>[
@@ -652,9 +658,10 @@ class _PostState extends State<Post> {
       DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
-          DatabaseMethods().sendNotification(fnCommentUserList[i], commentNotification);
-          DatabaseMethods().updateUnreadNotification(fnCommentUserList[i], true);
-
+          DatabaseMethods()
+              .sendNotification(fnCommentUserList[i], commentNotification);
+          DatabaseMethods()
+              .updateUnreadNotification(fnCommentUserList[i], true);
         }
       }
       setState(() {
@@ -696,7 +703,8 @@ class _PostState extends State<Post> {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
               .sendNotification(fnCommentUserList[i], recommentNotification);
-          DatabaseMethods().updateUnreadNotification(fnCommentUserList[i], true);
+          DatabaseMethods()
+              .updateUnreadNotification(fnCommentUserList[i], true);
         }
       }
       setState(() {
