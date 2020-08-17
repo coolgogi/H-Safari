@@ -196,13 +196,12 @@ class _MyWriteState extends State<MyWrite> {
                                                 scrollDirection:
                                                     Axis.horizontal,
                                                 child: Flexible(
-                                                  child: Container(
-                                                    height: 130,
-                                                    width: (picLength != 0)
-                                                        ? (picWidth + 130) *
-                                                            pictures.length
-                                                        : picWidth,
-                                                    child: (picLength > 0) ? GridView.count(
+                                                  child: Stack(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        height: 130,
+                                                        width: (picLength != 0) ? (picWidth + 130) * pictures.length : picWidth,
+                                                        child: (picLength > 0) ? GridView.count(
                                                             shrinkWrap: true,
                                                             crossAxisCount: pictures.length,
                                                             crossAxisSpacing: 10,
@@ -214,16 +213,13 @@ class _MyWriteState extends State<MyWrite> {
                                                                     decoration: BoxDecoration(
                                                                         image: DecorationImage(
                                                                           image: (_image != null) ? FileImage(pictures[index]) : NetworkImage(tpUrl),
-                                                                      //fit: BoxFit.cover
-                                                                    )),
+                                                                        )),
                                                                   ),
                                                                   Align(
                                                                     alignment: Alignment.topRight,
-                                                                    child:
-                                                                        IconButton(
+                                                                    child: IconButton(
                                                                       icon: Icon(Icons.highlight_off),
-                                                                      disabledColor:
-                                                                          Colors.black,
+                                                                      disabledColor: Colors.black,
                                                                       onPressed: () {
                                                                         setState(() {
                                                                           pictures.removeAt(index);
@@ -234,17 +230,19 @@ class _MyWriteState extends State<MyWrite> {
                                                                 ],
                                                               );
                                                             }))
-                                                        : SizedBox(
-                                                            width: 0,
-                                                          ),
+                                                            : SizedBox(width: 0,),
+                                                      ),
+                                                      Align(
+                                                          alignment: Alignment.topLeft,
+                                                          child: Text('대표 이미지', style: TextStyle(color: Colors.green),)
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           )
-                                        : SizedBox(
-                                            width: 0,
-                                          ),
+                                        : SizedBox(width: 0,),
 
                                     SizedBox(height: 30),
 
