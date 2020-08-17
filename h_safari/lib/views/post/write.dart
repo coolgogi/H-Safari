@@ -227,6 +227,8 @@ class _MyWriteState extends State<MyWrite> {
                                                                       onPressed: () {
                                                                         setState(() {
                                                                           pictures.removeAt(index);
+                                                                          picURL.removeAt(index);
+                                                                          picLength--;
                                                                         });
                                                                       },
                                                                     ),
