@@ -95,6 +95,12 @@ CRA vacation project 2020-summer
 ### waiting.dart
 > 대기리스트 중복 제거 - 예진
 
+### myPost.dart
+> 게시글 리스트 넣기 - 수현
+
+### myWanna.dart
+> 게시글 리스트 넣기 - 수현
+
 ### ???
 > 거래 완료 시, home에서 워터마크처럼 표시해주기 - 광일
 
@@ -105,11 +111,7 @@ CRA vacation project 2020-summer
 > 로딩화면 -연희
 
 
-### myPost.dart
-> 게시글 리스트 넣기 - 수현
 
-### myWanna.dart
-> 게시글 리스트 넣기 - 수현
 
 
 ## 구현 중이거나 구현 예정인 기능
@@ -135,4 +137,8 @@ CRA vacation project 2020-summer
 ### alarm.dart
 > 삭제된 게시글의 알림 처리 - (구현중) 예진
 
+### post.dart
+> 게시글 UI 재배치 - (배치중)
 
+### iOS에서도 시뮬레이터 돌려보기..
+> 굉장히 오래걸리는중
