@@ -113,7 +113,7 @@ class _MyWriteState extends State<MyWrite> {
             },
             body: SingleChildScrollView(
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
                   child: Container(
                       child: Padding(
                           padding: const EdgeInsets.all(.0),
@@ -127,7 +127,7 @@ class _MyWriteState extends State<MyWrite> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          '사진 업로드*',
+                                          '사진 업로드',
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
@@ -209,9 +209,6 @@ class _MyWriteState extends State<MyWrite> {
                                         ),
                                       ],
                                     ),
-                                    //SizedBox(height: 10),
-
-                                    //사진 업로드
                                     picLength != 0
                                         ? Column(
                                             mainAxisAlignment:
@@ -279,9 +276,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                   ],
                                                                 );
                                                               }))
-                                                          : SizedBox(
-                                                              width: 0,
-                                                            ),
+                                                          : Container(),
                                                     ),
                                                     Align(
                                                         alignment:
@@ -297,15 +292,10 @@ class _MyWriteState extends State<MyWrite> {
                                               ),
                                             ],
                                           )
-                                        : SizedBox(
-                                            width: 0,
-                                          ),
-
-                                    SizedBox(height: 30),
-
-                                    //게시글 제목 및 상품명을 적을 텍스트필드
+                                        : Container(),
+                                    SizedBox(height: 20),
                                     Text(
-                                      "게시글 제목* ",
+                                      "게시글 제목",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
@@ -313,7 +303,6 @@ class _MyWriteState extends State<MyWrite> {
                                     SizedBox(height: 10),
                                     Container(
                                       alignment: Alignment.centerLeft,
-                                      height: 50,
                                       child: TextFormField(
                                         controller: _newNameCon,
                                         decoration: InputDecoration(
@@ -327,22 +316,16 @@ class _MyWriteState extends State<MyWrite> {
                                                   color: Colors.green)),
                                           hintText: '상품명 및 제목 입력',
                                         ),
-                                        validator: (value) {
-                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                          if (value.isEmpty) {
-                                            return '제목을 입력해 주세요.';
+                                        validator: (val){
+                                          return val.isEmpty ? '필수항목입니다!' : null;
                                           }
-                                        },
                                       ),
                                     ),
-
                                     SizedBox(
-                                      height: 30,
+                                      height: 25,
                                     ),
-
-                                    //가격 입력하는 텍스트 필드
                                     Text(
-                                      "가격* ",
+                                      "가격",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
@@ -350,7 +333,6 @@ class _MyWriteState extends State<MyWrite> {
                                     SizedBox(height: 10),
                                     Container(
                                       alignment: Alignment.centerLeft,
-                                      height: 50,
                                       child: TextFormField(
                                         keyboardType: TextInputType.number,
                                         controller: _newPriceCon,
@@ -365,24 +347,18 @@ class _MyWriteState extends State<MyWrite> {
                                                   color: Colors.green)),
                                           hintText: '가격 입력',
                                         ),
-                                        validator: (value) {
-                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                          if (value.isEmpty) {
-                                            return '제목을 입력해 주세요.';
+                                        validator: (val) {
+                                          return val.isEmpty ? '필수항목입니다!' : null;
                                           }
-                                        },
                                       ),
                                     ),
-
                                     SizedBox(
                                       height: 30,
                                     ),
-
-                                    //이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
                                     Row(
                                       children: <Widget>[
                                         Text(
-                                          "카테고리* ",
+                                          "카테고리",
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
@@ -470,12 +446,9 @@ class _MyWriteState extends State<MyWrite> {
                                                 })),
                                       ],
                                     ),
-
                                     SizedBox(
-                                      height: 30,
+                                      height: 20,
                                     ),
-
-                                    //택배거래와 직접거래 중 판매자가 직접 선택할 수 있는 버튼
                                     Row(
                                       children: [
                                         Text(
@@ -508,17 +481,25 @@ class _MyWriteState extends State<MyWrite> {
                                         ),
                                       ],
                                     ),
-
                                     SizedBox(
-                                      height: 30,
+                                      height: 20,
                                     ),
-
-                                    //상품 설명을 적을 텍스트필드
+                                    Text(
+                                      '상세정보',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Container(
-                                      child: TextField(
+                                      child: TextFormField(
+                                        validator: (val){
+                                          return val.isEmpty ? '필수항목입니다!' : null;
+                                        },
                                         controller: _newDescCon,
                                         maxLines: 10,
-                                        //max 10줄이라고 돼있는데 그 이상도 적어지네요...?
                                         decoration: InputDecoration(
                                           hintText: "상품의 상세한 정보를 적어주세요.",
                                           border: OutlineInputBorder(),
@@ -528,13 +509,9 @@ class _MyWriteState extends State<MyWrite> {
                                         ),
                                       ),
                                     ),
-
                                     SizedBox(
                                       height: 30,
                                     ),
-
-                                    //확인하고 게시글을 등록하는 버튼
-                                    //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
                                     Center(
                                       child: RaisedButton(
                                         color: Colors.green,
@@ -546,7 +523,6 @@ class _MyWriteState extends State<MyWrite> {
                                               color: Colors.green,
                                             )),
                                         onPressed: () {
-                                          //화면 전환을 위해 바로 게시글로 이동하게 했습니다.
                                           if (_newDescCon.text.isNotEmpty &&
                                               _newNameCon.text.isNotEmpty &&
                                               _newPriceCon.text.isNotEmpty) {
@@ -568,11 +544,8 @@ class _MyWriteState extends State<MyWrite> {
                                             picLength = 0;
                                             _value = null;
                                             previous = null;
-//                                            myapp._currentIndex = 1;
-//                                            showDocument(document.documentID);
                                           } else {
-                                            //경고 메세지 부탁
-                                            print("try again");
+                                            checkAll();
                                           }
                                         },
                                         child: Text('게시글 등록',
@@ -585,6 +558,10 @@ class _MyWriteState extends State<MyWrite> {
             )),
       ),
     );
+  }
+
+  checkAll() {
+    if(_formkey.currentState.validate()){}
   }
 
   void createDoc(String name, String description, String price, String imageURL,

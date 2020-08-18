@@ -126,13 +126,14 @@ class _PostState extends State<Post> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       centerTitle: true,
-                      expandedHeight: 207.5,
+                      expandedHeight: MediaQuery.of(context).size.width-MediaQuery.of(context).padding.top,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Container(
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: <Widget>[
                               CarouselSlider(
+                                height: MediaQuery.of(context).size.width,
                                 initialPage: 0,
                                 viewportFraction: 1.0,
                                 enlargeCenterPage: true,
@@ -257,7 +258,7 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                          padding: const EdgeInsets.fromLTRB(13,15,13,8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -368,8 +369,8 @@ class _PostState extends State<Post> {
                                 color: Colors.black38,
                               ),
                               Text(
-                                '[댓글]',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                '<댓글>',
+                                style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                             ],
                           )),
