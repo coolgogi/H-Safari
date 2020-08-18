@@ -220,81 +220,79 @@ class _MyWriteState extends State<MyWrite> {
                                               SingleChildScrollView(
                                                 scrollDirection:
                                                     Axis.horizontal,
-                                                child: Flexible(
-                                                  child: Stack(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        height: 130,
-                                                        width: (picLength != 0)
-                                                            ? (picWidth + 130) *
-                                                                pictures.length
-                                                            : picWidth,
-                                                        child: (picLength > 0)
-                                                            ? GridView.count(
-                                                                shrinkWrap:
-                                                                    true,
-                                                                crossAxisCount:
-                                                                    pictures
-                                                                        .length,
-                                                                crossAxisSpacing:
-                                                                    10,
-                                                                physics:
-                                                                    ScrollPhysics(),
-                                                                children: List
-                                                                    .generate(
-                                                                        pictures
-                                                                            .length,
-                                                                        (index) {
-                                                                  return Stack(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                                image: DecorationImage(
-                                                                          image: (_image != null)
-                                                                              ? FileImage(pictures[index])
-                                                                              : NetworkImage(tpUrl),
+                                                child: Stack(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 130,
+                                                      width: (picLength != 0)
+                                                          ? (picWidth + 130) *
+                                                              pictures.length
+                                                          : picWidth,
+                                                      child: (picLength > 0)
+                                                          ? GridView.count(
+                                                              shrinkWrap:
+                                                                  true,
+                                                              crossAxisCount:
+                                                                  pictures
+                                                                      .length,
+                                                              crossAxisSpacing:
+                                                                  10,
+                                                              physics:
+                                                                  ScrollPhysics(),
+                                                              children: List
+                                                                  .generate(
+                                                                      pictures
+                                                                          .length,
+                                                                      (index) {
+                                                                return Stack(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                              image: DecorationImage(
+                                                                        image: (_image != null)
+                                                                            ? FileImage(pictures[index])
+                                                                            : NetworkImage(tpUrl),
 //                                                                      fit: BoxFit.cover
-                                                                        )),
+                                                                      )),
+                                                                    ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment.topRight,
+                                                                      child:
+                                                                          IconButton(
+                                                                        icon:
+                                                                            Icon(Icons.highlight_off),
+                                                                        disabledColor:
+                                                                            Colors.black,
+                                                                        onPressed:
+                                                                            () {
+                                                                          setState(() {
+                                                                            pictures.removeAt(index);
+                                                                            picURL.removeAt(index);
+                                                                            picLength--;
+                                                                          });
+                                                                        },
                                                                       ),
-                                                                      Align(
-                                                                        alignment:
-                                                                            Alignment.topRight,
-                                                                        child:
-                                                                            IconButton(
-                                                                          icon:
-                                                                              Icon(Icons.highlight_off),
-                                                                          disabledColor:
-                                                                              Colors.black,
-                                                                          onPressed:
-                                                                              () {
-                                                                            setState(() {
-                                                                              pictures.removeAt(index);
-                                                                              picURL.removeAt(index);
-                                                                              picLength--;
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                }))
-                                                            : SizedBox(
-                                                                width: 0,
-                                                              ),
-                                                      ),
-                                                      Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Text(
-                                                            '대표 이미지',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .green),
-                                                          ))
-                                                    ],
-                                                  ),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              }))
+                                                          : SizedBox(
+                                                              width: 0,
+                                                            ),
+                                                    ),
+                                                    Align(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        child: Text(
+                                                          '대표 이미지',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .green),
+                                                        ))
+                                                  ],
                                                 ),
                                               ),
                                             ],
