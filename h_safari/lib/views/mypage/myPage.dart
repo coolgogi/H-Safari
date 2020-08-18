@@ -53,70 +53,68 @@ class _MyPageState extends State<MyPage> {
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                height: 60,
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(7)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => myPost(currentUser.email)));
-                        },
-                        child: Container(
-                          height: 60,
-                          alignment: Alignment.center,
-                          child: Text(
-                            '내가 쓴 게시글',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border(
-                            right: BorderSide(
-                                style: BorderStyle.solid,
-                                color: Colors.black12),
-                          )),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => myWanna(currentUser.email)));
-                        },
-                        child: Container(
-                          height: 60,
-                          alignment: Alignment.center,
-                          child: Text(
-                            '거래신청한 게시글',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
+            Container(
+              height: 60,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                    )
                   ],
-                ),
+                  borderRadius: BorderRadius.circular(7)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => myPost(currentUser.email)));
+                      },
+                      child: Container(
+                        height: 60,
+                        alignment: Alignment.center,
+                        child: Text(
+                          '내가 쓴 게시글',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border(
+                          right: BorderSide(
+                              style: BorderStyle.solid,
+                              color: Colors.black12),
+                        )),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => myWanna(currentUser.email)));
+                      },
+                      child: Container(
+                        height: 60,
+                        alignment: Alignment.center,
+                        child: Text(
+                          '거래신청한 게시글',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -153,7 +151,13 @@ class _MyPageState extends State<MyPage> {
                               "비밀번호 재설정 이메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text("확인"),
+                          child: Text("취소", style: TextStyle(color: Colors.green)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("확인", style: TextStyle(color: Colors.green),),
                           onPressed: () {
                             fp.sendPasswordResetEmail();
                             Navigator.pop(context);
@@ -174,12 +178,6 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                             );
-                          },
-                        ),
-                        FlatButton(
-                          child: Text("취소"),
-                          onPressed: () {
-                            Navigator.pop(context);
                           },
                         ),
                       ],
