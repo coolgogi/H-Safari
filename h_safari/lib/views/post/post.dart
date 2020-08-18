@@ -49,8 +49,15 @@ class _PostState extends State<Post> {
   _PostState(DocumentSnapshot doc) {
     fnName = doc['name'];
     fnDes = doc['description'];
-    var date = doc['datetime'].toDate(); //timestamp to datetime
-    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date); //datetime format
+    var time = doc['datetime'].toDate(); //timestamp to datetime
+    var date = DateFormat('yyyy-MM-dd').add_Hms().format(time);
+    var allTime = date.split(RegExp(r"-| |:"));
+    var year = allTime[0];
+    var month = allTime[1];
+    var day = allTime[2];
+    var hour = allTime[3];
+    var minute = allTime[4];
+    fnDate = year + "/" + month + "/" + day + " " + hour + ":" + minute;
     fnPrice = doc['price'];
     fnImage = doc['imageUrl'];
     fnImageList = doc['imageList'];
@@ -115,13 +122,95 @@ class _PostState extends State<Post> {
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     SliverAppBar(
-                      iconTheme: IconThemeData(color: Colors.green),
+                      iconTheme: IconThemeData(color: Colors.green[300]),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       centerTitle: true,
-                      title: Text(
-                        '$fnName',
-                        style: TextStyle(color: Colors.black),
+                      expandedHeight: 207.5,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Container(
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: <Widget>[
+                              CarouselSlider(
+                                initialPage: 0,
+                                viewportFraction: 1.0,
+                                enlargeCenterPage: true,
+                                enableInfiniteScroll: false,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                                items: fnImageList.map((imgUrl) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                          child: fnClose
+                                              ? Stack(
+                                            children: <Widget>[
+                                              Container(
+                                                  child: imgUrl !=
+                                                      ''
+                                                      ? Image
+                                                      .network(
+                                                    imgUrl,
+                                                    fit: BoxFit
+                                                        .fill,
+                                                  )
+                                                      : Image.asset(
+                                                    'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                    fit: BoxFit
+                                                        .fill,
+                                                  )),
+                                              Container(
+                                                  child:
+                                                  Image.asset(
+                                                    'assets/sample/close2.png',
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            ],
+                                          )
+                                              : Container(
+                                              child: imgUrl != ''
+                                                  ? Image.network(
+                                                imgUrl,
+                                                fit:
+                                                BoxFit.fill,
+                                              )
+                                                  : Image.asset(
+                                                'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                fit:
+                                                BoxFit.fill,
+                                              )));
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: map<Widget>(fnImageList,
+                                        (index, url) {
+                                      return Container(
+                                        width: 7.0,
+                                        height: 7.0,
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 3.0),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: _current == index
+                                              ? Colors.green[300]
+                                              : Colors.black26,
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       floating: true,
                       actions: widget.isMine
@@ -133,7 +222,7 @@ class _PostState extends State<Post> {
                                       IconButton(
                                         icon: Icon(
                                           Icons.assignment,
-                                          color: Colors.green,
+                                          color: Colors.green[300],
                                         ),
                                         onPressed: () {
                                           Navigator.push(
@@ -146,8 +235,8 @@ class _PostState extends State<Post> {
                                         },
                                       ),
                                       IconButton(
-                                        icon: Icon(Icons.border_color,
-                                            color: Colors.green),
+                                        icon: Icon(Icons.create,
+                                            color: Colors.green[300]),
                                         onPressed: () {
                                           Navigator.push(
                                               context,
@@ -168,169 +257,52 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    CarouselSlider(
-                                      initialPage: 0,
-                                      viewportFraction: 1.0,
-                                      enlargeCenterPage: true,
-                                      enableInfiniteScroll: false,
-                                      scrollDirection: Axis.horizontal,
-                                      onPageChanged: (index) {
-                                        setState(() {
-                                          _current = index;
-                                        });
-                                      },
-                                      items: fnImageList.map((imgUrl) {
-                                        return Builder(
-                                          builder: (BuildContext context) {
-                                            return Container(
-                                                child: fnClose
-                                                    ? Stack(
-                                                        children: <Widget>[
-                                                          Container(
-                                                              child: imgUrl !=
-                                                                      ''
-                                                                  ? Image
-                                                                      .network(
-                                                                      imgUrl,
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    )
-                                                                  : Image.asset(
-                                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    )),
-                                                          Container(
-                                                              child:
-                                                                  Image.asset(
-                                                            'assets/sample/close2.png',
-                                                            fit: BoxFit.fill,
-                                                          )),
-                                                        ],
-                                                      )
-                                                    : Container(
-                                                        child: imgUrl != ''
-                                                            ? Image.network(
-                                                                imgUrl,
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              )
-                                                            : Image.asset(
-                                                                'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              )));
-                                          },
-                                        );
-                                      }).toList(),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: map<Widget>(fnImageList,
-                                          (index, url) {
-                                        return Container(
-                                          width: 10.0,
-                                          height: 10.0,
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 2.0),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: _current == index
-                                                ? Colors.green
-                                                : Colors.black26,
-                                          ),
-                                        );
-                                      }),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.black,
-                              ),
-                              //일단 틀만 잡는 거라서 전부 텍스트로 직접 입력했는데 연동하면 게시글 작성한 부분에서 가져와야 할듯 합니다.
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    '가격 : $fnPrice원',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  ButtonTheme(
-                                    height: 30,
-                                    child: FlatButton(
-                                      shape: OutlineInputBorder(),
-                                      child: Text(
-                                        fnClose
-                                            ? '마감'
-                                            : (widget.isMine ? '거래마감' : '구매신청'),
-                                        style: TextStyle(
-                                            color: fnClose
-                                                ? Colors.red
-                                                : Colors.green),
-                                      ),
-                                      onPressed: () {
-                                        fnClose
-                                            ? null
-                                            : widget.isMine
-                                                ? Close(context)
-                                                : purchaseApplication(context);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                color: Colors.black,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-
                               Text(
                                 '$fnName',
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 10,
+                                    fontSize: 20),
                               ),
                               Text(
-                                '$fnDes',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(
-                                    '$fnDate',
-                                    style: TextStyle(fontSize: 12),
+                                    '$fnPrice원',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ],
+                              SizedBox(height: 10,),
+                              ButtonTheme(
+                                minWidth: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: FlatButton(
+                                  shape: OutlineInputBorder(borderSide: BorderSide(color: fnClose
+                                      ? Colors.red
+                                      : Colors.green)),
+                                  child: Text(
+                                    fnClose
+                                        ? '거래가 마감되었습니다'
+                                        : (widget.isMine ? '거래 마감하기' : '거래 신청하기'),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                        color: fnClose
+                                            ? Colors.red
+                                            : Colors.green),
+                                  ),
+                                  onPressed: () {
+                                    fnClose
+                                        ? null
+                                        : widget.isMine
+                                        ? Close(context)
+                                        : purchaseApplication(context);
+                                  },
+                                ),
                               ),
-                              Divider(
-                                color: Colors.black,
-                              ),
+                              SizedBox(height: 15,),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -342,7 +314,7 @@ class _PostState extends State<Post> {
                                     children: [
                                       Text(
                                         '택배',
-                                        style: TextStyle(fontSize: 15),
+                                        style: TextStyle(fontSize: 14),
                                       ),
                                       Icon(
                                         checkDelivery
@@ -357,14 +329,14 @@ class _PostState extends State<Post> {
                                       ),
                                       Text(
                                         '직접거래',
-                                        style: TextStyle(fontSize: 15),
+                                        style: TextStyle(fontSize: 14),
                                       ),
                                       Icon(
                                         checkDirect
                                             ? Icons.check_box
                                             : Icons.check_box_outline_blank,
                                         color: checkDirect
-                                            ? Colors.green
+                                            ? Colors.green[300]
                                             : Colors.grey,
                                       ),
                                     ],
@@ -372,19 +344,37 @@ class _PostState extends State<Post> {
                                 ],
                               ),
                               Divider(
-                                color: Colors.black,
+                                color: Colors.black38,
+                              ),
+                              Text(
+                                '[상세설명]',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Text(
+                                '$fnDes',
+                                style: TextStyle(fontSize: 15),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
+                                  Text(
+                                    '$fnDate',
+                                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                                  ),
+                              Divider(
+                                color: Colors.black38,
+                              ),
                               Text(
-                                '댓글',
+                                '[댓글]',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
                           )),
                       Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: commentWindow(),
                       ),
                     ],
@@ -738,9 +728,7 @@ class _PostState extends State<Post> {
                                 : Container();
                           },
                         ),
-                        Divider(
-                          color: Colors.black45,
-                        )
+                        SizedBox(height: 8,),
                       ],
                     );
                   },
