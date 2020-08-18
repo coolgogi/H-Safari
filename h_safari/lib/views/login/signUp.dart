@@ -353,10 +353,11 @@ class _SignUpState extends State<SignUp> {
           ],
         ),
       ));
-    bool result = await fp.signUpWithEmail(_mailCon.text, _pwCon.text);
+    String emailSetting = _mailCon.text + "@handong.edu";
+    bool result = await fp.signUpWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result) {
-      addUser(_mailCon.text);
+      addUser(emailSetting);
       Navigator.pop(context);
     } else {
       showLastFBMessage();

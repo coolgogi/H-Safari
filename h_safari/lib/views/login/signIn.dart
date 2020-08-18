@@ -277,7 +277,8 @@ class _SignInState extends State<SignIn> {
               Text("   Signing-In...")
             ],
           )));
-    bool result = await fp.signInWithEmail(_mailCon.text, _pwCon.text);
+    String emailSetting = _mailCon.text + "@handong.edu";
+    bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false) showLastFBMessage();
   }
