@@ -154,6 +154,7 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
+                                            alignment: Alignment.center,
                                             fit: StackFit.passthrough,
                                             children: <Widget>[
                                               Center(
