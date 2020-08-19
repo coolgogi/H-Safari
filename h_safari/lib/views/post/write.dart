@@ -251,8 +251,7 @@ class _MyWriteState extends State<MyWrite> {
                                                       (pictures==null) ? 1 : pictures.length,
                                                       crossAxisSpacing:
                                                       10,
-                                                      physics:
-                                                      ScrollPhysics(),
+                                                      physics: const NeverScrollableScrollPhysics(),
                                                       children: List
                                                           .generate(
                                                           pictures
@@ -445,6 +444,7 @@ class _MyWriteState extends State<MyWrite> {
 //                                                              (copyIndex!=2) ? _value=null : _value=_value,
                                                               ],
                                                               content: Container(
+                                                                height: MediaQuery.of(context).size.height*5/4,
                                                                 width: double
                                                                     .maxFinite,
                                                                 child: Column(
