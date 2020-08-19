@@ -239,12 +239,18 @@ class DatabaseMethods {
     });
   }
 
-  updatePostDoc(String docID, String name, String price, String description,
+  updatePostDoc(String docID, String name, String price, String description, String imageList,
       String category, String how) {
+
+    List<String> splitString = imageList.split(',');
+
     Firestore.instance.collection('post').document(docID).updateData({
       "name": name,
-      "price": price,
       "description": description,
+      "datetime": Timestamp.now(),
+      "price": price,
+      "imageUrl": splitString[0], //대표사진
+      "imageList": splitString, //사진 리스트
       "category": category,
       "how": how,
     });

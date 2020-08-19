@@ -21,7 +21,7 @@ class _MyWriteState extends State<MyWrite> {
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
-  final _formkey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   bool _delivery = false; //택배버튼
   bool _direct = false; //직거래 버튼
@@ -40,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = ""; // 대표사진
 
-  var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusNode = new FocusNode(); //키보드 없애는 용
 
   @override
   void initState() {
@@ -70,13 +70,25 @@ class _MyWriteState extends State<MyWrite> {
   final String fnWaitingList = "waitingUserList";
   final String fnClose = "close";
 
-  List<File> pictures = List<File>();
-  List<String> picURL = List<String>();
+  List<File> pictures;
+  List<String> picURL;
   int picLength = 0;
   double picWidth = 0;
 
+  _MyWriteState(){
+    pictures = List<File>();
+    picURL = List<String>();
+
+//    File tp = new File("");
+//    pictures.add(tp);
+//    pictures.removeAt(0);
+//    picURL.add("");
+//    picURL.removeAt(0);
+  }
+
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return WillPopScope(
         onWillPop: () async {
           _value = null;
@@ -221,6 +233,142 @@ class _MyWriteState extends State<MyWrite> {
                                           //사진 업로드
                                           picLength != 0
                                               ? Column(
+=======
+    return Scaffold(
+      resizeToAvoidBottomPadding: true,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(_blankFocusNode);
+        },
+        child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  elevation: 2,
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _value = null;
+                      previous = null;
+                      Navigator.pop(context);
+                    },
+                  ),
+                  iconTheme: IconThemeData(color: Colors.green),
+                  centerTitle: true,
+                  title: Text(
+                    '게시물 작성',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  floating: true,
+                ),
+              ];
+            },
+            body: SingleChildScrollView(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                  child: Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(.0),
+                          child: Form(
+                              key: formKey,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          '사진 업로드',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        RawMaterialButton(
+                                          child: Text(
+                                            '추가',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.green,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                // return object of type Dialog
+                                                return AlertDialog(
+                                                  title: new Text("사진 업로드"),
+                                                  content:
+                                                      new Text("방식을 선택하세요."),
+                                                  actions: <Widget>[
+                                                    // usually buttons at the bottom of the dialog
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          new FlatButton(
+                                                            child: new Text(
+                                                              "사진첩",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green),
+                                                            ),
+                                                            onPressed: () {
+                                                              _uploadImageToStorage(
+                                                                  ImageSource
+                                                                      .gallery);
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          new FlatButton(
+                                                            child: new Text(
+                                                                "카메라",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green)),
+                                                            onPressed: () {
+                                                              _uploadImageToStorage(
+                                                                  ImageSource
+                                                                      .camera);
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          new FlatButton(
+                                                            child: new Text(
+                                                                "Close",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green)),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ]),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    picLength != 0
+                                        ? Column(
+>>>>>>> 48fdf06822f679cd2cd9b129fe085a5b7e6ca882
                                             mainAxisAlignment:
                                             MainAxisAlignment.start,
                                             children: <Widget>[
@@ -237,6 +385,7 @@ class _MyWriteState extends State<MyWrite> {
                                                           : picWidth,
                                                       child: (picLength > 0)
                                                           ? GridView.count(
+<<<<<<< HEAD
                                                           shrinkWrap:
                                                           true,
                                                           crossAxisCount:
@@ -251,6 +400,21 @@ class _MyWriteState extends State<MyWrite> {
                                                               pictures
                                                                   .length,
                                                                   (index) {
+=======
+                                                              shrinkWrap:
+                                                                  true,
+                                                              crossAxisCount:
+                                                                  (pictures==null) ? 1 : pictures.length,
+                                                              crossAxisSpacing:
+                                                                  10,
+                                                              physics:
+                                                                  ScrollPhysics(),
+                                                              children: List
+                                                                  .generate(
+                                                                      pictures
+                                                                          .length,
+                                                                      (index) {
+>>>>>>> 48fdf06822f679cd2cd9b129fe085a5b7e6ca882
                                                                 return Stack(
                                                                   children: <
                                                                       Widget>[
@@ -286,9 +450,13 @@ class _MyWriteState extends State<MyWrite> {
                                                                   ],
                                                                 );
                                                               }))
+<<<<<<< HEAD
                                                           : SizedBox(
                                                         width: 0,
                                                       ),
+=======
+                                                          : Container(),
+>>>>>>> 48fdf06822f679cd2cd9b129fe085a5b7e6ca882
                                                     ),
                                                     Align(
                                                         alignment:
@@ -304,6 +472,7 @@ class _MyWriteState extends State<MyWrite> {
                                               ),
                                             ],
                                           )
+<<<<<<< HEAD
                                               : SizedBox(
                                             width: 0,
                                           ),
@@ -319,6 +488,81 @@ class _MyWriteState extends State<MyWrite> {
                                           ),
                                           SizedBox(height: 10),
                                           Container(
+=======
+                                        : Container(),
+                                    SizedBox(height: 20),
+                                    Text(
+                                      "게시글 제목",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextFormField(
+                                        controller: _newNameCon,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1),
+                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              10, 10, 10, 0),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green)),
+                                          hintText: '상품명 및 제목 입력',
+                                        ),
+                                        validator: (val){
+                                          return val.isEmpty ? '필수항목입니다!' : null;
+                                          }
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    Text(
+                                      "가격",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: _newPriceCon,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 1),
+                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              10, 10, 10, 0),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green)),
+                                          hintText: '가격 입력',
+                                        ),
+                                        validator: (val) {
+                                          return val.isEmpty ? '필수항목입니다!' : null;
+                                          }
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "카테고리",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: 40),
+                                        Container(
+>>>>>>> 48fdf06822f679cd2cd9b129fe085a5b7e6ca882
                                             alignment: Alignment.centerLeft,
                                             height: 50,
                                             child: TextFormField(
@@ -409,6 +653,7 @@ class _MyWriteState extends State<MyWrite> {
                                                             style: TextStyle(
                                                                 fontSize: 15),
                                                           ),
+<<<<<<< HEAD
                                                           Icon(Icons.arrow_drop_down),
                                                         ],
                                                       ),
@@ -592,7 +837,145 @@ class _MyWriteState extends State<MyWrite> {
                   )),
             ),
           )
+=======
+                                                        );
+                                                      });
+                                                })),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '택배',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Checkbox(
+                                          key: null,
+                                          value: _delivery,
+                                          activeColor: Colors.green,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              _delivery = value;
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          '직접거래',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Checkbox(
+                                          key: null,
+                                          value: _direct,
+                                          activeColor: Colors.green,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              _direct = value;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      '상세정보',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      child: TextFormField(
+                                        validator: (val){
+                                          return val.isEmpty ? '필수항목입니다!' : null;
+                                        },
+                                        controller: _newDescCon,
+                                        maxLines: 10,
+                                        decoration: InputDecoration(
+                                          hintText: "상품의 상세한 정보를 적어주세요.",
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Center(
+                                      child: RaisedButton(
+                                        color: Colors.green,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            side: BorderSide(
+                                              color: Colors.green,
+                                            )),
+                                        onPressed: () {
+                                          if (_newDescCon.text.isNotEmpty &&
+                                              _newNameCon.text.isNotEmpty &&
+                                              _newPriceCon.text.isNotEmpty) {
+                                            createDoc(
+                                                _newNameCon.text,
+                                                _newDescCon.text,
+                                                _newPriceCon.text,
+                                                picURL.isEmpty ? "" : picURL[0],
+                                                picURL.join(
+                                                    ',')); // "picURL[0],picURL[1],..."
+                                            _newNameCon.clear();
+                                            _newDescCon.clear();
+                                            _newPriceCon.clear();
+                                            _profileImageURL = "";
+                                            _newCategoryCon.clear();
+                                            _newHowCon.clear();
+                                            pictures.clear();
+                                            picURL.clear();
+                                            picLength = 0;
+                                            _value = null;
+                                            previous = null;
+                                          } else {
+                                            checkAll();
+                                          }
+                                        },
+                                        child: Text('게시글 등록',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white)),
+                                      ),
+                                    ),
+                                    //for test
+                                    RaisedButton(
+                                        color: Colors.green,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(30),
+                                            side: BorderSide(
+                                              color: Colors.green,
+                                            )),
+                                        onPressed: () {
+                                          print(picURL);
+                                          if(picURL.toString() == "[]") print("ok");
+
+                                        }
+                                    ),
+                                  ]))))),
+            )),
+      ),
+>>>>>>> 48fdf06822f679cd2cd9b129fe085a5b7e6ca882
     );
+  }
+
+  checkAll() {
+    if(formKey.currentState.validate()){}
   }
 
   void createDoc(String name, String description, String price, String imageURL,
