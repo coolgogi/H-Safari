@@ -70,6 +70,7 @@ class _SearchState extends State<Search> {
   }
 
   var _blankFocusnode = new FocusNode();
+  String priceComma;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +105,7 @@ class _SearchState extends State<Search> {
                           String _profileImageURL = document[fnImageUrl];
                           String postCategory = document[fnCategory];
                           bool close = document[fnClose];
+                          priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
 
                           if (!_IsSearching)
                             return Container();
@@ -150,7 +152,7 @@ class _SearchState extends State<Search> {
                                           ),
                                           // 게시물 가격
                                           Text(
-                                            document[fnPrice] + '원',
+                                            '$priceComma원',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 18,

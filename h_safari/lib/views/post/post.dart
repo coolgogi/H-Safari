@@ -84,12 +84,14 @@ class _PostState extends State<Post> {
   var redocId;
 
   String _bigPhoto;
+  String priceComma;
 
   @override
   void initState() {
     DatabaseMethods().getComments(widget.doc.documentID).then((val) {
       setState(() {
         comments = val;
+        priceComma = fnPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
       });
     });
     super.initState();
@@ -285,7 +287,7 @@ class _PostState extends State<Post> {
                                     fontSize: 20),
                               ),
                               Text(
-                                    '$fnPrice원',
+                                    '$priceComma원',
                                     style: TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),

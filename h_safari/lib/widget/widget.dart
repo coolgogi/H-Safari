@@ -166,9 +166,12 @@ final String fnEmail = 'email';
 final String fnClose = 'close';
 final String checkClose = "마감";
 
+String priceComma;
+
 // home, search 의 게시글 UI
 Widget postTile(BuildContext context, DocumentSnapshot document) {
   bool close = document[fnClose];
+  priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
   return Container(
     decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black12))),
@@ -199,7 +202,7 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                   ),
                   // 게시물 가격
                   Text(
-                    document[fnPrice] + '원',
+                    '$priceComma원',
                     style: TextStyle(
                         color: close ? Colors.grey : Colors.black,
                         fontSize: 18,
