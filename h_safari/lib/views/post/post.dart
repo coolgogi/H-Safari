@@ -5,6 +5,7 @@ import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/waiting.dart';
+import 'package:h_safari/widget/widget.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -82,6 +83,8 @@ class _PostState extends State<Post> {
   bool isRecomment = false;
   var redocId;
 
+  String _bigPhoto;
+
   @override
   void initState() {
     DatabaseMethods().getComments(widget.doc.documentID).then((val) {
@@ -153,36 +156,43 @@ class _PostState extends State<Post> {
                                               Container(
                                                   child: imgUrl !=
                                                       ''
-                                                      ? Image
-                                                      .network(
+                                                      ? Image.network(
                                                     imgUrl,
-                                                    fit: BoxFit
-                                                        .fill,
+                                                    fit: BoxFit.fill,
                                                   )
                                                       : Image.asset(
                                                     'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                    fit: BoxFit
-                                                        .fill,
+                                                    fit: BoxFit.fill,
                                                   )),
                                               Container(
-                                                  child:
-                                                  Image.asset(
+                                                  child: Image.asset(
                                                     'assets/sample/close2.png',
                                                     fit: BoxFit.fill,
                                                   )),
                                             ],
                                           )
                                               : Container(
-                                              child: imgUrl != ''
-                                                  ? Image.network(
-                                                imgUrl,
-                                                fit:
-                                                BoxFit.fill,
+                                              child: imgUrl != '' ? Hero(
+                                                tag: imgUrl,
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      _bigPhoto = imgUrl;
+                                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                                        return BigPhoto(context, _current);
+                                                      }));
+                                                    },
+                                                    child: Image.network(
+                                                      imgUrl,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
                                               )
                                                   : Image.asset(
                                                 'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                fit:
-                                                BoxFit.fill,
+                                                fit: BoxFit.fill,
                                               )));
                                     },
                                   );
@@ -1011,5 +1021,34 @@ class _PostState extends State<Post> {
             ],
           );
         });
+  }
+
+  Widget BigPhoto(BuildContext context, int index) {
+    return Scaffold(
+      body: Center(
+        child: GestureDetector(
+          //onVerticalDragDown: (_) => Navigator.pop(context),
+          //onHorizontalDragDown: (_) => Navigator.pop(context),
+          //onTapDown: (_) => Navigator.pop(context),
+          child: Center(
+            child: Hero(
+              tag: _bigPhoto,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+//                  onTap: () {
+//                    Navigator.pop(context);
+//                  },
+                  child: Image.network(
+                    _bigPhoto,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            )
+          ),
+        )
+      ),
+    );
   }
 }
