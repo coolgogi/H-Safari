@@ -161,10 +161,10 @@ class _categoryViewState extends State<categoryView> {
             },
 
             // activeTrackColor : Switch 라인색
-            activeTrackColor: Colors.lightGreenAccent[100],
+            activeTrackColor: Colors.green,
 
             // activeColor : Switch 버튼색
-            activeColor: Colors.green[400],
+            activeColor: Colors.white,
           ),
         )
       ],
