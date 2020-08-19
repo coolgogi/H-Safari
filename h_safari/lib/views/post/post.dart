@@ -154,25 +154,28 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
+                                            fit: StackFit.passthrough,
                                             children: <Widget>[
-                                              Container(
-                                                  child: imgUrl !=
-                                                      ''
-                                                      ? Image.network(
-                                                    imgUrl,
-                                                    fit: BoxFit
-                                                        .fitWidth,
-                                                  )
-                                                      : Image.asset(
-                                                    'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                    fit: BoxFit
-                                                        .fitWidth,
-                                                  )),
+                                              Center(
+                                                child: Container(
+                                                    child: imgUrl !=
+                                                        ''
+                                                        ? Image.network(
+                                                      imgUrl,
+                                                      fit: BoxFit
+                                                          .fitWidth,
+                                                    )
+                                                        : Image.asset(
+                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                      fit: BoxFit
+                                                          .fitWidth,
+                                                    )),
+                                              ),
                                               Container(
                                                   child: Image.asset(
                                                     'assets/sample/close2.png',
-                                                    fit: BoxFit.fitWidth,
-                                                  )),
+                                                    fit: BoxFit.fill,
+                                                  ),),
                                             ],
                                           )
                                               : Container(
@@ -1031,9 +1034,10 @@ class _PostState extends State<Post> {
     return Scaffold(
       body: Center(
         child: GestureDetector(
-          //onVerticalDragDown: (_) => Navigator.pop(context),
-          //onHorizontalDragDown: (_) => Navigator.pop(context),
-          //onTapDown: (_) => Navigator.pop(context),
+          onPanUpdate: (details) {
+            if(details.delta.dy < 0) Navigator.pop(context);
+            else if(details.delta.dy > 0) Navigator.pop(context);
+          },
           child: Center(
             child: Hero(
               tag: _bigPhoto,
