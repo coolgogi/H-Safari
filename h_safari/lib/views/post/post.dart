@@ -189,7 +189,7 @@ class _PostState extends State<Post> {
                                                     },
                                                     child: Image.network(
                                                       imgUrl,
-                                                      fit: BoxFit.fill,
+                                                      fit: BoxFit.fitWidth,
                                                     ),
                                                   ),
                                                 ),
@@ -1039,14 +1039,9 @@ class _PostState extends State<Post> {
               tag: _bigPhoto,
               child: Material(
                 color: Colors.transparent,
-                child: InkWell(
-//                  onTap: () {
-//                    Navigator.pop(context);
-//                  },
-                  child: Image.network(
-                    _bigPhoto,
-                    fit: BoxFit.fill,
-                  ),
+                child: Image.network(
+                  _bigPhoto,
+                  fit: BoxFit.fill,
                 ),
               ),
             )

@@ -571,22 +571,6 @@ class _MyWriteState extends State<MyWrite> {
                                                   color: Colors.white)),
                                         ),
                                       ),
-                                      //for test
-                                      RaisedButton(
-                                          color: Colors.green,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              side: BorderSide(
-                                                color: Colors.green,
-                                              )),
-                                          onPressed: () {
-                                            print(picURL);
-                                            if(picURL.toString() == "[]") print("ok");
-
-                                          }
-                                      ),
                                     ]))))),
               )),
         ),
