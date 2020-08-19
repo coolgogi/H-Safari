@@ -1,32 +1,29 @@
 import 'dart:ui';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intl/intl.dart';
-
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/post/post.dart';
 
-
-class postUpdateDelete extends StatefulWidget {
+class PostUpdateDelete extends StatefulWidget {
   DocumentSnapshot tp;
-  postUpdateDelete(DocumentSnapshot doc) {
+
+  PostUpdateDelete(DocumentSnapshot doc) {
     tp = doc;
   }
+
   @override
-  _postUpdateDeleteState createState() => _postUpdateDeleteState(tp);
+  _PostUpdateDeleteState createState() => _PostUpdateDeleteState(tp);
 }
 
 String _value; //radioButton에서 값을 저장하는 변수
 String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변수
 
-class _postUpdateDeleteState extends State<postUpdateDelete> {
+class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   String currentUid;
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
@@ -86,10 +83,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   String tpHow;
   String tpCategory;
 
-
-
-  _postUpdateDeleteState(DocumentSnapshot doc) {
-
+  _PostUpdateDeleteState(DocumentSnapshot doc) {
     pictures = List<File>();
     picURL = List<String>();
 
@@ -106,12 +100,10 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     _newCategoryCon.text = doc['category'];
     tempList = doc['imageList'];
 
-
-    for(int i = 0 ; i < tempList.length; i++){
+    for (int i = 0; i < tempList.length; i++) {
       String tp = tempList[i].toString();
-      if(tp != "") picURL.add(tp);
+      if (tp != "") picURL.add(tp);
     }
-
 
     _category = _newCategoryCon.text;
     _value = _newCategoryCon.text;
@@ -156,7 +148,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
           FocusScope.of(context).requestFocus(_blankFocusnode);
         },
         child: NestedScrollView(
-          //화면 스크롤 가능하게
+            //화면 스크롤 가능하게
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
@@ -177,499 +169,473 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
               child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
-                      child: Padding(
-                          padding: const EdgeInsets.all(.0),
-                          child: Form(
-                              key: _formkey,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
+                      child: Form(
+                          key: formKey,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          '사진 업로드*',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        RawMaterialButton(
-                                          child: Text(
-                                            '추가',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.green,
-                                                decoration:
+                                  children: <Widget>[
+                                    Text(
+                                      '사진 업로드*',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    RawMaterialButton(
+                                      child: Text(
+                                        '추가',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.green,
+                                            decoration:
                                                 TextDecoration.underline),
-                                          ),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                // return object of type Dialog
-                                                return AlertDialog(
-                                                  title: new Text("사진 업로드"),
-                                                  content:
-                                                  new Text("방식을 선택하세요."),
-                                                  actions: <Widget>[
-                                                    // usually buttons at the bottom of the dialog
-                                                    Row(
-                                                        mainAxisAlignment:
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: new Text("사진 업로드"),
+                                              content: new Text("방식을 선택하세요."),
+                                              actions: <Widget>[
+                                                // usually buttons at the bottom of the dialog
+                                                Row(
+                                                    mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                        children: <Widget>[
-                                                          new FlatButton(
-                                                            child:
-                                                            new Text("사진첩"),
-                                                            onPressed: () {
-                                                              _uploadImageToStorage(ImageSource.gallery);
-                                                              Navigator.of(context).pop();
-                                                            },
-                                                          ),
-                                                          new FlatButton(
-                                                            child:
-                                                            new Text("카메라"),
-                                                            onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .camera);
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
-                                                            },
-                                                          ),
-                                                          new FlatButton(
-                                                            child: new Text(
-                                                                "Close"),
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
-                                                            },
-                                                          ),
-                                                        ]),
-                                                  ],
-                                                );
-                                              },
+                                                    children: <Widget>[
+                                                      new FlatButton(
+                                                        child: new Text("사진첩"),
+                                                        onPressed: () {
+                                                          _uploadImageToStorage(
+                                                              ImageSource
+                                                                  .gallery);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                      new FlatButton(
+                                                        child: new Text("카메라"),
+                                                        onPressed: () {
+                                                          _uploadImageToStorage(
+                                                              ImageSource
+                                                                  .camera);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                      new FlatButton(
+                                                        child:
+                                                            new Text("Close"),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ]),
+                                              ],
                                             );
                                           },
-                                        ),
-                                      ],
+                                        );
+                                      },
                                     ),
-                                    //SizedBox(height: 10),
-
-                                    //사진 업로드
-                                    picLength != 0
-                                        ? Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        SingleChildScrollView(
-                                          scrollDirection:
-                                          Axis.horizontal,
-                                          child: Flexible(
-                                            child: Container(
-                                              height: 130,
-                                              width: (picLength != 0)
-                                                  ? (picWidth + 130) *
-                                                  pictures.length
-                                                  : picWidth,
-                                              child: (picLength > 0)
-                                                  ? GridView.count(
-                                                  shrinkWrap: true,
-                                                  crossAxisCount:
-                                                  (pictures==null) ? 1 : pictures.length,
-                                                  crossAxisSpacing:
-                                                  10,
-                                                  physics:
-                                                  ScrollPhysics(),
-                                                  children:
-                                                  List.generate(pictures.length, (index) {
-                                                    return Stack(
-                                                      children: <
-                                                          Widget>[
-                                                        Container(
-                                                          decoration:
-                                                          BoxDecoration(
-                                                              image:
-                                                              DecorationImage(
-                                                                image: (pictures.toString() != "[]")
-                                                                    ? FileImage(pictures[index])
-                                                                    : NetworkImage(tpUrl),
-                                                                //fit: BoxFit.cover
-                                                              )),
-                                                        ),
-                                                        //delete button
-                                                        Align(
-                                                          alignment:
-                                                          Alignment
-                                                              .topRight,
-                                                          child:
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                Icons
-                                                                    .highlight_off),
-                                                            disabledColor:
-                                                            Colors
-                                                                .black,
-                                                            onPressed:
-                                                                () {
-                                                              setState(
-                                                                      () {
-                                                                    pictures.removeAt(index);
-                                                                    picURL.removeAt(index);
-                                                                    picLength--;
-                                                                  });
-                                                            },
+                                  ],
+                                ),
+                                picURL.length != 0
+                                    ? SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Container(
+                                                height: 110,
+                                                width: (100.0) * picURL.length,
+                                                child: GridView.count(
+                                                    shrinkWrap: true,
+                                                    crossAxisCount:
+                                                        picURL.length,
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    children: List.generate(
+                                                        picURL.length, (index) {
+                                                      return Stack(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            child:
+                                                                Image.network(
+                                                              picURL[index],
+                                                            ),
+                                                            alignment: Alignment
+                                                                .topCenter,
                                                           ),
+                                                          //delete button
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            child: IconButton(
+                                                              icon: Icon(Icons
+                                                                  .highlight_off),
+                                                              disabledColor:
+                                                                  Colors.black,
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  picURL
+                                                                      .removeAt(
+                                                                          index);
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }))),
+                                            Align(
+                                                alignment:
+                                                Alignment.topLeft,
+                                                child: Text(
+                                                  '대표 이미지',
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .green),
+                                                ))
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                                SizedBox(height: 20),
+                                Text(
+                                  "게시글 제목* ",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: 50,
+                                  child: TextFormField(
+                                      controller: _newNameCon,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 1),
+                                        ),
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.green)),
+                                        hintText: '상품명 및 제목 입력',
+                                      ),
+                                      validator: (val) {
+                                        return val.isEmpty ? '필수항목입니다!' : null;
+                                      }),
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Text(
+                                  "가격* ",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: 50,
+                                  child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      controller: _newPriceCon,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 1),
+                                        ),
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.green)),
+                                        hintText: '가격 입력',
+                                      ),
+                                      validator: (val) {
+                                        return val.isEmpty ? '필수항목입니다!' : null;
+                                      }),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "카테고리* ",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(width: 40),
+                                    Container(
+                                        alignment: Alignment.centerLeft,
+                                        height: 30,
+                                        child: FlatButton(
+                                            shape: OutlineInputBorder(),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  _category,
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                ),
+                                                Icon(Icons.arrow_drop_down),
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              //DropButton(context);
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    //기존 dopdownButton에서 alertDialog list로 수정!
+                                                    //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
+                                                    return //DropCat();
+                                                        AlertDialog(
+                                                      title: Text('카테고리'),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          child: Text('취소'),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            _value =
+                                                                previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                          },
+                                                        ),
+                                                        FlatButton(
+                                                          child: Text('확인'),
+                                                          onPressed: () {
+                                                            if (_value !=
+                                                                null) {
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  _value);
+                                                              setState(() {
+                                                                //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                _category =
+                                                                    _value;
+                                                                previous =
+                                                                    _value;
+                                                              });
+                                                            }
+                                                          },
                                                         ),
                                                       ],
+                                                      content: Container(
+                                                        width: double.maxFinite,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            ListCat(),
+                                                            //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                          ],
+                                                        ),
+                                                      ),
                                                     );
-                                                  }))
-                                                  : SizedBox(
-                                                width: 0,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                        : SizedBox(
-                                      width: 0,
-                                    ),
-
-                                    SizedBox(height: 30),
-
-                                    //게시글 제목 및 상품명을 적을 텍스트필드
+                                                  });
+                                            })),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: [
                                     Text(
-                                      "게시글 제목* ",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                      '택배',
+                                      style: TextStyle(fontSize: 15),
                                     ),
-                                    SizedBox(height: 10),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 50,
-                                      child: TextFormField(
-                                        controller: _newNameCon,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1),
-                                          ),
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              10, 10, 10, 0),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.green)),
-                                          hintText: '상품명 및 제목 입력',
-                                        ),
-                                        validator: (value) {
-                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                          if (value.isEmpty) {
-                                            return '제목을 입력해 주세요.';
-                                          }
-                                        },
-                                      ),
+                                    Checkbox(
+                                      key: null,
+                                      value: _delivery,
+                                      activeColor: Colors.green,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _delivery = value;
+                                        });
+                                      },
                                     ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                    //가격 입력하는 텍스트 필드
                                     Text(
-                                      "가격* ",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                      '직접거래',
+                                      style: TextStyle(fontSize: 15),
                                     ),
-                                    SizedBox(height: 10),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 50,
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        controller: _newPriceCon,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1),
-                                          ),
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              10, 10, 10, 0),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.green)),
-                                          hintText: '가격 입력',
-                                        ),
-                                        validator: (value) {
-                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                          if (value.isEmpty) {
-                                            return '제목을 입력해 주세요.';
-                                          }
-                                        },
+                                    Checkbox(
+                                      key: null,
+                                      value: _direct,
+                                      activeColor: Colors.green,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _direct = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  '상세정보',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  child: TextFormField(
+                                      controller: _newDescCon,
+                                      maxLines: 10,
+                                      decoration: InputDecoration(
+                                        hintText: "상품의 상세한 정보를 적어주세요.",
+                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.green)),
                                       ),
-                                    ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                    //이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "카테고리* ",
+                                      validator: (val) {
+                                        return val.isEmpty ? '필수항목입니다!' : null;
+                                      }),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    RaisedButton(
+                                      color: Colors.green,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          side: BorderSide(
+                                            color: Colors.green,
+                                          )),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('취소',
                                           style: TextStyle(
                                               fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(width: 50),
-                                        Container(
-                                            alignment: Alignment.centerLeft,
-                                            height: 30,
-                                            child: FlatButton(
-                                                shape: OutlineInputBorder(),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      _category,
-                                                      style: TextStyle(
-                                                          fontSize: 15),
-                                                    ),
-                                                    Icon(Icons.arrow_drop_down),
-                                                  ],
-                                                ),
-                                                onPressed: () {
-                                                  //DropButton(context);
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        //기존 dopdownButton에서 alertDialog list로 수정!
-                                                        //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
-                                                        return //DropCat();
-                                                          AlertDialog(
-                                                            title: Text('카테고리'),
-                                                            actions: <Widget>[
-                                                              FlatButton(
-                                                                child: Text('취소'),
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  _value =
-                                                                      previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                                },
-                                                              ),
-                                                              FlatButton(
-                                                                child: Text('확인'),
-                                                                onPressed: () {
-                                                                  if (_value !=
-                                                                      null) {
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        _value);
-                                                                    setState(() {
-                                                                      //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                      _category = _value;
-                                                                      previous = _value;
-                                                                    });
-                                                                  }
-                                                                },
-                                                              ),
-                                                            ],
-                                                            content: Container(
-                                                              width: double
-                                                                  .maxFinite,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: <
-                                                                    Widget>[
-                                                                  ListCat(),
-                                                                  //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                      });
-                                                })),
-                                      ],
+                                              color: Colors.white)),
                                     ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                    //택배거래와 직접거래 중 판매자가 직접 선택할 수 있는 버튼
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '택배',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        Checkbox(
-                                          key: null,
-                                          value: _delivery,
-                                          activeColor: Colors.green,
-                                          onChanged: (bool value) {
-                                            setState(() {
-                                              _delivery = value;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          '직접거래',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        Checkbox(
-                                          key: null,
-                                          value: _direct,
-                                          activeColor: Colors.green,
-                                          onChanged: (bool value) {
-                                            setState(() {
-                                              _direct = value;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                    //상품 설명을 적을 텍스트필드
-                                    Container(
-                                      child: TextField(
-                                        controller: _newDescCon,
-                                        maxLines: 10,
-                                        //max 10줄이라고 돼있는데 그 이상도 적어지네요...?
-                                        decoration: InputDecoration(
-                                          hintText: "상품의 상세한 정보를 적어주세요.",
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.green)),
-                                        ),
-                                      ),
-                                    ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                    //확인하고 게시글을 등록하는 버튼
-                                    //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.green,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
+                                    RaisedButton(
+                                      color: Colors.green,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
                                               BorderRadius.circular(30),
-                                              side: BorderSide(
-                                                color: Colors.green,
-                                              )),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('취소',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
-                                        ),
-                                        RaisedButton(
-                                          color: Colors.green,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              side: BorderSide(
-                                                color: Colors.green,
-                                              )),
-                                          onPressed: () {
-                                            if (_newDescCon.text.isNotEmpty &&
-                                                _newNameCon.text.isNotEmpty &&
-                                                _newPriceCon.text.isNotEmpty) {
-                                              _newCategoryCon.text = _category;
-                                              _newHowCon.text = checkHow().toString();
-
-                                              DatabaseMethods().updatePostDoc(
-                                                  widget.tp.documentID,
-                                                  _newNameCon.text,
-                                                  _newPriceCon.text,
-                                                  _newDescCon.text,
-                                                  picURL.join(
-                                                      ','),
-                                                  _newCategoryCon.text,
-                                                  _newHowCon.text);
-                                              showDocument(colName,
-                                                  widget.tp.documentID);
-                                              _newNameCon.clear();
-                                              _newDescCon.clear();
-                                              _newPriceCon.clear();
-                                              _profileImageURL = "";
-                                              _newCategoryCon.clear();
-                                              _newHowCon.clear();
-                                              pictures.clear();
-                                              picURL.clear();
-                                            } else {
-                                              //경고 메세지 부탁
-                                            }
-                                          },
-                                          child: Text('업데이트',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
-                                        ),
-                                        RaisedButton(
-                                          color: Colors.green,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30),
-                                              side: BorderSide(
-                                                color: Colors.green,
-                                              )),
-                                          onPressed: () {
-                                            DatabaseMethods().deletePostDoc(
-                                                context, widget.tp.documentID);
-                                          },
-                                          child: Text('삭제',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
-                                        ),
-                                        //for test
-                                        RaisedButton(
+                                          side: BorderSide(
                                             color: Colors.green,
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(30),
-                                                side: BorderSide(
-                                                  color: Colors.green,
-                                                )),
-                                            onPressed: () {
-                                              print(picURL);
-                                              if(picURL.toString() == "[]") print("ok");
-                                              print(pictures.toString());
-
-                                            }
-                                        ),
-                                      ],
+                                          )),
+                                      onPressed: () {
+                                        if (_newDescCon.text.isNotEmpty &&
+                                            _newNameCon.text.isNotEmpty &&
+                                            _newPriceCon.text.isNotEmpty) {
+                                          _newCategoryCon.text = _category;
+                                          _newHowCon.text =
+                                              checkHow().toString();
+                                          DatabaseMethods().updatePostDoc(
+                                              widget.tp.documentID,
+                                              _newNameCon.text,
+                                              _newPriceCon.text,
+                                              _newDescCon.text,
+                                              picURL.join(','),
+                                              _newCategoryCon.text,
+                                              _newHowCon.text);
+                                          showDocument(
+                                              colName, widget.tp.documentID);
+                                          _newNameCon.clear();
+                                          _newDescCon.clear();
+                                          _newPriceCon.clear();
+                                          _profileImageURL = "";
+                                          _newCategoryCon.clear();
+                                          _newHowCon.clear();
+                                          pictures.clear();
+                                          picURL.clear();
+                                        } else {
+                                          checkAll();
+                                        }
+                                      },
+                                      child: Text('업데이트',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white)),
                                     ),
-                                  ]))))),
+                                    RaisedButton(
+                                      color: Colors.green,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          side: BorderSide(
+                                            color: Colors.green,
+                                          )),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (BuildContext context) {
+                                              {
+                                                return AlertDialog(
+                                                  content: Text('게시글을 삭제하시겠습니까?'),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      child: Text(
+                                                        '취소',
+                                                        style: TextStyle(color: Colors.green),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context, '취소');
+                                                      },
+                                                    ),
+                                                    FlatButton(
+                                                      child: Text(
+                                                        '확인',
+                                                        style: TextStyle(color: Colors.green),
+                                                      ),
+                                                      onPressed: () {
+                                                        DatabaseMethods().deletePostDoc(
+                                                            context, widget.tp.documentID);
+                                                        Navigator.pop(context);
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              }
+                                            });
+                                      },
+                                      child: Text('삭제',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white)),
+                                    ),
+                                  ],
+                                ),
+                              ])))),
             )),
       ),
     );
+  }
+
+  checkAll() {
+    if (formKey.currentState.validate()) {}
   }
 
   showDocument(String colName, String documentID) {
@@ -701,7 +667,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     });
 
     StorageReference storageReference =
-    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
+        _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
     // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);

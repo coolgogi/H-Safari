@@ -104,4 +104,57 @@ class _categoryViewState extends State<categoryView> {
     _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(context, MaterialPageRoute(builder: (context) => email == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
+
+  Widget appBarSelect(BuildContext context, String title) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      leading: InkWell(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.green,
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(left: 40.0),
+        child: Center(
+            child: Text(
+              '$title',
+              style: TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+            )),
+      ),
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top : 10, bottom: 10, right: 10),
+          child: Switch(
+            //value : _isSwitchedNum[num]의 기본값 저장 (true)
+            value: _isSwitchedNum,
+
+            // onChanged : 눌렀을 경우 value값을 가져와 _isSwitchedNum[num]에 지정하여 값을 변경
+            onChanged: (value) {
+              setState(() {
+                _isSwitchedNum= value;
+
+
+              });
+              Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                "마감" : _isSwitchedNum,
+              });
+            },
+
+            // activeTrackColor : Switch 라인색
+            activeTrackColor: Colors.green,
+
+            // activeColor : Switch 버튼색
+            activeColor: Colors.white,
+          ),
+        )
+      ],
+
+    );
+  }
 }

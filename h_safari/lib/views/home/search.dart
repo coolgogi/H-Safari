@@ -68,6 +68,7 @@ class _SearchState extends State<Search> {
   }
 
   var _blankFocusnode = new FocusNode();
+  String priceComma;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,8 @@ class _SearchState extends State<Search> {
                           String dt = timestampToStrDateTime(ts);
                           String _profileImageURL = document[fnImageUrl];
                           String postCategory = document[fnCategory];
+                          bool close = document[fnClose];
+                          priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
 
                           if (!_IsSearching)
                             return Container();
@@ -146,7 +149,7 @@ class _SearchState extends State<Search> {
                                           ),
                                           // 게시물 가격
                                           Text(
-                                            document[fnPrice] + '원',
+                                            '$priceComma원',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 18,
@@ -228,6 +231,35 @@ class _SearchState extends State<Search> {
                   },
                 ),
               ),
-            )));
+            )),
+    actions: <Widget>[
+      Column(
+        children: <Widget>[
+          Switch(
+            //value : _isSwitchedNum[num]의 기본값 저장 (true)
+            value: _isSwitchedNum,
+
+            // onChanged : 눌렀을 경우 value값을 가져와 _isSwitchedNum[num]에 지정하여 값을 변경
+            onChanged: (value) {
+              setState(() {
+                _isSwitchedNum= value;
+
+
+              });
+              Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                "마감" : _isSwitchedNum,
+              });
+            },
+
+            // activeTrackColor : Switch 라인색
+            activeTrackColor: Colors.green,
+            // activeColor : Switch 버튼색
+            activeColor: Colors.white,
+          ),
+//          Text('마감', style : TextStyle(color: Colors.black38)),
+        ],
+      )
+      ],
+    );
   }
 }
