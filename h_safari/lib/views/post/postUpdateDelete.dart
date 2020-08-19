@@ -1,22 +1,24 @@
 import 'dart:ui';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/services/database.dart';
-import 'package:h_safari/delete/post(writer).dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 
+import 'package:h_safari/services/database.dart';
+import 'package:h_safari/views/post/post.dart';
+
+
 class postUpdateDelete extends StatefulWidget {
   DocumentSnapshot tp;
-
   postUpdateDelete(DocumentSnapshot doc) {
     tp = doc;
   }
-
   @override
   _postUpdateDeleteState createState() => _postUpdateDeleteState(tp);
 }
@@ -40,7 +42,6 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   TextEditingController _newPriceCon = TextEditingController(); //가격저장
   TextEditingController _newCategoryCon = TextEditingController(); //카테고리 저장
   TextEditingController _newHowCon = TextEditingController(); //거래유형 저장
-
   //이미지 저장
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -63,50 +64,87 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   // 컬렉션명
   final String colName = "post";
 
-  String fnName;
-  String fnDes;
-  String fnDate;
-  String fnPrice;
-  String fnImage;
-  String fnUid;
-  String fnHow;
-  String fnCategory;
-  String fnEmail;
+  // 필드명
+  final String fnName = "name";
+  final String fnDescription = "description";
+  final String fnDatetime = "datetime";
+  final String fnPrice = "price";
+  final String fnImageUrl = "imageUrl";
+  final String fnImageList = "imageList";
+  final String fnCategory = "category";
+  final String fnHow = 'how';
 
-  List<File> pictures = List<File>();
-  List<String> picURL = List<String>();
+  List<File> pictures;
+  List<String> picURL;
+  List<dynamic> tempList;
   int picLength = 0;
   double picWidth = 0;
 
-  _postUpdateDeleteState(DocumentSnapshot doc) {
-    fnName = doc['name'];
-    fnDes = doc['description'];
-    var date = doc['datetime'].toDate(); //timestamp to datetime
-    fnDate = DateFormat('yyyy-MM-dd').add_Hms().format(date); //datetime format
-    fnPrice = doc['price'];
-    fnImage = doc['imageUrl'];
-    fnUid = doc['uid'];
-    fnCategory = doc['category'];
-    fnHow = doc['how'];
+  String tpName;
+  String tpDescription;
+  String tpPrice;
+  String tpHow;
+  String tpCategory;
 
-    fnEmail = doc['email'];
-    _newNameCon.text = fnName;
-    _newPriceCon.text = fnPrice;
-    _newDescCon.text = fnDes;
-    _category = fnCategory;
-    _value = fnCategory;
-    if (fnHow == '3') {
+
+
+  _postUpdateDeleteState(DocumentSnapshot doc) {
+
+    pictures = List<File>();
+    picURL = List<String>();
+
+    tpName = doc['name'];
+    tpDescription = doc['description'];
+    tpPrice = doc['price'];
+    tpHow = doc['how'];
+    tpCategory = doc['category'];
+
+    _newNameCon.text = tpName;
+    _newDescCon.text = doc['description'];
+    _newPriceCon.text = doc['price'];
+    _newHowCon.text = doc['how'];
+    _newCategoryCon.text = doc['category'];
+    tempList = doc['imageList'];
+
+
+    for(int i = 0 ; i < tempList.length; i++){
+      String tp = tempList[i].toString();
+      if(tp != "") picURL.add(tp);
+    }
+
+
+    _category = _newCategoryCon.text;
+    _value = _newCategoryCon.text;
+    if (_newHowCon.text == '3') {
       _delivery = true;
       _direct = true;
-    } else if (fnHow == '2') {
+    } else if (_newHowCon.text == '2') {
       _delivery = false;
       _direct = true;
-    } else if (fnHow == '1') {
+    } else if (_newHowCon.text == '1') {
       _delivery = true;
       _direct = false;
     } else {
       _delivery = false;
       _direct = false;
+    }
+
+//    print(picURL[0]);
+
+    if(picURL.toString() == "[]"){
+      print("empty");
+      picLength = 0;
+    }else{
+      print("not empty");
+      for(int i = 0; i < picURL.length; i++){
+        print("=====");
+        print(picURL[i].toString());
+        print("=====");
+
+        File imageFile = new File(picURL[i].toString());
+        pictures.add(imageFile);
+      }
+      picLength = pictures.length;
     }
   }
 
@@ -128,7 +166,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                   iconTheme: IconThemeData(color: Colors.green),
                   centerTitle: true,
                   title: Text(
-                    '게시물 작성',
+                    '게시물 수정 및 삭제',
                     style: TextStyle(color: Colors.green),
                   ),
                   floating: true,
@@ -185,12 +223,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                             child:
                                                             new Text("사진첩"),
                                                             onPressed: () {
-                                                              _uploadImageToStorage(
-                                                                  ImageSource
-                                                                      .gallery);
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
+                                                              _uploadImageToStorage(ImageSource.gallery);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           ),
                                                           new FlatButton(
@@ -245,58 +279,54 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                   ? GridView.count(
                                                   shrinkWrap: true,
                                                   crossAxisCount:
-                                                  pictures.length,
+                                                  (pictures==null) ? 1 : pictures.length,
                                                   crossAxisSpacing:
                                                   10,
                                                   physics:
                                                   ScrollPhysics(),
                                                   children:
-                                                  List.generate(
-                                                      pictures
-                                                          .length,
-                                                          (index) {
-                                                        return Stack(
-                                                          children: <
-                                                              Widget>[
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                  image:
-                                                                  DecorationImage(
-                                                                    image: (_image !=
-                                                                        null)
-                                                                        ? FileImage(pictures[
-                                                                    index])
-                                                                        : NetworkImage(
-                                                                        tpUrl),
-                                                                    //fit: BoxFit.cover
-                                                                  )),
-                                                            ),
-                                                            Align(
-                                                              alignment:
-                                                              Alignment
-                                                                  .topRight,
-                                                              child:
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                    Icons
-                                                                        .highlight_off),
-                                                                disabledColor:
-                                                                Colors
-                                                                    .black,
-                                                                onPressed:
-                                                                    () {
-                                                                  setState(
-                                                                          () {
-                                                                        pictures
-                                                                            .removeAt(index);
-                                                                      });
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      }))
+                                                  List.generate(pictures.length, (index) {
+                                                    return Stack(
+                                                      children: <
+                                                          Widget>[
+                                                        Container(
+                                                          decoration:
+                                                          BoxDecoration(
+                                                              image:
+                                                              DecorationImage(
+                                                                image: (pictures.toString() != "[]")
+                                                                    ? FileImage(pictures[index])
+                                                                    : NetworkImage(tpUrl),
+                                                                //fit: BoxFit.cover
+                                                              )),
+                                                        ),
+                                                        //delete button
+                                                        Align(
+                                                          alignment:
+                                                          Alignment
+                                                              .topRight,
+                                                          child:
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .highlight_off),
+                                                            disabledColor:
+                                                            Colors
+                                                                .black,
+                                                            onPressed:
+                                                                () {
+                                                              setState(
+                                                                      () {
+                                                                    pictures.removeAt(index);
+                                                                    picURL.removeAt(index);
+                                                                    picLength--;
+                                                                  });
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }))
                                                   : SizedBox(
                                                 width: 0,
                                               ),
@@ -443,10 +473,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                                         _value);
                                                                     setState(() {
                                                                       //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                      _category =
-                                                                          _value;
-                                                                      previous =
-                                                                          _value;
+                                                                      _category = _value;
+                                                                      previous = _value;
                                                                     });
                                                                   }
                                                                 },
@@ -570,15 +598,18 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                             if (_newDescCon.text.isNotEmpty &&
                                                 _newNameCon.text.isNotEmpty &&
                                                 _newPriceCon.text.isNotEmpty) {
-                                              fnCategory = _category;
-                                              fnHow = checkHow().toString();
+                                              _newCategoryCon.text = _category;
+                                              _newHowCon.text = checkHow().toString();
+
                                               DatabaseMethods().updatePostDoc(
                                                   widget.tp.documentID,
                                                   _newNameCon.text,
                                                   _newPriceCon.text,
                                                   _newDescCon.text,
-                                                  fnCategory,
-                                                  fnHow);
+                                                  picURL.join(
+                                                      ','),
+                                                  _newCategoryCon.text,
+                                                  _newHowCon.text);
                                               showDocument(colName,
                                                   widget.tp.documentID);
                                               _newNameCon.clear();
@@ -616,6 +647,23 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                   fontSize: 15,
                                                   color: Colors.white)),
                                         ),
+                                        //for test
+                                        RaisedButton(
+                                            color: Colors.green,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(30),
+                                                side: BorderSide(
+                                                  color: Colors.green,
+                                                )),
+                                            onPressed: () {
+                                              print(picURL);
+                                              if(picURL.toString() == "[]") print("ok");
+                                              print(pictures.toString());
+
+                                            }
+                                        ),
                                       ],
                                     ),
                                   ]))))),
@@ -639,7 +687,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     Navigator.pop(context);
     Navigator.pop(context);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MyPost(doc)));
+        context, MaterialPageRoute(builder: (context) => Post(doc, true)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {
@@ -683,6 +731,30 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     else
       return 3;
   }
+
+//  void updateDoc(String name, String description, String price, String imageURL,
+//      String picURL, ) async {
+//    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//    DocumentReference documentReference = Firestore.instance.collection(colName).document();
+//
+//    List<String> splitString = picURL.split(',');
+//    List<String> co = List();
+//    co.add(user.email);
+//    List<String> wa = List();
+//
+//
+//    documentReference.updateData({
+//      "name": name,
+//      "description": description,
+//      "datetime": Timestamp.now(),
+//      "price": price,
+//      "imageUrl": imageURL, //대표사진
+//      "imageList": splitString, //사진 리스트
+//      "category": _category,
+//      "how": checkHow().toString(),
+//    });
+//    Navigator.pop(context);
+//  }
 }
 
 class ListCat extends StatefulWidget {

@@ -5,6 +5,7 @@ import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/waiting.dart';
+import 'package:h_safari/widget/widget.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -82,6 +83,8 @@ class _PostState extends State<Post> {
   bool isRecomment = false;
   var redocId;
 
+  String _bigPhoto;
+
   @override
   void initState() {
     DatabaseMethods().getComments(widget.doc.documentID).then((val) {
@@ -109,6 +112,7 @@ class _PostState extends State<Post> {
     currentEmail = fp.getUser().email.toString();
     getHow();
     return GestureDetector(
+
       onTap: () {
         isRecomment = false;
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -126,13 +130,14 @@ class _PostState extends State<Post> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       centerTitle: true,
-                      expandedHeight: 207.5,
+                      expandedHeight: MediaQuery.of(context).size.width-MediaQuery.of(context).padding.top,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Container(
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: <Widget>[
                               CarouselSlider(
+                                height: MediaQuery.of(context).size.width,
                                 initialPage: 0,
                                 viewportFraction: 1.0,
                                 enlargeCenterPage: true,
@@ -153,36 +158,45 @@ class _PostState extends State<Post> {
                                               Container(
                                                   child: imgUrl !=
                                                       ''
-                                                      ? Image
-                                                      .network(
+                                                      ? Image.network(
                                                     imgUrl,
                                                     fit: BoxFit
-                                                        .fill,
+                                                        .fitWidth,
                                                   )
                                                       : Image.asset(
                                                     'Logo/empty_Rabbit_green1_gloss.png.png',
                                                     fit: BoxFit
-                                                        .fill,
+                                                        .fitWidth,
                                                   )),
                                               Container(
-                                                  child:
-                                                  Image.asset(
+                                                  child: Image.asset(
                                                     'assets/sample/close2.png',
-                                                    fit: BoxFit.fill,
+                                                    fit: BoxFit.fitWidth,
                                                   )),
                                             ],
                                           )
                                               : Container(
-                                              child: imgUrl != ''
-                                                  ? Image.network(
-                                                imgUrl,
-                                                fit:
-                                                BoxFit.fill,
+                                              child: imgUrl != '' ? Hero(
+                                                tag: imgUrl,
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      _bigPhoto = imgUrl;
+                                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                                        return BigPhoto(context, _current);
+                                                      }));
+                                                    },
+                                                    child: Image.network(
+                                                      imgUrl,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
                                               )
                                                   : Image.asset(
                                                 'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                fit:
-                                                BoxFit.fill,
+                                                fit: BoxFit.fill,
                                               )));
                                     },
                                   );
@@ -257,7 +271,7 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                          padding: const EdgeInsets.fromLTRB(13,15,13,8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -368,8 +382,8 @@ class _PostState extends State<Post> {
                                 color: Colors.black38,
                               ),
                               Text(
-                                '[댓글]',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                '<댓글>',
+                                style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                             ],
                           )),
@@ -1011,5 +1025,34 @@ class _PostState extends State<Post> {
             ],
           );
         });
+  }
+
+  Widget BigPhoto(BuildContext context, int index) {
+    return Scaffold(
+      body: Center(
+        child: GestureDetector(
+          //onVerticalDragDown: (_) => Navigator.pop(context),
+          //onHorizontalDragDown: (_) => Navigator.pop(context),
+          //onTapDown: (_) => Navigator.pop(context),
+          child: Center(
+            child: Hero(
+              tag: _bigPhoto,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+//                  onTap: () {
+//                    Navigator.pop(context);
+//                  },
+                  child: Image.network(
+                    _bigPhoto,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            )
+          ),
+        )
+      ),
+    );
   }
 }
