@@ -118,7 +118,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
           FocusScope.of(context).requestFocus(_blankFocusnode);
         },
         child: NestedScrollView(
-            //화면 스크롤 가능하게
+          //화면 스크롤 가능하게
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
@@ -148,7 +148,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                   children: <Widget>[
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
                                           '사진 업로드*',
@@ -163,7 +163,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                 fontSize: 15,
                                                 color: Colors.green,
                                                 decoration:
-                                                    TextDecoration.underline),
+                                                TextDecoration.underline),
                                           ),
                                           onPressed: () {
                                             showDialog(
@@ -173,35 +173,35 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                 return AlertDialog(
                                                   title: new Text("사진 업로드"),
                                                   content:
-                                                      new Text("방식을 선택하세요."),
+                                                  new Text("방식을 선택하세요."),
                                                   actions: <Widget>[
                                                     // usually buttons at the bottom of the dialog
                                                     Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                         children: <Widget>[
                                                           new FlatButton(
                                                             child:
-                                                                new Text("사진첩"),
+                                                            new Text("사진첩"),
                                                             onPressed: () {
                                                               _uploadImageToStorage(
                                                                   ImageSource
                                                                       .gallery);
                                                               Navigator.of(
-                                                                      context)
+                                                                  context)
                                                                   .pop();
                                                             },
                                                           ),
                                                           new FlatButton(
                                                             child:
-                                                                new Text("카메라"),
+                                                            new Text("카메라"),
                                                             onPressed: () {
                                                               _uploadImageToStorage(
                                                                   ImageSource
                                                                       .camera);
                                                               Navigator.of(
-                                                                      context)
+                                                                  context)
                                                                   .pop();
                                                             },
                                                           ),
@@ -210,7 +210,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                                 "Close"),
                                                             onPressed: () {
                                                               Navigator.of(
-                                                                      context)
+                                                                  context)
                                                                   .pop();
                                                             },
                                                           ),
@@ -228,86 +228,86 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                     //사진 업로드
                                     picLength != 0
                                         ? Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Flexible(
-                                                  child: Container(
-                                                    height: 130,
-                                                    width: (picLength != 0)
-                                                        ? (picWidth + 130) *
-                                                            pictures.length
-                                                        : picWidth,
-                                                    child: (picLength > 0)
-                                                        ? GridView.count(
-                                                            shrinkWrap: true,
-                                                            crossAxisCount:
-                                                                pictures.length,
-                                                            crossAxisSpacing:
-                                                                10,
-                                                            physics:
-                                                                ScrollPhysics(),
-                                                            children:
-                                                                List.generate(
-                                                                    pictures
-                                                                        .length,
-                                                                    (index) {
-                                                              return Stack(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                            image:
-                                                                                DecorationImage(
-                                                                      image: (_image !=
-                                                                              null)
-                                                                          ? FileImage(pictures[
-                                                                              index])
-                                                                          : NetworkImage(
-                                                                              tpUrl),
-                                                                      //fit: BoxFit.cover
-                                                                    )),
-                                                                  ),
-                                                                  Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .topRight,
-                                                                    child:
-                                                                        IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .highlight_off),
-                                                                      disabledColor:
-                                                                          Colors
-                                                                              .black,
-                                                                      onPressed:
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        SingleChildScrollView(
+                                          scrollDirection:
+                                          Axis.horizontal,
+                                          child: Flexible(
+                                            child: Container(
+                                              height: 130,
+                                              width: (picLength != 0)
+                                                  ? (picWidth + 130) *
+                                                  pictures.length
+                                                  : picWidth,
+                                              child: (picLength > 0)
+                                                  ? GridView.count(
+                                                  shrinkWrap: true,
+                                                  crossAxisCount:
+                                                  pictures.length,
+                                                  crossAxisSpacing:
+                                                  10,
+                                                  physics:
+                                                  ScrollPhysics(),
+                                                  children:
+                                                  List.generate(
+                                                      pictures
+                                                          .length,
+                                                          (index) {
+                                                        return Stack(
+                                                          children: <
+                                                              Widget>[
+                                                            Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  image:
+                                                                  DecorationImage(
+                                                                    image: (_image !=
+                                                                        null)
+                                                                        ? FileImage(pictures[
+                                                                    index])
+                                                                        : NetworkImage(
+                                                                        tpUrl),
+                                                                    //fit: BoxFit.cover
+                                                                  )),
+                                                            ),
+                                                            Align(
+                                                              alignment:
+                                                              Alignment
+                                                                  .topRight,
+                                                              child:
+                                                              IconButton(
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .highlight_off),
+                                                                disabledColor:
+                                                                Colors
+                                                                    .black,
+                                                                onPressed:
+                                                                    () {
+                                                                  setState(
                                                                           () {
-                                                                        setState(
-                                                                            () {
-                                                                          pictures
-                                                                              .removeAt(index);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            }))
-                                                        : SizedBox(
-                                                            width: 0,
-                                                          ),
-                                                  ),
-                                                ),
+                                                                        pictures
+                                                                            .removeAt(index);
+                                                                      });
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }))
+                                                  : SizedBox(
+                                                width: 0,
                                               ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: 0,
+                                            ),
                                           ),
+                                        ),
+                                      ],
+                                    )
+                                        : SizedBox(
+                                      width: 0,
+                                    ),
 
                                     SizedBox(height: 30),
 
@@ -403,7 +403,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                 shape: OutlineInputBorder(),
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
                                                       _category,
@@ -421,52 +421,52 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                         //기존 dopdownButton에서 alertDialog list로 수정!
                                                         //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
                                                         return //DropCat();
-                                                            AlertDialog(
-                                                          title: Text('카테고리'),
-                                                          actions: <Widget>[
-                                                            FlatButton(
-                                                              child: Text('취소'),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                _value =
-                                                                    previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
-                                                              },
-                                                            ),
-                                                            FlatButton(
-                                                              child: Text('확인'),
-                                                              onPressed: () {
-                                                                if (_value !=
-                                                                    null) {
+                                                          AlertDialog(
+                                                            title: Text('카테고리'),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text('취소'),
+                                                                onPressed: () {
                                                                   Navigator.pop(
-                                                                      context,
-                                                                      _value);
-                                                                  setState(() {
-                                                                    //확인 버튼을 눌렀을 때만 값이 바뀌도록
-                                                                    _category =
-                                                                        _value;
-                                                                    previous =
-                                                                        _value;
-                                                                  });
-                                                                }
-                                                              },
+                                                                      context);
+                                                                  _value =
+                                                                      previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                },
+                                                              ),
+                                                              FlatButton(
+                                                                child: Text('확인'),
+                                                                onPressed: () {
+                                                                  if (_value !=
+                                                                      null) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        _value);
+                                                                    setState(() {
+                                                                      //확인 버튼을 눌렀을 때만 값이 바뀌도록
+                                                                      _category =
+                                                                          _value;
+                                                                      previous =
+                                                                          _value;
+                                                                    });
+                                                                  }
+                                                                },
+                                                              ),
+                                                            ],
+                                                            content: Container(
+                                                              width: double
+                                                                  .maxFinite,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  ListCat(),
+                                                                  //다이얼로그 안에서 radioButton을 불러오는 함수
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ],
-                                                          content: Container(
-                                                            width: double
-                                                                .maxFinite,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: <
-                                                                  Widget>[
-                                                                ListCat(),
-                                                                //다이얼로그 안에서 radioButton을 불러오는 함수
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
+                                                          );
                                                       });
                                                 })),
                                       ],
@@ -538,14 +538,14 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                     //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         RaisedButton(
                                           color: Colors.green,
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
@@ -562,7 +562,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
@@ -603,7 +603,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
@@ -653,7 +653,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     });
 
     StorageReference storageReference =
-        _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
+    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
 
     // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
