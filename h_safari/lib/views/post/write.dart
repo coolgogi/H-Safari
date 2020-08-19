@@ -21,7 +21,7 @@ class _MyWriteState extends State<MyWrite> {
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
-  final _formkey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   bool _delivery = false; //택배버튼
   bool _direct = false; //직거래 버튼
@@ -40,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = ""; // 대표사진
 
-  var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusNode = new FocusNode(); //키보드 없애는 용
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _MyWriteState extends State<MyWrite> {
       resizeToAvoidBottomPadding: true,
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(_blankFocusnode);
+          FocusScope.of(context).requestFocus(_blankFocusNode);
         },
         child: NestedScrollView(
             headerSliverBuilder:
@@ -118,7 +118,7 @@ class _MyWriteState extends State<MyWrite> {
                       child: Padding(
                           padding: const EdgeInsets.all(.0),
                           child: Form(
-                              key: _formkey,
+                              key: formKey,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -363,7 +363,7 @@ class _MyWriteState extends State<MyWrite> {
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        SizedBox(width: 50),
+                                        SizedBox(width: 40),
                                         Container(
                                             alignment: Alignment.centerLeft,
                                             height: 30,
@@ -561,7 +561,7 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   checkAll() {
-    if(_formkey.currentState.validate()){}
+    if(formKey.currentState.validate()){}
   }
 
   void createDoc(String name, String description, String price, String imageURL,

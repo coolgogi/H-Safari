@@ -109,6 +109,7 @@ class _PostState extends State<Post> {
     currentEmail = fp.getUser().email.toString();
     getHow();
     return GestureDetector(
+
       onTap: () {
         isRecomment = false;
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -158,18 +159,18 @@ class _PostState extends State<Post> {
                                                       .network(
                                                     imgUrl,
                                                     fit: BoxFit
-                                                        .fill,
+                                                        .fitWidth,
                                                   )
                                                       : Image.asset(
                                                     'Logo/empty_Rabbit_green1_gloss.png.png',
                                                     fit: BoxFit
-                                                        .fill,
+                                                        .fitWidth,
                                                   )),
                                               Container(
                                                   child:
                                                   Image.asset(
                                                     'assets/sample/close2.png',
-                                                    fit: BoxFit.fill,
+                                                    fit: BoxFit.fitWidth,
                                                   )),
                                             ],
                                           )
@@ -178,12 +179,12 @@ class _PostState extends State<Post> {
                                                   ? Image.network(
                                                 imgUrl,
                                                 fit:
-                                                BoxFit.fill,
+                                                BoxFit.fitWidth,
                                               )
                                                   : Image.asset(
                                                 'Logo/empty_Rabbit_green1_gloss.png.png',
                                                 fit:
-                                                BoxFit.fill,
+                                                BoxFit.fitWidth,
                                               )));
                                     },
                                   );
