@@ -70,10 +70,21 @@ class _MyWriteState extends State<MyWrite> {
   final String fnWaitingList = "waitingUserList";
   final String fnClose = "close";
 
-  List<File> pictures = List<File>();
-  List<String> picURL = List<String>();
+  List<File> pictures;
+  List<String> picURL;
   int picLength = 0;
   double picWidth = 0;
+
+  _MyWriteState(){
+    pictures = List<File>();
+    picURL = List<String>();
+
+//    File tp = new File("");
+//    pictures.add(tp);
+//    pictures.removeAt(0);
+//    picURL.add("");
+//    picURL.removeAt(0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,8 +241,7 @@ class _MyWriteState extends State<MyWrite> {
                                                               shrinkWrap:
                                                                   true,
                                                               crossAxisCount:
-                                                                  pictures
-                                                                      .length,
+                                                                  (pictures==null) ? 1 : pictures.length,
                                                               crossAxisSpacing:
                                                                   10,
                                                               physics:
@@ -553,6 +563,22 @@ class _MyWriteState extends State<MyWrite> {
                                                 fontSize: 15,
                                                 color: Colors.white)),
                                       ),
+                                    ),
+                                    //for test
+                                    RaisedButton(
+                                        color: Colors.green,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(30),
+                                            side: BorderSide(
+                                              color: Colors.green,
+                                            )),
+                                        onPressed: () {
+                                          print(picURL);
+                                          if(picURL.toString() == "[]") print("ok");
+
+                                        }
                                     ),
                                   ]))))),
             )),
