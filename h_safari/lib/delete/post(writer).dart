@@ -146,7 +146,7 @@ class _MyPostState extends State<MyPost> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            postUpdateDelete(widget.tp)));
+                                            PostUpdateDelete(widget.tp)));
                               },
                             ),
                           ],

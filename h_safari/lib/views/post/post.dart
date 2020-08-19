@@ -260,7 +260,7 @@ class _PostState extends State<Post> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      postUpdateDelete(
+                                                      PostUpdateDelete(
                                                           widget.doc)));
                                         },
                                       ),

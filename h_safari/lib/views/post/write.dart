@@ -72,18 +72,10 @@ class _MyWriteState extends State<MyWrite> {
 
   List<File> pictures;
   List<String> picURL;
-  int picLength = 0;
-  double picWidth = 0;
 
   _MyWriteState(){
     pictures = List<File>();
     picURL = List<String>();
-
-//    File tp = new File("");
-//    pictures.add(tp);
-//    pictures.removeAt(0);
-//    picURL.add("");
-//    picURL.removeAt(0);
   }
 
   @override
@@ -227,7 +219,7 @@ class _MyWriteState extends State<MyWrite> {
                                           ),
                                         ],
                                       ),
-                                      picLength != 0
+                                      pictures.length != 0
                                           ? Column(
                                         mainAxisAlignment:
                                         MainAxisAlignment.start,
@@ -238,17 +230,13 @@ class _MyWriteState extends State<MyWrite> {
                                             child: Stack(
                                               children: <Widget>[
                                                 Container(
-                                                  height: 130,
-                                                  width: (picLength != 0)
-                                                      ? (picWidth + 130) *
-                                                      pictures.length
-                                                      : picWidth,
-                                                  child: (picLength > 0)
-                                                      ? GridView.count(
+                                                  height: 110,
+                                                  width: (100.0) *
+                                                      pictures.length,
+                                                  child: GridView.count(
                                                       shrinkWrap:
                                                       true,
-                                                      crossAxisCount:
-                                                      (pictures==null) ? 1 : pictures.length,
+                                                      crossAxisCount: pictures.length,
                                                       crossAxisSpacing:
                                                       10,
                                                       physics: const NeverScrollableScrollPhysics(),
@@ -264,10 +252,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                   decoration:
                                                                   BoxDecoration(
                                                                       image: DecorationImage(
-                                                                        image: (_image != null)
-                                                                            ? FileImage(pictures[index])
-                                                                            : NetworkImage(tpUrl),
-//                                                                      fit: BoxFit.cover
+                                                                        image: FileImage(pictures[index])
                                                                       )),
                                                                 ),
                                                                 Align(
@@ -284,7 +269,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                       setState(() {
                                                                         pictures.removeAt(index);
                                                                         picURL.removeAt(index);
-                                                                        picLength--;
                                                                       });
                                                                     },
                                                                   ),
@@ -292,7 +276,6 @@ class _MyWriteState extends State<MyWrite> {
                                                               ],
                                                             );
                                                           }))
-                                                      : Container(),
                                                 ),
                                                 Align(
                                                     alignment:
@@ -558,7 +541,6 @@ class _MyWriteState extends State<MyWrite> {
                                               _newHowCon.clear();
                                               pictures.clear();
                                               picURL.clear();
-                                              picLength = 0;
                                               _value = null;
                                               previous = null;
                                             } else {
@@ -634,7 +616,6 @@ class _MyWriteState extends State<MyWrite> {
     setState(() {
       _image = image;
       pictures.add(_image);
-      picLength++;
     });
 
     StorageReference storageReference =
