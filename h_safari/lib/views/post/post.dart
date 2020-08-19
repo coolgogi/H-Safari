@@ -154,7 +154,6 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
-                                            alignment: Alignment.center,
                                             fit: StackFit.passthrough,
                                             children: <Widget>[
                                               Center(
@@ -446,7 +445,7 @@ class _PostState extends State<Post> {
                               width: 15,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width/7,
+                              width: 60,
                               child: FlatButton(
                                 shape: OutlineInputBorder(),
                                 child: Text(
@@ -817,7 +816,7 @@ class _PostState extends State<Post> {
               ),
               SizedBox(
                 height: 20,
-                width: MediaQuery.of(context).size.width/5,
+                width: 80,
                 child: FlatButton(
                   child: Text(
                     '답글 달기',

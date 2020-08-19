@@ -31,7 +31,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
-  final formKey = GlobalKey<FormState>();
+  final _formkey = GlobalKey<FormState>();
 
   bool _delivery = false; //택배버튼
   bool _direct = false; //직거래 버튼
@@ -77,6 +77,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
   List<File> pictures;
   List<String> picURL;
   List<dynamic> tempList;
+  int picLength = 0;
+  double picWidth = 0;
 
   String tpName;
   String tpDescription;
@@ -126,6 +128,24 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
       _delivery = false;
       _direct = false;
     }
+
+//    print(picURL[0]);
+
+    if(picURL.toString() == "[]"){
+      print("empty");
+      picLength = 0;
+    }else{
+      print("not empty");
+      for(int i = 0; i < picURL.length; i++){
+        print("=====");
+        print(picURL[i].toString());
+        print("=====");
+
+        File imageFile = new File(picURL[i].toString());
+        pictures.add(imageFile);
+      }
+      picLength = pictures.length;
+    }
   }
 
   @override
@@ -157,8 +177,10 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
               child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
-                      child: Form(
-                              key: formKey,
+                      child: Padding(
+                          padding: const EdgeInsets.all(.0),
+                          child: Form(
+                              key: _formkey,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -235,25 +257,48 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                         ),
                                       ],
                                     ),
-                                    picURL.length != 0
-                                        ? SingleChildScrollView(
+                                    //SizedBox(height: 10),
+
+                                    //사진 업로드
+                                    picLength != 0
+                                        ? Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        SingleChildScrollView(
                                           scrollDirection:
                                           Axis.horizontal,
-                                          child: Container(
-                                              height: 110,
-                                              width: (100.0) *
-                                                  picURL.length,
-                                              child: GridView.count(
+                                          child: Flexible(
+                                            child: Container(
+                                              height: 130,
+                                              width: (picLength != 0)
+                                                  ? (picWidth + 130) *
+                                                  pictures.length
+                                                  : picWidth,
+                                              child: (picLength > 0)
+                                                  ? GridView.count(
                                                   shrinkWrap: true,
-                                                  crossAxisCount: picURL.length,
+                                                  crossAxisCount:
+                                                  (pictures==null) ? 1 : pictures.length,
+                                                  crossAxisSpacing:
+                                                  10,
                                                   physics:
-                                                  const NeverScrollableScrollPhysics(),
+                                                  ScrollPhysics(),
                                                   children:
-                                                  List.generate(picURL.length, (index) {
+                                                  List.generate(pictures.length, (index) {
                                                     return Stack(
                                                       children: <
                                                           Widget>[
-                                                        Container(child: Image.network(picURL[index],), alignment: Alignment.topCenter,
+                                                        Container(
+                                                          decoration:
+                                                          BoxDecoration(
+                                                              image:
+                                                              DecorationImage(
+                                                                image: (pictures.toString() != "[]")
+                                                                    ? FileImage(pictures[index])
+                                                                    : NetworkImage(tpUrl),
+                                                                //fit: BoxFit.cover
+                                                              )),
                                                         ),
                                                         //delete button
                                                         Align(
@@ -272,7 +317,9 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                                 () {
                                                               setState(
                                                                       () {
+                                                                    pictures.removeAt(index);
                                                                     picURL.removeAt(index);
+                                                                    picLength--;
                                                                   });
                                                             },
                                                           ),
@@ -280,10 +327,21 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                       ],
                                                     );
                                                   }))
+                                                  : SizedBox(
+                                                width: 0,
+                                              ),
                                             ),
-                                        )
-                                        :  Container(),
-                                    SizedBox(height: 20),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                        : SizedBox(
+                                      width: 0,
+                                    ),
+
+                                    SizedBox(height: 30),
+
+                                    //게시글 제목 및 상품명을 적을 텍스트필드
                                     Text(
                                       "게시글 제목* ",
                                       style: TextStyle(
@@ -307,14 +365,20 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                   color: Colors.green)),
                                           hintText: '상품명 및 제목 입력',
                                         ),
-                                          validator: (val) {
-                                            return val.isEmpty ? '필수항목입니다!' : null;
+                                        validator: (value) {
+                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
+                                          if (value.isEmpty) {
+                                            return '제목을 입력해 주세요.';
                                           }
+                                        },
                                       ),
                                     ),
+
                                     SizedBox(
-                                      height: 25,
+                                      height: 30,
                                     ),
+
+                                    //가격 입력하는 텍스트 필드
                                     Text(
                                       "가격* ",
                                       style: TextStyle(
@@ -339,14 +403,20 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                   color: Colors.green)),
                                           hintText: '가격 입력',
                                         ),
-                                          validator: (val) {
-                                            return val.isEmpty ? '필수항목입니다!' : null;
+                                        validator: (value) {
+                                          //아무것도 입력하지 않았을 때 뜨는 에러메세지.
+                                          if (value.isEmpty) {
+                                            return '제목을 입력해 주세요.';
                                           }
+                                        },
                                       ),
                                     ),
+
                                     SizedBox(
                                       height: 30,
                                     ),
+
+                                    //이제 카테고리에서 선택한 값을 게시글(post)에도 그대로 적용할 수 있도록 하는게 관건이네요.
                                     Row(
                                       children: <Widget>[
                                         Text(
@@ -355,7 +425,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        SizedBox(width: 40),
+                                        SizedBox(width: 50),
                                         Container(
                                             alignment: Alignment.centerLeft,
                                             height: 30,
@@ -429,9 +499,12 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                 })),
                                       ],
                                     ),
+
                                     SizedBox(
-                                      height: 20,
+                                      height: 30,
                                     ),
+
+                                    //택배거래와 직접거래 중 판매자가 직접 선택할 수 있는 버튼
                                     Row(
                                       children: [
                                         Text(
@@ -464,20 +537,14 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                         ),
                                       ],
                                     ),
+
                                     SizedBox(
-                                      height: 20,
+                                      height: 30,
                                     ),
-                                    Text(
-                                      '상세정보',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+
+                                    //상품 설명을 적을 텍스트필드
                                     Container(
-                                      child: TextFormField(
+                                      child: TextField(
                                         controller: _newDescCon,
                                         maxLines: 10,
                                         //max 10줄이라고 돼있는데 그 이상도 적어지네요...?
@@ -488,15 +555,15 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                               borderSide: BorderSide(
                                                   color: Colors.green)),
                                         ),
-                                          validator: (val) {
-                                            return val.isEmpty ? '필수항목입니다!' : null;
-                                          }
                                       ),
                                     ),
 
                                     SizedBox(
                                       height: 30,
                                     ),
+
+                                    //확인하고 게시글을 등록하는 버튼
+                                    //모든 글을 다 적었는지는 확인하는 부분은 아직 미구현
                                     Row(
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -554,7 +621,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                               pictures.clear();
                                               picURL.clear();
                                             } else {
-                                              checkAll();
+                                              //경고 메세지 부탁
                                             }
                                           },
                                           child: Text('업데이트',
@@ -580,16 +647,29 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
                                                   fontSize: 15,
                                                   color: Colors.white)),
                                         ),
+                                        //for test
+                                        RaisedButton(
+                                            color: Colors.green,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(30),
+                                                side: BorderSide(
+                                                  color: Colors.green,
+                                                )),
+                                            onPressed: () {
+                                              print(picURL);
+                                              if(picURL.toString() == "[]") print("ok");
+                                              print(pictures.toString());
+
+                                            }
+                                        ),
                                       ],
                                     ),
-                                  ])))),
+                                  ]))))),
             )),
       ),
     );
-  }
-
-  checkAll() {
-    if(formKey.currentState.validate()){}
   }
 
   showDocument(String colName, String documentID) {
@@ -617,6 +697,7 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     setState(() {
       _image = image;
       pictures.add(_image);
+      picLength++;
     });
 
     StorageReference storageReference =
@@ -635,6 +716,8 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);
+      print("profileImageUrl : \n$_profileImageURL");
+      print("picURL : \n$picURL");
     });
   }
 
@@ -648,6 +731,30 @@ class _postUpdateDeleteState extends State<postUpdateDelete> {
     else
       return 3;
   }
+
+//  void updateDoc(String name, String description, String price, String imageURL,
+//      String picURL, ) async {
+//    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//    DocumentReference documentReference = Firestore.instance.collection(colName).document();
+//
+//    List<String> splitString = picURL.split(',');
+//    List<String> co = List();
+//    co.add(user.email);
+//    List<String> wa = List();
+//
+//
+//    documentReference.updateData({
+//      "name": name,
+//      "description": description,
+//      "datetime": Timestamp.now(),
+//      "price": price,
+//      "imageUrl": imageURL, //대표사진
+//      "imageList": splitString, //사진 리스트
+//      "category": _category,
+//      "how": checkHow().toString(),
+//    });
+//    Navigator.pop(context);
+//  }
 }
 
 class ListCat extends StatefulWidget {
