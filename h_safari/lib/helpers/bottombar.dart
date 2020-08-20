@@ -5,11 +5,6 @@ import 'package:h_safari/views/chat/chatList.dart';
 import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
 
-//
-//import 'package:h_safari/models/firebase_provider.dart';
-//
-//int copyIndex = 0; //게시글 작성하고 초기화 시킬 때 사용할 인덱스 복사값
-
 class BottomBar extends StatefulWidget {
   String email;
 
@@ -32,9 +27,6 @@ class _BottomBarState extends State<BottomBar> {
   int _currentIndex = 0;
   List<Widget> _children;
   final pageController = PageController();
-
-//
-//  FirebaseProvider fp;
 
   @override
   void _onTap(int index) {

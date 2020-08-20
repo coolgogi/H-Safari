@@ -41,7 +41,6 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     button[7] = tp['기타'];
   }
 
-  //카테고리 이름들을 저장하는 배열
   List<String> categoryName = [
     '의류',
     '서적',
@@ -95,8 +94,8 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                       ],
                     ),
                   ],
-                ); //column
-              })), //GridView
+                );
+              })),
           SizedBox(
             height: 20,
           ),
@@ -129,7 +128,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                 ),
               ),
             ],
-          ), //ButtonTheme
+          ),
         ],
       ),
     );

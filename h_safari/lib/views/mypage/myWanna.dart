@@ -3,31 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
-class myWanna extends StatefulWidget {
+class MyWanna extends StatefulWidget {
   String userEmail;
 
-  myWanna(String tp) {
+  MyWanna(String tp) {
     userEmail = tp;
   }
 
   @override
-  _myWannaState createState() => _myWannaState();
+  _MyWannaState createState() => _MyWannaState();
 }
 
-class _myWannaState extends State<myWanna> {
-//  String userEmail;
-//  DocumentSnapshot userDoc;
-//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-//  String colName = "post";
-//  String fnClose = "close";
-//  String fnEmail = "email";
-//  String fnWaitingList = "waitingUserList";
-
-//  _myWannaState(String email) {
-//    userEmail = email;
-//  }
-
+class _MyWannaState extends State<MyWanna> {
   @override
   void initState() {
     super.initState();
@@ -66,11 +53,10 @@ class _myWannaState extends State<myWanna> {
   Widget allMyFavoriteList(String email) {
     return Expanded(
       child: Container(
-        //height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")
-              .orderBy(fnDatetime, descending: true)
+              .orderBy("datetime", descending: true)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -86,7 +72,8 @@ class _myWannaState extends State<myWanna> {
 
                     if (close) {
                       return Container();
-                    } else if (document["waitingUserList"].contains(widget.userEmail)) {
+                    } else if (document["waitingUserList"]
+                        .contains(widget.userEmail)) {
                       return InkWell(
                         onTap: () {
                           showReadPostPage(document);
@@ -103,17 +90,15 @@ class _myWannaState extends State<myWanna> {
         ),
       ),
     );
-  } //postList
+  }
 
   Widget allMyClosedFavoriteList(String email) {
-//    int tempInt = 0;
     return Expanded(
       child: Container(
-//        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")
-              .orderBy(fnDatetime, descending: true)
+              .orderBy("datetime", descending: true)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -129,7 +114,8 @@ class _myWannaState extends State<myWanna> {
 
                     if (!close) {
                       return Container();
-                    } else if (document["waitingUserList"].contains(widget.userEmail)) {
+                    } else if (document["waitingUserList"]
+                        .contains(widget.userEmail)) {
                       return InkWell(
                           onTap: () {
                             showReadPostPage(document);
