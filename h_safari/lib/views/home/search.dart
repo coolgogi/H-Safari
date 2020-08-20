@@ -4,7 +4,6 @@ import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:provider/provider.dart';
-import 'package:custom_switch/custom_switch.dart';
 
 class Search extends StatefulWidget {
   Search({Key key}) : super(key: key);
