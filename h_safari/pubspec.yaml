@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.15.7
   cloud_functions: ^0.5.0
   firebase_messaging: ^6.0.13
+  permission_handler: ^3.2.0
 
 dev_dependencies:
   flutter_test:

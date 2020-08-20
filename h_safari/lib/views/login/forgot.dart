@@ -30,7 +30,7 @@ class _FindPwState extends State<FindPw> {
     );
   }
 
-  Widget forgotBody(final _formkey) {s
+  Widget forgotBody(final _formkey) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Form(
