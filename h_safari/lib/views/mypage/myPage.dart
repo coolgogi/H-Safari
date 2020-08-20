@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/views/cloudMessage.dart';
-
 import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
@@ -40,7 +36,7 @@ class _MyPageState extends State<MyPage> {
         child: ListView(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 7, left: 15),
+              margin: EdgeInsets.only(top: 5, bottom: 7, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -127,7 +123,7 @@ class _MyPageState extends State<MyPage> {
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => settingAlarm()));
+                      MaterialPageRoute(builder: (context) => SettingAlarm()));
                 }),
             ListTile(
               leading: Icon(Icons.thumb_up),
@@ -146,9 +142,8 @@ class _MyPageState extends State<MyPage> {
                     return AlertDialog(
                       title: Text("비밀번호 재설정"),
                       content: Container(
-                          height: 50,
                           child: Text(
-                              "비밀번호 재설정 이메일을 보내시겠습니까?")),
+                              "비밀번호 재설정 메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
                           child: Text("취소", style: TextStyle(color: Colors.green)),
@@ -164,13 +159,13 @@ class _MyPageState extends State<MyPage> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                content: ListTile(
                                   title: Text("전송 완료!"),
-                                  subtitle: Text("이메일을 확인하세요!"),
+                                content: Container(
+                                  child: Text("이메일을 확인하세요!"),
                                 ),
                                 actions: <Widget>[
                                   FlatButton(
-                                    child: Text("OK"),
+                                    child: Text("확인", style: TextStyle(color: Colors.green),),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -191,7 +186,7 @@ class _MyPageState extends State<MyPage> {
               title: Text('문의하기'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => asking()));
+                    context, MaterialPageRoute(builder: (context) => Asking()));
               },
             ),
             ListTile(

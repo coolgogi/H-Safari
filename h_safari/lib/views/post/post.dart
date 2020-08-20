@@ -5,7 +5,6 @@ import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/waiting.dart';
-import 'package:h_safari/widget/widget.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,6 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
-
   TextEditingController commentEditingController = new TextEditingController();
   Stream<QuerySnapshot> comments;
 
@@ -76,15 +74,14 @@ class _PostState extends State<Post> {
   bool favorite = false;
   bool checkDelivery = false;
   bool checkDirect = false;
-
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
   var _recommentFocusnode = FocusNode();
-
   bool isRecomment = false;
   var redocId;
-
   String _bigPhoto;
   String priceComma;
+  CarouselSlider carouselSlider;
+  int _current = 0;
 
   @override
   void initState() {
@@ -96,9 +93,6 @@ class _PostState extends State<Post> {
     });
     super.initState();
   }
-
-  CarouselSlider carouselSlider;
-  int _current = 0;
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -114,7 +108,6 @@ class _PostState extends State<Post> {
     currentEmail = fp.getUser().email.toString();
     getHow();
     return GestureDetector(
-
       onTap: () {
         isRecomment = false;
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -313,7 +306,7 @@ class _PostState extends State<Post> {
                                     fnClose
                                         ? null
                                         : widget.isMine
-                                        ? Close(context)
+                                        ? close(context)
                                         : purchaseApplication(context);
                                   },
                                 ),
@@ -340,7 +333,7 @@ class _PostState extends State<Post> {
                                             ? Icons.check_box
                                             : Icons.check_box_outline_blank,
                                         color: checkDelivery
-                                            ? Colors.green
+                                            ? Colors.green[300]
                                             : Colors.grey,
                                       ),
                                       SizedBox(
@@ -555,7 +548,7 @@ class _PostState extends State<Post> {
         });
   }
 
-  void Close(BuildContext context) async {
+  void close(BuildContext context) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -589,27 +582,27 @@ class _PostState extends State<Post> {
         });
   }
 
-  void CloseDialog(BuildContext context) async {
-    await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('마감하였습니다.'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  '확인',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, '확인');
-                },
-              )
-            ],
-          );
-        });
-  }
+//  void closeDialog(BuildContext context) async {
+//    await showDialog(
+//        context: context,
+//        barrierDismissible: false,
+//        builder: (BuildContext context) {
+//          return AlertDialog(
+//            content: Text('마감하였습니다.'),
+//            actions: <Widget>[
+//              FlatButton(
+//                child: Text(
+//                  '확인',
+//                  style: TextStyle(color: Colors.green),
+//                ),
+//                onPressed: () {
+//                  Navigator.pop(context, '확인');
+//                },
+//              )
+//            ],
+//          );
+//        });
+//  }
 
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);

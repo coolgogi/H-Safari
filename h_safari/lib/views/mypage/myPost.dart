@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
@@ -14,22 +12,22 @@ class myPost extends StatefulWidget {
     userEmail = tp;
   }
   @override
-  _myPostState createState() => _myPostState(userEmail);
+  _myPostState createState() => _myPostState();
 }
 
 class _myPostState extends State<myPost> {
 
-  String userEmail;
-  DocumentSnapshot userDoc;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+//  String userEmail;
+//  DocumentSnapshot userDoc;
+//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String colName = "post";
-  String fnClose = "close";
-  String fnEmail = "email";
+//  String colName = "post";
+//  String fnClose = "close";
+//  String fnEmail = "email";
 
-  _myPostState(String email){
-    userEmail = email;
-  }
+//  _myPostState(String email){
+//    userEmail = email;
+//  }
 
   @override
   void initState() {
@@ -48,7 +46,7 @@ class _myPostState extends State<myPost> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyPostList(userEmail),
+                  allMyPostList(widget.userEmail),
                   //전체글
                 ], //widget
               ), //column
@@ -57,7 +55,7 @@ class _myPostState extends State<myPost> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyClosedPostList(userEmail), //마이 카테고리
+                  allMyClosedPostList(widget.userEmail), //마이 카테고리
                 ],
               ),
             ),
@@ -70,10 +68,10 @@ class _myPostState extends State<myPost> {
   Widget allMyPostList(String email) {
     return Expanded(
       child: Container(
-        height: 500,
+//        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
+              .collection("post")
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
           builder:
@@ -86,13 +84,12 @@ class _myPostState extends State<myPost> {
                 return ListView(
                   children:
                   snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
+                    bool close = document["close"];
 
                     if(close){
                       return Container();
-                    }else if(document[fnEmail] == userEmail){
+                    }else if(document["email"] == widget.userEmail){
                       return InkWell(
-                        // Read Document
                         onTap: () {
                           showReadPostPage(document);
                         },
@@ -111,13 +108,13 @@ class _myPostState extends State<myPost> {
   } //postList
 
   Widget allMyClosedPostList(String email) {
-    int tempInt = 0;
+//    int tempInt = 0;
     return Expanded(
       child: Container(
-        height: 500,
+//        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
+              .collection("post")
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
           builder:
@@ -130,13 +127,12 @@ class _myPostState extends State<myPost> {
                 return ListView(
                   children:
                   snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
+                    bool close = document["close"];
 
                     if (!close) {
                       return Container();
-                    } else if(document[fnEmail] == userEmail) {
+                    } else if(document["email"] == widget.userEmail) {
                       return InkWell(
-                        // Read Document
                           onTap: () {
                             showReadPostPage(document);
                           },
@@ -154,7 +150,6 @@ class _myPostState extends State<myPost> {
     );
   }
 
-  //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
         context,

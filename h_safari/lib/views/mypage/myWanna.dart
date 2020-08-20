@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
 class myWanna extends StatefulWidget {
-
-
   String userEmail;
-  myWanna(String tp){
+
+  myWanna(String tp) {
     userEmail = tp;
   }
 
   @override
-  _myWannaState createState() => _myWannaState(userEmail);
+  _myWannaState createState() => _myWannaState();
 }
 
 class _myWannaState extends State<myWanna> {
+//  String userEmail;
+//  DocumentSnapshot userDoc;
+//  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String userEmail;
-  DocumentSnapshot userDoc;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+//  String colName = "post";
+//  String fnClose = "close";
+//  String fnEmail = "email";
+//  String fnWaitingList = "waitingUserList";
 
-  String colName = "post";
-  String fnClose = "close";
-  String fnEmail = "email";
-  String fnWaitingList = "waitingUserList";
-
-  _myWannaState(String email){
-    userEmail = email;
-  }
+//  _myWannaState(String email) {
+//    userEmail = email;
+//  }
 
   @override
   void initState() {
@@ -49,16 +45,15 @@ class _myWannaState extends State<myWanna> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyFavoriteList(userEmail),
-                  //전체글
-                ], //widget
-              ), //column
+                  allMyFavoriteList(widget.userEmail),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyClosedFavoriteList(userEmail), //마이 카테고리
+                  allMyClosedFavoriteList(widget.userEmail),
                 ],
               ),
             ),
@@ -71,10 +66,10 @@ class _myWannaState extends State<myWanna> {
   Widget allMyFavoriteList(String email) {
     return Expanded(
       child: Container(
-        height: 500,
+        //height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
+              .collection("post")
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
           builder:
@@ -86,20 +81,19 @@ class _myWannaState extends State<myWanna> {
               default:
                 return ListView(
                   children:
-                  snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
 
-                    if(close){
+                    if (close) {
                       return Container();
-                    }else if(document[fnWaitingList].contains(userEmail)){
+                    } else if (document["waitingUserList"].contains(widget.userEmail)) {
                       return InkWell(
-                        // Read Document
                         onTap: () {
                           showReadPostPage(document);
                         },
                         child: postTile(context, document),
                       );
-                    }else{
+                    } else {
                       return Container();
                     }
                   }).toList(),
@@ -112,13 +106,13 @@ class _myWannaState extends State<myWanna> {
   } //postList
 
   Widget allMyClosedFavoriteList(String email) {
-    int tempInt = 0;
+//    int tempInt = 0;
     return Expanded(
       child: Container(
-        height: 500,
+//        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
+              .collection("post")
               .orderBy(fnDatetime, descending: true)
               .snapshots(),
           builder:
@@ -130,20 +124,18 @@ class _myWannaState extends State<myWanna> {
               default:
                 return ListView(
                   children:
-                  snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
 
                     if (!close) {
                       return Container();
-                    }else if(document[fnWaitingList].contains(userEmail)){
+                    } else if (document["waitingUserList"].contains(widget.userEmail)) {
                       return InkWell(
-                        // Read Document
                           onTap: () {
                             showReadPostPage(document);
                           },
-                          child: postTile(context, document)
-                      );
-                    } else{
+                          child: postTile(context, document));
+                    } else {
                       return Container();
                     }
                   }).toList(),
@@ -155,11 +147,8 @@ class _myWannaState extends State<myWanna> {
     );
   }
 
-  //문서 읽기 (Read)
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Post(doc, false)));
+        context, MaterialPageRoute(builder: (context) => Post(doc, false)));
   }
 }

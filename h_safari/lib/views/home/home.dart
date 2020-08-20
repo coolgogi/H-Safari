@@ -179,7 +179,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   child: Column(
                     children: <Widget>[
                       allPostList(widget.email),
-                      //전체글
                     ], //widget
                   ), //column
                 ),
@@ -218,7 +217,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget allPostList(String email) {
     return Expanded(
       child: Container(
-        height: 500,
+        //height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")
@@ -256,7 +255,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     int tempInt = 0;
     return Expanded(
       child: Container(
-        height: 500,
+        //height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")

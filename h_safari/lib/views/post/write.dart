@@ -13,8 +13,8 @@ class MyWrite extends StatefulWidget {
   _MyWriteState createState() => _MyWriteState();
 }
 
-String _value; //radioButton에서 값을 저장하는 변수
-String previous; //radioButton에서 이전에 눌렀던 값을 저장하는 변수
+String _value;
+String previous;
 
 class _MyWriteState extends State<MyWrite> {
   String currentUid;
@@ -23,24 +23,23 @@ class _MyWriteState extends State<MyWrite> {
 
   final formKey = GlobalKey<FormState>();
 
-  bool _delivery = false; //택배버튼
-  bool _direct = false; //직거래 버튼
-  String _category = '카테고리 미정'; //카테고리 선택시 값이 변하도록 하기 위한 변수
+  bool _delivery = false;
+  bool _direct = false;
+  String _category = '카테고리 미정';
 
-  TextEditingController _newNameCon = TextEditingController(); //제목저장
-  TextEditingController _newDescCon = TextEditingController(); //설명저장
-  TextEditingController _newPriceCon = TextEditingController(); //가격저장
-  TextEditingController _newCategoryCon = TextEditingController(); //카테고리 저장
-  TextEditingController _newHowCon = TextEditingController(); //거래유형 저장
+  TextEditingController _newNameCon = TextEditingController();
+  TextEditingController _newDescCon = TextEditingController();
+  TextEditingController _newPriceCon = TextEditingController();
+  TextEditingController _newCategoryCon = TextEditingController();
+  TextEditingController _newHowCon = TextEditingController();
 
-  //이미지 저장
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = ""; // 대표사진
+  String _profileImageURL = "";
 
-  var _blankFocusNode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusNode = new FocusNode();
 
   @override
   void initState() {
@@ -52,23 +51,21 @@ class _MyWriteState extends State<MyWrite> {
     _user = await _firebaseAuth.currentUser();
   }
 
-  // 컬렉션명
-  final String colName = "post";
+//  final String colName = "post";
 
-  // 필드명
-  final String fnName = "name";
-  final String fnDescription = "description";
-  final String fnDatetime = "datetime";
-  final String fnPrice = "price";
-  final String fnImageUrl = "imageUrl";
-  final String fnImageList = "imageList";
-  final String fnCategory = "category";
-  final String fnHow = 'how';
-  final String fnUid = "uid";
-  final String fnEmail = "email";
-  final String fnCommentList = "commentUserList";
-  final String fnWaitingList = "waitingUserList";
-  final String fnClose = "close";
+//  final String fnName = "name";
+//  final String fnDescription = "description";
+//  final String fnDatetime = "datetime";
+//  final String fnPrice = "price";
+//  final String fnImageUrl = "imageUrl";
+//  final String fnImageList = "imageList";
+//  final String fnCategory = "category";
+//  final String fnHow = 'how';
+//  final String fnUid = "uid";
+//  final String fnEmail = "email";
+//  final String fnCommentList = "commentUserList";
+//  final String fnWaitingList = "waitingUserList";
+//  final String fnClose = "close";
 
   List<File> pictures;
   List<String> picURL;
@@ -382,13 +379,10 @@ class _MyWriteState extends State<MyWrite> {
                                                     ],
                                                   ),
                                                   onPressed: () {
-                                                    //DropButton(context);
                                                     showDialog(
                                                         context: context,
                                                         builder: (context) {
-                                                          //기존 dopdownButton에서 alertDialog list로 수정!
-                                                          //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
-                                                          return //DropCat();
+                                                          return
                                                             AlertDialog(
                                                               title: Text('카테고리'),
                                                               actions: <Widget>[
@@ -401,7 +395,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     Navigator.pop(
                                                                         context);
                                                                     _value =
-                                                                        previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                        previous;
                                                                   },
                                                                 ),
                                                                 FlatButton(
@@ -416,7 +410,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                           context,
                                                                           _value);
                                                                       setState(() {
-                                                                        //확인 버튼을 눌렀을 때만 값이 바뀌도록
                                                                         _category =
                                                                             _value;
                                                                         previous =
@@ -425,7 +418,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                     }
                                                                   },
                                                                 ),
-//                                                              (copyIndex!=2) ? _value=null : _value=_value,
                                                               ],
                                                               content: Container(
                                                                 width: double
@@ -437,7 +429,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                   children: <
                                                                       Widget>[
                                                                     ListCat(),
-                                                                    //다이얼로그 안에서 radioButton을 불러오는 함수
                                                                   ],
                                                                 ),
                                                               ),
@@ -532,7 +523,7 @@ class _MyWriteState extends State<MyWrite> {
                                                   _newPriceCon.text,
                                                   picURL.isEmpty ? "" : picURL[0],
                                                   picURL.join(
-                                                      ',')); // "picURL[0],picURL[1],..."
+                                                      ','));
                                               _newNameCon.clear();
                                               _newDescCon.clear();
                                               _newPriceCon.clear();
@@ -568,27 +559,26 @@ class _MyWriteState extends State<MyWrite> {
       String picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference =
-    Firestore.instance.collection(colName).document();
-
+    Firestore.instance.collection("post").document();
     List<String> splitString = picURL.split(',');
     List<String> co = List();
     co.add(user.email);
     List<String> wa = List();
 
     documentReference.setData({
-      fnName: name,
-      fnDescription: description,
-      fnDatetime: Timestamp.now(),
-      fnPrice: price,
-      fnImageUrl: imageURL, //대표사진
-      fnImageList: splitString, //사진 리스트
-      fnCategory: _category,
-      fnHow: checkHow().toString(),
-      fnUid: user.uid.toString(),
-      fnEmail: user.email,
-      fnCommentList: co,
-      fnWaitingList: wa,
-      fnClose: false,
+      "name": name,
+      "description": description,
+      "datetime": Timestamp.now(),
+      "price": price,
+      "imageUrl": imageURL, //대표사진
+      "imageList": splitString, //사진 리스트
+      "category": _category,
+      'how': checkHow().toString(),
+      "uid": user.uid.toString(),
+      "email": user.email,
+      "commentUserList": co,
+      "waitingUserList": wa,
+      "close": false,
     });
     Navigator.pop(context);
     showDocument(documentReference.documentID);
@@ -596,7 +586,7 @@ class _MyWriteState extends State<MyWrite> {
 
   void showDocument(String documentID) {
     Firestore.instance
-        .collection(colName)
+        .collection("post")
         .document(documentID)
         .get()
         .then((doc) {
@@ -620,17 +610,9 @@ class _MyWriteState extends State<MyWrite> {
 
     StorageReference storageReference =
     _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
-
-    // 파일 업로드
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
-
-    // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
-
-    // 업로드한 사진의 URL 획득 //필요? -> 필요합니당
     String downloadURL = await storageReference.getDownloadURL();
-
-    // 업로드된 사진의 URL을 페이지에 반영 //필요?? -> 필요합니당
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);
@@ -655,7 +637,6 @@ class ListCat extends StatefulWidget {
 }
 
 class _ListCatState extends State<ListCat> {
-  //카테고리 이름을 저장하는 리스트 배열
   List<String> drop = [
     '의류',
     '서적',
