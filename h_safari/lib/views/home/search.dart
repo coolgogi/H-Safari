@@ -37,6 +37,8 @@ class _SearchState extends State<Search> {
   final TextEditingController _searchQuery = new TextEditingController();
   List<String> _list;
 
+  final ScrollController listScrollController = ScrollController();
+
   bool wantToSeeFinished = true; //마감된글 볼지말지
 
 //  List<postItem> postList;
@@ -66,187 +68,195 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    listScrollController.addListener(scrollListener);
     _IsSearching = false;
   }
 
   var _blankFocusnode = new FocusNode();
   String priceComma;
 
+  scrollListener() {
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        appBar: buildBar(context),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
-                .collection('post')
-                .orderBy(fnDatetime, descending: true)
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Text("Loading...");
-                default:
-                  return GestureDetector(
-                      child: ListView(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children:
+    return GestureDetector(
+      onPanUpdate: (details) {
+        if(details.delta.dy < 0) FocusScope.of(context).requestFocus(_blankFocusnode);
+        else if(details.delta.dy > 0) FocusScope.of(context).requestFocus(_blankFocusnode);
+      },
+      child: Scaffold(
+          key: key,
+          appBar: buildBar(context),
+          body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection('post')
+                  .orderBy(fnDatetime, descending: true)
+                  .snapshots(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Text("Loading...");
+                  default:
+                    return ListView(
+                      controller: listScrollController,
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      children:
 //                          _IsSearching ? _buildSearchList() :
-                        snapshot.data.documents
-                            .map((DocumentSnapshot document) {
-                          String title = document[fnName];
-                          String postDes = document[fnDescription];
-                          Timestamp ts = document[fnDatetime];
-                          String dt = timestampToStrDateTime(ts);
-                          String _profileImageURL = document[fnImageUrl];
-                          String postCategory = document[fnCategory];
-                          bool close = document[fnClose];
-                          priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+                      snapshot.data.documents
+                          .map((DocumentSnapshot document) {
+                        String title = document[fnName];
+                        String postDes = document[fnDescription];
+                        Timestamp ts = document[fnDatetime];
+                        String dt = timestampToStrDateTime(ts);
+                        String _profileImageURL = document[fnImageUrl];
+                        String postCategory = document[fnCategory];
+                        bool close = document[fnClose];
+                        priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
 
-                          if (!_IsSearching)
-                            return Container();
-                          else if (!title.contains(_searchQuery.text))
-                            return Container();
-                          else {
-                            return _isSwitchedNum == true ?
-                            InkWell(
-                              // Read Document
-                              onTap: () {
-                                showReadPostPage(document);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom:
-                                        BorderSide(color: Colors.black12))),
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 사진
-                                    listPhoto(context, document),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          20 *
-                                          11,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          // 게시물 제목
-                                          Text(
-                                            document[fnName],
-                                            style: TextStyle(
+                        if (!_IsSearching)
+                          return Container();
+                        else if (!title.contains(_searchQuery.text))
+                          return Container();
+                        else {
+                          return _isSwitchedNum == true ?
+                          InkWell(
+                            // Read Document
+                            onTap: () {
+                              showReadPostPage(document);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                      BorderSide(color: Colors.black12))),
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // 사진
+                                  listPhoto(context, document),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width /
+                                        20 *
+                                        11,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        // 게시물 제목
+                                        Text(
+                                          document[fnName],
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        // 게시물 가격
+                                        Text(
+                                          '$priceComma원',
+                                          style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // 게시물 내용 (3줄까지만)
+                                        Text(
+                                          document[fnDescription],
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
                                           ),
-                                          // 게시물 가격
-                                          Text(
-                                            '$priceComma원',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          // 게시물 내용 (3줄까지만)
-                                          Text(
-                                            document[fnDescription],
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 12,
-                                            ),
-                                            maxLines: 3,
-                                          ),
-                                        ],
-                                      ),
+                                          maxLines: 3,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            )
-                                : close == false && _isSwitchedNum == false ?
-                            InkWell(
-                              // Read Document
-                              onTap: () {
-                                showReadPostPage(document);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom:
-                                        BorderSide(color: Colors.black12))),
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // 사진
-                                    listPhoto(context, document),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          20 *
-                                          11,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          // 게시물 제목
-                                          Text(
-                                            document[fnName],
-                                            style: TextStyle(
+                            ),
+                          )
+                              : close == false && _isSwitchedNum == false ?
+                          InkWell(
+                            // Read Document
+                            onTap: () {
+                              showReadPostPage(document);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                      BorderSide(color: Colors.black12))),
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // 사진
+                                  listPhoto(context, document),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width /
+                                        20 *
+                                        11,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        // 게시물 제목
+                                        Text(
+                                          document[fnName],
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        // 게시물 가격
+                                        Text(
+                                          document[fnPrice] + '원',
+                                          style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // 게시물 내용 (3줄까지만)
+                                        Text(
+                                          document[fnDescription],
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
                                           ),
-                                          // 게시물 가격
-                                          Text(
-                                            document[fnPrice] + '원',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          // 게시물 내용 (3줄까지만)
-                                          Text(
-                                            document[fnDescription],
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 12,
-                                            ),
-                                            maxLines: 3,
-                                          ),
-                                        ],
-                                      ),
+                                          maxLines: 3,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            )
-                                : Container();
-                          }
-                        }).toList(),
-                      ),
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(_blankFocusnode);
-                      });
-              }
-            },
-          ),
-        ));
+                            ),
+                          )
+                              : Container();
+                        }
+                      }).toList(),
+                    );
+                }
+              },
+            ),
+          )),
+    );
   }
 
   String timestampToStrDateTime(Timestamp ts) {
