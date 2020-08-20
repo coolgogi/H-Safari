@@ -39,6 +39,9 @@ class _categoryViewState extends State<categoryView> {
   final String fnCategory = 'category';
   final String fnHow = 'how'; //거래유형
   final String fnEmail = 'email';
+  final String fnClose = 'close';
+  var _isSwitchedNum = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,23 +71,34 @@ class _categoryViewState extends State<categoryView> {
             default:
               return ListView(
                 children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
+                snapshot.data.documents.map((DocumentSnapshot document) {
                   Timestamp ts = document[fnDatetime];
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
                   String postCategory = document[fnCategory];
 //                  postCategory.replaceAll("/", "");
+                  bool close = document[fnClose];
 
                   if (!(postCategory == select))
                     return Container();
                   else {
-                    return InkWell(
+                    return _isSwitchedNum == true ?
+                    InkWell(
                       // Read Document
-                      onTap: () {
-                        showReadPostPage(document);
-                      },
-                      child: postTile(context, document)
-                    );
+                        onTap: () {
+                          showReadPostPage(document);
+                        },
+                        child: postTile(context, document)
+                    )
+                        :  close == false && _isSwitchedNum == false ?
+                    InkWell(
+                      // Read Document
+                        onTap: () {
+                          showReadPostPage(document);
+                        },
+                        child: postTile(context, document)
+                    )
+                        :Container();
                   } //Card
                 }).toList(),
               );
@@ -147,10 +161,10 @@ class _categoryViewState extends State<categoryView> {
             },
 
             // activeTrackColor : Switch 라인색
-            activeTrackColor: Colors.green,
+            activeTrackColor: Colors.lightGreenAccent[100],
 
             // activeColor : Switch 버튼색
-            activeColor: Colors.white,
+            activeColor: Colors.green[400],
           ),
         )
       ],

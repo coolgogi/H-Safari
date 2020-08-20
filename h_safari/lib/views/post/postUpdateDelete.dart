@@ -28,7 +28,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
-  final _formkey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   bool _delivery = false; //택배버튼
   bool _direct = false; //직거래 버튼
