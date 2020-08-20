@@ -146,12 +146,6 @@ class _MyPageState extends State<MyPage> {
                               "비밀번호 재설정 메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text("취소", style: TextStyle(color: Colors.green)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        FlatButton(
                           child: Text("확인", style: TextStyle(color: Colors.green),),
                           onPressed: () {
                             fp.sendPasswordResetEmail();
@@ -173,6 +167,12 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                             );
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("취소", style: TextStyle(color: Colors.green)),
+                          onPressed: () {
+                            Navigator.pop(context);
                           },
                         ),
                       ],
