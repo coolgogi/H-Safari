@@ -1,35 +1,23 @@
-// SH
-// 2020-07-13
-// 로그인 되어있는지 아닌지 확인하는 페이지.
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/login/signIn.dart';
 import 'package:h_safari/models/firebase_provider.dart';
-import 'package:h_safari/views/post/post.dart';
-
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-AuthPageState pageState;
-
 class AuthPage extends StatefulWidget {
   @override
-  AuthPageState createState() {
-    pageState = AuthPageState();
-    return pageState;
-  }
+  _AuthPageState createState() => _AuthPageState();
 }
 
-class AuthPageState extends State<AuthPage> {
+class _AuthPageState extends State<AuthPage> {
   FirebaseProvider fp;
   bool didUpdateUserInfo = false;
-
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
-
   final String fnEmail = "user";
   final String fToken = "token";
   final String fPlatform = "platform";
@@ -37,11 +25,9 @@ class AuthPageState extends State<AuthPage> {
   // Cloud Functions
   final HttpsCallable sendFCM = CloudFunctions.instance
       .getHttpsCallable(functionName: 'sendFCM') // 호출할 Cloud Functions 의 함수명
-    ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
-
+        ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
   TextEditingController _titleCon = TextEditingController();
   TextEditingController _bodyCon = TextEditingController();
-
   Map<String, bool> _map = Map();
 
   @override
@@ -52,7 +38,7 @@ class AuthPageState extends State<AuthPage> {
     _fcm.configure(
       // 앱이 실행중일 경우
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+//        print("onMessage: $message");
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -69,51 +55,41 @@ class AuthPageState extends State<AuthPage> {
           ),
         );
       },
-      // 앱이 완전히 종료된 경우
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      // 앱이 닫혀있었으나 백그라운드로 동작중인 경우
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
+//      // 앱이 완전히 종료된 경우
+//      onLaunch: (Map<String, dynamic> message) async {
+//        print("onLaunch: $message");
+//      },
+//      // 앱이 닫혀있었으나 백그라운드로 동작중인 경우
+//      onResume: (Map<String, dynamic> message) async {
+//        print("onResume: $message");
+//      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-
     logger.d("user: ${fp.getUser()}");
-
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
       String tp = fp.getUser().email.toString();
-
       if (didUpdateUserInfo == false) updateUserInfo();
-
       return BottomBar(tp);
     } else {
       return SignIn();
     }
   }
-  //수정 필
 
   void updateUserInfo() async {
-    print("업데이트");
+//    print("업데이트");
     if (fp.getUser() == null) return;
     String token = await _fcm.getToken();
     if (token == null) return;
-
     var user = _db.collection("users").document(fp.getUser().email);
-    await user.updateData({
-      fToken: token,
-      fPlatform: Platform.operatingSystem
-    });
+    await user.updateData({fToken: token, fPlatform: Platform.operatingSystem});
     setState(() {
       didUpdateUserInfo = true;
     });
   }
-
 
   void showMessageEditor(String token) {
     showDialog(

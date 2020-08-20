@@ -8,7 +8,6 @@ class MyCategory extends StatefulWidget {
 }
 
 class _MyCategoryState extends State<MyCategory> {
-  // 카테고리 항목별 이름
   final List<String> _category = [
     '의류',
     '서적',
@@ -20,7 +19,6 @@ class _MyCategoryState extends State<MyCategory> {
     '기타'
   ];
 
-// 카테고리 항목별 들어갈 이미지
   final List<Widget> _categoryImage = [
     Image.asset(
       'assets/sample/clothes.jpg',

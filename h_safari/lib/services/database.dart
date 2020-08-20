@@ -3,12 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 class DatabaseMethods {
-
   final HttpsCallable sendFCM = CloudFunctions.instance
       .getHttpsCallable(functionName: 'sendFCM') // 호출할 Cloud Functions 의 함수명
-    ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
-
-
+        ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
 
   Future<void> addUserInfo(userData) async {
     Firestore.instance.collection("users").add(userData).catchError((e) {
@@ -219,14 +216,10 @@ class DatabaseMethods {
   }
 
   updateUnreadNotification(String myEmail, how) {
-    return Firestore.instance
-        .collection("users")
-        .document(myEmail)
-        .updateData({
+    return Firestore.instance.collection("users").document(myEmail).updateData({
       'unreadNotification': how,
     });
   }
-
 
   addWant(String email, String docId, userList) {
     Firestore.instance
@@ -239,9 +232,8 @@ class DatabaseMethods {
     });
   }
 
-  updatePostDoc(String docID, String name, String price, String description, String imageList,
-      String category, String how) {
-
+  updatePostDoc(String docID, String name, String price, String description,
+      String imageList, String category, String how) {
     List<String> splitString = imageList.split(',');
 
     Firestore.instance.collection('post').document(docID).updateData({
@@ -262,23 +254,19 @@ class DatabaseMethods {
     Navigator.pop(context);
   }
 
-  void sendMessage(String userEmail, String type){
+  void sendMessage(String userEmail, String type) {
     Firestore.instance
         .collection("users")
         .document(userEmail)
         .get()
-        .then((doc){
+        .then((doc) {
       sendSampleFCM(doc["token"], type);
     });
   }
 
   void sendSampleFCM(String token, String type) async {
     final HttpsCallableResult result = await sendFCM.call(
-      <String, dynamic>{
-        "token": token,
-        "title": type,
-        "body": "알림을 확인하세요!"
-      },
+      <String, dynamic>{"token": token, "title": type, "body": "알림을 확인하세요!"},
     );
   }
 }

@@ -14,18 +14,12 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
 
   void initState() {
     _controller = AnimationController(
-        duration: Duration(seconds: 2),
-        vsync: this,
-        value: 0.1
-    );
+        duration: Duration(seconds: 2), vsync: this, value: 0.1);
 
-    _animation = CurvedAnimation(
-        parent: _controller,
-        curve: Curves.bounceInOut
-    );
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
 
     _controller.forward();
-
     super.initState();
   }
 
@@ -51,7 +45,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
       body: FutureBuilder(
         future: MainPage(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.hasData==false) {
+          if (snapshot.hasData == false) {
             return Column(
               children: [
                 Expanded(
@@ -64,14 +58,14 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
                           'Logo/loadingPage-shadow.png.png',
                           fit: BoxFit.fitWidth,
                         ),
-                      )
-                  ),
+                      )),
                 ),
               ],
             );
-          }else if(snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Text('에러');
-          }else return Center();
+          } else
+            return Center();
         },
       ),
     );
@@ -79,6 +73,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
 
   Future MainPage() async {
     await Future.delayed(Duration(seconds: 3), () => Navigator.pop(context));
-    return Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+    return Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AuthPage()));
   }
 }

@@ -120,24 +120,6 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
       _delivery = false;
       _direct = false;
     }
-
-//    print(picURL[0]);
-
-    if(picURL.toString() == "[]"){
-      print("empty");
-      picLength = 0;
-    }else{
-      print("not empty");
-      for(int i = 0; i < picURL.length; i++){
-        print("=====");
-        print(picURL[i].toString());
-        print("=====");
-
-        File imageFile = new File(picURL[i].toString());
-        pictures.add(imageFile);
-      }
-      picLength = pictures.length;
-    }
   }
 
   @override

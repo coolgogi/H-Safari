@@ -75,22 +75,20 @@ class _AlarmState extends State<Alarm> {
       return Icons.record_voice_over;
     else if (type == "댓글")
       return Icons.comment;
-    else if (type == "마감") return Icons.done;
+    else if (type == "마감")
+      return Icons.done;
     else if (type == "거래수락") return Icons.favorite;
   }
 
-  getTitle(String type){
+  getTitle(String type) {
     if (type == "구매신청")
       return "누군가 구매를 희망합니다.\n게시글의 대기리스트를 확인하세요!";
     else if (type == "댓글")
       return "게시글에 댓글이 달렸습니다.";
     else if (type == "마감")
       return "게시글이 마감되었습니다";
-    else if (type == "거래수락")
-      return "거래가 수락되었어요, 채팅방을 통해 거래를 진행하세요!";
+    else if (type == "거래수락") return "거래가 수락되었어요, 채팅방을 통해 거래를 진행하세요!";
   }
-
-
 
   Widget alertTile(String type, String sendBy, String time, String postName,
       String postID, bool unread, String documentID) {
@@ -125,9 +123,7 @@ class _AlarmState extends State<Alarm> {
               children: <Widget>[
                 Text(
                   "$type  (게시글: $postName) ",
-                  style: TextStyle(
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   getTitle(type),
@@ -135,8 +131,7 @@ class _AlarmState extends State<Alarm> {
                 ),
                 Text(
                   time, // 시간
-                  style: TextStyle(
-                      fontSize: 10, color: Colors.black45),
+                  style: TextStyle(fontSize: 10, color: Colors.black45),
                 ),
               ],
             ),
@@ -154,20 +149,22 @@ class _AlarmState extends State<Alarm> {
         .document(documentID)
         .get()
         .then((doc) {
-          if(!doc.exists){
-            warning(context);
-          }
-      else
+      if (!doc.exists) {
+        warning(context);
+      } else
         showReadPostPage(doc, documentID, type);
     });
   }
 
   void showReadPostPage(DocumentSnapshot doc, String documentID, String type) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => type != '거래수락' ? Post(doc, true) : Post(doc, false)));
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                type != '거래수락' ? Post(doc, true) : Post(doc, false)));
   }
 
-  void warning(BuildContext context)async{
+  void warning(BuildContext context) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
