@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
@@ -23,13 +23,7 @@ class Waiting extends StatefulWidget {
 }
 
 class _WaitingState extends State<Waiting> {
-//  String documentID;
   DatabaseMethods databaseMethods = new DatabaseMethods();
-
-//  _WaitingState(String id) {
-//    documentID = id;
-//  }
-
   FirebaseProvider fp;
   String userEmail;
 
@@ -49,7 +43,7 @@ class _WaitingState extends State<Waiting> {
               );
             }),
       ),
-    ); //Scaffold
+    );
   }
 
   Widget waitingTile(int turn, String sendBy) {

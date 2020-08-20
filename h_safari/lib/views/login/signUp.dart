@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/firebase_provider.dart';
+import '../../helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +29,6 @@ class _SignUpState extends State<SignUp> {
   bool finished = false; //'마감'
   List<bool> category;
 
-//  var _color = Colors.black12;
   final _formkey = GlobalKey<FormState>();
   bool _agree = false; //약관 동의 변수
   bool _visiblepw = false; //비밀번호 입력에서 텍스트 가리는 변수
@@ -136,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: TextFormField(
-                          obscureText: !_visiblepw, //텍스트 입력시 가려지도록
+                          obscureText: !_visiblepw,
                           controller: _pwCon,
                           decoration: InputDecoration(
                               hintText: '비밀번호를 입력하세요.',
@@ -173,7 +172,7 @@ class _SignUpState extends State<SignUp> {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: TextFormField(
-                          obscureText: !_visiblepw2, //텍스트 입력시 가려지도록222
+                          obscureText: !_visiblepw2,
                           controller: _pwConCheck,
                           decoration: InputDecoration(
                               hintText: '비밀번호를 한번 더 입력하세요.',
@@ -257,7 +256,7 @@ class _SignUpState extends State<SignUp> {
                                 if (_formkey.currentState.validate()) {}
                                 if (_agree != false) {
                                   FocusScope.of(context)
-                                      .requestFocus(new FocusNode()); // 키보드 감춤
+                                      .requestFocus(new FocusNode());
                                   _signUp();
                                 } else {
                                   _scaffoldKey.currentState
@@ -370,8 +369,6 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-//이용약관 페이지 입니다!
-//따로 dart파일을 안만들고 여기다 했어요. -> 다 잘했습니다.
 class MyClause extends StatefulWidget {
   @override
   _MyClauseState createState() => _MyClauseState();

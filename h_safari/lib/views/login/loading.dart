@@ -29,16 +29,6 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
     super.dispose();
   }
 
-//  @override
-//  void setState(fn) {
-//    Future myFuture() async {
-//      await Future.delayed(Duration(seconds: 2));
-//      Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
-//    }
-//
-//    super.setState(fn);
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

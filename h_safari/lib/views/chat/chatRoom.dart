@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../services/database.dart';
-import 'package:h_safari/widget/widget.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
@@ -42,7 +41,29 @@ class _ChatRoomState extends State<ChatRoom> {
         FocusScope.of(context).requestFocus(_blankFocusnode);
       },
       child: Scaffold(
-        appBar: appBarSelect(context, widget.chatRoomName),
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          leading: InkWell(
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.green,
+            ),
+            onTap: () {
+              DatabaseMethods().updateUnreadMessagy(widget.chatRoomId);
+              Navigator.pop(context);
+            },
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(right: 40.0),
+            child: Center(
+                child: Text(
+                  widget.chatRoomName,
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                )),
+          ),
+        ),
         body: Column(
           children: [
             Expanded(child: chatMessages()),

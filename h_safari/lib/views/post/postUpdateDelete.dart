@@ -58,40 +58,13 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
     _user = await _firebaseAuth.currentUser();
   }
 
-//  final String colName = "post";
-//
-//  final String fnName = "name";
-//  final String fnDescription = "description";
-//  final String fnDatetime = "datetime";
-//  final String fnPrice = "price";
-//  final String fnImageUrl = "imageUrl";
-//  final String fnImageList = "imageList";
-//  final String fnCategory = "category";
-//  final String fnHow = 'how';
-
   List<File> pictures;
   List<String> picURL;
   List<dynamic> tempList;
 
-//  int picLength = 0;
-//  double picWidth = 0;
-
-//  String tpName;
-//  String tpDescription;
-//  String tpPrice;
-//  String tpHow;
-//  String tpCategory;
-
   _PostUpdateDeleteState(DocumentSnapshot doc) {
     pictures = List<File>();
     picURL = List<String>();
-
-//    tpName = doc['name'];
-//    tpDescription = doc['description'];
-//    tpPrice = doc['price'];
-//    tpHow = doc['how'];
-//    tpCategory = doc['category'];
-
     _newNameCon.text = doc['name'];
     _newDescCon.text = doc['description'];
     _newPriceCon.text = doc['price'];
@@ -159,7 +132,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      '사진 업로드*',
+                                      '사진 업로드',
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
@@ -177,19 +150,17 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
-                                            // return object of type Dialog
                                             return AlertDialog(
                                               title: new Text("사진 업로드"),
-                                              content: new Text("방식을 선택하세요."),
+                                              content: new Text("방식을 선택하세요"),
                                               actions: <Widget>[
-                                                // usually buttons at the bottom of the dialog
                                                 Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
                                                     children: <Widget>[
                                                       new FlatButton(
-                                                        child: new Text("사진첩"),
+                                                        child: new Text("사진첩", style: TextStyle(color: Colors.green),),
                                                         onPressed: () {
                                                           _uploadImageToStorage(
                                                               ImageSource
@@ -199,7 +170,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                         },
                                                       ),
                                                       new FlatButton(
-                                                        child: new Text("카메라"),
+                                                        child: new Text("카메라", style: TextStyle(color: Colors.green)),
                                                         onPressed: () {
                                                           _uploadImageToStorage(
                                                               ImageSource
@@ -210,7 +181,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                       ),
                                                       new FlatButton(
                                                         child:
-                                                            new Text("Close"),
+                                                            new Text("취소", style: TextStyle(color: Colors.green)),
                                                         onPressed: () {
                                                           Navigator.of(context)
                                                               .pop();
@@ -235,6 +206,8 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                 width: (100.0) * picURL.length,
                                                 child: GridView.count(
                                                     shrinkWrap: true,
+                                                    crossAxisSpacing:
+                                                    10,
                                                     crossAxisCount:
                                                         picURL.length,
                                                     physics:
@@ -251,7 +224,6 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                             alignment: Alignment
                                                                 .topCenter,
                                                           ),
-                                                          //delete button
                                                           Align(
                                                             alignment: Alignment
                                                                 .topRight,
@@ -372,13 +344,10 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                               ],
                                             ),
                                             onPressed: () {
-                                              //DropButton(context);
                                               showDialog(
                                                   context: context,
                                                   builder: (context) {
-                                                    //기존 dopdownButton에서 alertDialog list로 수정!
-                                                    //원래는 따로 함수를 만들어서 call 하는 방식이었는데 값을 가져오는데 문제가 있어 직접 코드를 옮겼습니다.
-                                                    return //DropCat();
+                                                    return
                                                         AlertDialog(
                                                       title: Text('카테고리'),
                                                       actions: <Widget>[
@@ -388,7 +357,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                             Navigator.pop(
                                                                 context);
                                                             _value =
-                                                                previous; //취소를 누르면 선택된 value 값을 전부 null로 만들어 모든 버튼이 unselect 된다.
+                                                                previous;
                                                           },
                                                         ),
                                                         FlatButton(
@@ -400,7 +369,6 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                                   context,
                                                                   _value);
                                                               setState(() {
-                                                                //확인 버튼을 눌렀을 때만 값이 바뀌도록
                                                                 _category =
                                                                     _value;
                                                                 previous =
@@ -418,7 +386,6 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                                   .center,
                                                           children: <Widget>[
                                                             ListCat(),
-                                                            //다이얼로그 안에서 radioButton을 불러오는 함수
                                                           ],
                                                         ),
                                                       ),
@@ -673,30 +640,6 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
     else
       return 3;
   }
-
-//  void updateDoc(String name, String description, String price, String imageURL,
-//      String picURL, ) async {
-//    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-//    DocumentReference documentReference = Firestore.instance.collection(colName).document();
-//
-//    List<String> splitString = picURL.split(',');
-//    List<String> co = List();
-//    co.add(user.email);
-//    List<String> wa = List();
-//
-//
-//    documentReference.updateData({
-//      "name": name,
-//      "description": description,
-//      "datetime": Timestamp.now(),
-//      "price": price,
-//      "imageUrl": imageURL, //대표사진
-//      "imageList": splitString, //사진 리스트
-//      "category": _category,
-//      "how": checkHow().toString(),
-//    });
-//    Navigator.pop(context);
-//  }
 }
 
 class ListCat extends StatefulWidget {

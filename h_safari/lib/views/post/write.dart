@@ -51,22 +51,6 @@ class _MyWriteState extends State<MyWrite> {
     _user = await _firebaseAuth.currentUser();
   }
 
-//  final String colName = "post";
-
-//  final String fnName = "name";
-//  final String fnDescription = "description";
-//  final String fnDatetime = "datetime";
-//  final String fnPrice = "price";
-//  final String fnImageUrl = "imageUrl";
-//  final String fnImageList = "imageList";
-//  final String fnCategory = "category";
-//  final String fnHow = 'how';
-//  final String fnUid = "uid";
-//  final String fnEmail = "email";
-//  final String fnCommentList = "commentUserList";
-//  final String fnWaitingList = "waitingUserList";
-//  final String fnClose = "close";
-
   List<File> pictures;
   List<String> picURL;
 
@@ -152,13 +136,11 @@ class _MyWriteState extends State<MyWrite> {
                                               showDialog(
                                                 context: context,
                                                 builder: (BuildContext context) {
-                                                  // return object of type Dialog
                                                   return AlertDialog(
                                                     title: new Text("사진 업로드"),
                                                     content:
                                                     new Text("방식을 선택하세요."),
                                                     actions: <Widget>[
-                                                      // usually buttons at the bottom of the dialog
                                                       Row(
                                                           mainAxisAlignment:
                                                           MainAxisAlignment
@@ -570,8 +552,8 @@ class _MyWriteState extends State<MyWrite> {
       "description": description,
       "datetime": Timestamp.now(),
       "price": price,
-      "imageUrl": imageURL, //대표사진
-      "imageList": splitString, //사진 리스트
+      "imageUrl": imageURL,
+      "imageList": splitString,
       "category": _category,
       'how': checkHow().toString(),
       "uid": user.uid.toString(),

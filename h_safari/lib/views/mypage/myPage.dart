@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:h_safari/widget/widget.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
@@ -72,7 +72,7 @@ class _MyPageState extends State<MyPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => myPost(currentUser.email)));
+                                builder: (context) => MyPost(currentUser.email)));
                       },
                       child: Container(
                         height: 60,
@@ -97,7 +97,7 @@ class _MyPageState extends State<MyPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => myWanna(currentUser.email)));
+                                builder: (context) => MyWanna(currentUser.email)));
                       },
                       child: Container(
                         height: 60,

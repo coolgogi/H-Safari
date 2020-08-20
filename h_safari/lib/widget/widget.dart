@@ -153,23 +153,12 @@ Widget myPostAppBar(
   );
 }
 
-final String fnName = "name";
-final String fnDescription = "description";
-final String fnDatetime = "datetime";
-final String fnImageUrl = 'imageUrl';
-final String fnPrice = 'price';
-final String fnCategory = 'category';
-final String fnHow = 'how'; //거래유형
-final String fnEmail = 'email';
-final String fnClose = 'close';
-final String checkClose = "마감";
-
 String priceComma;
 
 // home, search 의 게시글 UI
 Widget postTile(BuildContext context, DocumentSnapshot document) {
-  bool close = document[fnClose];
-  priceComma = document[fnPrice].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+  bool close = document['close'];
+  priceComma = document['price'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
   return Container(
     decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black12))),
@@ -179,7 +168,6 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // 사진
             listPhoto(context, document),
             SizedBox(
               width: 15,
@@ -189,16 +177,14 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // 게시물 제목
                   Text(
-                    document[fnName],
+                    document["name"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  // 게시물 가격
                   Text(
                     '$priceComma원',
                     style: TextStyle(
@@ -206,9 +192,8 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
-                  // 게시물 내용 (3줄까지만)
                   Text(
-                    document[fnDescription],
+                    document["description"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
                       fontSize: 12,

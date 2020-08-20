@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-//메일 발송 백엔드는 아직 미구현
 class FindPw extends StatefulWidget {
   @override
   _FindPwState createState() => _FindPwState();
@@ -9,7 +8,7 @@ class FindPw extends StatefulWidget {
 
 class _FindPwState extends State<FindPw> {
   final _formkey = GlobalKey<FormState>();
-  final FirebaseAuth fAuth = FirebaseAuth.instance; // Firebase 인증 플러그인의 인스턴스
+  final FirebaseAuth fAuth = FirebaseAuth.instance;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -30,7 +29,7 @@ class _FindPwState extends State<FindPw> {
     );
   }
 
-  Widget forgotBody(final _formkey) {s
+  Widget forgotBody(final _formkey) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Form(
