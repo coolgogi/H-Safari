@@ -333,45 +333,6 @@ class _SearchState extends State<Search> {
               ),
             ),
             Text('마감', style : TextStyle(fontSize: 14, color : Colors.black38)),
-//            Transform.scale(
-//              scale: 0.8,
-//              child: LiteRollingSwitch(
-//                value: false,
-//              onChanged: (bool value) {
-//                setState(() {
-//                  _isSwitchedNum = value;
-//                });
-//
-////                  Firestore.instance
-////                      .collection("users")
-////                      .document(fp.getUser().email)
-////                      .updateData({
-////                    "마감": _isSwitchedNum,
-////                  });
-//              },
-//              ),
-//            ),
-//            LiteRollingSwitch(
-//                textSize: 14,
-//                colorOff: Colors.grey,
-//                colorOn: Colors.green,
-//                textOff: '마감글',
-//                textOn: '마감',
-//                value: _isSwitchedNum,
-//              onChanged: (bool value) {
-//                setState(() {
-//                  _isSwitchedNum = value;
-//                });
-//
-////                  Firestore.instance
-////                      .collection("users")
-////                      .document(fp.getUser().email)
-////                      .updateData({
-////                    "마감": _isSwitchedNum,
-////                  });
-//              },
-//            ),
-//
           ],
         )
       ],

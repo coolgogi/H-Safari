@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'dart:io';
+import 'package:custom_switch/custom_switch.dart';
 
 class categoryView extends StatefulWidget {
   final String select;
@@ -29,7 +30,7 @@ class _categoryViewState extends State<categoryView> {
 
   String email;
   FirebaseProvider fp;
-
+  var status = true;
   File _image;
   final String fnName = "name";
   final String fnDescription = "description";
@@ -142,31 +143,27 @@ class _categoryViewState extends State<categoryView> {
             )),
       ),
       actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top : 10, bottom: 10, right: 10),
-          child: Switch(
-            //value : _isSwitchedNum[num]의 기본값 저장 (true)
-            value: _isSwitchedNum,
 
-            // onChanged : 눌렀을 경우 value값을 가져와 _isSwitchedNum[num]에 지정하여 값을 변경
+    Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Transform.scale(
+        scale: 0.65,
+          child: CustomSwitch(
+            activeColor: Colors.green,
+            value: status,
             onChanged: (value) {
               setState(() {
-                _isSwitchedNum= value;
-
-
-              });
-              Firestore.instance.collection("users").document(fp.getUser().email).updateData({
-                "마감" : _isSwitchedNum,
+                status = value;
+                _isSwitchedNum = value;
               });
             },
-
-            // activeTrackColor : Switch 라인색
-            activeTrackColor: Colors.green,
-
-            // activeColor : Switch 버튼색
-            activeColor: Colors.white,
           ),
-        )
+        ),
+        Text('마감', style : TextStyle(fontSize: 14, color : Colors.black38)),
+      ],
+    ),
+
       ],
 
     );
