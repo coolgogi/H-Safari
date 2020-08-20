@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
   FirebaseProvider fp;
   String currentEmail;
 
-  var checkIndex = -1;
+  var checkIndex = 1;
   Icon actionIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -178,19 +178,6 @@ class _SearchState extends State<Search> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-//            Transform.scale(
-//              scale: 0.65,
-//              child: CustomSwitch(
-//                activeColor: Colors.green,
-//                value: status,
-//                onChanged: (value) {
-//                  setState(() {
-//                    status = value;
-//                    _isSwitchedNum = value;
-//                  });
-//                },
-//              ),
-//            ),
             SizedBox(
               width: 90,
               child: Padding(
