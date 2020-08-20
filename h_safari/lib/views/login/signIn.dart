@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/views/login/loading.dart';
 import 'signUp.dart';
 import 'package:provider/provider.dart';
 import '../../models/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot.dart';
-
-import 'package:h_safari/views/cloudMessage.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -15,18 +12,15 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  //added by SH
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
   bool doRemember = false;
   bool visiblepw = false;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
-
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
 
-//  @override
+  @override
   void initState() {
     super.initState();
     getRememberInfo();
@@ -40,32 +34,31 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
-  var _color = Colors.green;
+//  var _color = Colors.green;
   final _formkey = new GlobalKey<FormState>();
-  String _idkey, _pwkey;
+//  String _idkey; //_pwkey;
 
 //  bool _rememberId = false;
 
   @override
   Widget build(BuildContext context) {
-    //added by SH
     fp = Provider.of<FirebaseProvider>(context);
     logger.d(fp.getUser());
     return Scaffold(
-      key: _scaffoldKey, //added by SH
-      resizeToAvoidBottomPadding: true, //화면 스크롤 가능하게 하는거라던데 일단 추가했어요.
+      key: _scaffoldKey,
+      resizeToAvoidBottomPadding: true,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);
         },
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(50, 60, 50, 40),
+            padding: const EdgeInsets.fromLTRB(50, 55, 50, 0),
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(.0),
                 child: Form(
-                    key: _formkey, //아이디 폼키
+                    key: _formkey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -76,57 +69,44 @@ class _SignInState extends State<SignIn> {
                               child: Image.asset('Logo/h-safari_homeicon.png.png'),
                           )
                         ),
-
                         SizedBox(height: 20),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            //Text("ID: ", style: TextStyle(fontSize: 30),),
                             Flexible(
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 height: 50,
                                 child: TextFormField(
-                                  //아이디를 입력하는 텍스트 필드
                                   keyboardType: TextInputType.number,
                                   controller: _mailCon,
-                                  //added by SH
                                   decoration: InputDecoration(
-                                    //hintText: '아이디를 입력하세요.',
-                                    hintText: '아이디',
+                                    hintText: '학번',
                                     focusedBorder: UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.green)),
                                   ),
                                   validator: (value) {
-                                    //아무것도 입력하지 않았을 때 뜨는 에러메세지.
-                                    if (value.isEmpty) {
-                                      return 'ID를 입력하지 않았습니다.';
-                                    }
+                                      return value.isEmpty ? '학번을 입력해주세요' : null;
                                   },
-                                  onSaved: (value) => _idkey = value,
+                                 // onSaved: (value) => _idkey = value, 무슨역할???
                                 ),
                               ),
                             ),
                           ],
-                        ), //아이디 텍스트
-
+                        ),
                         SizedBox(height: 30),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            //Text("비밀번호: ", style: TextStyle(fontSize: 30),),
                             Flexible(
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 height: 50,
                                 child: TextFormField(
                                   obscureText: !visiblepw,
-                                  controller: _pwCon, //added by SH
+                                  controller: _pwCon,
                                   decoration: InputDecoration(
-                                      //hintText: '비밀번호를 입력하세요.',
                                       hintText: '비밀번호',
                                       focusedBorder: UnderlineInputBorder(
                                           borderSide:
@@ -147,21 +127,16 @@ class _SignInState extends State<SignIn> {
                                         },
                                       )),
                                   validator: (value) {
-                                    //마찬가지로 아무것도 입력하지 않으면 뜨는 에러 메세지
-                                    if (value.isEmpty) {
-                                      return '비밀번호를 입력하지 않았습니다.';
-                                    }
+                                      return value.isEmpty ? '비밀번호를 입력해주세요.' : null;
                                   },
                                 ),
                               ),
                             ),
                           ],
-                        ), //비밀번호 텍스트
-
+                        ),
                         SizedBox(
                           height: 30,
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -175,20 +150,19 @@ class _SignInState extends State<SignIn> {
                                 //아니면 자동 로그인?
                                 Checkbox(
                                   key: null,
-                                  value: doRemember, //from _rememberId
+                                  value: doRemember,
                                   activeColor: Colors.green,
                                   onChanged: (bool value) {
                                     setState(() {
-                                      doRemember = value; //from _rememberId
+                                      doRemember = value;
                                     });
                                   },
                                 ),
                               ],
                             ),
                             RawMaterialButton(
-                              //비밀번호를 찾는 페이지로 이동하는 버튼. 겉모습은 버튼이 아니라 그냥 글자 모양.
                               child: Text(
-                                'Forgot Password?',
+                                '비밀번호 찾기',
                                 style: TextStyle(
                                     fontSize: 15,
                                     decoration: TextDecoration.underline),
@@ -205,7 +179,6 @@ class _SignInState extends State<SignIn> {
                         SizedBox(
                           height: 30,
                         ),
-
                         Column(
                           children: <Widget>[
                             Row(
@@ -225,8 +198,8 @@ class _SignInState extends State<SignIn> {
                                     onPressed: () {
                                       //로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
                                       FocusScope.of(context).requestFocus(
-                                          new FocusNode()); //added by SH
-                                      _signIn(); //added by SH
+                                          new FocusNode());
+                                      _signIn();
                                     },
                                     child: Text(
                                       '로그인',
@@ -249,7 +222,7 @@ class _SignInState extends State<SignIn> {
                                 '회원가입',
                                 style: TextStyle(
                                     fontSize: 15,
-                                    color: Colors.grey,
+                                    color: Colors.black54,
                                     decoration: TextDecoration.underline),
                               ),
                             ),
@@ -265,7 +238,10 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  //added by SH
+  checkAll() {
+    if(_formkey.currentState.validate()){}
+  }
+
   void _signIn() async {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
@@ -280,7 +256,8 @@ class _SignInState extends State<SignIn> {
     String emailSetting = _mailCon.text + "@handong.edu";
     bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
-    if (result == false) showLastFBMessage();
+    //if (result == false) showLastFBMessage();밑에꺼랑 둘중 어느걸로 할지
+    if (result == false) checkAll();
   }
 
   getRememberInfo() async {
@@ -299,7 +276,6 @@ class _SignInState extends State<SignIn> {
 
   setRememberInfo() async {
     logger.d(doRemember);
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("doRemember", doRemember);
     if (doRemember) {
@@ -308,18 +284,18 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  showLastFBMessage() {
-    _scaffoldKey.currentState
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        backgroundColor: Colors.red[400],
-        duration: Duration(seconds: 10),
-        content: Text(fp.getLastFBMessage()),
-        action: SnackBarAction(
-          label: "Done",
-          textColor: Colors.white,
-          onPressed: () {},
-        ),
-      ));
-  }
+//  showLastFBMessage() {
+//    _scaffoldKey.currentState
+//      ..hideCurrentSnackBar()
+//      ..showSnackBar(SnackBar(
+//        backgroundColor: Colors.red[400],
+//        duration: Duration(seconds: 10),
+//        content: Text(fp.getLastFBMessage()),
+//        action: SnackBarAction(
+//          label: "Done",
+//          textColor: Colors.white,
+//          onPressed: () {},
+//        ),
+//      ));
+//  }
 }

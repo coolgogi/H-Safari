@@ -61,29 +61,28 @@ class _ChatRoomState extends State<ChatRoom> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-            reverse: true,
-            padding: EdgeInsets.all(15),
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return MessageTile(
-                context,
-                snapshot.data.documents[index].data["message"],
-                currentUser.email ==
-                    snapshot.data.documents[index].data["sendBy"],
-                snapshot.data.documents[index].data["date"],
-                index == snapshot.data.documents.length - 1
-                    ? previousDate = "0"
-                    : previousDate =
-                ((snapshot.data.documents[index + 1].data["date"])
-                    .split(RegExp(r" |:")))[0],
-              );
-            })
+                reverse: true,
+                padding: EdgeInsets.all(15),
+                itemCount: snapshot.data.documents.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                    context,
+                    snapshot.data.documents[index].data["message"],
+                    currentUser.email ==
+                        snapshot.data.documents[index].data["sendBy"],
+                    snapshot.data.documents[index].data["date"],
+                    index == snapshot.data.documents.length - 1
+                        ? previousDate = "0"
+                        : previousDate =
+                            ((snapshot.data.documents[index + 1].data["date"])
+                                .split(RegExp(r" |:")))[0],
+                  );
+                })
             : Container();
       },
     );
   }
-
 
   addMessage() {
     fp = Provider.of<FirebaseProvider>(context);
@@ -109,7 +108,6 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   Widget sendMessageBox() {
-    // 메세지 입력 박스
     return Container(
       alignment: Alignment.bottomCenter,
       width: MediaQuery.of(context).size.width,
@@ -143,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
             color: Colors.green,
             onPressed: () {
               addMessage();
-            }, //전송 -> 데이타 등록
+            },
           ),
         ],
       ),
@@ -157,7 +155,6 @@ class _ChatRoomState extends State<ChatRoom> {
     var hour = allTime[1];
     var minute = allTime[2];
     var m = '오전';
-
     var hourInt = int.parse(hour);
     if (hourInt > 12) {
       hourInt = hourInt - 12;
@@ -165,7 +162,6 @@ class _ChatRoomState extends State<ChatRoom> {
     }
     hour = hourInt.toString();
     var time = m + " " + hour + ":" + minute;
-
     return Column(
       children: <Widget>[
         previousDate != todayDate
