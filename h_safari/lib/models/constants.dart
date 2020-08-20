@@ -1,3 +1,4 @@
-class Constants {
-  static String myName = "";
-}
+//안씀
+//class Constants {
+//  static String myName = "";
+//}

@@ -9,7 +9,6 @@ class FindPw extends StatefulWidget {
 class _FindPwState extends State<FindPw> {
   final _formkey = GlobalKey<FormState>();
 
-//page 구성부분
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +37,7 @@ Widget forgotBody(final _formkey) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "아이디: ",
+            "학번: ",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 10),
@@ -54,9 +53,7 @@ Widget forgotBody(final _formkey) {
                     borderSide: BorderSide(color: Colors.green)),
               ),
               validator: (value) {
-                if (value.isEmpty) {
-                  return '아이디를 입력하지 않았습니다.';
-                }
+                return value.isEmpty ? '학번을 입력하지 않았습니다.' : null;
               },
             ),
           ),

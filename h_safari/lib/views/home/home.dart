@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
-
+//import 'dart:io';
 import 'package:h_safari/views/post/post.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+//import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
-
 import 'alarm.dart';
 
 class Home extends StatefulWidget {
@@ -20,31 +17,28 @@ class Home extends StatefulWidget {
   }
 
   @override
-  _HomeState createState() => _HomeState(email);
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
-  String email;
-
-  FirebaseProvider fp;
+//  String email;
+//
+//  FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // 컬렉션명
-  final String colName = "post";
-
-  // 필드명
-  File _image;
-  final String fnName = "name";
-  final String fnDescription = "description";
-  final String fnDatetime = "datetime";
-  final String fnImageUrl = 'imageUrl';
-  final String fnPrice = 'price';
-  final String fnCategory = 'category';
-  final String fnHow = 'how'; //거래유형
-  final String fnEmail = 'email';
-  final String fnClose = 'close';
-  final String checkClose = "마감";
+//  final String colName = "post";
+//  File _image;
+//  final String fnName = "name";
+//  final String fnDescription = "description";
+//  final String fnDatetime = "datetime";
+//  final String fnImageUrl = 'imageUrl';
+//  final String fnPrice = 'price';
+//  final String fnCategory = 'category';
+//  final String fnHow = 'how';
+//  final String fnEmail = 'email';
+//  final String fnClose = 'close';
+//  final String checkClose = "마감";
 
   final List<String> categoryString = [
     "의류",
@@ -68,64 +62,58 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   ];
   bool wantToSeeFinished = false; //마감된글 볼지말지
 
-  TextEditingController _newNameCon = TextEditingController();
-  TextEditingController _newDescCon = TextEditingController();
-  TextEditingController _undNameCon = TextEditingController();
-  TextEditingController _undDescCon = TextEditingController();
+//  TextEditingController _newNameCon = TextEditingController();
+//  TextEditingController _newDescCon = TextEditingController();
+//  TextEditingController _undNameCon = TextEditingController();
+//  TextEditingController _undDescCon = TextEditingController();
 
   QuerySnapshot userInfoSnapshot;
   DocumentSnapshot userDoc;
-  String userEmail;
+//  String userEmail;
   bool unreadNotification = false;
-  int _counter = 0;
 
-  _HomeState(String tp) {
-    email = tp;
-  }
+//  int _counter = 0;
+
+//  _HomeState(String tp) {
+//    email = tp;
+//  }
 
   @override
   void initState() {
     super.initState();
     Firestore.instance
         .collection("users")
-        .document(userEmail)
+        .document(widget.email)
         .get()
         .then((doc) {
-      userDoc = doc;
+//      userDoc = doc;
+      setCategoryData(doc);
+      unreadNotification = doc['unreadNotification'];
     });
-    Future.delayed(Duration.zero, () {
-      getUserData(userEmail);
-    });
+//    Future.delayed(Duration.zero, () {
+//      getUserData(userEmail);
+//    });
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  getUserData(String passedEmail) {
-    Firestore.instance
-        .collection("users")
-        .document(passedEmail)
-        .get()
-        .then((doc) {
-      setCategoryData(doc);
-      unreadNotification = doc['unreadNotification'];
-    });
-  }
-
-  setCategoryData(DocumentSnapshot doc) {
-    for (int i = 0; i < 8; i++) {
-      categoryBool[i] = doc[categoryString[i]];
-    }
-    wantToSeeFinished = doc[checkClose];
-    setState(() {});
-  }
+//  getUserData(String passedEmail) {
+//    Firestore.instance
+//        .collection("users")
+//        .document(passedEmail)
+//        .get()
+//        .then((doc) {
+//      setCategoryData(doc);
+//      unreadNotification = doc['unreadNotification'];
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<FirebaseProvider>(context);
-    userEmail = fp.getUser().email.toString();
+//    fp = Provider.of<FirebaseProvider>(context);
+//    userEmail = fp.getUser().email.toString();
 //    bool _isSwitchedNum = true;
-
     return SafeArea(
       child: Scaffold(
           key: _scaffoldKey,
@@ -147,17 +135,21 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
-                        unreadNotification ? Icons.notifications_active : Icons.notifications,
-                        color: unreadNotification ? Colors.orange : Colors.green,
+                        unreadNotification
+                            ? Icons.notifications_active
+                            : Icons.notifications,
+                        color:
+                            unreadNotification ? Colors.orange : Colors.green,
                         size: 25,
                       ),
                       onPressed: () {
-                        DatabaseMethods().updateUnreadNotification(email, false);
+                        DatabaseMethods()
+                            .updateUnreadNotification(widget.email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
-                        setState((){
-                          getUserData(email);
-                        });
+//                        setState((){
+//                          getUserData(widget.email);
+//                        });
                       },
                     ),
                     SizedBox(
@@ -186,7 +178,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      allPostList(userEmail),
+                      allPostList(widget.email),
                       //전체글
                     ], //widget
                   ), //column
@@ -195,7 +187,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      myPostList(userEmail), //마이 카테고리
+                      myPostList(widget.email), //마이 카테고리
                     ],
                   ),
                 ),
@@ -205,25 +197,32 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   } //build
 
-  //문서 읽기 (Read)
+  setCategoryData(DocumentSnapshot doc) {
+    for (int i = 0; i < 8; i++) {
+      categoryBool[i] = doc[categoryString[i]];
+    }
+    wantToSeeFinished = doc["마감"];
+    setState(() {});
+  }
+
   void showReadPostPage(DocumentSnapshot doc) {
     _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                userEmail == doc['email'] ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => widget.email == doc['email']
+                ? Post(doc, true)
+                : Post(doc, false)));
   }
 
-  //전체 게시글 - 마감글
   Widget allPostList(String email) {
     return Expanded(
       child: Container(
         height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
-              .orderBy(fnDatetime, descending: true)
+              .collection("post")
+              .orderBy("datetime", descending: true)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -235,13 +234,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return ListView(
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
-
-                    bool close = document[fnClose];
-
+                    bool close = document['close'];
                     return (close && !wantToSeeFinished)
                         ? Container()
                         : InkWell(
-                            // Read Document
                             onTap: () {
                               showReadPostPage(document);
                             },
@@ -256,7 +252,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   } //postList
 
-  //선호 카테고리 글 - 마감글
   Widget myPostList(String email) {
     int tempInt = 0;
     return Expanded(
@@ -264,8 +259,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
-              .orderBy(fnDatetime, descending: true)
+              .collection("post")
+              .orderBy("datetime", descending: true)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -277,24 +272,23 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return ListView(
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document['close'];
 
-                    bool close = document[fnClose];
-
-                    if (document[fnCategory] == "의류")
+                    if (document['category'] == "의류")
                       tempInt = 0;
-                    else if (document[fnCategory] == "서적")
+                    else if (document['category'] == "서적")
                       tempInt = 1;
-                    else if (document[fnCategory] == "음식")
+                    else if (document['category'] == "음식")
                       tempInt = 2;
-                    else if (document[fnCategory] == "생필품")
+                    else if (document['category'] == "생필품")
                       tempInt = 3;
-                    else if (document[fnCategory] == "가구전자제품")
+                    else if (document['category'] == "가구전자제품")
                       tempInt = 4;
-                    else if (document[fnCategory] == "뷰티잡화")
+                    else if (document['category'] == "뷰티잡화")
                       tempInt = 5;
-                    else if (document[fnCategory] == "양도")
+                    else if (document['category'] == "양도")
                       tempInt = 6;
-                    else if (document[fnCategory] == "기타") tempInt = 7;
+                    else if (document['category'] == "기타") tempInt = 7;
 
                     if (!categoryBool[tempInt]) {
                       return Container();
@@ -303,12 +297,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       return Container();
                     } else {
                       return InkWell(
-                        // Read Document
-                        onTap: () {
-                          showReadPostPage(document);
-                        },
-                        child: postTile(context, document)
-                      );
+                          // Read Document
+                          onTap: () {
+                            showReadPostPage(document);
+                          },
+                          child: postTile(context, document));
                     }
                   }).toList(),
                 );
