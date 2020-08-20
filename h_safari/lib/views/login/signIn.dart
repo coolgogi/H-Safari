@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'signUp.dart';
 import 'package:provider/provider.dart';
-import '../../models/firebase_provider.dart';
+import '../../helpers/firebase_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot.dart';
 
@@ -18,7 +18,7 @@ class _SignInState extends State<SignIn> {
   bool visiblepw = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
-  var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusnode = new FocusNode();
 
   @override
   void initState() {
@@ -34,11 +34,7 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
-//  var _color = Colors.green;
   final _formkey = new GlobalKey<FormState>();
-//  String _idkey; //_pwkey;
-
-//  bool _rememberId = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +85,6 @@ class _SignInState extends State<SignIn> {
                                   validator: (value) {
                                       return value.isEmpty ? '학번을 입력해주세요' : null;
                                   },
-                                 // onSaved: (value) => _idkey = value, 무슨역할???
                                 ),
                               ),
                             ),
@@ -142,12 +137,10 @@ class _SignInState extends State<SignIn> {
                           children: [
                             Row(
                               children: [
-                                //아이디 저장유무를 확인하는 버튼. 다만 아직 실제 저장되는건 미구현입니다.
                                 Text(
                                   '아이디 저장',
                                   style: TextStyle(fontSize: 15),
                                 ),
-                                //아니면 자동 로그인?
                                 Checkbox(
                                   key: null,
                                   value: doRemember,
@@ -196,7 +189,6 @@ class _SignInState extends State<SignIn> {
                                           color: Colors.green,
                                         )),
                                     onPressed: () {
-                                      //로그인 버튼. 일단 저번에 영상에서 본걸로 로그인과 비밀번호가 일치하는지 확인하는거 구현 해봤는데 안되는 것 같아요.
                                       FocusScope.of(context).requestFocus(
                                           new FocusNode());
                                       _signIn();
@@ -212,7 +204,6 @@ class _SignInState extends State<SignIn> {
                             ),
                             RawMaterialButton(
                               onPressed: () {
-                                //회원가입 버튼. 누르면 회원가입 창으로 이동합니다
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -256,7 +247,6 @@ class _SignInState extends State<SignIn> {
     String emailSetting = _mailCon.text + "@handong.edu";
     bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
-    //if (result == false) showLastFBMessage();밑에꺼랑 둘중 어느걸로 할지
     if (result == false) checkAll();
   }
 
@@ -283,19 +273,4 @@ class _SignInState extends State<SignIn> {
       prefs.setString("userPasswd", _pwCon.text);
     }
   }
-
-//  showLastFBMessage() {
-//    _scaffoldKey.currentState
-//      ..hideCurrentSnackBar()
-//      ..showSnackBar(SnackBar(
-//        backgroundColor: Colors.red[400],
-//        duration: Duration(seconds: 10),
-//        content: Text(fp.getLastFBMessage()),
-//        action: SnackBarAction(
-//          label: "Done",
-//          textColor: Colors.white,
-//          onPressed: () {},
-//        ),
-//      ));
-//  }
 }

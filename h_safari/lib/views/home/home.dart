@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'dart:io';
 import 'package:h_safari/views/post/post.dart';
-//import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'alarm.dart';
@@ -21,25 +18,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
-//  String email;
-//
-//  FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-//  final String colName = "post";
-//  File _image;
-//  final String fnName = "name";
-//  final String fnDescription = "description";
-//  final String fnDatetime = "datetime";
-//  final String fnImageUrl = 'imageUrl';
-//  final String fnPrice = 'price';
-//  final String fnCategory = 'category';
-//  final String fnHow = 'how';
-//  final String fnEmail = 'email';
-//  final String fnClose = 'close';
-//  final String checkClose = "마감";
-
   final List<String> categoryString = [
     "의류",
     "서적",
@@ -60,23 +40,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     false,
     false
   ];
-  bool wantToSeeFinished = false; //마감된글 볼지말지
-
-//  TextEditingController _newNameCon = TextEditingController();
-//  TextEditingController _newDescCon = TextEditingController();
-//  TextEditingController _undNameCon = TextEditingController();
-//  TextEditingController _undDescCon = TextEditingController();
+  bool wantToSeeFinished = false;
 
   QuerySnapshot userInfoSnapshot;
   DocumentSnapshot userDoc;
-//  String userEmail;
   bool unreadNotification = false;
-
-//  int _counter = 0;
-
-//  _HomeState(String tp) {
-//    email = tp;
-//  }
 
   @override
   void initState() {
@@ -86,39 +54,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .document(widget.email)
         .get()
         .then((doc) {
-//      userDoc = doc;
       setCategoryData(doc);
       unreadNotification = doc['unreadNotification'];
     });
-//    Future.delayed(Duration.zero, () {
-//      getUserData(userEmail);
-//    });
   }
 
   @override
   bool get wantKeepAlive => true;
 
-//  getUserData(String passedEmail) {
-//    Firestore.instance
-//        .collection("users")
-//        .document(passedEmail)
-//        .get()
-//        .then((doc) {
-//      setCategoryData(doc);
-//      unreadNotification = doc['unreadNotification'];
-//    });
-//  }
-
   @override
   Widget build(BuildContext context) {
-//    fp = Provider.of<FirebaseProvider>(context);
-//    userEmail = fp.getUser().email.toString();
-//    bool _isSwitchedNum = true;
     return SafeArea(
       child: Scaffold(
           key: _scaffoldKey,
           resizeToAvoidBottomPadding: false,
-//          appBar: MyAppBar(),
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -147,9 +96,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             .updateUnreadNotification(widget.email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
-//                        setState((){
-//                          getUserData(widget.email);
-//                        });
+                        unreadNotification = false;
                       },
                     ),
                     SizedBox(
@@ -179,15 +126,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   child: Column(
                     children: <Widget>[
                       allPostList(widget.email),
-                      //전체글
-                    ], //widget
-                  ), //column
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      myPostList(widget.email), //마이 카테고리
+                      myPostList(widget.email),
                     ],
                   ),
                 ),
@@ -195,7 +141,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             ),
           )),
     );
-  } //build
+  }
 
   setCategoryData(DocumentSnapshot doc) {
     for (int i = 0; i < 8; i++) {
@@ -218,7 +164,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget allPostList(String email) {
     return Expanded(
       child: Container(
-        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")
@@ -250,13 +195,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
-  } //postList
+  }
 
   Widget myPostList(String email) {
     int tempInt = 0;
     return Expanded(
       child: Container(
-        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("post")
@@ -297,7 +241,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       return Container();
                     } else {
                       return InkWell(
-                          // Read Document
                           onTap: () {
                             showReadPostPage(document);
                           },
@@ -310,5 +253,5 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
-  } //postList
+  }
 }

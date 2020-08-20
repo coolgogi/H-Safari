@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
 
-class asking extends StatefulWidget {
+class Asking extends StatefulWidget {
   @override
-  _askingState createState() => _askingState();
+  _AskingState createState() => _AskingState();
 }
 
-class _askingState extends State<asking> {
+class _AskingState extends State<Asking> {
   List<String> attachments = [];
   bool isHTML = false;
 
@@ -48,7 +48,7 @@ class _askingState extends State<asking> {
     ));
   }
 
-  var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusnode = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,6 @@ class _askingState extends State<asking> {
               padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(

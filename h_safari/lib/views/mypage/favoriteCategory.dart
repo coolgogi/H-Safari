@@ -41,7 +41,6 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     button[7] = tp['기타'];
   }
 
-  //카테고리 이름들을 저장하는 배열
   List<String> categoryName = [
     '의류',
     '서적',
@@ -59,25 +58,21 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
       body: Column(
         children: <Widget>[
           GridView.count(
-              //gridview를 사용해 가로 4줄, 세로 2줄의 버튼을 만든다.
               shrinkWrap: true,
-              crossAxisCount: 2, //세로줄
-              childAspectRatio: (1.7), //각 버튼의 세로 길이
+              crossAxisCount: 2,
+              childAspectRatio: (1.7),
               children: List.generate(8, (index) {
-                //8개의 리스트를 만든다.
                 return Column(
                   children: <Widget>[
                     ButtonBar(
                       mainAxisSize: MainAxisSize.min,
-                      //버튼들을 센터로 맞추는건데 이상하게 center와 이게 두개 다 있어야만 센터로 정렬이 되네요.
                       children: <Widget>[
                         ButtonTheme(
-                          minWidth: 180, //각 버튼의 가로 길이
+                          minWidth: 180,
                           height: 100,
                           child: RaisedButton(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              //아이콘들과 텍스트를 가운데로 정렬
                               children: <Widget>[
                                 Icon(Icons.favorite),
                                 SizedBox(
@@ -86,9 +81,10 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                                 Text(categoryName[index]),
                               ],
                             ),
-                            color: button[index] ? Colors.blue : Colors.white,
+                            color: button[index]
+                                ? Colors.green[200]
+                                : Colors.white,
                             onPressed: () {
-                              //아마 여기서 선택한 값을 가져가서 My 선호에서 띄우는거겠죠...?
                               setState(() {
                                 button[index] = !button[index];
                               });
@@ -98,16 +94,15 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                       ],
                     ),
                   ],
-                ); //column
-              })), //GridView
+                );
+              })),
           SizedBox(
             height: 20,
-          ), //카테고리와 버튼 사이 공간
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ButtonTheme(
-                //모든 카테고리 선택 후 확인 버튼
                 height: 40,
                 child: OutlineButton(
                   child: Text(
@@ -120,7 +115,6 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                 ),
               ),
               ButtonTheme(
-                //모든 카테고리 선택 후 확인 버튼
                 height: 40,
                 child: OutlineButton(
                   child: Text(
@@ -134,7 +128,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                 ),
               ),
             ],
-          ), //ButtonTheme
+          ),
         ],
       ),
     );

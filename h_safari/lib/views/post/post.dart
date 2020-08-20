@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
 import 'package:h_safari/views/post/waiting.dart';
-import 'package:h_safari/widget/widget.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,6 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
-
   TextEditingController commentEditingController = new TextEditingController();
   Stream<QuerySnapshot> comments;
 
@@ -50,7 +48,7 @@ class _PostState extends State<Post> {
   _PostState(DocumentSnapshot doc) {
     fnName = doc['name'];
     fnDes = doc['description'];
-    var time = doc['datetime'].toDate(); //timestamp to datetime
+    var time = doc['datetime'].toDate();
     var date = DateFormat('yyyy-MM-dd').add_Hms().format(time);
     var allTime = date.split(RegExp(r"-| |:"));
     var year = allTime[0];
@@ -76,15 +74,14 @@ class _PostState extends State<Post> {
   bool favorite = false;
   bool checkDelivery = false;
   bool checkDirect = false;
-
-  var _blankFocusnode = new FocusNode(); //키보드 없애는 용
+  var _blankFocusnode = new FocusNode();
   var _recommentFocusnode = FocusNode();
-
   bool isRecomment = false;
   var redocId;
-
   String _bigPhoto;
   String priceComma;
+  CarouselSlider carouselSlider;
+  int _current = 0;
 
   @override
   void initState() {
@@ -96,9 +93,6 @@ class _PostState extends State<Post> {
     });
     super.initState();
   }
-
-  CarouselSlider carouselSlider;
-  int _current = 0;
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -114,7 +108,6 @@ class _PostState extends State<Post> {
     currentEmail = fp.getUser().email.toString();
     getHow();
     return GestureDetector(
-
       onTap: () {
         isRecomment = false;
         FocusScope.of(context).requestFocus(_blankFocusnode);
@@ -313,7 +306,7 @@ class _PostState extends State<Post> {
                                     fnClose
                                         ? null
                                         : widget.isMine
-                                        ? Close(context)
+                                        ? close(context)
                                         : purchaseApplication(context);
                                   },
                                 ),
@@ -329,7 +322,6 @@ class _PostState extends State<Post> {
                                         fontSize: 15, color: Colors.black54),
                                   ),
                                   Row(
-                                    //게시글 작성할때 선택한 부분만 뜨도록 수정 완료
                                     children: [
                                       Text(
                                         '택배',
@@ -340,7 +332,7 @@ class _PostState extends State<Post> {
                                             ? Icons.check_box
                                             : Icons.check_box_outline_blank,
                                         color: checkDelivery
-                                            ? Colors.green
+                                            ? Colors.green[300]
                                             : Colors.grey,
                                       ),
                                       SizedBox(
@@ -451,7 +443,7 @@ class _PostState extends State<Post> {
                               child: FlatButton(
                                 shape: OutlineInputBorder(),
                                 child: Text(
-                                  '등록', //아이콘으로 바꾸기
+                                  '등록',
                                   style: TextStyle(color: Colors.green),
                                 ),
                                 onPressed: () {
@@ -539,10 +531,9 @@ class _PostState extends State<Post> {
                           .format(DateTime.now()),
                       "postID": widget.doc.documentID,
                     };
-                    // post에 저장
                     DatabaseMethods()
                         .sendNotification(fnEmail, purchaseApplication);
-                    DatabaseMethods().updateUnreadNotification(fnEmail, false);
+                    DatabaseMethods().updateUnreadNotification(fnEmail, true);
                     DatabaseMethods()
                         .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
@@ -555,7 +546,7 @@ class _PostState extends State<Post> {
         });
   }
 
-  void Close(BuildContext context) async {
+  void close(BuildContext context) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -582,28 +573,6 @@ class _PostState extends State<Post> {
                   Navigator.pop(context, '취소');
                   fnClose = true;
                   setState(() {});
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  void CloseDialog(BuildContext context) async {
-    await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('마감하였습니다.'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  '확인',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, '확인');
                 },
               )
             ],

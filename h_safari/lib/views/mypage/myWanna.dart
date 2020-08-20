@@ -1,37 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
-class myWanna extends StatefulWidget {
-
-
+class MyWanna extends StatefulWidget {
   String userEmail;
-  myWanna(String tp){
+
+  MyWanna(String tp) {
     userEmail = tp;
   }
 
   @override
-  _myWannaState createState() => _myWannaState(userEmail);
+  _MyWannaState createState() => _MyWannaState();
 }
 
-class _myWannaState extends State<myWanna> {
-
-  String userEmail;
-  DocumentSnapshot userDoc;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  String colName = "post";
-  String fnClose = "close";
-  String fnEmail = "email";
-  String fnWaitingList = "waitingUserList";
-
-  _myWannaState(String email){
-    userEmail = email;
-  }
-
+class _MyWannaState extends State<MyWanna> {
   @override
   void initState() {
     super.initState();
@@ -49,16 +32,15 @@ class _myWannaState extends State<myWanna> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyFavoriteList(userEmail),
-                  //전체글
-                ], //widget
-              ), //column
+                  allMyFavoriteList(widget.userEmail),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: <Widget>[
-                  allMyClosedFavoriteList(userEmail), //마이 카테고리
+                  allMyClosedFavoriteList(widget.userEmail),
                 ],
               ),
             ),
@@ -71,11 +53,10 @@ class _myWannaState extends State<myWanna> {
   Widget allMyFavoriteList(String email) {
     return Expanded(
       child: Container(
-        height: 500,
         child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection(colName)
-              .orderBy(fnDatetime, descending: true)
+              .collection("post")
+              .orderBy("datetime", descending: true)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -86,64 +67,20 @@ class _myWannaState extends State<myWanna> {
               default:
                 return ListView(
                   children:
-                  snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
 
-                    if(close){
+                    if (close) {
                       return Container();
-                    }else if(document[fnWaitingList].contains(userEmail)){
+                    } else if (document["waitingUserList"]
+                        .contains(widget.userEmail)) {
                       return InkWell(
-                        // Read Document
                         onTap: () {
                           showReadPostPage(document);
                         },
                         child: postTile(context, document),
                       );
-                    }else{
-                      return Container();
-                    }
-                  }).toList(),
-                );
-            }
-          },
-        ),
-      ),
-    );
-  } //postList
-
-  Widget allMyClosedFavoriteList(String email) {
-    int tempInt = 0;
-    return Expanded(
-      child: Container(
-        height: 500,
-        child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection(colName)
-              .orderBy(fnDatetime, descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Text("Loading...");
-              default:
-                return ListView(
-                  children:
-                  snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document[fnClose];
-
-                    if (!close) {
-                      return Container();
-                    }else if(document[fnWaitingList].contains(userEmail)){
-                      return InkWell(
-                        // Read Document
-                          onTap: () {
-                            showReadPostPage(document);
-                          },
-                          child: postTile(context, document)
-                      );
-                    } else{
+                    } else {
                       return Container();
                     }
                   }).toList(),
@@ -155,11 +92,49 @@ class _myWannaState extends State<myWanna> {
     );
   }
 
-  //문서 읽기 (Read)
+  Widget allMyClosedFavoriteList(String email) {
+    return Expanded(
+      child: Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection("post")
+              .orderBy("datetime", descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Text("Loading...");
+              default:
+                return ListView(
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
+
+                    if (!close) {
+                      return Container();
+                    } else if (document["waitingUserList"]
+                        .contains(widget.userEmail)) {
+                      return InkWell(
+                          onTap: () {
+                            showReadPostPage(document);
+                          },
+                          child: postTile(context, document));
+                    } else {
+                      return Container();
+                    }
+                  }).toList(),
+                );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Post(doc, false)));
+        context, MaterialPageRoute(builder: (context) => Post(doc, false)));
   }
 }

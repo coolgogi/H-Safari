@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:h_safari/models/firebase_provider.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/services/database.dart';
@@ -130,7 +130,7 @@ class _AlarmState extends State<Alarm> {
                   style: TextStyle(fontSize: 13),
                 ),
                 Text(
-                  time, // 시간
+                  time,
                   style: TextStyle(fontSize: 10, color: Colors.black45),
                 ),
               ],

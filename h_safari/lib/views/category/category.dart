@@ -77,7 +77,7 @@ class _MyCategoryState extends State<MyCategory> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    categoryView(select: _category[index])));
+                                    CategoryView(select: _category[index])));
                       })
                 ],
               ),
