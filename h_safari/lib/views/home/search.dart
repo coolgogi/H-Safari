@@ -19,6 +19,7 @@ class _SearchState extends State<Search> {
   FirebaseProvider fp;
   String currentEmail;
 
+  var checkIndex = 1;
   Icon actionIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -26,6 +27,7 @@ class _SearchState extends State<Search> {
 
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
+  final ScrollController listScrollController = ScrollController();
 
   bool wantToSeeFinished = true;
 
@@ -52,7 +54,12 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    listScrollController.addListener(scrollListener);
     _IsSearching = false;
+  }
+
+  scrollListener() {
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   var _blankFocusnode = new FocusNode();
@@ -79,6 +86,7 @@ class _SearchState extends State<Search> {
                 default:
                   return GestureDetector(
                       child: ListView(
+                        controller: listScrollController,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                         children:
                         snapshot.data.documents
@@ -87,7 +95,7 @@ class _SearchState extends State<Search> {
                           bool close = document['close'];
                           priceComma = document['price'].replaceAllMapped(
                               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                              (match) => '${match[1]},');
+                                  (match) => '${match[1]},');
                           if (!_IsSearching)
                             return Container();
                           else if (!title.contains(_searchQuery.text))
@@ -95,19 +103,19 @@ class _SearchState extends State<Search> {
                           else {
                             return _isSwitchedNum == true
                                 ? InkWell(
-                                    onTap: () {
-                                      showReadPostPage(document);
-                                    },
-                                    child: postTile(context, document),
-                                  )
+                              onTap: () {
+                                showReadPostPage(document);
+                              },
+                              child: postTile(context, document),
+                            )
                                 : close == false && _isSwitchedNum == false
-                                    ? InkWell(
-                                        onTap: () {
-                                          showReadPostPage(document);
-                                        },
-                                        child: postTile(context, document),
-                                      )
-                                    : Container();
+                                ? InkWell(
+                              onTap: () {
+                                showReadPostPage(document);
+                              },
+                              child: postTile(context, document),
+                            )
+                                : Container();
                           }
                         }).toList(),
                       ),
@@ -177,20 +185,26 @@ class _SearchState extends State<Search> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Transform.scale(
-              scale: 0.65,
-              child: CustomSwitch(
-                activeColor: Colors.green,
-                value: status,
-                onChanged: (value) {
-                  setState(() {
-                    status = value;
-                    _isSwitchedNum = value;
-                  });
-                },
+            SizedBox(
+              width: 90,
+              child: Padding(
+                padding: const EdgeInsets.only(right : 8.0),
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      side: BorderSide(color: Colors.black12)),
+                  color : checkIndex == 1? Colors.green : checkIndex == -1? Colors.grey[250] : null,
+                  child: Text(checkIndex == 1? '마감 On' : checkIndex == -1? '마감 Off': null,
+                    style: TextStyle(fontSize : 14, color: checkIndex == 1? Colors.white : checkIndex == -1? Colors.black87 : null,),),
+                  onPressed: () {
+                    setState(() {
+                      checkIndex = checkIndex * -1;
+                      _isSwitchedNum = checkIndex == 1 ? true : false;
+                    });
+                  },
+                ),
               ),
             ),
-            Text('마감', style : TextStyle(fontSize: 14, color : Colors.black38)),
           ],
         )
       ],
