@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:h_safari/models/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/widget/widget.dart';
-
 import 'chatRoom.dart';
 
 class ChatList extends StatefulWidget {
@@ -21,8 +17,6 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   Stream<QuerySnapshot> chatRooms;
-
-  FirebaseProvider fp;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   @override
@@ -55,14 +49,15 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if(snapshot.data.documents[index].data['users'].contains(widget.email)){
+                  if (snapshot.data.documents[index].data['users']
+                      .contains(widget.email)) {
                     return ChatRoomsTile(
                       context,
                       snapshot.data.documents[index].data['users'],
                       snapshot.data.documents[index].data["chatRoomName"],
                       snapshot.data.documents[index].data['lastMessage'],
                       snapshot.data.documents[index].data['lastDate']
-                          .split(RegExp(r" |:|-"))[1] +
+                              .split(RegExp(r" |:|-"))[1] +
                           '/' +
                           snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[2] +
@@ -73,12 +68,12 @@ class _ChatListState extends State<ChatList> {
                           snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[4],
                       snapshot.data.documents[index].data["lastSendBy"],
-                      snapshot.data.documents[index].data["lastSendBy"] == widget.email
+                      snapshot.data.documents[index].data["lastSendBy"] ==
+                              widget.email
                           ? false
                           : snapshot.data.documents[index].data['unread'],
                     );
-                  }
-                  else{
+                  } else {
                     return Container();
                   }
                 })
@@ -91,10 +86,10 @@ class _ChatListState extends State<ChatList> {
       String message, String date, String sendBy, bool unread) {
     String friendName;
     bool isMyPost = false;
-    if(users[0]==widget.email){
+    if (users[0] == widget.email) {
       friendName = users[1];
-      isMyPost = true;}
-    else {
+      isMyPost = true;
+    } else {
       friendName = users[0];
       isMyPost = false;
     }
@@ -104,9 +99,11 @@ class _ChatListState extends State<ChatList> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatRoom(
-                  chatRoomId: chatRoomId,
-                  chatRoomName: isMyPost ? chatRoomId: chatRoomId.split(RegExp(r"_"))[1],
-                )));
+                      chatRoomId: chatRoomId,
+                      chatRoomName: isMyPost
+                          ? chatRoomId
+                          : chatRoomId.split(RegExp(r"_"))[1],
+                    )));
         sendBy != friendName
             ? null
             : DatabaseMethods().updateUnreadMessagy(chatRoomId);
@@ -120,14 +117,12 @@ class _ChatListState extends State<ChatList> {
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         margin: EdgeInsets.only(top: 5),
         child: Column(
-          //1: 닉네임, 시간   2: 마지막 메세지
           children: <Widget>[
             Row(
-              //column의 첫번째로 닉네임, 시간을 가짐
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  isMyPost ? chatRoomId: chatRoomId.split(RegExp(r"_"))[1],
+                  isMyPost ? chatRoomId : chatRoomId.split(RegExp(r"_"))[1],
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -137,17 +132,17 @@ class _ChatListState extends State<ChatList> {
                   children: <Widget>[
                     unread
                         ? Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      width: 7,
-                      height: 7,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.orangeAccent,
-                      ),
-                    )
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 7,
+                            height: 7,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.orangeAccent,
+                            ),
+                          )
                         : Container(
-                      child: null,
-                    ),
+                            child: null,
+                          ),
                     Text(
                       date,
                       textAlign: TextAlign.center,
@@ -176,8 +171,7 @@ class _ChatListState extends State<ChatList> {
                       color: Colors.black54,
                     ),
                     overflow: TextOverflow.ellipsis,
-                    //글 수가 오버플로시 ...으로 표시
-                    maxLines: 1, //최대 글자줄수는 2줄
+                    maxLines: 1,
                   ),
                 ),
                 InkWell(

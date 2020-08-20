@@ -72,13 +72,13 @@ class _categoryViewState extends State<categoryView> {
             default:
               return ListView(
                 children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
+                snapshot.data.documents.map((DocumentSnapshot document) {
                   Timestamp ts = document[fnDatetime];
                   String dt = timestampToStrDateTime(ts);
                   String _profileImageURL = document[fnImageUrl];
                   String postCategory = document[fnCategory];
 //                  postCategory.replaceAll("/", "");
-                      bool close = document[fnClose];
+                  bool close = document[fnClose];
 
                   if (!(postCategory == select))
                     return Container();
@@ -86,12 +86,12 @@ class _categoryViewState extends State<categoryView> {
                     return _isSwitchedNum == true ?
                     InkWell(
                       // Read Document
-                      onTap: () {
-                        showReadPostPage(document);
-                      },
-                      child: postTile(context, document)
+                        onTap: () {
+                          showReadPostPage(document);
+                        },
+                        child: postTile(context, document)
                     )
-                    :  close == false && _isSwitchedNum == false ?
+                        :  close == false && _isSwitchedNum == false ?
                     InkWell(
                       // Read Document
                         onTap: () {

@@ -97,8 +97,8 @@ class _SearchState extends State<Search> {
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                         children:
 //                          _IsSearching ? _buildSearchList() :
-                            snapshot.data.documents
-                                .map((DocumentSnapshot document) {
+                        snapshot.data.documents
+                            .map((DocumentSnapshot document) {
                           String title = document[fnName];
                           String postDes = document[fnDescription];
                           Timestamp ts = document[fnDatetime];
@@ -130,7 +130,7 @@ class _SearchState extends State<Search> {
                                           vertical: 15),
                                       child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           // 사진
                                           listPhoto(context, document),

@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:309358521489:android:92676d1163ba46e5196330",
-        "android_client_info": {
-          "package_name": "com.example.flutterfirebase"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "309358521489-h0432k340i58bc7rtbpq4bo4g2jre8s0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDNOc0Awi4NTqO4EFgOpe0cQjcqF6at7hs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "309358521489-jalm1co0dv7ta96qu5isfph55q699g88.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:309358521489:android:9b85680ae3792147196330",
         "android_client_info": {
           "package_name": "safari.handong.h_safari"
@@ -44,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "309358521489-i2f8puiah66ch5ul83aseibgbmmbki7g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "safari.handong.h_safari",
-            "certificate_hash": "19b3b43019c15255139e96873596e8875fe18949"
-          }
-        },
-        {
           "client_id": "309358521489-h0432k340i58bc7rtbpq4bo4g2jre8s0.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -67,6 +30,14 @@
             {
               "client_id": "309358521489-jalm1co0dv7ta96qu5isfph55q699g88.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "309358521489-3u63m57kut35r692mrj02rdb3p4kn0oj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.domain.hSafari",
+                "app_store_id": "482482482482"
+              }
             }
           ]
         }

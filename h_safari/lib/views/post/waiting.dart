@@ -19,16 +19,16 @@ class Waiting extends StatefulWidget {
   }
 
   @override
-  _WaitingState createState() => _WaitingState(documentID);
+  _WaitingState createState() => _WaitingState();
 }
 
 class _WaitingState extends State<Waiting> {
-  String documentID;
+//  String documentID;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  _WaitingState(String id) {
-    documentID = id;
-  }
+//  _WaitingState(String id) {
+//    documentID = id;
+//  }
 
   FirebaseProvider fp;
   String userEmail;
@@ -61,11 +61,10 @@ class _WaitingState extends State<Waiting> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            //sendBy, // 게시물 제목
             '$turn번째 신청자',
             style: TextStyle(
                 fontSize: 14.5,
-                fontWeight: FontWeight.bold), // 게시물 제목 스타일 지정
+                fontWeight: FontWeight.bold),
           ),
           FlatButton(
             shape: OutlineInputBorder(),
