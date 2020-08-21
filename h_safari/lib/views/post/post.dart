@@ -439,8 +439,9 @@ class _PostState extends State<Post> {
                               width: 15,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 6,
+                              width: 45,
                               child: FlatButton(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
                                 shape: OutlineInputBorder(),
                                 child: Text(
                                   '등록',
