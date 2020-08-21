@@ -159,7 +159,7 @@ class _AuthPageState extends State<AuthPage> {
   // token에 해당하는 디바이스로 커스텀 FCM 전송
   void sendCustomFCM(String token, String title, String body) async {
     if (title.isEmpty || body.isEmpty) return;
-    final HttpsCallableResult result = await sendFCM.call(
+    await sendFCM.call(
       <String, dynamic>{
         fToken: token,
         "title": title,

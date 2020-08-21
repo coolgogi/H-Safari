@@ -19,39 +19,15 @@ class _MyCategoryState extends State<MyCategory> {
     '기타'
   ];
 
-  final List<Widget> _categoryImage = [
-    Image.asset(
-      'Logo/categoryImage/m_1_clothes.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/m_2_book.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/m_3_food.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/m_4_daily.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/2nd_m_5_furniture2.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/m_6_beauty.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/m_7_housetrans.png',
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      'Logo/categoryImage/2nd_m_8_other2.png',
-      fit: BoxFit.fill,
-    ),
+  final List<String> _categoryImage = [
+    'Logo/categoryImage/m_1_clothes.png',
+    'Logo/categoryImage/m_2_book.png',
+    'Logo/categoryImage/m_3_food.png',
+    'Logo/categoryImage/m_4_daily.png',
+    'Logo/categoryImage/2nd_m_5_furniture2.png',
+    'Logo/categoryImage/m_6_beauty.png',
+    'Logo/categoryImage/m_7_housetrans.png',
+    'Logo/categoryImage/2nd_m_8_other2.png',
   ];
 
   @override
@@ -68,7 +44,10 @@ class _MyCategoryState extends State<MyCategory> {
         children: List.generate(8, (index) {
           return InkWell(
               child: Container(
-                child: _categoryImage[index],
+                child: Image.asset(
+                  _categoryImage[index],
+                  fit: BoxFit.fill,
+                ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('Logo/categoryImage/m_1_clothes.png'),
