@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
-import 'package:h_safari/helpers/sizes.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:provider/provider.dart';
 import 'package:h_safari/services/database.dart';
