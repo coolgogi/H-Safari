@@ -126,16 +126,18 @@ class _CategoryViewState extends State<CategoryView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 90,
+              height: 28,
+              width: 60,
               child: Padding(
-                padding: const EdgeInsets.only(right : 8.0),
+                padding: const EdgeInsets.only(right : 10.0),
                 child: RaisedButton(
+                  padding: EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(12.0),
                       side: BorderSide(color: Colors.black12)),
-                  color : checkIndex == 1? Colors.green : checkIndex == -1? Colors.grey[250] : null,
+                  color : checkIndex == 1? Colors.green[400] : checkIndex == -1? Colors.grey[250] : null,
                   child: Text(checkIndex == 1? '마감 On' : checkIndex == -1? '마감 Off': null,
-                    style: TextStyle(fontSize : 14, color: checkIndex == 1? Colors.white : checkIndex == -1? Colors.black87 : null,),),
+                    style: TextStyle(fontSize : 11, color: checkIndex == 1? Colors.white : checkIndex == -1? Colors.black87 : null,),),
                   onPressed: () {
                     setState(() {
                       checkIndex = checkIndex * -1;
