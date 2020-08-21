@@ -41,6 +41,17 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     button[7] = tp['기타'];
   }
 
+  List<String> categoryImage = [
+    'Logo/favoriteImage/f_1.jpeg',
+    'Logo/favoriteImage/f_2.jpeg',
+    'Logo/favoriteImage/f_3.jpeg',
+    'Logo/favoriteImage/f_4.jpeg',
+    'Logo/favoriteImage/f_5.jpeg',
+    'Logo/favoriteImage/f_6.jpeg',
+    'Logo/favoriteImage/f_7.jpeg',
+    'Logo/favoriteImage/f_8.jpeg',
+  ];
+
   List<String> categoryName = [
     '의류',
     '서적',
@@ -74,7 +85,10 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Icon(Icons.favorite),
+                                Image.asset(
+                                  categoryImage[index],
+                                  fit: BoxFit.fill,
+                                ),
                                 SizedBox(
                                   height: 10,
                                 ),
