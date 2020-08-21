@@ -96,7 +96,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             .updateUnreadNotification(widget.email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
-                        unreadNotification = false;
+                        setState(() {
+                          unreadNotification = false;
+                        });
                       },
                     ),
                     SizedBox(

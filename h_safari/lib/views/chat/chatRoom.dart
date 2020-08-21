@@ -36,9 +36,11 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(_blankFocusnode);
+    return WillPopScope(
+      onWillPop: () async {
+        DatabaseMethods().updateUnreadMessagy(widget.chatRoomId);
+        Navigator.of(context).pop();
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -58,17 +60,24 @@ class _ChatRoomState extends State<ChatRoom> {
             padding: const EdgeInsets.only(right: 40.0),
             child: Center(
                 child: Text(
-                  widget.chatRoomName,
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-                )),
+              widget.chatRoomName,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            )),
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(child: chatMessages()),
-            sendMessageBox(),
-          ],
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(_blankFocusnode);
+          },
+          child: Column(
+            children: [
+              Expanded(child: chatMessages()),
+              sendMessageBox(),
+            ],
+          ),
         ),
       ),
     );

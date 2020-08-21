@@ -161,7 +161,7 @@ class _AlarmState extends State<Alarm> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                type != '거래수락' ? Post(doc, true) : Post(doc, false)));
+                type == "구매신청" ? Post(doc, true) : Post(doc, false)));
   }
 
   void warning(BuildContext context) async {
