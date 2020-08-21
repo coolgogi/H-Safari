@@ -21,35 +21,35 @@ class _MyCategoryState extends State<MyCategory> {
 
   final List<Widget> _categoryImage = [
     Image.asset(
-      'assets/sample/clothes.jpg',
+      'Logo/categoryImage/m_1_clothes.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/book.jpg',
+      'Logo/categoryImage/m_2_book.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/food.jpg',
+      'Logo/categoryImage/m_3_food.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/life.jpg',
+      'Logo/categoryImage/m_4_daily.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/furniture.jpg',
+      'Logo/categoryImage/2nd_m_5_furniture2.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/beauty.jpg',
+      'Logo/categoryImage/m_6_beauty.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/home.jpg',
+      'Logo/categoryImage/m_7_housetrans.png',
       fit: BoxFit.fill,
     ),
     Image.asset(
-      'assets/sample/etc.jpg',
+      'Logo/categoryImage/2nd_m_8_other2.png',
       fit: BoxFit.fill,
     ),
   ];
