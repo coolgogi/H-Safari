@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
-import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
 import 'package:h_safari/views/mypage/asking.dart';
@@ -21,6 +20,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
+  bool _isSwitchedNum = true;
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +119,23 @@ class _MyPageState extends State<MyPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('설정'),
+                    Switch(
+                      value: _isSwitchedNum,
+                      onChanged: (value) {
+                        setState(() {
+                          _isSwitchedNum = value;
+                        });
+                        Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                          "마감" : _isSwitchedNum,
+                        });
+                      },
+                      activeTrackColor: Colors.lightGreenAccent[100],
+                      activeColor: Colors.green[400],
+                    ),
                   ],
                 ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SettingAlarm()));
-                }),
+            ),
+
             ListTile(
               leading: Icon(Icons.thumb_up),
               title: Text('선호 카테고리 설정'),
