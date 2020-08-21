@@ -34,7 +34,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     button[0] = tp['의류'];
     button[1] = tp['서적'];
     button[2] = tp['음식'];
-    button[3] = tp['생필품'];
+    button[3] = tp['생활용품'];
     button[4] = tp['가구전자제품'];
     button[5] = tp['뷰티잡화'];
     button[6] = tp['양도'];
@@ -45,7 +45,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
     '의류',
     '서적',
     '음식',
-    '생필품',
+    '생활용품',
     '가구전자제품',
     '뷰티잡화',
     '양도',
@@ -140,7 +140,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
       '의류': button[0],
       '서적': button[1],
       '음식': button[2],
-      '생필품': button[3],
+      '생활용품': button[3],
       "가구전자제품": button[4],
       '뷰티잡화': button[5],
       '양도': button[6],

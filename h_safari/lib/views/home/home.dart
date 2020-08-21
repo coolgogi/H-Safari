@@ -24,7 +24,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     "의류",
     "서적",
     "음식",
-    "생필품",
+    "생활용품",
     "가구전자제품",
     "뷰티잡화",
     "양도",
@@ -226,7 +226,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       tempInt = 1;
                     else if (document['category'] == "음식")
                       tempInt = 2;
-                    else if (document['category'] == "생필품")
+                    else if (document['category'] == "생활용품")
                       tempInt = 3;
                     else if (document['category'] == "가구전자제품")
                       tempInt = 4;

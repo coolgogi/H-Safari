@@ -21,7 +21,7 @@ class _SignUpState extends State<SignUp> {
   bool clothe = false; //의류
   bool book = false; //서적
   bool food = false; //음식
-  bool necessary = false; //생필품
+  bool necessary = false; //생활용품
   bool furniture = false; //'가구/전자제품'
   bool beauty = false; //'뷰티/잡화'
   bool house = false; //'양도'
@@ -344,7 +344,7 @@ class _SignUpState extends State<SignUp> {
       "의류": clothe,
       "서적": book,
       "음식": food,
-      "생필품": necessary,
+      "생활용품": necessary,
       "가구전자제품": furniture,
       "뷰티잡화": beauty,
       "양도": house,
