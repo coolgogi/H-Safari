@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:h_safari/helpers/sizes.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
@@ -24,7 +25,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     "의류",
     "서적",
     "음식",
-    "생필품",
+    "생활용품",
     "가구전자제품",
     "뷰티잡화",
     "양도",
@@ -96,7 +97,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             .updateUnreadNotification(widget.email, false);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Alarm()));
-                        unreadNotification = false;
+                        setState(() {
+                          unreadNotification = false;
+                        });
                       },
                     ),
                     SizedBox(
@@ -224,7 +227,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       tempInt = 1;
                     else if (document['category'] == "음식")
                       tempInt = 2;
-                    else if (document['category'] == "생필품")
+                    else if (document['category'] == "생활용품")
                       tempInt = 3;
                     else if (document['category'] == "가구전자제품")
                       tempInt = 4;

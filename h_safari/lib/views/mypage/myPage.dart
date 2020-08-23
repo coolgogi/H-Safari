@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
-import 'package:h_safari/views/mypage/settingAlarm.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
 import 'package:h_safari/views/mypage/asking.dart';
@@ -21,6 +20,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
+  bool _isSwitchedNum = true;
 
   @override
   Widget build(BuildContext context) {
@@ -114,23 +114,33 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             ListTile(
-                leading: Icon(Icons.settings),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('설정'),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SettingAlarm()));
-                }),
-            ListTile(
               leading: Icon(Icons.thumb_up),
               title: Text('선호 카테고리 설정'),
               onTap: () {
                 showFavorite(currentUser.email);
               },
+            ),
+            ListTile(
+                leading: Icon(Icons.settings),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('푸쉬알림 설정'),
+                    Switch(
+                      value: _isSwitchedNum,
+                      onChanged: (value) {
+                        setState(() {
+                          _isSwitchedNum = value;
+                        });
+                        Firestore.instance.collection("users").document(fp.getUser().email).updateData({
+                          "마감" : _isSwitchedNum,
+                        });
+                      },
+                      activeTrackColor: Colors.green[100],
+                      activeColor: Colors.green[400],
+                    ),
+                  ],
+                ),
             ),
             ListTile(
               leading: Icon(Icons.build),
@@ -182,11 +192,11 @@ class _MyPageState extends State<MyPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.help_outline),
-              title: Text('문의하기'),
+              leading: Icon(Icons.accessibility),
+              title: Text('개인정보처리방침'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Asking()));
+                    context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
               },
             ),
             ListTile(
@@ -198,11 +208,11 @@ class _MyPageState extends State<MyPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.accessibility),
-              title: Text('개인정보처리방침'),
+              leading: Icon(Icons.help_outline),
+              title: Text('문의하기'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                    context, MaterialPageRoute(builder: (context) => Asking()));
               },
             ),
             ListTile(

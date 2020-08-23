@@ -170,7 +170,7 @@ class _SignInState extends State<SignIn> {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Column(
                           children: <Widget>[
@@ -237,17 +237,18 @@ class _SignInState extends State<SignIn> {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
+          backgroundColor: Colors.green,
           duration: Duration(seconds: 10),
           content: Row(
             children: <Widget>[
               CircularProgressIndicator(),
-              Text("   Signing-In...")
+              Text("   로그인중입니다")
             ],
           )));
     String emailSetting = _mailCon.text + "@handong.edu";
     bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
-    if (result == false) checkAll();
+    if (result == false) _mailCon.text.isEmpty||_pwCon.text.isEmpty ? checkAll() : showLastFBMessage();
   }
 
   getRememberInfo() async {
@@ -272,5 +273,20 @@ class _SignInState extends State<SignIn> {
       prefs.setString("userEmail", _mailCon.text);
       prefs.setString("userPasswd", _pwCon.text);
     }
+  }
+
+  showLastFBMessage() {
+    _scaffoldKey.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        backgroundColor: Colors.red[400],
+        duration: Duration(seconds: 2),
+        content: Text("로그인에 실패하였습니다.\n학번과 비밀번호를 확인해주세요!"),
+        action: SnackBarAction(
+          label: "확인",
+          textColor: Colors.white,
+          onPressed: () {},
+        ),
+      ));
   }
 }
