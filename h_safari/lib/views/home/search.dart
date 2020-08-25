@@ -30,7 +30,6 @@ class _SearchState extends State<Search> {
 
   bool wantToSeeFinished = true;
 
-
   bool _IsSearching;
   String _searchText = "";
 
@@ -87,14 +86,13 @@ class _SearchState extends State<Search> {
                       child: ListView(
                         controller: listScrollController,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children:
-                        snapshot.data.documents
+                        children: snapshot.data.documents
                             .map((DocumentSnapshot document) {
                           String title = document["name"];
                           bool close = document['close'];
                           priceComma = document['price'].replaceAllMapped(
                               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                  (match) => '${match[1]},');
+                              (match) => '${match[1]},');
                           if (!_IsSearching)
                             return Container();
                           else if (!title.contains(_searchQuery.text))
@@ -102,19 +100,19 @@ class _SearchState extends State<Search> {
                           else {
                             return _isSwitchedNum == true
                                 ? InkWell(
-                              onTap: () {
-                                showReadPostPage(document);
-                              },
-                              child: postTile(context, document),
-                            )
+                                    onTap: () {
+                                      showReadPostPage(document);
+                                    },
+                                    child: postTile(context, document),
+                                  )
                                 : close == false && _isSwitchedNum == false
-                                ? InkWell(
-                              onTap: () {
-                                showReadPostPage(document);
-                              },
-                              child: postTile(context, document),
-                            )
-                                : Container();
+                                    ? InkWell(
+                                        onTap: () {
+                                          showReadPostPage(document);
+                                        },
+                                        child: postTile(context, document),
+                                      )
+                                    : Container();
                           }
                         }).toList(),
                       ),
@@ -170,6 +168,7 @@ class _SearchState extends State<Search> {
               hintText: "게시글을 검색해보세요!",
               hintStyle: TextStyle(color: Colors.black45, fontSize: 15),
               suffixIcon: IconButton(
+                alignment: Alignment.topRight,
                 icon: Icon(
                   Icons.clear,
                   color: Colors.black45,
@@ -185,16 +184,29 @@ class _SearchState extends State<Search> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 90,
+              height: 30,
+              width: 60,
               child: Padding(
-                padding: const EdgeInsets.only(right : 8.0),
+                padding: const EdgeInsets.only(right: 10.0),
                 child: RaisedButton(
+                  padding: EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(12.0),
                       side: BorderSide(color: Colors.black12)),
-                  color : checkIndex == 1? Colors.green : checkIndex == -1? Colors.grey[250] : null,
-                  child: Text(checkIndex == 1? '마감 On' : checkIndex == -1? '마감 Off': null,
-                    style: TextStyle(fontSize : 14, color: checkIndex == 1? Colors.white : checkIndex == -1? Colors.black87 : null,),),
+                  color: checkIndex == 1
+                      ? Colors.green[400]
+                      : checkIndex == -1 ? Colors.grey[250] : null,
+                  child: Text(
+                    checkIndex == 1
+                        ? '마감 On'
+                        : checkIndex == -1 ? '마감 Off' : null,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: checkIndex == 1
+                          ? Colors.white
+                          : checkIndex == -1 ? Colors.black87 : null,
+                    ),
+                  ),
                   onPressed: () {
                     setState(() {
                       checkIndex = checkIndex * -1;

@@ -79,6 +79,8 @@ flutter:
       - Logo/empty_Rabbit_green1_gloss.png.png
       - Logo/empty_Rabbit_green1_png.png
       - Logo/h-safari_homeicon_shadow.png.png
+      - Logo/categoryImage/
+      - Logo/favoriteImage/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

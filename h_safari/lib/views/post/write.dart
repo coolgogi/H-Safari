@@ -623,7 +623,7 @@ class _ListCatState extends State<ListCat> {
     '의류',
     '서적',
     '음식',
-    '생필품',
+    '생활용품',
     '가구전자제품',
     '뷰티잡화',
     '양도',
