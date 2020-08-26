@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:309358521489:android:9b85680ae3792147196330",
         "android_client_info": {
-          "package_name": "safari.handong.h_safari"
+          "package_name": "com.CRA.hSafari"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "309358521489-t8jq69tn60n7guqojf2bvud0slnfuo3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "safari.handong.h_safari",
+            "certificate_hash": "b523f6b85a04d0b90b9e51e6f48ea05b5ce710bd"
+          }
+        },
         {
           "client_id": "309358521489-h0432k340i58bc7rtbpq4bo4g2jre8s0.apps.googleusercontent.com",
           "client_type": 3
@@ -32,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "309358521489-3u63m57kut35r692mrj02rdb3p4kn0oj.apps.googleusercontent.com",
+              "client_id": "309358521489-lc0tqbr10dshi9f4gfdkfg08ufus7ngt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.domain.hSafari",
+                "bundle_id": "com.CRA.hSafari",
                 "app_store_id": "482482482482"
               }
             }

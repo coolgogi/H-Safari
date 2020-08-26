@@ -1,4 +1,4 @@
-package safari.handong.h_safari
+package com.CRA.hSafari
 
 import io.flutter.embedding.android.FlutterActivity
 
