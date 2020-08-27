@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Runner.xcodeproj">
+      location = "group:/Users/coolgogi/AndroidStudioProjects/H-Safari/h_safari/ios/H-Safari.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/coolgogi/AndroidStudioProjects/H-Safari/h_safari/ios/Runner.xcodeproj">
    </FileRef>
 </Workspace>
