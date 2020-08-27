@@ -485,6 +485,14 @@ class _MyWriteState extends State<MyWrite> {
                                       SizedBox(
                                         height: 30,
                                       ),
+                                      Builder(
+                                            builder: (context) => FlatButton(
+                                              child: Text('show snackbar'),
+                                              onPressed: () {
+                                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('hello'),));
+                                              },
+                                            ),
+                                          ),
                                       Center(
                                         child: RaisedButton(
                                           color: Colors.green,
@@ -498,7 +506,8 @@ class _MyWriteState extends State<MyWrite> {
                                           onPressed: () {
                                             if (_newDescCon.text.isNotEmpty &&
                                                 _newNameCon.text.isNotEmpty &&
-                                                _newPriceCon.text.isNotEmpty) {
+                                                _newPriceCon.text.isNotEmpty
+                                            ) {
                                               createDoc(
                                                   _newNameCon.text,
                                                   _newDescCon.text,
