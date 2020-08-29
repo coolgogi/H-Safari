@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:h_safari/views/mypage/terms_of_use.dart';
-import '../../helpers/firebase_provider.dart';
+import 'package:h_safari/views/mypage/privacyPolicy.dart';
+import 'package:h_safari/helpers/firebase_provider.dart';
+
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -252,7 +255,7 @@ class _SignUpState extends State<SignUp> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Terms()));
+                                      builder: (context) => PrivacyPolicy()));
                             },
                           ),
                           Row(
