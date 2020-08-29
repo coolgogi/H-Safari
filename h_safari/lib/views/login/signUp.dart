@@ -32,6 +32,7 @@ class _SignUpState extends State<SignUp> {
 
   final _formkey = GlobalKey<FormState>();
   bool _agree = false; //약관 동의 변수
+  bool _agree2 = false;
   bool _visiblepw = false; //비밀번호 입력에서 텍스트 가리는 변수
   bool _visiblepw2 = false; //비밀번호 확인에서 텍스트 가리는 변수
   var _blankFocusnode = new FocusNode(); //키보드 없애는 용
@@ -204,38 +205,73 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            RawMaterialButton(
-                              child: Text(
-                                '이용약관 보기',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    decoration: TextDecoration.underline),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          RawMaterialButton(
+                            child: Text(
+                              '이용약관 보기',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  decoration: TextDecoration.underline),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Terms()));
+                            },
+                          ),
+                          Row(
+                            children: [
+                              Text('약관에 동의합니다.'),
+                              Checkbox(
+                                key: null,
+                                value: _agree,
+                                activeColor: Colors.green,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _agree = !_agree;
+                                  });
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Terms()));
-                              },
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          RawMaterialButton(
+                            child: Text(
+                              '개인정보처리방침 보기',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  decoration: TextDecoration.underline),
                             ),
-                            Row(
-                              children: [
-                                Text('약관에 동의합니다.'),
-                                Checkbox(
-                                  key: null,
-                                  value: _agree,
-                                  activeColor: Colors.green,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _agree = !_agree;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ]),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Terms()));
+                            },
+                          ),
+                          Row(
+                            children: [
+                              Text('약관에 동의합니다.'),
+                              Checkbox(
+                                key: null,
+                                value: _agree2,
+                                activeColor: Colors.green,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _agree2 = !_agree2;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -256,9 +292,22 @@ class _SignUpState extends State<SignUp> {
                               onPressed: () {
                                 if (_formkey.currentState.validate()) {}
                                 if (_agree != false) {
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
-                                  _signUp();
+                                  if (_agree2 != false) {
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                    _signUp();
+                                  } else {
+                                    _scaffoldKey.currentState
+                                        .showSnackBar(SnackBar(
+                                      content: Text('개인정보처리방침을 확인하고 동의해 주세요.'),
+                                      backgroundColor: Colors.green,
+                                      action: SnackBarAction(
+                                        label: '확인',
+                                        textColor: Colors.white,
+                                        onPressed: () {},
+                                      ),
+                                    ));
+                                  }
                                 } else {
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
@@ -308,6 +357,24 @@ class _SignUpState extends State<SignUp> {
     if (result) {
       addUser(emailSetting);
       Navigator.pop(context);
+      showDialog(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (context) {
+          return AlertDialog(
+            title: Text('알림'),
+            content: Text("학번@handong.edu를 확인하세요!\nGmail에서 인증을 완료해야 로그인이 됩니다!"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else {
       showLastFBMessage();
     }
