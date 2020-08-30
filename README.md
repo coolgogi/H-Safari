@@ -45,6 +45,8 @@ CRA vacation project 2020-summer
 ### categoryView.dart
 > 카테고리별 게시물 가져오는 구현 필요. @@@ -수현
 
+> Icon 변경 예정 - (완성) 예희
+
 ### write.dart
 > 게시글 등록 버튼을 누르면 작성한 게시물로 이동하는 기능 구현 필요. @@ -예진
 
@@ -53,6 +55,8 @@ CRA vacation project 2020-summer
 > 다른 page로 이동시, 초기화(category, 거래 방식) - 연희
 
 > 사진 업로드 완련 오류 해결 - 수현
+
+> 대표 이미지 수정 - (완성) 연희
 
 ### myPage.dart
 > 알림 설정 페이지 구현 및 기능 추가 필요. - 광일
@@ -87,6 +91,8 @@ CRA vacation project 2020-summer
 
 > 거래신청 중복 제거 - 예진
 
+> 게시글 UI 재배치 - (완성)
+
 ### chatList.dart
 > 채팅방 삭제 기능 - 예진
 
@@ -100,6 +106,18 @@ CRA vacation project 2020-summer
 
 ### myWanna.dart
 > 게시글 리스트 넣기 - 수현
+
+### favoriteCategory.dart
+> Icon 변경 예정 - (완성) 예희
+
+### terms_of_use.dart 
+> 이용약관 내용 삽입 필요 - 완성
+
+### settingAlarm.dart
+> UI 수정 - (완성) 광일
+
+
+
 
 ### ???
 > 거래 완료 시, home에서 워터마크처럼 표시해주기 - 광일
@@ -116,29 +134,14 @@ CRA vacation project 2020-summer
 
 ## 구현 중이거나 구현 예정인 기능
 
-### category.dart
-> Icon 변경 예정 - (그리는 중) 예희
+### 앱 등록
+> 안드로이드(플레이스토어)에 올리기 (완성 후 업데이트 중) - 수현
 
-### favoriteCategory.dart
-> Icon 변경 예정 - (그리는 중) 예희
+> iOS(앱스토어)에 올리기 (올리는중) - 수현
 
 ### myPage.dart
 > 탈퇴기능
 
-### terms_of_use.dart 
-> 이용약관 내용 삽입 필요 - ???
-
-### write.dart
-> 대표 이미지 수정 - (구현중) 연희
-
-### settingAlarm.dart
-> UI 수정 - (구현중) 광일
-
 ### alarm.dart
 > 삭제된 게시글의 알림 처리 - (구현중) 예진
 
-### post.dart
-> 게시글 UI 재배치 - (배치중)
-
-### iOS에서도 시뮬레이터 돌려보기..
-> 굉장히 오래걸리는중
