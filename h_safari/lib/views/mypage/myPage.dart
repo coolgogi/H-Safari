@@ -72,7 +72,8 @@ class _MyPageState extends State<MyPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyPost(currentUser.email)));
+                                builder: (context) =>
+                                    MyPost(currentUser.email)));
                       },
                       child: Container(
                         height: 60,
@@ -85,8 +86,7 @@ class _MyPageState extends State<MyPage> {
                         decoration: BoxDecoration(
                             border: Border(
                           right: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Colors.black12),
+                              style: BorderStyle.solid, color: Colors.black12),
                         )),
                       ),
                     ),
@@ -97,7 +97,8 @@ class _MyPageState extends State<MyPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyWanna(currentUser.email)));
+                                builder: (context) =>
+                                    MyWanna(currentUser.email)));
                       },
                       child: Container(
                         height: 60,
@@ -121,26 +122,29 @@ class _MyPageState extends State<MyPage> {
               },
             ),
             ListTile(
-                leading: Icon(Icons.settings),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('푸쉬알림 설정'),
-                    Switch(
-                      value: _isSwitchedNum,
-                      onChanged: (value) {
-                        setState(() {
-                          _isSwitchedNum = value;
-                        });
-                        Firestore.instance.collection("users").document(fp.getUser().email).updateData({
-                          "마감" : _isSwitchedNum,
-                        });
-                      },
-                      activeTrackColor: Colors.green[100],
-                      activeColor: Colors.green[400],
-                    ),
-                  ],
-                ),
+              leading: Icon(Icons.settings),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('푸쉬알림 설정'),
+                  Switch(
+                    value: _isSwitchedNum,
+                    onChanged: (value) {
+                      setState(() {
+                        _isSwitchedNum = value;
+                      });
+                      Firestore.instance
+                          .collection("users")
+                          .document(fp.getUser().email)
+                          .updateData({
+                        "마감": _isSwitchedNum,
+                      });
+                    },
+                    activeTrackColor: Colors.green[100],
+                    activeColor: Colors.green[400],
+                  ),
+                ],
+              ),
             ),
             ListTile(
               leading: Icon(Icons.build),
@@ -151,25 +155,36 @@ class _MyPageState extends State<MyPage> {
                   builder: (context) {
                     return AlertDialog(
                       title: Text("비밀번호 재설정"),
-                      content: Container(
-                          child: Text(
-                              "비밀번호 재설정 메일을 보내시겠습니까?")),
+                      content: Container(child: Text("비밀번호 재설정 메일을 보내시겠습니까?")),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text("확인", style: TextStyle(color: Colors.green),),
+                          child:
+                              Text("취소", style: TextStyle(color: Colors.green)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "확인",
+                            style: TextStyle(color: Colors.green),
+                          ),
                           onPressed: () {
                             fp.sendPasswordResetEmail();
                             Navigator.pop(context);
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                  title: Text("전송 완료!"),
+                                title: Text("전송 완료!"),
                                 content: Container(
                                   child: Text("이메일을 확인하세요!"),
                                 ),
                                 actions: <Widget>[
                                   FlatButton(
-                                    child: Text("확인", style: TextStyle(color: Colors.green),),
+                                    child: Text(
+                                      "확인",
+                                      style: TextStyle(color: Colors.green),
+                                    ),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -177,12 +192,6 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                             );
-                          },
-                        ),
-                        FlatButton(
-                          child: Text("취소", style: TextStyle(color: Colors.green)),
-                          onPressed: () {
-                            Navigator.pop(context);
                           },
                         ),
                       ],
@@ -195,8 +204,8 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.accessibility),
               title: Text('개인정보처리방침'),
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PrivacyPolicy()));
               },
             ),
             ListTile(
@@ -238,19 +247,16 @@ class _MyPageState extends State<MyPage> {
         MaterialPageRoute(builder: (context) => FavoriteCategory(doc)));
   }
 
-  Widget checkOk(){
+  Widget checkOk() {
     return AlertDialog(
       title: Text("전송되었습니다"),
-      content: Container(
-          height: 200,
-          child: Text("")),
+      content: Container(height: 200, child: Text("")),
       actions: <Widget>[
         FlatButton(
-            child:Text("확인"),
+            child: Text("확인"),
             onPressed: () {
               Navigator.pop(context);
-            }
-        ),
+            }),
       ],
     );
   }

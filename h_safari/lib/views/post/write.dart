@@ -54,7 +54,7 @@ class _MyWriteState extends State<MyWrite> {
   List<File> pictures;
   List<String> picURL;
 
-  _MyWriteState(){
+  _MyWriteState() {
     pictures = List<File>();
     picURL = List<String>();
   }
@@ -111,11 +111,12 @@ class _MyWriteState extends State<MyWrite> {
                             child: Form(
                                 key: formKey,
                                 child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
                                             '사진 업로드',
@@ -130,21 +131,22 @@ class _MyWriteState extends State<MyWrite> {
                                                   fontSize: 15,
                                                   color: Colors.green,
                                                   decoration:
-                                                  TextDecoration.underline),
+                                                      TextDecoration.underline),
                                             ),
                                             onPressed: () {
                                               showDialog(
                                                 context: context,
-                                                builder: (BuildContext context) {
+                                                builder:
+                                                    (BuildContext context) {
                                                   return AlertDialog(
                                                     title: new Text("사진 업로드"),
                                                     content:
-                                                    new Text("방식을 선택하세요."),
+                                                        new Text("방식을 선택하세요."),
                                                     actions: <Widget>[
                                                       Row(
                                                           mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: <Widget>[
                                                             new FlatButton(
                                                               child: new Text(
@@ -158,7 +160,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     ImageSource
                                                                         .gallery);
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                               },
                                                             ),
@@ -173,7 +175,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                     ImageSource
                                                                         .camera);
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                               },
                                                             ),
@@ -185,7 +187,7 @@ class _MyWriteState extends State<MyWrite> {
                                                                           .green)),
                                                               onPressed: () {
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop();
                                                               },
                                                             ),
@@ -200,77 +202,77 @@ class _MyWriteState extends State<MyWrite> {
                                       ),
                                       pictures.length != 0
                                           ? Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          SingleChildScrollView(
-                                            scrollDirection:
-                                            Axis.horizontal,
-                                            child: Stack(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: <Widget>[
-                                                Container(
-                                                  height: 110,
-                                                  width: (100.0) *
-                                                      pictures.length,
-                                                  child: GridView.count(
-                                                      shrinkWrap:
-                                                      true,
-                                                      crossAxisCount: pictures.length,
-                                                      crossAxisSpacing:
-                                                      10,
-                                                      physics:
-                                                      ScrollPhysics(),
-                                                      children: List
-                                                          .generate(
-                                                          pictures
-                                                              .length,
-                                                              (index) {
-                                                            return Stack(
-                                                              children: <
-                                                                  Widget>[
-                                                                Container(
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                        image: FileImage(pictures[index])
-                                                                      )),
-                                                                ),
-                                                                Align(
-                                                                  alignment:
-                                                                  Alignment.topRight,
-                                                                  child:
-                                                                  IconButton(
-                                                                    icon:
-                                                                    Icon(Icons.highlight_off),
-                                                                    disabledColor:
-                                                                    Colors.black,
-                                                                    onPressed:
-                                                                        () {
-                                                                      setState(() {
-                                                                        pictures.removeAt(index);
-                                                                        picURL.removeAt(index);
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          }))
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Stack(
+                                                    children: <Widget>[
+                                                      Container(
+                                                          height: 110,
+                                                          width: (100.0) *
+                                                              pictures.length,
+                                                          child: GridView.count(
+                                                              shrinkWrap: true,
+                                                              crossAxisCount:
+                                                                  pictures
+                                                                      .length,
+                                                              crossAxisSpacing:
+                                                                  10,
+                                                              physics:
+                                                                  ScrollPhysics(),
+                                                              children:
+                                                                  List.generate(
+                                                                      pictures
+                                                                          .length,
+                                                                      (index) {
+                                                                return Stack(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                              image: DecorationImage(image: FileImage(pictures[index]))),
+                                                                    ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .topRight,
+                                                                      child:
+                                                                          IconButton(
+                                                                        icon: Icon(
+                                                                            Icons.highlight_off),
+                                                                        disabledColor:
+                                                                            Colors.black,
+                                                                        onPressed:
+                                                                            () {
+                                                                          setState(
+                                                                              () {
+                                                                            pictures.removeAt(index);
+                                                                            picURL.removeAt(index);
+                                                                          });
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              }))),
+                                                      Align(
+                                                          alignment:
+                                                              Alignment.topLeft,
+                                                          child: Text(
+                                                            '대표 이미지',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green),
+                                                          ))
+                                                    ],
+                                                  ),
                                                 ),
-                                                Align(
-                                                    alignment:
-                                                    Alignment.topLeft,
-                                                    child: Text(
-                                                      '대표 이미지',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .green),
-                                                    ))
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                            )
                                           : Container(),
                                       SizedBox(height: 20),
                                       Text(
@@ -286,19 +288,22 @@ class _MyWriteState extends State<MyWrite> {
                                             controller: _newNameCon,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
-                                                borderSide: BorderSide(width: 1),
+                                                borderSide:
+                                                    BorderSide(width: 1),
                                               ),
-                                              contentPadding: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      10, 10, 10, 0),
                                               focusedBorder: OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.green)),
                                               hintText: '상품명 및 제목 입력',
                                             ),
-                                            validator: (val){
-                                              return val.isEmpty ? '필수항목입니다!' : null;
-                                            }
-                                        ),
+                                            validator: (val) {
+                                              return val.isEmpty
+                                                  ? '필수항목입니다!'
+                                                  : null;
+                                            }),
                                       ),
                                       SizedBox(
                                         height: 25,
@@ -317,19 +322,22 @@ class _MyWriteState extends State<MyWrite> {
                                             controller: _newPriceCon,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
-                                                borderSide: BorderSide(width: 1),
+                                                borderSide:
+                                                    BorderSide(width: 1),
                                               ),
-                                              contentPadding: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      10, 10, 10, 0),
                                               focusedBorder: OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.green)),
                                               hintText: '가격 입력',
                                             ),
                                             validator: (val) {
-                                              return val.isEmpty ? '필수항목입니다!' : null;
-                                            }
-                                        ),
+                                              return val.isEmpty
+                                                  ? '필수항목입니다!'
+                                                  : null;
+                                            }),
                                       ),
                                       SizedBox(
                                         height: 30,
@@ -350,71 +358,74 @@ class _MyWriteState extends State<MyWrite> {
                                                   shape: OutlineInputBorder(),
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Text(
                                                         _category,
                                                         style: TextStyle(
                                                             fontSize: 15),
                                                       ),
-                                                      Icon(Icons.arrow_drop_down),
+                                                      Icon(Icons
+                                                          .arrow_drop_down),
                                                     ],
                                                   ),
                                                   onPressed: () {
                                                     showDialog(
                                                         context: context,
                                                         builder: (context) {
-                                                          return
-                                                            AlertDialog(
-                                                              title: Text('카테고리'),
-                                                              actions: <Widget>[
-                                                                FlatButton(
-                                                                  child: Text('취소',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .green)),
-                                                                  onPressed: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    _value =
-                                                                        previous;
-                                                                  },
-                                                                ),
-                                                                FlatButton(
-                                                                  child: Text('확인',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .green)),
-                                                                  onPressed: () {
-                                                                    if (_value !=
-                                                                        null) {
-                                                                      Navigator.pop(
-                                                                          context,
-                                                                          _value);
-                                                                      setState(() {
-                                                                        _category =
-                                                                            _value;
-                                                                        previous =
-                                                                            _value;
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                              ],
-                                                              content: Container(
-                                                                width: double
-                                                                    .maxFinite,
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    ListCat(),
-                                                                  ],
-                                                                ),
+                                                          return AlertDialog(
+                                                            title: Text('카테고리'),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text(
+                                                                    '취소',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .green)),
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  _value =
+                                                                      previous;
+                                                                },
                                                               ),
-                                                            );
+                                                              FlatButton(
+                                                                child: Text(
+                                                                    '확인',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .green)),
+                                                                onPressed: () {
+                                                                  if (_value !=
+                                                                      null) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        _value);
+                                                                    setState(
+                                                                        () {
+                                                                      _category =
+                                                                          _value;
+                                                                      previous =
+                                                                          _value;
+                                                                    });
+                                                                  }
+                                                                },
+                                                              ),
+                                                            ],
+                                                            content: Container(
+                                                              width: double
+                                                                  .maxFinite,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  ListCat(),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
                                                         });
                                                   })),
                                         ],
@@ -468,8 +479,10 @@ class _MyWriteState extends State<MyWrite> {
                                       ),
                                       Container(
                                         child: TextFormField(
-                                          validator: (val){
-                                            return val.isEmpty ? '필수항목입니다!' : null;
+                                          validator: (val) {
+                                            return val.isEmpty
+                                                ? '필수항목입니다!'
+                                                : null;
                                           },
                                           controller: _newDescCon,
                                           maxLines: 10,
@@ -491,7 +504,7 @@ class _MyWriteState extends State<MyWrite> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
@@ -503,9 +516,10 @@ class _MyWriteState extends State<MyWrite> {
                                                   _newNameCon.text,
                                                   _newDescCon.text,
                                                   _newPriceCon.text,
-                                                  picURL.isEmpty ? "" : picURL[0],
-                                                  picURL.join(
-                                                      ','));
+                                                  picURL.isEmpty
+                                                      ? ""
+                                                      : picURL[0],
+                                                  picURL.join(','));
                                               _newNameCon.clear();
                                               _newDescCon.clear();
                                               _newPriceCon.clear();
@@ -534,14 +548,14 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   checkAll() {
-    if(formKey.currentState.validate()){}
+    if (formKey.currentState.validate()) {}
   }
 
   void createDoc(String name, String description, String price, String imageURL,
       String picURL) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference =
-    Firestore.instance.collection("post").document();
+        Firestore.instance.collection("post").document();
     List<String> splitString = picURL.split(',');
     List<String> co = List();
     co.add(user.email);
@@ -591,7 +605,7 @@ class _MyWriteState extends State<MyWrite> {
     });
 
     StorageReference storageReference =
-    _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
+        _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
     await storageUploadTask.onComplete;
     String downloadURL = await storageReference.getDownloadURL();
