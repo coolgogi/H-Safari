@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   bool beauty = false; //'뷰티/잡화'
   bool house = false; //'양도'
   bool others = false; //'기타'
-  bool finished = false; //'마감'
+  bool finished = false; //'마감된 글 보기"
   List<bool> category;
 
   final _formkey = GlobalKey<FormState>();
@@ -399,6 +399,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<bool> addUser(String email) {
+//  bool addUser(String email) {
     category = [
       clothe,
       book,
