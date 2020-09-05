@@ -519,7 +519,7 @@ class _MyWriteState extends State<MyWrite> {
                                                   picURL.isEmpty
                                                       ? ""
                                                       : picURL[0],
-                                                  picURL.join(','));
+                                                  picURL.join("우주최강CRA"));
                                               _newNameCon.clear();
                                               _newDescCon.clear();
                                               _newPriceCon.clear();
@@ -556,7 +556,8 @@ class _MyWriteState extends State<MyWrite> {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference =
         Firestore.instance.collection("post").document();
-    List<String> splitString = picURL.split(',');
+    List<String> splitString = picURL.split('우주최강CRA');
+
     List<String> co = List();
     co.add(user.email);
     List<String> wa = List();
