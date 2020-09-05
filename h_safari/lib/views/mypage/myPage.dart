@@ -229,6 +229,10 @@ class _MyPageState extends State<MyPage> {
                 title: Text('로그아웃'),
                 onTap: () {
                   fp.signOut();
+                  var user = Firestore.instance
+                      .collection("users")
+                      .document(fp.getUser().email);
+                  user.updateData({"token": "", "platform": ""});
                 }),
           ],
         ),

@@ -30,6 +30,14 @@
             {
               "client_id": "345882318521-d00tt9dva2cu1e3l897psrd4m9h21ptj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "345882318521-qceo4p92n48v65868k7eq8g8rrg45k63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.CRA.hSafari",
+                "app_store_id": "482482482"
+              }
             }
           ]
         }

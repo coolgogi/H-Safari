@@ -158,7 +158,8 @@ String priceComma;
 // home, search 의 게시글 UI
 Widget postTile(BuildContext context, DocumentSnapshot document) {
   bool close = document['close'];
-  priceComma = document['price'].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+  priceComma = document['price'].replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
   return Container(
     decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black12))),
@@ -181,7 +182,7 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                     document["name"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -189,14 +190,14 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                     '$priceComma원',
                     style: TextStyle(
                         color: close ? Colors.grey : Colors.black,
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     document["description"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
-                      fontSize: 12,
+                      fontSize: 11,
                     ),
                     maxLines: 3,
                   ),
@@ -210,15 +211,14 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
   );
 }
 
-
 // home, search 다트에서 보여지는 게시물의 UI 사진
 Widget listPhoto(BuildContext context, DocumentSnapshot document) {
   String fnImageUrl = 'imageUrl';
   String fnClose = 'close';
   String _profileImageURL = document[fnImageUrl];
   return Container(
-      width: MediaQuery.of(context).size.width / 10 * 3,
-      height: MediaQuery.of(context).size.width / 10 * 3,
+      width: MediaQuery.of(context).size.width / 10 * 2.5,
+      height: MediaQuery.of(context).size.width / 10 * 2.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
       ),
@@ -245,22 +245,19 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                       fit: BoxFit.fill,
                     ))
           : ClipRRect(
-                borderRadius: BorderRadius.circular(6.0),
-                child: document[fnClose]
-                    ? Stack(children: <Widget>[
-                        Container(
+              borderRadius: BorderRadius.circular(6.0),
+              child: document[fnClose]
+                  ? Stack(children: <Widget>[
+                      Container(
+                        width: 250,
+                        height: 250,
+                        child: Image.asset(
+                            'Logo/empty_Rabbit_green1_gloss.png.png'),
+                      ),
+                      Container(
                           width: 250,
                           height: 250,
-                          child: Image.asset('Logo/empty_Rabbit_green1_gloss.png.png'),
-                        ),
-                        Container(
-                          width: 250,
-                          height: 250,
-                          child: Image.asset('assets/sample/close2.png')
-                        )
-                      ])
-                    : Image.asset(
-                    'Logo/empty_Rabbit_green1_gloss.png.png'
-                    ))
-  );
+                          child: Image.asset('assets/sample/close2.png'))
+                    ])
+                  : Image.asset('Logo/empty_Rabbit_green1_gloss.png.png')));
 }

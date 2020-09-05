@@ -76,6 +76,9 @@ class _ChatRoomState extends State<ChatRoom> {
             children: [
               Expanded(child: chatMessages()),
               sendMessageBox(),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),

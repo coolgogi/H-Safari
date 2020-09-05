@@ -58,13 +58,15 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: 250,
-                              height: 250,
-                              child: Image.asset('Logo/h-safari_homeicon.png.png'),
-                          )
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.1,
                         ),
+                        Center(
+                            child: Container(
+                          width: 250,
+                          height: 250,
+                          child: Image.asset('Logo/h-safari_homeicon.png.png'),
+                        )),
                         SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +85,7 @@ class _SignInState extends State<SignIn> {
                                             BorderSide(color: Colors.green)),
                                   ),
                                   validator: (value) {
-                                      return value.isEmpty ? '학번을 입력해주세요' : null;
+                                    return value.isEmpty ? '학번을 입력해주세요' : null;
                                   },
                                 ),
                               ),
@@ -122,7 +124,9 @@ class _SignInState extends State<SignIn> {
                                         },
                                       )),
                                   validator: (value) {
-                                      return value.isEmpty ? '비밀번호를 입력해주세요.' : null;
+                                    return value.isEmpty
+                                        ? '비밀번호를 입력해주세요.'
+                                        : null;
                                   },
                                 ),
                               ),
@@ -189,8 +193,8 @@ class _SignInState extends State<SignIn> {
                                           color: Colors.green,
                                         )),
                                     onPressed: () {
-                                      FocusScope.of(context).requestFocus(
-                                          new FocusNode());
+                                      FocusScope.of(context)
+                                          .requestFocus(new FocusNode());
                                       _signIn();
                                     },
                                     child: Text(
@@ -230,7 +234,7 @@ class _SignInState extends State<SignIn> {
   }
 
   checkAll() {
-    if(_formkey.currentState.validate()){}
+    if (_formkey.currentState.validate()) {}
   }
 
   void _signIn() async {
@@ -240,15 +244,15 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.green,
           duration: Duration(seconds: 10),
           content: Row(
-            children: <Widget>[
-              CircularProgressIndicator(),
-              Text("   로그인중입니다")
-            ],
+            children: <Widget>[CircularProgressIndicator(), Text("   로그인중입니다")],
           )));
     String emailSetting = _mailCon.text + "@handong.edu";
     bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
-    if (result == false) _mailCon.text.isEmpty||_pwCon.text.isEmpty ? checkAll() : showLastFBMessage();
+    if (result == false)
+      _mailCon.text.isEmpty || _pwCon.text.isEmpty
+          ? checkAll()
+          : showLastFBMessage();
   }
 
   getRememberInfo() async {
