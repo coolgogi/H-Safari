@@ -234,7 +234,7 @@ class DatabaseMethods {
 
   updatePostDoc(String docID, String name, String price, String description,
       String imageList, String category, String how) {
-    List<String> splitString = imageList.split(',');
+    List<String> splitString = imageList.split('우주최강CRA');
 
     Firestore.instance.collection('post').document(docID).updateData({
       "name": name,
