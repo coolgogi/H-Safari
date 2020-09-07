@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:h_safari/views/login/loading.dart';
 import 'helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<FirebaseProvider>(
@@ -18,11 +21,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
+            scaffoldBackgroundColor: Colors.white,
             cursorColor: Colors.green,
           ),
-          home: Loading()
-      ),
+          home: Loading()),
     );
   }
 }

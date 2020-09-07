@@ -160,7 +160,12 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                             .center,
                                                     children: <Widget>[
                                                       new FlatButton(
-                                                        child: new Text("사진첩", style: TextStyle(color: Colors.green),),
+                                                        child: new Text(
+                                                          "사진첩",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.green),
+                                                        ),
                                                         onPressed: () {
                                                           _uploadImageToStorage(
                                                               ImageSource
@@ -170,7 +175,10 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                         },
                                                       ),
                                                       new FlatButton(
-                                                        child: new Text("카메라", style: TextStyle(color: Colors.green)),
+                                                        child: new Text("카메라",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green)),
                                                         onPressed: () {
                                                           _uploadImageToStorage(
                                                               ImageSource
@@ -180,8 +188,10 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                         },
                                                       ),
                                                       new FlatButton(
-                                                        child:
-                                                            new Text("취소", style: TextStyle(color: Colors.green)),
+                                                        child: new Text("취소",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green)),
                                                         onPressed: () {
                                                           Navigator.of(context)
                                                               .pop();
@@ -206,8 +216,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                 width: (100.0) * picURL.length,
                                                 child: GridView.count(
                                                     shrinkWrap: true,
-                                                    crossAxisSpacing:
-                                                    10,
+                                                    crossAxisSpacing: 10,
                                                     crossAxisCount:
                                                         picURL.length,
                                                     physics:
@@ -347,8 +356,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) {
-                                                    return
-                                                        AlertDialog(
+                                                    return AlertDialog(
                                                       title: Text('카테고리'),
                                                       actions: <Widget>[
                                                         FlatButton(
@@ -356,8 +364,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                           onPressed: () {
                                                             Navigator.pop(
                                                                 context);
-                                                            _value =
-                                                                previous;
+                                                            _value = previous;
                                                           },
                                                         ),
                                                         FlatButton(
@@ -501,7 +508,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                               _newNameCon.text,
                                               _newPriceCon.text,
                                               _newDescCon.text,
-                                              picURL.join(','),
+                                              picURL.join("우주최강CRA"),
                                               _newCategoryCon.text,
                                               _newHowCon.text);
                                           showDocument(

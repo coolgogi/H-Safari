@@ -15,7 +15,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   FirebaseProvider fp;
-  bool didUpdateUserInfo = false;
+
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final String fnEmail = "user";
@@ -63,7 +63,7 @@ class _AuthPageState extends State<AuthPage> {
     logger.d("user: ${fp.getUser()}");
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
       String tp = fp.getUser().email.toString();
-      if (didUpdateUserInfo == false) updateUserInfo();
+      updateUserInfo();
       return BottomBar(tp);
     } else {
       return SignIn();
@@ -76,9 +76,7 @@ class _AuthPageState extends State<AuthPage> {
     if (token == null) return;
     var user = _db.collection("users").document(fp.getUser().email);
     await user.updateData({fToken: token, fPlatform: Platform.operatingSystem});
-    setState(() {
-      didUpdateUserInfo = true;
-    });
+
   }
 
   void showMessageEditor(String token) {
