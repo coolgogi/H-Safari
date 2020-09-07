@@ -106,6 +106,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
+                  brightness: Brightness.light,
                   elevation: 2,
                   backgroundColor: Colors.white,
                   iconTheme: IconThemeData(color: Colors.green),

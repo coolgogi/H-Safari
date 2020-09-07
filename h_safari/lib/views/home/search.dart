@@ -143,6 +143,7 @@ class _SearchState extends State<Search> {
 
   Widget buildBar(BuildContext context) {
     return AppBar(
+      brightness: Brightness.light,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios,

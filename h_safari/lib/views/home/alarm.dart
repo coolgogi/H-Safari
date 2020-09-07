@@ -160,8 +160,9 @@ class _AlarmState extends State<Alarm> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                type == "구매신청" ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => doc["email"] == (userEmail)
+                ? Post(doc, true)
+                : Post(doc, false)));
   }
 
   void warning(BuildContext context) async {
