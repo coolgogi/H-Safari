@@ -267,7 +267,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                     : Container(),
                                 SizedBox(height: 20),
                                 Text(
-                                  "게시글 제목* ",
+                                  "게시글 제목",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
@@ -297,7 +297,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                   height: 25,
                                 ),
                                 Text(
-                                  "가격* ",
+                                  "가격",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
@@ -330,7 +330,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      "카테고리* ",
+                                      "카테고리",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
