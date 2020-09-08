@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:h_safari/widget/widget.dart';
 
 class FindPw extends StatefulWidget {
   @override
@@ -14,18 +15,8 @@ class _FindPwState extends State<FindPw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarForgot(context, '비밀번호 재설정'),
+      appBar: appBar(context, '비밀번호 재설정'),
       body: forgotBody(_formkey),
-    );
-  }
-
-  Widget appBarForgot(BuildContext context, String title) {
-    return AppBar(
-      title: Text(title, style: TextStyle(color: Colors.green)),
-      iconTheme: IconThemeData(color: Colors.green),
-      backgroundColor: Colors.white,
-      elevation: 1,
-      centerTitle: true,
     );
   }
 

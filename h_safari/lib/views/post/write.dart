@@ -81,6 +81,7 @@ class _MyWriteState extends State<MyWrite> {
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
+                    brightness: Brightness.light,
                     elevation: 2,
                     backgroundColor: Colors.white,
                     leading: IconButton(

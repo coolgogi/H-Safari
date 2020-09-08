@@ -121,6 +121,7 @@ class _PostState extends State<Post> {
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     SliverAppBar(
+                      brightness: Brightness.light,
                       iconTheme: IconThemeData(color: Colors.green[300]),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
