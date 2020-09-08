@@ -22,6 +22,7 @@ class _MyWriteState extends State<MyWrite> {
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
 
   final formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   bool _delivery = false;
   bool _direct = false;
@@ -69,6 +70,7 @@ class _MyWriteState extends State<MyWrite> {
         return false;
       },
       child: Scaffold(
+        key: _scaffoldKey,
         resizeToAvoidBottomPadding: true,
         body: GestureDetector(
           onTap: () {
@@ -504,34 +506,46 @@ class _MyWriteState extends State<MyWrite> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
                                           onPressed: () {
-                                            if (_newDescCon.text.isNotEmpty &&
-                                                _newNameCon.text.isNotEmpty &&
-                                                _newPriceCon.text.isNotEmpty) {
-                                              createDoc(
-                                                  _newNameCon.text,
-                                                  _newDescCon.text,
-                                                  _newPriceCon.text,
-                                                  picURL.isEmpty
-                                                      ? ""
-                                                      : picURL[0],
-                                                  picURL.join("우주최강CRA"));
-                                              _newNameCon.clear();
-                                              _newDescCon.clear();
-                                              _newPriceCon.clear();
-                                              _profileImageURL = "";
-                                              _newCategoryCon.clear();
-                                              _newHowCon.clear();
-                                              pictures.clear();
-                                              picURL.clear();
-                                              _value = null;
-                                              previous = null;
-                                            } else {
-                                              checkAll();
+                                            if(_value != null) {
+                                              if (_newDescCon.text.isNotEmpty &&
+                                                  _newNameCon.text.isNotEmpty &&
+                                                  _newPriceCon.text.isNotEmpty) {
+                                                createDoc(
+                                                    _newNameCon.text,
+                                                    _newDescCon.text,
+                                                    _newPriceCon.text,
+                                                    picURL.isEmpty
+                                                        ? ""
+                                                        : picURL[0],
+                                                    picURL.join("우주최강CRA"));
+                                                _newNameCon.clear();
+                                                _newDescCon.clear();
+                                                _newPriceCon.clear();
+                                                _profileImageURL = "";
+                                                _newCategoryCon.clear();
+                                                _newHowCon.clear();
+                                                pictures.clear();
+                                                picURL.clear();
+                                                _value = null;
+                                                previous = null;
+                                              } else {
+                                                checkAll();
+                                              }
+                                            }else{
+                                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                                content: Text('카테고리를 선택해 주세요.'),
+                                                backgroundColor: Colors.green,
+                                                action: SnackBarAction(
+                                                  label: '확인',
+                                                  textColor: Colors.white,
+                                                  onPressed: () {},
+                                                ),
+                                              ));
                                             }
                                           },
                                           child: Text('게시글 등록',
