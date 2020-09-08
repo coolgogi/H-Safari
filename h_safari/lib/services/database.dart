@@ -239,7 +239,6 @@ class DatabaseMethods {
     Firestore.instance.collection('post').document(docID).updateData({
       "name": name,
       "description": description,
-      "datetime": Timestamp.now(),
       "price": price,
       "imageUrl": splitString[0],
       "imageList": splitString,
