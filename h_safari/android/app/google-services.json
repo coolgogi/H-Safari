@@ -8,12 +8,65 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:309358521489:android:9b85680ae3792147196330",
+        "mobilesdk_app_id": "1:309358521489:android:06439e19cf549b6e196330",
         "android_client_info": {
           "package_name": "com.CRA.hSafari"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "309358521489-js8d8ha5g09gcdb5bstkutmtjd3vuami.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CRA.hSafari",
+            "certificate_hash": "4d437a5c0b01333f0cadbab5fd8efaf248a7de23"
+          }
+        },
+        {
+          "client_id": "309358521489-h0432k340i58bc7rtbpq4bo4g2jre8s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNOc0Awi4NTqO4EFgOpe0cQjcqF6at7hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309358521489-jalm1co0dv7ta96qu5isfph55q699g88.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "309358521489-lc0tqbr10dshi9f4gfdkfg08ufus7ngt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.CRA.hSafari",
+                "app_store_id": "482482482482"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309358521489:android:9b85680ae3792147196330",
+        "android_client_info": {
+          "package_name": "safari.handong.h_safari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309358521489-573snrkofvcjtt9r34a49huu3rj3sng5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "safari.handong.h_safari",
+            "certificate_hash": "4d437a5c0b01333f0cadbab5fd8efaf248a7de23"
+          }
+        },
         {
           "client_id": "309358521489-t8jq69tn60n7guqojf2bvud0slnfuo3i.apps.googleusercontent.com",
           "client_type": 1,
