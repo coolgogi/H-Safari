@@ -13,14 +13,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:h_safari/views/post/post.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 class MyWrite extends StatefulWidget {
-  final CameraDescription camera;
-  const MyWrite({
-    Key key,
-    @required this.camera,
-  }) : super(key: key);
+//  final CameraDescription camera;
+//  const MyWrite({
+//    Key key,
+//    @required this.camera,
+//  }) : super(key: key);
 
   @override
   _MyWriteState createState() => _MyWriteState();
@@ -61,22 +60,22 @@ class _MyWriteState extends State<MyWrite> {
   void initState() {
     super.initState();
     _prepareService();
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
+//    _controller = CameraController(
+    // Get a specific camera from the list of available cameras.
+//      widget.camera,
+    // Define the resolution to use.
+//      ResolutionPreset.medium,
+//    );
     // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+//    _initializeControllerFuture = _controller.initialize();
   }
 
-  @override
-  void dispose() {
-    // Dispose of the controller when the widget is disposed.
-    _controller.dispose();
-    super.dispose();
-  }
+//  @override
+//  void dispose() {
+//    // Dispose of the controller when the widget is disposed.
+//    _controller.dispose();
+//    super.dispose();
+//  }
 
   void _prepareService() async {
     _user = await _firebaseAuth.currentUser();
@@ -92,18 +91,18 @@ class _MyWriteState extends State<MyWrite> {
 
   @override
   Widget build(BuildContext context) {
-    FutureBuilder<void>(
-      future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // If the Future is complete, display the preview.
-          return CameraPreview(_controller);
-        } else {
-          // Otherwise, display a loading indicator.
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
+//    FutureBuilder<void>(
+//      future: _initializeControllerFuture,
+//      builder: (context, snapshot) {
+//        if (snapshot.connectionState == ConnectionState.done) {
+//          // If the Future is complete, display the preview.
+//          return CameraPreview(_controller);
+//        } else {
+//          // Otherwise, display a loading indicator.
+//          return Center(child: CircularProgressIndicator());
+//        }
+//      },
+//    );
     return WillPopScope(
       onWillPop: () async {
         _value = null;
@@ -215,9 +214,9 @@ class _MyWriteState extends State<MyWrite> {
                                                                           .green)),
                                                               onPressed:
                                                                   () async {
-//                                                                _uploadImageToStorage(
-//                                                                    ImageSource
-//                                                                        .camera);
+                                                                _uploadImageToStorage(
+                                                                    ImageSource
+                                                                        .camera);
 //                                                                    void _uploadImageToStorage(ImageSource source) async {
 ////                                                                      File image = await ImagePicker.pickImage(source: source);
 ////                                                                      if (image == null) return;
@@ -236,49 +235,46 @@ class _MyWriteState extends State<MyWrite> {
 ////                                                                        picURL.add(_profileImageURL);
 ////                                                                      });
 ////                                                                    }
-                                                                print("here");
-                                                                try {
-                                                                  print(
-                                                                      "here2");
-                                                                  await _initializeControllerFuture;
-                                                                  final path = join(
-                                                                      ("post/${_user.uid}${Timestamp.now()}"));
-                                                                  await _controller
-                                                                      .takePicture(
-                                                                          path);
-
-                                                                  setState(() {
-                                                                    _image = File(
-                                                                        path);
-                                                                    pictures.add(
-                                                                        _image);
-                                                                  });
-                                                                  StorageReference
-                                                                      storageReference =
-                                                                      _firebaseStorage
-                                                                          .ref()
-                                                                          .child(
-                                                                              path);
-                                                                  StorageUploadTask
-                                                                      storageUploadTask =
-                                                                      storageReference
-                                                                          .putFile(
-                                                                              _image);
-                                                                  await storageUploadTask
-                                                                      .onComplete;
-                                                                  String
-                                                                      downloadURL =
-                                                                      await storageReference
-                                                                          .getDownloadURL();
-                                                                  setState(() {
-                                                                    _profileImageURL =
-                                                                        downloadURL;
-                                                                    picURL.add(
-                                                                        _profileImageURL);
-                                                                  });
-                                                                } catch (e) {
-                                                                  print(e);
-                                                                }
+//                                                                try {
+//                                                                  await _initializeControllerFuture;
+//                                                                  final path = join(
+//                                                                      ("post/${_user.uid}${Timestamp.now()}"));
+//                                                                  await _controller
+//                                                                      .takePicture(
+//                                                                          path);
+//
+//                                                                  setState(() {
+//                                                                    _image = File(
+//                                                                        path);
+//                                                                    pictures.add(
+//                                                                        _image);
+//                                                                  });
+//                                                                  StorageReference
+//                                                                      storageReference =
+//                                                                      _firebaseStorage
+//                                                                          .ref()
+//                                                                          .child(
+//                                                                              path);
+//                                                                  StorageUploadTask
+//                                                                      storageUploadTask =
+//                                                                      storageReference
+//                                                                          .putFile(
+//                                                                              _image);
+//                                                                  await storageUploadTask
+//                                                                      .onComplete;
+//                                                                  String
+//                                                                      downloadURL =
+//                                                                      await storageReference
+//                                                                          .getDownloadURL();
+//                                                                  setState(() {
+//                                                                    _profileImageURL =
+//                                                                        downloadURL;
+//                                                                    picURL.add(
+//                                                                        _profileImageURL);
+//                                                                  });
+//                                                                } catch (e) {
+//                                                                  print(e);
+//                                                                }
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -702,7 +698,16 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void _uploadImageToStorage(ImageSource source) async {
-    File image = await ImagePicker.pickImage(source: source);
+    File image;
+    PickedFile image2;
+    ImagePicker _picker = ImagePicker();
+    if (source == ImageSource.gallery) {
+      image = await ImagePicker.pickImage(source: source);
+    } else {
+      image2 = await _picker.getImage(source: source);
+      image = File(image2.path);
+    }
+
     if (image == null) return;
     setState(() {
       _image = image;

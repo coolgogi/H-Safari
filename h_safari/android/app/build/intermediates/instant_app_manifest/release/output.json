@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "applicationId": "com.CRA.hSafari",
+  "variantType": "BASE_APK",
+  "elements": [
+    {
+      "outputType": {
+        "type": "INSTANT_APP_MANIFEST"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 6,
+        "versionName": "1.0.1",
+        "outputFile": "app-release.apk",
+        "fullName": "release",
+        "baseName": "release",
+        "dirName": ""
+      },
+      "path": "AndroidManifest.xml",
+      "properties": {
+        "packageId": "com.CRA.hSafari",
+        "split": "",
+        "minSdkVersion": "21"
+      }
+    }
+  ]
+}
