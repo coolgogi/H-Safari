@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {
   return AppBar(
+    brightness: Brightness.light,
     elevation: 0.0,
     backgroundColor: Colors.white,
     leading: InkWell(
@@ -28,6 +29,7 @@ Widget appBar(BuildContext context, String title) {
 // 뒤로가기 기능이 없고 로고가 들어갈 page들을 위한 appBar 생성
 Widget appBarMain(String title) {
   return AppBar(
+    brightness: Brightness.light,
     elevation: 0.0,
     backgroundColor: Colors.white,
     centerTitle: true,
@@ -42,6 +44,7 @@ Widget appBarMain(String title) {
 // select되어 화면을 가져오는 페이지들을 위한 appBar 생성
 Widget appBarSelect(BuildContext context, String title) {
   return AppBar(
+    brightness: Brightness.light,
     elevation: 0.0,
     backgroundColor: Colors.white,
     leading: InkWell(
@@ -120,6 +123,7 @@ Widget AppBarTitle(BuildContext context) {
 Widget myPostAppBar(
     BuildContext context, String title, String title1, String title2) {
   return AppBar(
+    brightness: Brightness.light,
     elevation: 0.0,
     backgroundColor: Colors.white,
     leading: InkWell(

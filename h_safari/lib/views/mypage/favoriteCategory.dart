@@ -68,6 +68,9 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
       appBar: appBar(context, '선호 카테고리'),
       body: Column(
         children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.03,
+          ),
           GridView.count(
             mainAxisSpacing: 20,
             crossAxisSpacing: 25,

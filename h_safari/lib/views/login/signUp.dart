@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:h_safari/views/mypage/privacyPolicy.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
+import 'package:h_safari/widget/widget.dart';
 
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,16 +58,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       key: _scaffoldKey,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.green),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: Text(
-          '회원가입',
-          style: TextStyle(color: Colors.green),
-        ),
-      ),
+      appBar: appBar(context, '회원가입'),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(_blankFocusnode);

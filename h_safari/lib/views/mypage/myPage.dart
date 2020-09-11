@@ -7,7 +7,7 @@ import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
-import 'package:h_safari/views/mypage/asking.dart';
+import 'package:h_safari/views/mypage/(before)asking.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:h_safari/views/mypage/privacyPolicy.dart';
@@ -220,8 +220,26 @@ class _MyPageState extends State<MyPage> {
               leading: Icon(Icons.help_outline),
               title: Text('문의하기'),
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Asking()));
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("문의하기"),
+                      content: Container(child: Text("HandongSafari@gmail.com로 문의 메일을 보내주시면 성심성의껏 답변해 드리겠습니다:)")),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            "확인",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
             ListTile(
