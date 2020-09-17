@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:h_safari/views/post/post.dart';
-import 'package:path/path.dart';
 
 class MyWrite extends StatefulWidget {
-//  final CameraDescription camera;
-//  const MyWrite({
-//    Key key,
-//    @required this.camera,
-//  }) : super(key: key);
-
   @override
   _MyWriteState createState() => _MyWriteState();
 }
@@ -29,9 +21,6 @@ String _value;
 String previous;
 
 class _MyWriteState extends State<MyWrite> {
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
-
   String currentUid;
   String tpUrl =
       "https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/plus-512.png";
@@ -51,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
 
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseUser _user;
+  User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
@@ -61,25 +50,10 @@ class _MyWriteState extends State<MyWrite> {
   void initState() {
     super.initState();
     _prepareService();
-//    _controller = CameraController(
-    // Get a specific camera from the list of available cameras.
-//      widget.camera,
-    // Define the resolution to use.
-//      ResolutionPreset.medium,
-//    );
-    // Next, initialize the controller. This returns a Future.
-//    _initializeControllerFuture = _controller.initialize();
   }
 
-//  @override
-//  void dispose() {
-//    // Dispose of the controller when the widget is disposed.
-//    _controller.dispose();
-//    super.dispose();
-//  }
-
   void _prepareService() async {
-    _user = await _firebaseAuth.currentUser();
+    _user = _firebaseAuth.currentUser;
   }
 
   List<File> pictures;
@@ -92,18 +66,6 @@ class _MyWriteState extends State<MyWrite> {
 
   @override
   Widget build(BuildContext context) {
-//    FutureBuilder<void>(
-//      future: _initializeControllerFuture,
-//      builder: (context, snapshot) {
-//        if (snapshot.connectionState == ConnectionState.done) {
-//          // If the Future is complete, display the preview.
-//          return CameraPreview(_controller);
-//        } else {
-//          // Otherwise, display a loading indicator.
-//          return Center(child: CircularProgressIndicator());
-//        }
-//      },
-//    );
     return WillPopScope(
       onWillPop: () async {
         _value = null;
@@ -220,64 +182,6 @@ class _MyWriteState extends State<MyWrite> {
                                                                 _uploadImageToStorage(
                                                                     ImageSource
                                                                         .camera);
-//                                                                    void _uploadImageToStorage(ImageSource source) async {
-////                                                                      File image = await ImagePicker.pickImage(source: source);
-////                                                                      if (image == null) return;
-////                                                                      setState(() {
-////                                                                        _image = image;
-////                                                                        pictures.add(_image);
-////                                                                      });
-////
-////                                                                      StorageReference storageReference =
-////                                                                      _firebaseStorage.ref().child("post/${_user.uid}${Timestamp.now()}");
-////                                                                      StorageUploadTask storageUploadTask = storageReference.putFile(_image);
-////                                                                      await storageUploadTask.onComplete;
-////                                                                      String downloadURL = await storageReference.getDownloadURL();
-////                                                                      setState(() {
-////                                                                        _profileImageURL = downloadURL;
-////                                                                        picURL.add(_profileImageURL);
-////                                                                      });
-////                                                                    }
-//                                                                try {
-//                                                                  await _initializeControllerFuture;
-//                                                                  final path = join(
-//                                                                      ("post/${_user.uid}${Timestamp.now()}"));
-//                                                                  await _controller
-//                                                                      .takePicture(
-//                                                                          path);
-//
-//                                                                  setState(() {
-//                                                                    _image = File(
-//                                                                        path);
-//                                                                    pictures.add(
-//                                                                        _image);
-//                                                                  });
-//                                                                  StorageReference
-//                                                                      storageReference =
-//                                                                      _firebaseStorage
-//                                                                          .ref()
-//                                                                          .child(
-//                                                                              path);
-//                                                                  StorageUploadTask
-//                                                                      storageUploadTask =
-//                                                                      storageReference
-//                                                                          .putFile(
-//                                                                              _image);
-//                                                                  await storageUploadTask
-//                                                                      .onComplete;
-//                                                                  String
-//                                                                      downloadURL =
-//                                                                      await storageReference
-//                                                                          .getDownloadURL();
-//                                                                  setState(() {
-//                                                                    _profileImageURL =
-//                                                                        downloadURL;
-//                                                                    picURL.add(
-//                                                                        _profileImageURL);
-//                                                                  });
-//                                                                } catch (e) {
-//                                                                  print(e);
-//                                                                }
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -608,15 +512,16 @@ class _MyWriteState extends State<MyWrite> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
                                           onPressed: () {
-                                            if(_value != null) {
+                                            if (_value != null) {
                                               if (_newDescCon.text.isNotEmpty &&
                                                   _newNameCon.text.isNotEmpty &&
-                                                  _newPriceCon.text.isNotEmpty) {
+                                                  _newPriceCon
+                                                      .text.isNotEmpty) {
                                                 createDoc(
                                                     _newNameCon.text,
                                                     _newDescCon.text,
@@ -638,8 +543,9 @@ class _MyWriteState extends State<MyWrite> {
                                               } else {
                                                 checkAll();
                                               }
-                                            }else{
-                                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                            } else {
+                                              _scaffoldKey.currentState
+                                                  .showSnackBar(SnackBar(
                                                 content: Text('카테고리를 선택해 주세요.'),
                                                 backgroundColor: Colors.green,
                                                 action: SnackBarAction(
@@ -669,16 +575,16 @@ class _MyWriteState extends State<MyWrite> {
 
   void createDoc(String name, String description, String price, String imageURL,
       String picURL) async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final User user = FirebaseAuth.instance.currentUser;
     DocumentReference documentReference =
-        Firestore.instance.collection("post").document();
+        FirebaseFirestore.instance.collection("post").doc();
     List<String> splitString = picURL.split('우주최강CRA');
 
     List<String> co = List();
     co.add(user.email);
     List<String> wa = List();
 
-    documentReference.setData({
+    documentReference.set({
       "name": name,
       "description": description,
       "datetime": Timestamp.now(),
@@ -694,13 +600,13 @@ class _MyWriteState extends State<MyWrite> {
       "close": false,
     });
     Navigator.pop(this.context);
-    showDocument(documentReference.documentID);
+    showDocument(documentReference.id);
   }
 
   void showDocument(String documentID) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("post")
-        .document(documentID)
+        .doc(documentID)
         .get()
         .then((doc) {
       showReadPostPage(doc);

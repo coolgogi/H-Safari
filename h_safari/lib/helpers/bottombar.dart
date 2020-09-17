@@ -5,6 +5,7 @@ import 'package:h_safari/views/chat/chatList.dart';
 import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
 
+// ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
   String email;
 
@@ -28,7 +29,6 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> _children;
   final pageController = PageController();
 
-  @override
   void _onTap(int index) {
     if (index == 2) {
       Navigator.push(
@@ -61,23 +61,23 @@ class _BottomBarState extends State<BottomBar> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  title: Text('Home'),
+                  label: 'Home',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.menu),
-                  title: Text('Category'),
+                  label: 'Category',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.add_circle_outline),
-                  title: Text('Write'),
+                  label: 'Write',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.chat_bubble_outline),
-                  title: Text('Chat'),
+                  label: 'Chat',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
-                  title: Text('MyPage'),
+                  label: 'MyPage',
                 ),
               ])),
     );

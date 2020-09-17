@@ -7,7 +7,6 @@ import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/views/mypage/myPost.dart';
 import 'package:h_safari/views/mypage/myWanna.dart';
-import 'package:h_safari/views/mypage/(before)asking.dart';
 import 'package:h_safari/views/mypage/favoriteCategory.dart';
 import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:h_safari/views/mypage/privacyPolicy.dart';
@@ -25,7 +24,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     int idx = currentUser.email.indexOf("@");
     currentId = currentUser.email.substring(0, idx);
     return Scaffold(
@@ -133,10 +132,10 @@ class _MyPageState extends State<MyPage> {
                       setState(() {
                         _isSwitchedNum = value;
                       });
-                      Firestore.instance
+                      FirebaseFirestore.instance
                           .collection("users")
-                          .document(fp.getUser().email)
-                          .updateData({
+                          .doc(fp.getUser().email)
+                          .update({
                         "마감": _isSwitchedNum,
                       });
                     },
@@ -225,7 +224,9 @@ class _MyPageState extends State<MyPage> {
                   builder: (context) {
                     return AlertDialog(
                       title: Text("문의하기"),
-                      content: Container(child: Text("HandongSafari@gmail.com로 문의 메일을 보내주시면 성심성의껏 답변해 드리겠습니다:)")),
+                      content: Container(
+                          child: Text(
+                              "HandongSafari@gmail.com로 문의 메일을 보내주시면 성심성의껏 답변해 드리겠습니다:)")),
                       actions: <Widget>[
                         FlatButton(
                           child: Text(
@@ -247,10 +248,10 @@ class _MyPageState extends State<MyPage> {
                 title: Text('로그아웃'),
                 onTap: () {
                   fp.signOut();
-                  var user = Firestore.instance
+                  var user = FirebaseFirestore.instance
                       .collection("users")
-                      .document(fp.getUser().email);
-                  user.updateData({"token": "", "platform": ""});
+                      .doc(fp.getUser().email);
+                  user.update({"token": "", "platform": ""});
                 }),
           ],
         ),
@@ -259,7 +260,7 @@ class _MyPageState extends State<MyPage> {
   }
 
   void showFavorite(String email) {
-    Firestore.instance.collection("users").document(email).get().then((doc) {
+    FirebaseFirestore.instance.collection("users").doc(email).get().then((doc) {
       moveFavorite(doc);
     });
   }

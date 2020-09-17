@@ -4,7 +4,6 @@ import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/post.dart';
-import 'package:custom_switch/custom_switch.dart';
 
 class CategoryView extends StatefulWidget {
   final String select;
@@ -44,7 +43,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
+        stream: FirebaseFirestore.instance
             .collection('post')
             .orderBy("datetime", descending: true)
             .snapshots(),
@@ -55,10 +54,9 @@ class _CategoryViewState extends State<CategoryView> {
               return Text("Loading...");
             default:
               return ListView(
-                children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
-                  String postCategory = document['category'];
-                  bool close = document['close'];
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  String postCategory = document.get('category');
+                  bool close = document.get('close');
 
                   if (!(postCategory == select))
                     return Container();
@@ -95,8 +93,9 @@ class _CategoryViewState extends State<CategoryView> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                email == doc['email'] ? Post(doc, true) : Post(doc, false)));
+            builder: (context) => email == doc.get('email')
+                ? Post(doc, true)
+                : Post(doc, false)));
   }
 
   Widget appBarSelect(BuildContext context, String title) {
@@ -130,15 +129,32 @@ class _CategoryViewState extends State<CategoryView> {
               height: 28,
               width: 60,
               child: Padding(
-                padding: const EdgeInsets.only(right : 10.0),
+                padding: const EdgeInsets.only(right: 10.0),
                 child: RaisedButton(
                   padding: EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       side: BorderSide(color: Colors.black12)),
-                  color : checkIndex == 1? Colors.green[400] : checkIndex == -1? Colors.grey[250] : null,
-                  child: Text(checkIndex == 1? '마감 On' : checkIndex == -1? '마감 Off': null,
-                    style: TextStyle(fontSize : 11, color: checkIndex == 1? Colors.white : checkIndex == -1? Colors.black87 : null,),),
+                  color: checkIndex == 1
+                      ? Colors.green[400]
+                      : checkIndex == -1
+                          ? Colors.grey[250]
+                          : null,
+                  child: Text(
+                    checkIndex == 1
+                        ? '마감 On'
+                        : checkIndex == -1
+                            ? '마감 Off'
+                            : null,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: checkIndex == 1
+                          ? Colors.white
+                          : checkIndex == -1
+                              ? Colors.black87
+                              : null,
+                    ),
+                  ),
                   onPressed: () {
                     setState(() {
                       checkIndex = checkIndex * -1;

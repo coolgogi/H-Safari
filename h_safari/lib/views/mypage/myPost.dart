@@ -54,7 +54,7 @@ class _MyPostState extends State<MyPost> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -66,13 +66,12 @@ class _MyPostState extends State<MyPost> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document["close"];
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    bool close = document.get("close");
 
                     if (close) {
                       return Container();
-                    } else if (document["email"] == widget.userEmail) {
+                    } else if (document.get("email") == widget.userEmail) {
                       return InkWell(
                         onTap: () {
                           showReadPostPage(document);
@@ -95,7 +94,7 @@ class _MyPostState extends State<MyPost> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -107,13 +106,12 @@ class _MyPostState extends State<MyPost> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document["close"];
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    bool close = document.get("close");
 
                     if (!close) {
                       return Container();
-                    } else if (document["email"] == widget.userEmail) {
+                    } else if (document.get("email") == widget.userEmail) {
                       return InkWell(
                           onTap: () {
                             showReadPostPage(document);

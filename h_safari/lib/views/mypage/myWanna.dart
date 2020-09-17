@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
+// ignore: must_be_immutable
 class MyWanna extends StatefulWidget {
   String userEmail;
 
@@ -54,7 +55,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -66,13 +67,13 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document["close"];
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    bool close = document.get("close");
 
                     if (close) {
                       return Container();
-                    } else if (document["waitingUserList"]
+                    } else if (document
+                        .get("waitingUserList")
                         .contains(widget.userEmail)) {
                       return InkWell(
                         onTap: () {
@@ -96,7 +97,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -108,13 +109,13 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
-                    bool close = document["close"];
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    bool close = document.get("close");
 
                     if (!close) {
                       return Container();
-                    } else if (document["waitingUserList"]
+                    } else if (document
+                        .get("waitingUserList")
                         .contains(widget.userEmail)) {
                       return InkWell(
                           onTap: () {

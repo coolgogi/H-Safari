@@ -239,7 +239,7 @@ class _SignInState extends State<SignIn> {
 
   void _signIn() async {
     _scaffoldKey.currentState
-      ..hideCurrentSnackBar()
+      // ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           duration: Duration(seconds: 10),
@@ -248,7 +248,7 @@ class _SignInState extends State<SignIn> {
           )));
     String emailSetting = _mailCon.text + "@handong.edu";
     bool result = await fp.signInWithEmail(emailSetting, _pwCon.text);
-    _scaffoldKey.currentState.hideCurrentSnackBar();
+    // _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result == false)
       _mailCon.text.isEmpty || _pwCon.text.isEmpty
           ? checkAll()

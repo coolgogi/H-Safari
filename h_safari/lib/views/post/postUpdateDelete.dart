@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/post/post.dart';
 
+// ignore: must_be_immutable
 class PostUpdateDelete extends StatefulWidget {
   DocumentSnapshot tp;
 
@@ -42,7 +43,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
 
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseUser _user;
+  User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
@@ -55,7 +56,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   }
 
   void _prepareService() async {
-    _user = await _firebaseAuth.currentUser();
+    _user = _firebaseAuth.currentUser;
   }
 
   List<File> pictures;
@@ -65,12 +66,12 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   _PostUpdateDeleteState(DocumentSnapshot doc) {
     pictures = List<File>();
     picURL = List<String>();
-    _newNameCon.text = doc['name'];
-    _newDescCon.text = doc['description'];
-    _newPriceCon.text = doc['price'];
-    _newHowCon.text = doc['how'];
-    _newCategoryCon.text = doc['category'];
-    tempList = doc['imageList'];
+    _newNameCon.text = doc.get('name');
+    _newDescCon.text = doc.get('description');
+    _newPriceCon.text = doc.get('price');
+    _newHowCon.text = doc.get('how');
+    _newCategoryCon.text = doc.get('category');
+    tempList = doc.get('imageList');
 
     for (int i = 0; i < tempList.length; i++) {
       String tp = tempList[i].toString();
@@ -505,15 +506,14 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                           _newHowCon.text =
                                               checkHow().toString();
                                           DatabaseMethods().updatePostDoc(
-                                              widget.tp.documentID,
+                                              widget.tp.id,
                                               _newNameCon.text,
                                               _newPriceCon.text,
                                               _newDescCon.text,
                                               picURL.join("우주최강CRA"),
                                               _newCategoryCon.text,
                                               _newHowCon.text);
-                                          showDocument(
-                                              "post", widget.tp.documentID);
+                                          showDocument("post", widget.tp.id);
                                           _newNameCon.clear();
                                           _newDescCon.clear();
                                           _newPriceCon.clear();
@@ -573,8 +573,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                         DatabaseMethods()
                                                             .deletePostDoc(
                                                                 context,
-                                                                widget.tp
-                                                                    .documentID);
+                                                                widget.tp.id);
                                                         Navigator.pop(context);
                                                       },
                                                     )
@@ -601,7 +600,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   }
 
   showDocument(String colName, String documentID) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(colName)
         .document(documentID)
         .get()

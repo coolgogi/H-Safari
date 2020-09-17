@@ -6,11 +6,11 @@ INJECTED from /Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/ap
 INJECTED from /Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/src/main/AndroidManifest.xml:1:1-54:12
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/dc5fbd4d9ad397563b06ee309e5785b2/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [:flutter_email_sender] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_email_sender-3.0.1/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-19:12
-MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_analytics] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-5.0.16/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-19:12
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/1a6fd6b5e0c22d83e0f7db3726f32610/jetified-firebase-analytics-17.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [:image_picker] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.7+7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-22:12
-MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.8/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.9/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
 MERGED from [:cloud_firestore] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_auth] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.16.1/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-15:12
 MERGED from [:cloud_functions] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_functions-0.5.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-15:12
@@ -19,7 +19,6 @@ MERGED from [:permission_handler] /Users/coolgogi/.pub-cache/hosted/pub.dartlang
 MERGED from [:firebase_messaging] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-6.0.16/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-20:12
 MERGED from [:cloud_firestore_web] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-15:12
-MERGED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-10:12
 MERGED from [:path_provider] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.14/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
 MERGED from [:cloud_functions_web] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_functions_web-1.1.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-7:12
 MERGED from [:google_sign_in] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.3/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-9:12
@@ -271,8 +270,6 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.5.0] /U
 		ADDED from /Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/src/main/AndroidManifest.xml:50:22-65
 uses-permission#android.permission.CAMERA
 ADDED from /Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/src/main/AndroidManifest.xml:51:5-65
-MERGED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-65
-MERGED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-65
 	android:name
 		ADDED from /Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/src/main/AndroidManifest.xml:51:22-62
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
@@ -295,16 +292,16 @@ MERGED from [androidx.multidex:multidex:2.0.0] /Users/coolgogi/.gradle/caches/tr
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/dc5fbd4d9ad397563b06ee309e5785b2/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [:flutter_email_sender] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_email_sender-3.0.1/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_email_sender] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_email_sender-3.0.1/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_analytics] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-5.0.16/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_analytics] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-5.0.16/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/1a6fd6b5e0c22d83e0f7db3726f32610/jetified-firebase-analytics-17.5.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/1a6fd6b5e0c22d83e0f7db3726f32610/jetified-firebase-analytics-17.5.0/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.7+7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.7+7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.8/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.8/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.9/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.9/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.7/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.16.1/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
@@ -321,8 +318,6 @@ MERGED from [:cloud_firestore_web] /Users/coolgogi/.pub-cache/hosted/pub.dartlan
 MERGED from [:cloud_firestore_web] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
-MERGED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.14/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.14/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_functions_web] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/cloud_functions_web-1.1.0/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-44
@@ -595,10 +590,6 @@ ADDED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/f
 		ADDED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_core] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:10:17-123
-uses-permission#android.permission.RECORD_AUDIO
-ADDED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:8:5-71
-	android:name
-		ADDED from [:camera] /Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/camera-0.5.8+5/android/build/intermediates/library_manifest/release/AndroidManifest.xml:8:22-68
 meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
 ADDED from [com.google.firebase:firebase-firestore:21.3.0] /Users/coolgogi/.gradle/caches/transforms-2/files-2.1/a6855ee539d5027e96107c07dd29a502/jetified-firebase-firestore-21.3.0/AndroidManifest.xml:20:13-22:85
 	android:value

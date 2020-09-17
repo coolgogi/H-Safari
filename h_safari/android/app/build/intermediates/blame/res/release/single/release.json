@@ -861,7 +861,7 @@
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/layout_toast_custom.xml.flat",
-        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/packaged_res/release/layout/toast_custom.xml"
+        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/packaged_res/release/layout/toast_custom.xml"
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/layout_abc_activity_chooser_view.xml.flat",
@@ -1325,7 +1325,7 @@
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/drawable_toast_bg.xml.flat",
-        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/packaged_res/release/drawable/toast_bg.xml"
+        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/packaged_res/release/drawable/toast_bg.xml"
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/drawable-xhdpi-v4_abc_list_pressed_holo_light.9.png.flat",
@@ -1429,7 +1429,7 @@
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/drawable_corner.xml.flat",
-        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.0.4/android/build/intermediates/packaged_res/release/drawable/corner.xml"
+        "source": "/Users/coolgogi/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.0/android/build/intermediates/packaged_res/release/drawable/corner.xml"
     },
     {
         "merged": "/Users/coolgogi/Documents/2020-summer/H-Safari/h_safari/android/app/build/intermediates/res/merged/release/mipmap-mdpi_ic_launcher.png.flat",

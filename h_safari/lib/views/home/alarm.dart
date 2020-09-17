@@ -26,16 +26,15 @@ class _AlarmState extends State<Alarm> {
         return snapshot.hasData
             ? ListView(
                 shrinkWrap: true,
-                children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
                   return alertTile(
-                    document['type'],
-                    document['sendBy'],
-                    document['time'],
-                    document['postName'],
-                    document['postID'],
-                    document['unread'],
-                    document.documentID,
+                    document.get('type'),
+                    document.get('sendBy'),
+                    document.get('time'),
+                    document.get('postName'),
+                    document.get('postID'),
+                    document.get('unread'),
+                    document.id,
                   );
                 }).toList(),
               )
@@ -51,7 +50,7 @@ class _AlarmState extends State<Alarm> {
   }
 
   getUserInfogetAlarms() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    User user = FirebaseAuth.instance.currentUser;
     DatabaseMethods().getUserAlarms(user.email.toString()).then((snapshots) {
       setState(() {
         alarm = snapshots;
@@ -144,9 +143,9 @@ class _AlarmState extends State<Alarm> {
   }
 
   void showDocument(String documentID, String type) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('post')
-        .document(documentID)
+        .doc(documentID)
         .get()
         .then((doc) {
       if (!doc.exists) {
@@ -160,7 +159,7 @@ class _AlarmState extends State<Alarm> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => doc["email"] == (userEmail)
+            builder: (context) => doc.get("email") == (userEmail)
                 ? Post(doc, true)
                 : Post(doc, false)));
   }

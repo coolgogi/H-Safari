@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+// ignore: must_be_immutable
 class Post extends StatefulWidget {
   DocumentSnapshot doc;
   bool isMine;
@@ -46,9 +47,9 @@ class _PostState extends State<Post> {
   String currentEmail;
 
   _PostState(DocumentSnapshot doc) {
-    fnName = doc['name'];
-    fnDes = doc['description'];
-    var time = doc['datetime'].toDate();
+    fnName = doc.get('name');
+    fnDes = doc.get('description');
+    var time = doc.get('datetime').toDate();
     var date = DateFormat('yyyy-MM-dd').add_Hms().format(time);
     var allTime = date.split(RegExp(r"-| |:"));
     var year = allTime[0];
@@ -57,17 +58,17 @@ class _PostState extends State<Post> {
     var hour = allTime[3];
     var minute = allTime[4];
     fnDate = year + "/" + month + "/" + day + " " + hour + ":" + minute;
-    fnPrice = doc['price'];
-    fnImage = doc['imageUrl'];
-    fnImageList = doc['imageList'];
-    fnUid = doc['uid'];
-    fnCategory = doc['category'];
-    fnHow = doc['how'];
-    fnEmail = doc['email'];
-    fnId = doc.documentID;
-    fnCommentUserList = doc['commentUserList'];
-    fnWaitingUserList = doc['waitingUserList'];
-    fnClose = doc['close'];
+    fnPrice = doc.get('price');
+    fnImage = doc.get('imageUrl');
+    fnImageList = doc.get('imageList');
+    fnUid = doc.get('uid');
+    fnCategory = doc.get('category');
+    fnHow = doc.get('how');
+    fnEmail = doc.get('email');
+    fnId = doc.id;
+    fnCommentUserList = doc.get('commentUserList');
+    fnWaitingUserList = doc.get('waitingUserList');
+    fnClose = doc.get('close');
   }
 
   FirebaseProvider fp;
@@ -85,10 +86,11 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.doc.documentID).then((val) {
+    DatabaseMethods().getComments(widget.doc.id).then((val) {
       setState(() {
         comments = val;
-        priceComma = fnPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+        priceComma = fnPrice.replaceAllMapped(
+            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
       });
     });
     super.initState();
@@ -126,7 +128,8 @@ class _PostState extends State<Post> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       centerTitle: true,
-                      expandedHeight: MediaQuery.of(context).size.width-MediaQuery.of(context).padding.top,
+                      expandedHeight: MediaQuery.of(context).size.width -
+                          MediaQuery.of(context).padding.top,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Container(
                           child: Stack(
@@ -150,76 +153,86 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
-                                            fit: StackFit.passthrough,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                    child: imgUrl !=
-                                                        ''
-                                                        ? Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )
-                                                        : Image.asset(
-                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )),
-                                              ),
-                                              Container(
-                                                  child: Image.asset(
-                                                    'assets/sample/close2.png',
-                                                    fit: BoxFit.fill,
-                                                  ),),
-                                            ],
-                                          )
-                                              : Container(
-                                              child: imgUrl != '' ? Hero(
-                                                tag: imgUrl,
-                                                child: Material(
-                                                  color: Colors.transparent,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      _bigPhoto = imgUrl;
-                                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                                        return BigPhoto(context, _current);
-                                                      }));
-                                                    },
-                                                    child: Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit.fitWidth,
+                                                  fit: StackFit.passthrough,
+                                                  children: <Widget>[
+                                                    Center(
+                                                      child: Container(
+                                                          child: imgUrl != ''
+                                                              ? Image.network(
+                                                                  imgUrl,
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )
+                                                              : Image.asset(
+                                                                  'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
-                                                  : Image.asset(
-                                                'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                fit: BoxFit.fill,
-                                              )));
+                                                    Container(
+                                                      child: Image.asset(
+                                                        'assets/sample/close2.png',
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(
+                                                  child: imgUrl != ''
+                                                      ? Hero(
+                                                          tag: imgUrl,
+                                                          child: Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                _bigPhoto =
+                                                                    imgUrl;
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return BigPhoto(
+                                                                      context,
+                                                                      _current);
+                                                                }));
+                                                              },
+                                                              child:
+                                                                  Image.network(
+                                                                imgUrl,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Image.asset(
+                                                          'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                          fit: BoxFit.fill,
+                                                        )));
                                     },
                                   );
                                 }).toList(),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                children: map<Widget>(fnImageList,
-                                        (index, url) {
-                                      return Container(
-                                        width: 7.0,
-                                        height: 7.0,
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 3.0),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: _current == index
-                                              ? Colors.green[300]
-                                              : Colors.black26,
-                                        ),
-                                      );
-                                    }),
+                                children:
+                                    map<Widget>(fnImageList, (index, url) {
+                                  return Container(
+                                    width: 7.0,
+                                    height: 7.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 3.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _current == index
+                                          ? Colors.green[300]
+                                          : Colors.black26,
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),
@@ -270,52 +283,59 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(13,15,13,8),
+                          padding: const EdgeInsets.fromLTRB(13, 15, 13, 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '$fnName',
-                                style: TextStyle(
-                                    fontSize: 20),
+                                style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                    '$priceComma원',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                              SizedBox(height: 10,),
+                                '$priceComma원',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               ButtonTheme(
                                 minWidth: MediaQuery.of(context).size.width,
                                 height: 50,
                                 child: FlatButton(
-                                  shape: OutlineInputBorder(borderSide: BorderSide(color: fnClose
-                                      ? Colors.red
-                                      : Colors.green)),
+                                  shape: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: fnClose
+                                              ? Colors.red
+                                              : Colors.green)),
                                   child: Text(
                                     fnClose
                                         ? '거래가 마감되었습니다'
-                                        : (widget.isMine ? '거래 마감하기' : '거래 신청하기'),
+                                        : (widget.isMine
+                                            ? '거래 마감하기'
+                                            : '거래 신청하기'),
                                     style: TextStyle(
-                                      fontSize: 18,
+                                        fontSize: 18,
                                         color: fnClose
                                             ? Colors.red
                                             : Colors.green),
                                   ),
                                   onPressed: () {
                                     fnClose
+                                        // ignore: unnecessary_statements
                                         ? null
                                         : widget.isMine
-                                        ? close(context)
-                                        : purchaseApplication(context);
+                                            ? close(context)
+                                            : purchaseApplication(context);
                                   },
                                 ),
                               ),
-                              SizedBox(height: 15,),
+                              SizedBox(
+                                height: 15,
+                              ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -360,11 +380,11 @@ class _PostState extends State<Post> {
                               ),
                               Text(
                                 '[상세설명]',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 '$fnDes',
                                 style: TextStyle(fontSize: 15),
@@ -372,10 +392,11 @@ class _PostState extends State<Post> {
                               SizedBox(
                                 height: 10,
                               ),
-                                  Text(
-                                    '$fnDate',
-                                    style: TextStyle(fontSize: 12, color: Colors.black45),
-                                  ),
+                              Text(
+                                '$fnDate',
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.black45),
+                              ),
                               Divider(
                                 color: Colors.black38,
                               ),
@@ -510,10 +531,10 @@ class _PostState extends State<Post> {
                     already(context);
                   } else {
                     fnWaitingUserList.add(fp.getUser().email);
-                    Firestore.instance
+                    FirebaseFirestore.instance
                         .collection('post')
-                        .document(widget.doc.documentID)
-                        .updateData({
+                        .doc(widget.doc.id)
+                        .update({
                       "waitingUserList": fnWaitingUserList,
                     });
                     Map<String, dynamic> purchaseApplication = {
@@ -523,7 +544,7 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.documentID,
+                      "postID": widget.doc.id,
                       "unread": true,
                     };
                     Map<String, dynamic> userList = {
@@ -531,13 +552,13 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.documentID,
+                      "postID": widget.doc.id,
                     };
                     DatabaseMethods()
                         .sendNotification(fnEmail, purchaseApplication);
                     DatabaseMethods().updateUnreadNotification(fnEmail, true);
                     DatabaseMethods()
-                        .addWant(currentEmail, widget.doc.documentID, userList);
+                        .addWant(currentEmail, widget.doc.id, userList);
                     Navigator.pop(context, '확인');
                     success(context);
                   }
@@ -571,7 +592,7 @@ class _PostState extends State<Post> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  DatabaseMethods().closePost(widget.doc.documentID);
+                  DatabaseMethods().closePost(widget.doc.id);
                   Navigator.pop(context, '취소');
                   fnClose = true;
                   setState(() {});
@@ -584,7 +605,7 @@ class _PostState extends State<Post> {
 
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> commentMap = {
         "sendBy": currentUser.email,
@@ -596,20 +617,20 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.documentID,
+        "postID": widget.doc.id,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('post')
-            .document(widget.doc.documentID)
-            .updateData({
+            .doc(widget.doc.id)
+            .update({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods().addComment(widget.doc.documentID, commentMap);
+      DatabaseMethods().addComment(widget.doc.id, commentMap);
       DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
@@ -627,7 +648,7 @@ class _PostState extends State<Post> {
 
   void addReComment(redocId) {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> recommentMap = {
         "sendBy": currentUser.email,
@@ -639,21 +660,20 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.documentID,
+        "postID": widget.doc.id,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('post')
-            .document(widget.doc.documentID)
-            .updateData({
+            .doc(widget.doc.id)
+            .update({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods()
-          .addReComment(widget.doc.documentID, redocId, recommentMap);
+      DatabaseMethods().addReComment(widget.doc.id, redocId, recommentMap);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
@@ -681,22 +701,25 @@ class _PostState extends State<Post> {
                   (DocumentSnapshot document) {
                     return Column(
                       children: <Widget>[
-                        commentTile(document['sendBy'], document['comment'],
-                            document['date'], document.documentID),
+                        commentTile(
+                            document.get('sendBy'),
+                            document.get('comment'),
+                            document.get('date'),
+                            document.id),
                         SizedBox(
                           height: 5,
                         ),
                         StreamBuilder(
-                          stream: Firestore.instance
+                          stream: FirebaseFirestore.instance
                               .collection("post")
-                              .document(widget.doc.documentID)
+                              .doc(widget.doc.id)
                               .collection("comments")
-                              .document(document.documentID)
+                              .doc(document.id)
                               .collection("recomments")
                               .orderBy('date')
                               .snapshots(),
                           builder: (context, snapshots) {
-                            String codocId = document.documentID;
+                            String codocId = document.id;
                             return snapshots.hasData
                                 ? ListView(
                                     physics:
@@ -708,17 +731,19 @@ class _PostState extends State<Post> {
                                         .map<Widget>(
                                             (DocumentSnapshot document) {
                                       return recommentTile(
-                                          document['sendBy'],
-                                          document['recomment'],
-                                          document['date'],
+                                          document.get('sendBy'),
+                                          document.get('recomment'),
+                                          document.get('date'),
                                           codocId,
-                                          document.documentID);
+                                          document.id);
                                     }).toList(),
                                   )
                                 : Container();
                           },
                         ),
-                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 8,
+                        ),
                       ],
                     );
                   },
@@ -890,8 +915,7 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods()
-                        .deleteComment(widget.doc.documentID, codocId);
+                    DatabaseMethods().deleteComment(widget.doc.id, codocId);
                     Navigator.pop(context);
                   },
                 )
@@ -925,8 +949,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods().deleteReComment(
-                        widget.doc.documentID, codocId, recodocId);
+                    DatabaseMethods()
+                        .deleteReComment(widget.doc.id, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )
@@ -936,8 +960,10 @@ class _PostState extends State<Post> {
         });
   }
 
+  // ignore: non_constant_identifier_names
   void ShowListnum(BuildContext context) async {
-    String result = await showDialog(
+    // String result = await showDialog(
+    await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -1003,28 +1029,28 @@ class _PostState extends State<Post> {
         });
   }
 
+  // ignore: non_constant_identifier_names
   Widget BigPhoto(BuildContext context, int index) {
     return Scaffold(
       body: Center(
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            if(details.delta.dy < 0) Navigator.pop(context);
-            else if(details.delta.dy > 0) Navigator.pop(context);
-          },
-          child: Center(
+          child: GestureDetector(
+        onPanUpdate: (details) {
+          if (details.delta.dy < 0)
+            Navigator.pop(context);
+          else if (details.delta.dy > 0) Navigator.pop(context);
+        },
+        child: Center(
             child: Hero(
-              tag: _bigPhoto,
-              child: Material(
-                color: Colors.transparent,
-                child: Image.network(
-                  _bigPhoto,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            )
+          tag: _bigPhoto,
+          child: Material(
+            color: Colors.transparent,
+            child: Image.network(
+              _bigPhoto,
+              fit: BoxFit.fill,
+            ),
           ),
-        )
-      ),
+        )),
+      )),
     );
   }
 }

@@ -30,20 +30,22 @@ class _SearchState extends State<Search> {
 
   bool wantToSeeFinished = true;
 
+  // ignore: non_constant_identifier_names
   bool _IsSearching;
-  String _searchText = "";
+
+  // String _searchText = "";
 
   _SearchState() {
     _searchQuery.addListener(() {
       if (_searchQuery.text.isEmpty) {
         setState(() {
           _IsSearching = false;
-          _searchText = "";
+          // _searchText = "";
         });
       } else {
         setState(() {
           _IsSearching = true;
-          _searchText = _searchQuery.text;
+          // _searchText = _searchQuery.text;
         });
       }
     });
@@ -71,7 +73,7 @@ class _SearchState extends State<Search> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
+            stream: FirebaseFirestore.instance
                 .collection('post')
                 .orderBy("datetime", descending: true)
                 .snapshots(),
@@ -86,11 +88,11 @@ class _SearchState extends State<Search> {
                       child: ListView(
                         controller: listScrollController,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children: snapshot.data.documents
-                            .map((DocumentSnapshot document) {
-                          String title = document["name"];
-                          bool close = document['close'];
-                          priceComma = document['price'].replaceAllMapped(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          String title = document.get("name");
+                          bool close = document.get('close');
+                          priceComma = document.get('price').replaceAllMapped(
                               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                               (match) => '${match[1]},');
                           if (!_IsSearching)
@@ -136,7 +138,7 @@ class _SearchState extends State<Search> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => currentEmail == doc['email']
+            builder: (context) => currentEmail == doc.get('email')
                 ? Post(doc, true)
                 : Post(doc, false)));
   }
@@ -196,16 +198,22 @@ class _SearchState extends State<Search> {
                       side: BorderSide(color: Colors.black12)),
                   color: checkIndex == 1
                       ? Colors.green[400]
-                      : checkIndex == -1 ? Colors.grey[250] : null,
+                      : checkIndex == -1
+                          ? Colors.grey[250]
+                          : null,
                   child: Text(
                     checkIndex == 1
                         ? '마감 On'
-                        : checkIndex == -1 ? '마감 Off' : null,
+                        : checkIndex == -1
+                            ? '마감 Off'
+                            : null,
                     style: TextStyle(
                       fontSize: 11,
                       color: checkIndex == 1
                           ? Colors.white
-                          : checkIndex == -1 ? Colors.black87 : null,
+                          : checkIndex == -1
+                              ? Colors.black87
+                              : null,
                     ),
                   ),
                   onPressed: () {
