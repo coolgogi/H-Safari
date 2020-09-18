@@ -190,6 +190,8 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     '$priceComma원',
