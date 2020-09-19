@@ -76,7 +76,8 @@ class PrivacyPolicy extends StatelessWidget {
                 Row(children: [Text('H-Safari는 다음의 개인정보 항목을 처리하고 있습니다. '),],),
                 Row(children: [Text('1. 어플 회원 가입 및 관리\n\t․필수항목 : 아이디(학번)'),],),
                 Row(children: [Text('2. 재화 또는 서비스 제공\n\t․선택항목 : 성명, 전화번호, 주소, 은행계좌정보 등 결제정보'),],),
-                Text('3. 인터넷 서비스 이용과정에서 아래 개인정보 항목이 자동으로 생성되어 수집될 수 있습니다.\n\t․IP주소, 쿠키, MAC주소, 서비스 이용기록, 방문기록, 불량 이용기록 등 \n'),
+                Text('3. 인터넷 서비스 이용과정에서 아래 개인정보 항목이 자동으로 생성되어 수집될 수 있습니다.\n\t․IP주소, MAC주소, 서비스 이용기록, 방문기록, 불량 이용기록 등 \n'),
+                Row(children: [Text('4. H-Safari는 개인정보중에 주소, 은행계좌정보 등 결제정보를 수집하지 않습니다.\n'),],),
 
                 Row(
                   children: [
