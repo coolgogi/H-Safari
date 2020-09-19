@@ -414,18 +414,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "3.3.0"
-=======
-    version: "5.0.1+1"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
->>>>>>> YH
   petitparser:
     dependency: transitive
     description:
@@ -614,11 +603,7 @@ packages:
     source: hosted
     version: "0.1.0"
   xml:
-<<<<<<< HEAD
     dependency: transitive
-=======
-    dependency: "direct main"
->>>>>>> YH
     description:
       name: xml
       url: "https://pub.dartlang.org"
