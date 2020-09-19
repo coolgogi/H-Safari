@@ -162,7 +162,7 @@ class _SignUpState extends State<SignUp> {
                         height: 10,
                       ),
                       Text(
-                        "비빌번호 확인: ",
+                        "비밀번호 확인: ",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),

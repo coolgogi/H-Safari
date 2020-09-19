@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/views/post/post.dart';
 
+// ignore: must_be_immutable
 class MyWanna extends StatefulWidget {
   String userEmail;
 

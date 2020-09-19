@@ -30,20 +30,22 @@ class _SearchState extends State<Search> {
 
   bool wantToSeeFinished = true;
 
+  // ignore: non_constant_identifier_names
   bool _IsSearching;
-  String _searchText = "";
+
+  // String _searchText = "";
 
   _SearchState() {
     _searchQuery.addListener(() {
       if (_searchQuery.text.isEmpty) {
         setState(() {
           _IsSearching = false;
-          _searchText = "";
+          // _searchText = "";
         });
       } else {
         setState(() {
           _IsSearching = true;
-          _searchText = _searchQuery.text;
+          // _searchText = _searchQuery.text;
         });
       }
     });
@@ -196,16 +198,22 @@ class _SearchState extends State<Search> {
                       side: BorderSide(color: Colors.black12)),
                   color: checkIndex == 1
                       ? Colors.green[400]
-                      : checkIndex == -1 ? Colors.grey[250] : null,
+                      : checkIndex == -1
+                          ? Colors.grey[250]
+                          : null,
                   child: Text(
                     checkIndex == 1
                         ? '마감 On'
-                        : checkIndex == -1 ? '마감 Off' : null,
+                        : checkIndex == -1
+                            ? '마감 Off'
+                            : null,
                     style: TextStyle(
                       fontSize: 11,
                       color: checkIndex == 1
                           ? Colors.white
-                          : checkIndex == -1 ? Colors.black87 : null,
+                          : checkIndex == -1
+                              ? Colors.black87
+                              : null,
                     ),
                   ),
                   onPressed: () {

@@ -6,7 +6,7 @@ Logger logger = Logger();
 
 class FirebaseProvider with ChangeNotifier {
   final FirebaseAuth fAuth = FirebaseAuth.instance; // Firebase 인증 플러그인의 인스턴스
-  FirebaseUser _user; // Firebase에 로그인 된 사용자
+  FirebaseUser _user; // Firebase에 로그인 된 사용자 FirebaseUser <-> User
 
   String _lastFirebaseResponse = ""; // Firebase로부터 받은 최신 메시지(에러 처리용)
 
@@ -26,14 +26,17 @@ class FirebaseProvider with ChangeNotifier {
 
   // 최근 Firebase에 로그인한 사용자의 정보 획득
   _prepareUser() {
+    // setUser(fAuth.currentUser);
     fAuth.currentUser().then((FirebaseUser currentUser) {
       setUser(currentUser);
     });
   }
 
   // 이메일/비밀번호로 Firebase에 회원가입
+  // ignore: missing_return
   Future<bool> signUpWithEmail(String email, String password) async {
     try {
+      // UserCredential result = await fAuth.createUserWithEmailAndPassword(
       AuthResult result = await fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (result.user != null) {

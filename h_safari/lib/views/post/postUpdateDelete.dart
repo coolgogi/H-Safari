@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/post/post.dart';
 
+// ignore: must_be_immutable
 class PostUpdateDelete extends StatefulWidget {
   DocumentSnapshot tp;
 

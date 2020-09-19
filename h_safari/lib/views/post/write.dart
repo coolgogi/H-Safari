@@ -1,11 +1,15 @@
 import 'dart:ui';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:h_safari/views/post/post.dart';
 
 class MyWrite extends StatefulWidget {
@@ -49,6 +53,7 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void _prepareService() async {
+    // _user = _firebaseAuth.currentUser;
     _user = await _firebaseAuth.currentUser();
   }
 
@@ -173,7 +178,8 @@ class _MyWriteState extends State<MyWrite> {
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .green)),
-                                                              onPressed: () {
+                                                              onPressed:
+                                                                  () async {
                                                                 _uploadImageToStorage(
                                                                     ImageSource
                                                                         .camera);
@@ -507,15 +513,16 @@ class _MyWriteState extends State<MyWrite> {
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(30),
+                                                  BorderRadius.circular(30),
                                               side: BorderSide(
                                                 color: Colors.green,
                                               )),
                                           onPressed: () {
-                                            if(_value != null) {
+                                            if (_value != null) {
                                               if (_newDescCon.text.isNotEmpty &&
                                                   _newNameCon.text.isNotEmpty &&
-                                                  _newPriceCon.text.isNotEmpty) {
+                                                  _newPriceCon
+                                                      .text.isNotEmpty) {
                                                 createDoc(
                                                     _newNameCon.text,
                                                     _newDescCon.text,
@@ -537,8 +544,9 @@ class _MyWriteState extends State<MyWrite> {
                                               } else {
                                                 checkAll();
                                               }
-                                            }else{
-                                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                            } else {
+                                              _scaffoldKey.currentState
+                                                  .showSnackBar(SnackBar(
                                                 content: Text('카테고리를 선택해 주세요.'),
                                                 backgroundColor: Colors.green,
                                                 action: SnackBarAction(
@@ -592,7 +600,7 @@ class _MyWriteState extends State<MyWrite> {
       "waitingUserList": wa,
       "close": false,
     });
-    Navigator.pop(context);
+    Navigator.pop(this.context);
     showDocument(documentReference.documentID);
   }
 
@@ -608,11 +616,19 @@ class _MyWriteState extends State<MyWrite> {
 
   void showReadPostPage(DocumentSnapshot doc) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Post(doc, true)));
+        this.context, MaterialPageRoute(builder: (context) => Post(doc, true)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {
-    File image = await ImagePicker.pickImage(source: source);
+    File image;
+    PickedFile image2;
+    ImagePicker _picker = ImagePicker();
+    if (source == ImageSource.gallery) {
+      image = await ImagePicker.pickImage(source: source);
+    } else {
+      image2 = await _picker.getImage(source: source);
+      image = File(image2.path);
+    }
 
     if (image == null) return;
     setState(() {

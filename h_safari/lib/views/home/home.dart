@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:h_safari/helpers/sizes.dart';
 import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'alarm.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   String email;
 
@@ -50,6 +50,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
+
     Firestore.instance
         .collection("users")
         .document(widget.email)
@@ -64,6 +65,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

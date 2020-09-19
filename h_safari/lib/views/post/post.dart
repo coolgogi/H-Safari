@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+// ignore: must_be_immutable
 class Post extends StatefulWidget {
   DocumentSnapshot doc;
   bool isMine;
@@ -88,7 +89,8 @@ class _PostState extends State<Post> {
     DatabaseMethods().getComments(widget.doc.documentID).then((val) {
       setState(() {
         comments = val;
-        priceComma = fnPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+        priceComma = fnPrice.replaceAllMapped(
+            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
       });
     });
     super.initState();
@@ -126,7 +128,8 @@ class _PostState extends State<Post> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       centerTitle: true,
-                      expandedHeight: MediaQuery.of(context).size.width-MediaQuery.of(context).padding.top,
+                      expandedHeight: MediaQuery.of(context).size.width -
+                          MediaQuery.of(context).padding.top,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Container(
                           child: Stack(
@@ -150,76 +153,86 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
-                                            fit: StackFit.passthrough,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                    child: imgUrl !=
-                                                        ''
-                                                        ? Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )
-                                                        : Image.asset(
-                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )),
-                                              ),
-                                              Container(
-                                                  child: Image.asset(
-                                                    'assets/sample/close2.png',
-                                                    fit: BoxFit.fill,
-                                                  ),),
-                                            ],
-                                          )
-                                              : Container(
-                                              child: imgUrl != '' ? Hero(
-                                                tag: imgUrl,
-                                                child: Material(
-                                                  color: Colors.transparent,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      _bigPhoto = imgUrl;
-                                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                                        return BigPhoto(context, _current);
-                                                      }));
-                                                    },
-                                                    child: Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit.fitWidth,
+                                                  fit: StackFit.passthrough,
+                                                  children: <Widget>[
+                                                    Center(
+                                                      child: Container(
+                                                          child: imgUrl != ''
+                                                              ? Image.network(
+                                                                  imgUrl,
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )
+                                                              : Image.asset(
+                                                                  'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
-                                                  : Image.asset(
-                                                'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                fit: BoxFit.fill,
-                                              )));
+                                                    Container(
+                                                      child: Image.asset(
+                                                        'assets/sample/close2.png',
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(
+                                                  child: imgUrl != ''
+                                                      ? Hero(
+                                                          tag: imgUrl,
+                                                          child: Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                _bigPhoto =
+                                                                    imgUrl;
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return BigPhoto(
+                                                                      context,
+                                                                      _current);
+                                                                }));
+                                                              },
+                                                              child:
+                                                                  Image.network(
+                                                                imgUrl,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Image.asset(
+                                                          'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                          fit: BoxFit.fill,
+                                                        )));
                                     },
                                   );
                                 }).toList(),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                children: map<Widget>(fnImageList,
-                                        (index, url) {
-                                      return Container(
-                                        width: 7.0,
-                                        height: 7.0,
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 3.0),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: _current == index
-                                              ? Colors.green[300]
-                                              : Colors.black26,
-                                        ),
-                                      );
-                                    }),
+                                children:
+                                    map<Widget>(fnImageList, (index, url) {
+                                  return Container(
+                                    width: 7.0,
+                                    height: 7.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 3.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _current == index
+                                          ? Colors.green[300]
+                                          : Colors.black26,
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),
@@ -270,52 +283,59 @@ class _PostState extends State<Post> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(13,15,13,8),
+                          padding: const EdgeInsets.fromLTRB(13, 15, 13, 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '$fnName',
-                                style: TextStyle(
-                                    fontSize: 20),
+                                style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                    '$priceComma원',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                              SizedBox(height: 10,),
+                                '$priceComma원',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               ButtonTheme(
                                 minWidth: MediaQuery.of(context).size.width,
                                 height: 50,
                                 child: FlatButton(
-                                  shape: OutlineInputBorder(borderSide: BorderSide(color: fnClose
-                                      ? Colors.red
-                                      : Colors.green)),
+                                  shape: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: fnClose
+                                              ? Colors.red
+                                              : Colors.green)),
                                   child: Text(
                                     fnClose
                                         ? '거래가 마감되었습니다'
-                                        : (widget.isMine ? '거래 마감하기' : '거래 신청하기'),
+                                        : (widget.isMine
+                                            ? '거래 마감하기'
+                                            : '거래 신청하기'),
                                     style: TextStyle(
-                                      fontSize: 18,
+                                        fontSize: 18,
                                         color: fnClose
                                             ? Colors.red
                                             : Colors.green),
                                   ),
                                   onPressed: () {
                                     fnClose
+                                        // ignore: unnecessary_statements
                                         ? null
                                         : widget.isMine
-                                        ? close(context)
-                                        : purchaseApplication(context);
+                                            ? close(context)
+                                            : purchaseApplication(context);
                                   },
                                 ),
                               ),
-                              SizedBox(height: 15,),
+                              SizedBox(
+                                height: 15,
+                              ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -360,11 +380,11 @@ class _PostState extends State<Post> {
                               ),
                               Text(
                                 '[상세설명]',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 '$fnDes',
                                 style: TextStyle(fontSize: 15),
@@ -372,10 +392,11 @@ class _PostState extends State<Post> {
                               SizedBox(
                                 height: 10,
                               ),
-                                  Text(
-                                    '$fnDate',
-                                    style: TextStyle(fontSize: 12, color: Colors.black45),
-                                  ),
+                              Text(
+                                '$fnDate',
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.black45),
+                              ),
                               Divider(
                                 color: Colors.black38,
                               ),
@@ -718,7 +739,9 @@ class _PostState extends State<Post> {
                                 : Container();
                           },
                         ),
-                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 8,
+                        ),
                       ],
                     );
                   },
@@ -936,8 +959,10 @@ class _PostState extends State<Post> {
         });
   }
 
+  // ignore: non_constant_identifier_names
   void ShowListnum(BuildContext context) async {
-    String result = await showDialog(
+    // String result = await showDialog(
+    await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -1003,28 +1028,28 @@ class _PostState extends State<Post> {
         });
   }
 
+  // ignore: non_constant_identifier_names
   Widget BigPhoto(BuildContext context, int index) {
     return Scaffold(
       body: Center(
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            if(details.delta.dy < 0) Navigator.pop(context);
-            else if(details.delta.dy > 0) Navigator.pop(context);
-          },
-          child: Center(
+          child: GestureDetector(
+        onPanUpdate: (details) {
+          if (details.delta.dy < 0)
+            Navigator.pop(context);
+          else if (details.delta.dy > 0) Navigator.pop(context);
+        },
+        child: Center(
             child: Hero(
-              tag: _bigPhoto,
-              child: Material(
-                color: Colors.transparent,
-                child: Image.network(
-                  _bigPhoto,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            )
+          tag: _bigPhoto,
+          child: Material(
+            color: Colors.transparent,
+            child: Image.network(
+              _bigPhoto,
+              fit: BoxFit.fill,
+            ),
           ),
-        )
-      ),
+        )),
+      )),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/chat/chatRoom.dart';
 
+// ignore: must_be_immutable
 class Waiting extends StatefulWidget {
   String documentID;
   String postName;
@@ -38,7 +39,7 @@ class _WaitingState extends State<Waiting> {
             itemCount: widget.userList.length,
             itemBuilder: (context, index) {
               return waitingTile(
-                index+1,
+                index + 1,
                 widget.userList[index],
               );
             }),
@@ -56,9 +57,7 @@ class _WaitingState extends State<Waiting> {
         children: <Widget>[
           Text(
             '$turn번째 신청자',
-            style: TextStyle(
-                fontSize: 14.5,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
           ),
           FlatButton(
             shape: OutlineInputBorder(),
@@ -121,7 +120,6 @@ class _WaitingState extends State<Waiting> {
         });
   }
 
-
   void sendMessage(String friendEmail, int turn, String postName) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
@@ -137,7 +135,7 @@ class _WaitingState extends State<Waiting> {
         MaterialPageRoute(
             builder: (context) => ChatRoom(
                   chatRoomId: chatRoomName,
-              chatRoomName: chatRoomName,
+                  chatRoomName: chatRoomName,
                 )));
   }
 }

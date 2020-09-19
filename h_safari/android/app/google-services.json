@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "345882318521-hhe4qd3rlcu1gipnhh6e0toklnsa04f1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CRA.hSafari",
+            "certificate_hash": "4d437a5c0b01333f0cadbab5fd8efaf248a7de23"
+          }
+        },
+        {
           "client_id": "345882318521-d00tt9dva2cu1e3l897psrd4m9h21ptj.apps.googleusercontent.com",
           "client_type": 3
         }

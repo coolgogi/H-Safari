@@ -49,29 +49,34 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if (snapshot.data.documents[index].data['users']
+                  if (snapshot.data.docs[index]
+                      .get('users')
                       .contains(widget.email)) {
                     return ChatRoomsTile(
                       context,
-                      snapshot.data.documents[index].data['users'],
-                      snapshot.data.documents[index].data["chatRoomName"],
-                      snapshot.data.documents[index].data['lastMessage'],
-                      snapshot.data.documents[index].data['lastDate']
+                      snapshot.data.docs[index].get('users'),
+                      snapshot.data.docs[index].get("chatRoomName"),
+                      snapshot.data.docs[index].get('lastMessage'),
+                      snapshot.data.docs[index]
+                              .get('lastDate')
                               .split(RegExp(r" |:|-"))[1] +
                           '/' +
-                          snapshot.data.documents[index].data['lastDate']
+                          snapshot.data.documents[index]
+                              .get('lastDate')
                               .split(RegExp(r" |:|-"))[2] +
                           '\n' +
-                          snapshot.data.documents[index].data['lastDate']
+                          snapshot.data.documents[index]
+                              .get('lastDate')
                               .split(RegExp(r" |:|-"))[3] +
                           ':' +
-                          snapshot.data.documents[index].data['lastDate']
+                          snapshot.data.documents[index]
+                              .get('lastDate')
                               .split(RegExp(r" |:|-"))[4],
-                      snapshot.data.documents[index].data["lastSendBy"],
-                      snapshot.data.documents[index].data["lastSendBy"] ==
+                      snapshot.data.documents[index].get("lastSendBy"),
+                      snapshot.data.documents[index].get("lastSendBy") ==
                               widget.email
                           ? false
-                          : snapshot.data.documents[index].data['unread'],
+                          : snapshot.data.documents[index].get('unread'),
                     );
                   } else {
                     return Container();
@@ -82,6 +87,7 @@ class _ChatListState extends State<ChatList> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget ChatRoomsTile(BuildContext context, List users, String chatRoomId,
       String message, String date, String sendBy, bool unread) {
     String friendName;
@@ -105,6 +111,7 @@ class _ChatListState extends State<ChatList> {
                           : chatRoomId.split(RegExp(r"_"))[1],
                     )));
         sendBy != friendName
+            // ignore: unnecessary_statements
             ? null
             : DatabaseMethods().updateUnreadMessagy(chatRoomId);
       },

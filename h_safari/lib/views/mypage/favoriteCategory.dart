@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/widget/widget.dart';
 
+// ignore: must_be_immutable
 class FavoriteCategory extends StatefulWidget {
   DocumentSnapshot tp;
 
@@ -72,49 +73,50 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
             height: MediaQuery.of(context).size.height * 0.03,
           ),
           GridView.count(
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 25,
-            padding: EdgeInsets.all(25),
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 25,
+              padding: EdgeInsets.all(25),
               shrinkWrap: true,
               crossAxisCount: 2,
               childAspectRatio: (1.7),
               children: List.generate(8, (index) {
                 return ButtonTheme(
-                          padding: EdgeInsets.all(0),
-                          minWidth: 160,
-                          height: 100,
-                          child: RaisedButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: 70,
-                                  child: Text(categoryName[index], style: TextStyle(fontSize: 15),),),
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  child: Image.asset(
-                                    categoryImage[index],
-                                    fit: BoxFit.fill,
-                                  ),
-                                )
-                              ],
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                side: BorderSide(color: Colors.black12)
-                            ),
-                            color: button[index]
-                                ? Colors.green[200]
-                                : Colors.white,
-                            onPressed: () {
-                              setState(() {
-                                button[index] = !button[index];
-                              });
-                            },
+                  padding: EdgeInsets.all(0),
+                  minWidth: 160,
+                  height: 100,
+                  child: RaisedButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.center,
+                          width: 70,
+                          child: Text(
+                            categoryName[index],
+                            style: TextStyle(fontSize: 15),
                           ),
-                    );
+                        ),
+                        Container(
+                          width: 70,
+                          height: 70,
+                          child: Image.asset(
+                            categoryImage[index],
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                      ],
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        side: BorderSide(color: Colors.black12)),
+                    color: button[index] ? Colors.green[200] : Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        button[index] = !button[index];
+                      });
+                    },
+                  ),
+                );
               })),
           SizedBox(
             height: 10,

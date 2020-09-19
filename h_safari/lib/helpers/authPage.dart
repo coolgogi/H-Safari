@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/login/signIn.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -16,7 +17,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   FirebaseProvider fp;
 
-  final Firestore _db = Firestore.instance;
+  final Firestore _db = Firestore.instance; //FirebaseFirestore <-> Firestore
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final String fnEmail = "user";
   final String fToken = "token";
@@ -47,7 +48,10 @@ class _AuthPageState extends State<AuthPage> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("확인", style: TextStyle(color: Colors.green),),
+                child: Text(
+                  "확인",
+                  style: TextStyle(color: Colors.green),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               )
             ],
@@ -76,7 +80,6 @@ class _AuthPageState extends State<AuthPage> {
     if (token == null) return;
     var user = _db.collection("users").document(fp.getUser().email);
     await user.updateData({fToken: token, fPlatform: Platform.operatingSystem});
-
   }
 
   void showMessageEditor(String token) {
@@ -127,7 +130,8 @@ class _AuthPageState extends State<AuthPage> {
 
   // token에 해당하는 디바이스로 FCM 전송
   void sendSampleFCM(String token) async {
-    final HttpsCallableResult result = await sendFCM.call(
+    // final HttpsCallableResult result = await sendFCM.call(
+    await sendFCM.call(
       <String, dynamic>{
         fToken: token,
         "title": "Sample Title",
@@ -145,7 +149,8 @@ class _AuthPageState extends State<AuthPage> {
       }
     });
     if (tokenList.length == 0) return;
-    final HttpsCallableResult result = await sendFCM.call(
+    // final HttpsCallableResult result = await sendFCM.call(
+    await sendFCM.call(
       <String, dynamic>{
         fToken: tokenList,
         "title": "Sample Title",

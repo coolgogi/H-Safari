@@ -8,15 +8,18 @@ class DatabaseMethods {
         ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
 
   Future<void> addUserInfo(userData) async {
+    // Firestore.instance
     Firestore.instance.collection("users").add(userData).catchError((e) {
       print(e.toString());
     });
   }
 
   getUserInfo(String email) async {
+    // return Firestore.instance
     return Firestore.instance
         .collection("users")
         .where("userEmail", isEqualTo: email)
+        // .get()
         .getDocuments()
         .catchError((e) {
       print(e.toString());
@@ -40,7 +43,8 @@ class DatabaseMethods {
         .getDocuments();
   }
 
-  Future<bool> addChatRoom(chatRoom, chatRoomId) {
+  // Future<bool> addChatRoom(chatRoom, chatRoomId) {
+  void addChatRoom(chatRoom, chatRoomId) {
     Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
@@ -63,7 +67,8 @@ class DatabaseMethods {
     Firestore.instance.collection('chatRoom').document(docID).delete();
   }
 
-  Future<void> addMessage(String chatRoomId, chatMessageData) {
+  // Future<void> addMessage(String chatRoomId, chatMessageData) {
+  void addMessage(String chatRoomId, chatMessageData) {
     Firestore.instance
         .collection("chatRoom")
         .document(chatRoomId)
@@ -95,7 +100,8 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<void> addComment(String docId, commentData) {
+  // Future<void> addComment(String docId, commentData) {
+  void addComment(String docId, commentData) {
     Firestore.instance
         .collection("post")
         .document(docId)
@@ -106,7 +112,8 @@ class DatabaseMethods {
     });
   }
 
-  Future<void> addReComment(String docId, String redocId, commentData) {
+  // Future<void> addReComment(String docId, String redocId, commentData) {
+  void addReComment(String docId, String redocId, commentData) {
     Firestore.instance
         .collection("post")
         .document(docId)
@@ -259,12 +266,14 @@ class DatabaseMethods {
         .document(userEmail)
         .get()
         .then((doc) {
+      // sendSampleFCM(doc.get("token"), type);
       sendSampleFCM(doc["token"], type);
     });
   }
 
   void sendSampleFCM(String token, String type) async {
-    final HttpsCallableResult result = await sendFCM.call(
+    // final HttpsCallableResult result = await sendFCM.call(
+    await sendFCM.call(
       <String, dynamic>{"token": token, "title": type, "body": "알림을 확인하세요!"},
     );
   }

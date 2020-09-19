@@ -69,6 +69,7 @@ Widget appBarSelect(BuildContext context, String title) {
 }
 
 // AppBar의 title (검색창)
+// ignore: non_constant_identifier_names
 Widget AppBarTitle(BuildContext context) {
   return Row(
     children: <Widget>[
@@ -189,6 +190,8 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     '$priceComma원',

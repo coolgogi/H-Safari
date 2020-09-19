@@ -29,14 +29,13 @@ class _AlarmState extends State<Alarm> {
                 children:
                     snapshot.data.documents.map((DocumentSnapshot document) {
                   return alertTile(
-                    document['type'],
-                    document['sendBy'],
-                    document['time'],
-                    document['postName'],
-                    document['postID'],
-                    document['unread'],
-                    document.documentID,
-                  );
+                      document['type'],
+                      document['sendBy'],
+                      document['time'],
+                      document['postName'],
+                      document['postID'],
+                      document['unread'],
+                      document.documentID);
                 }).toList(),
               )
             : Container();

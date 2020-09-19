@@ -23,23 +23,23 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app use this Usage for writing post.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app use this Usage for writing post.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app don't use this Usage.</string>
+	<string>This app don&apos;t use this Usage.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

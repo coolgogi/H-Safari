@@ -101,14 +101,14 @@ class _ChatRoomState extends State<ChatRoom> {
                 itemBuilder: (context, index) {
                   return MessageTile(
                     context,
-                    snapshot.data.documents[index].data["message"],
+                    snapshot.data.docs[index].get("message"),
                     currentUser.email ==
-                        snapshot.data.documents[index].data["sendBy"],
-                    snapshot.data.documents[index].data["date"],
-                    index == snapshot.data.documents.length - 1
+                        snapshot.data.docs[index].get("sendBy"),
+                    snapshot.data.docs[index].get("date"),
+                    index == snapshot.data.docs.length - 1
                         ? previousDate = "0"
                         : previousDate =
-                            ((snapshot.data.documents[index + 1].data["date"])
+                            ((snapshot.data.docs[index + 1].get("date"))
                                 .split(RegExp(r" |:")))[0],
                   );
                 })
@@ -181,6 +181,7 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget MessageTile(BuildContext context, String message, bool sendByMe,
       String date, String previousDate) {
     var allTime = date.split(RegExp(r" |:"));
