@@ -73,7 +73,7 @@ class _SearchState extends State<Search> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
+            stream: Firestore.instance
                 .collection('post')
                 .orderBy("datetime", descending: true)
                 .snapshots(),
@@ -88,11 +88,11 @@ class _SearchState extends State<Search> {
                       child: ListView(
                         controller: listScrollController,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          String title = document.get("name");
-                          bool close = document.get('close');
-                          priceComma = document.get('price').replaceAllMapped(
+                        children: snapshot.data.documents
+                            .map((DocumentSnapshot document) {
+                          String title = document["name"];
+                          bool close = document['close'];
+                          priceComma = document['price'].replaceAllMapped(
                               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                               (match) => '${match[1]},');
                           if (!_IsSearching)
@@ -138,7 +138,7 @@ class _SearchState extends State<Search> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => currentEmail == doc.get('email')
+            builder: (context) => currentEmail == doc['email']
                 ? Post(doc, true)
                 : Post(doc, false)));
   }

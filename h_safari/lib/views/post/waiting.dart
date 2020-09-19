@@ -121,7 +121,7 @@ class _WaitingState extends State<Waiting> {
   }
 
   void sendMessage(String friendEmail, int turn, String postName) async {
-    User user = FirebaseAuth.instance.currentUser;
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
     List<String> users = [_user, friendEmail];
     String chatRoomName = "$turn번째_$postName";

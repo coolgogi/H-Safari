@@ -47,9 +47,9 @@ class _PostState extends State<Post> {
   String currentEmail;
 
   _PostState(DocumentSnapshot doc) {
-    fnName = doc.get('name');
-    fnDes = doc.get('description');
-    var time = doc.get('datetime').toDate();
+    fnName = doc['name'];
+    fnDes = doc['description'];
+    var time = doc['datetime'].toDate();
     var date = DateFormat('yyyy-MM-dd').add_Hms().format(time);
     var allTime = date.split(RegExp(r"-| |:"));
     var year = allTime[0];
@@ -58,17 +58,17 @@ class _PostState extends State<Post> {
     var hour = allTime[3];
     var minute = allTime[4];
     fnDate = year + "/" + month + "/" + day + " " + hour + ":" + minute;
-    fnPrice = doc.get('price');
-    fnImage = doc.get('imageUrl');
-    fnImageList = doc.get('imageList');
-    fnUid = doc.get('uid');
-    fnCategory = doc.get('category');
-    fnHow = doc.get('how');
-    fnEmail = doc.get('email');
-    fnId = doc.id;
-    fnCommentUserList = doc.get('commentUserList');
-    fnWaitingUserList = doc.get('waitingUserList');
-    fnClose = doc.get('close');
+    fnPrice = doc['price'];
+    fnImage = doc['imageUrl'];
+    fnImageList = doc['imageList'];
+    fnUid = doc['uid'];
+    fnCategory = doc['category'];
+    fnHow = doc['how'];
+    fnEmail = doc['email'];
+    fnId = doc.documentID;
+    fnCommentUserList = doc['commentUserList'];
+    fnWaitingUserList = doc['waitingUserList'];
+    fnClose = doc['close'];
   }
 
   FirebaseProvider fp;
@@ -86,7 +86,7 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.doc.id).then((val) {
+    DatabaseMethods().getComments(widget.doc.documentID).then((val) {
       setState(() {
         comments = val;
         priceComma = fnPrice.replaceAllMapped(
@@ -531,10 +531,10 @@ class _PostState extends State<Post> {
                     already(context);
                   } else {
                     fnWaitingUserList.add(fp.getUser().email);
-                    FirebaseFirestore.instance
+                    Firestore.instance
                         .collection('post')
-                        .doc(widget.doc.id)
-                        .update({
+                        .document(widget.doc.documentID)
+                        .updateData({
                       "waitingUserList": fnWaitingUserList,
                     });
                     Map<String, dynamic> purchaseApplication = {
@@ -544,7 +544,7 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.id,
+                      "postID": widget.doc.documentID,
                       "unread": true,
                     };
                     Map<String, dynamic> userList = {
@@ -552,13 +552,13 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.id,
+                      "postID": widget.doc.documentID,
                     };
                     DatabaseMethods()
                         .sendNotification(fnEmail, purchaseApplication);
                     DatabaseMethods().updateUnreadNotification(fnEmail, true);
                     DatabaseMethods()
-                        .addWant(currentEmail, widget.doc.id, userList);
+                        .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
                     success(context);
                   }
@@ -592,7 +592,7 @@ class _PostState extends State<Post> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  DatabaseMethods().closePost(widget.doc.id);
+                  DatabaseMethods().closePost(widget.doc.documentID);
                   Navigator.pop(context, '취소');
                   fnClose = true;
                   setState(() {});
@@ -605,7 +605,7 @@ class _PostState extends State<Post> {
 
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
-    User currentUser = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> commentMap = {
         "sendBy": currentUser.email,
@@ -617,20 +617,20 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.id,
+        "postID": widget.doc.documentID,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        FirebaseFirestore.instance
+        Firestore.instance
             .collection('post')
-            .doc(widget.doc.id)
-            .update({
+            .document(widget.doc.documentID)
+            .updateData({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods().addComment(widget.doc.id, commentMap);
+      DatabaseMethods().addComment(widget.doc.documentID, commentMap);
       DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
@@ -648,7 +648,7 @@ class _PostState extends State<Post> {
 
   void addReComment(redocId) {
     fp = Provider.of<FirebaseProvider>(context);
-    User currentUser = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> recommentMap = {
         "sendBy": currentUser.email,
@@ -660,20 +660,21 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.id,
+        "postID": widget.doc.documentID,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        FirebaseFirestore.instance
+        Firestore.instance
             .collection('post')
-            .doc(widget.doc.id)
-            .update({
+            .document(widget.doc.documentID)
+            .updateData({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods().addReComment(widget.doc.id, redocId, recommentMap);
+      DatabaseMethods()
+          .addReComment(widget.doc.documentID, redocId, recommentMap);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
@@ -701,25 +702,22 @@ class _PostState extends State<Post> {
                   (DocumentSnapshot document) {
                     return Column(
                       children: <Widget>[
-                        commentTile(
-                            document.get('sendBy'),
-                            document.get('comment'),
-                            document.get('date'),
-                            document.id),
+                        commentTile(document['sendBy'], document['comment'],
+                            document['date'], document.documentID),
                         SizedBox(
                           height: 5,
                         ),
                         StreamBuilder(
-                          stream: FirebaseFirestore.instance
+                          stream: Firestore.instance
                               .collection("post")
-                              .doc(widget.doc.id)
+                              .document(widget.doc.documentID)
                               .collection("comments")
-                              .doc(document.id)
+                              .document(document.documentID)
                               .collection("recomments")
                               .orderBy('date')
                               .snapshots(),
                           builder: (context, snapshots) {
-                            String codocId = document.id;
+                            String codocId = document.documentID;
                             return snapshots.hasData
                                 ? ListView(
                                     physics:
@@ -731,11 +729,11 @@ class _PostState extends State<Post> {
                                         .map<Widget>(
                                             (DocumentSnapshot document) {
                                       return recommentTile(
-                                          document.get('sendBy'),
-                                          document.get('recomment'),
-                                          document.get('date'),
+                                          document['sendBy'],
+                                          document['recomment'],
+                                          document['date'],
                                           codocId,
-                                          document.id);
+                                          document.documentID);
                                     }).toList(),
                                   )
                                 : Container();
@@ -915,7 +913,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods().deleteComment(widget.doc.id, codocId);
+                    DatabaseMethods()
+                        .deleteComment(widget.doc.documentID, codocId);
                     Navigator.pop(context);
                   },
                 )
@@ -949,8 +948,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods()
-                        .deleteReComment(widget.doc.id, codocId, recodocId);
+                    DatabaseMethods().deleteReComment(
+                        widget.doc.documentID, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )

@@ -24,7 +24,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    User currentUser = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
     int idx = currentUser.email.indexOf("@");
     currentId = currentUser.email.substring(0, idx);
     return Scaffold(
@@ -132,10 +132,10 @@ class _MyPageState extends State<MyPage> {
                       setState(() {
                         _isSwitchedNum = value;
                       });
-                      FirebaseFirestore.instance
+                      Firestore.instance
                           .collection("users")
-                          .doc(fp.getUser().email)
-                          .update({
+                          .document(fp.getUser().email)
+                          .updateData({
                         "마감": _isSwitchedNum,
                       });
                     },
@@ -248,10 +248,10 @@ class _MyPageState extends State<MyPage> {
                 title: Text('로그아웃'),
                 onTap: () {
                   fp.signOut();
-                  var user = FirebaseFirestore.instance
+                  var user = Firestore.instance
                       .collection("users")
-                      .doc(fp.getUser().email);
-                  user.update({"token": "", "platform": ""});
+                      .document(fp.getUser().email);
+                  user.updateData({"token": "", "platform": ""});
                 }),
           ],
         ),
@@ -260,7 +260,7 @@ class _MyPageState extends State<MyPage> {
   }
 
   void showFavorite(String email) {
-    FirebaseFirestore.instance.collection("users").doc(email).get().then((doc) {
+    Firestore.instance.collection("users").document(email).get().then((doc) {
       moveFavorite(doc);
     });
   }

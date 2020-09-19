@@ -43,7 +43,8 @@ class _CategoryViewState extends State<CategoryView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
+        // stream: FirebaseFirestore.instance
+        stream: Firestore.instance
             .collection('post')
             .orderBy("datetime", descending: true)
             .snapshots(),
@@ -54,9 +55,10 @@ class _CategoryViewState extends State<CategoryView> {
               return Text("Loading...");
             default:
               return ListView(
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
-                  String postCategory = document.get('category');
-                  bool close = document.get('close');
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
+                  String postCategory = document['category'];
+                  bool close = document['close'];
 
                   if (!(postCategory == select))
                     return Container();
@@ -93,9 +95,8 @@ class _CategoryViewState extends State<CategoryView> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => email == doc.get('email')
-                ? Post(doc, true)
-                : Post(doc, false)));
+            builder: (context) =>
+                email == doc['email'] ? Post(doc, true) : Post(doc, false)));
   }
 
   Widget appBarSelect(BuildContext context, String title) {

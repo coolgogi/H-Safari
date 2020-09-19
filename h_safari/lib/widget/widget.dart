@@ -162,8 +162,8 @@ String priceComma;
 
 // home, search 의 게시글 UI
 Widget postTile(BuildContext context, DocumentSnapshot document) {
-  bool close = document.get('close');
-  priceComma = document.get('price').replaceAllMapped(
+  bool close = document['close'];
+  priceComma = document['price'].replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
   return Container(
     decoration: BoxDecoration(
@@ -184,7 +184,7 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    document.get("name"),
+                    document["name"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
                       fontSize: 15,
@@ -199,7 +199,7 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    document.get("description"),
+                    document["description"],
                     style: TextStyle(
                       color: close ? Colors.grey : Colors.black,
                       fontSize: 11,
@@ -220,7 +220,7 @@ Widget postTile(BuildContext context, DocumentSnapshot document) {
 Widget listPhoto(BuildContext context, DocumentSnapshot document) {
   String fnImageUrl = 'imageUrl';
   String fnClose = 'close';
-  String _profileImageURL = document.get(fnImageUrl);
+  String _profileImageURL = document[fnImageUrl];
   return Container(
       width: MediaQuery.of(context).size.width / 10 * 2.5,
       height: MediaQuery.of(context).size.width / 10 * 2.5,
@@ -230,7 +230,7 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
       child: (_profileImageURL != "")
           ? ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
-              child: document.get(fnClose)
+              child: document[fnClose]
                   ? Stack(children: <Widget>[
                       Container(
                         width: 250,
@@ -251,7 +251,7 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                     ))
           : ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
-              child: document.get(fnClose)
+              child: document[fnClose]
                   ? Stack(children: <Widget>[
                       Container(
                         width: 250,

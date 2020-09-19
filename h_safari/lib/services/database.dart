@@ -8,70 +8,70 @@ class DatabaseMethods {
         ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
 
   Future<void> addUserInfo(userData) async {
-    FirebaseFirestore.instance
-        .collection("users")
-        .add(userData)
-        .catchError((e) {
+    // Firestore.instance
+    Firestore.instance.collection("users").add(userData).catchError((e) {
       print(e.toString());
     });
   }
 
   getUserInfo(String email) async {
-    return FirebaseFirestore.instance
+    // return Firestore.instance
+    return Firestore.instance
         .collection("users")
         .where("userEmail", isEqualTo: email)
-        .get()
+        // .get()
+        .getDocuments()
         .catchError((e) {
       print(e.toString());
     });
   }
 
   getUserData(String email) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("users")
         .where("user", isEqualTo: email)
-        .get()
+        .getDocuments()
         .catchError((e) {
       print(e.toString());
     });
   }
 
   searchByName(String searchField) {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("users")
         .where('userName', isEqualTo: searchField)
-        .get();
+        .getDocuments();
   }
 
   // Future<bool> addChatRoom(chatRoom, chatRoomId) {
   void addChatRoom(chatRoom, chatRoomId) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("chatRoom")
-        .doc(chatRoomId)
-        .set(chatRoom)
+        .document(chatRoomId)
+        .setData(chatRoom)
         .catchError((e) {
       print(e);
     });
   }
 
   Future<dynamic> getChats(String chatRoomId) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("chatRoom")
-        .doc(chatRoomId)
+        .document(chatRoomId)
         .collection("chats")
         .orderBy('date', descending: true)
         .snapshots();
   }
 
   deleteChatRoom(String docID) {
-    FirebaseFirestore.instance.collection('chatRoom').doc(docID).delete();
+    Firestore.instance.collection('chatRoom').document(docID).delete();
   }
 
   // Future<void> addMessage(String chatRoomId, chatMessageData) {
   void addMessage(String chatRoomId, chatMessageData) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("chatRoom")
-        .doc(chatRoomId)
+        .document(chatRoomId)
         .collection("chats")
         .add(chatMessageData)
         .catchError((e) {
@@ -80,9 +80,9 @@ class DatabaseMethods {
   }
 
   getComments(String docId) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("post")
-        .doc(docId)
+        .document(docId)
         .collection("comments")
         .orderBy('date')
         .snapshots();
@@ -90,11 +90,11 @@ class DatabaseMethods {
 
   getReComments(String docId, String redocId) async {
     print(redocId);
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("post")
-        .doc(docId)
+        .document(docId)
         .collection("comments")
-        .doc(redocId)
+        .document(redocId)
         .collection("recomments")
         .orderBy('date')
         .snapshots();
@@ -102,9 +102,9 @@ class DatabaseMethods {
 
   // Future<void> addComment(String docId, commentData) {
   void addComment(String docId, commentData) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("post")
-        .doc(docId)
+        .document(docId)
         .collection("comments")
         .add(commentData)
         .catchError((e) {
@@ -114,11 +114,11 @@ class DatabaseMethods {
 
   // Future<void> addReComment(String docId, String redocId, commentData) {
   void addReComment(String docId, String redocId, commentData) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("post")
-        .doc(docId)
+        .document(docId)
         .collection("comments")
-        .doc(redocId)
+        .document(redocId)
         .collection("recomments")
         .add(commentData)
         .catchError((e) {
@@ -127,45 +127,45 @@ class DatabaseMethods {
   }
 
   deleteComment(String docID, String codocId) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection('post')
-        .doc(docID)
+        .document(docID)
         .collection('comments')
-        .doc(codocId)
+        .document(codocId)
         .delete();
   }
 
   deleteReComment(String docID, String codocId, String recodocId) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection('post')
-        .doc(docID)
+        .document(docID)
         .collection('comments')
-        .doc(codocId)
+        .document(codocId)
         .collection('recomments')
-        .doc(recodocId)
+        .document(recodocId)
         .delete();
   }
 
   Future<dynamic> getUserChats(String itIsMyName) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("chatRoom")
         .orderBy('lastDate', descending: true)
         .snapshots();
   }
 
   getUserAlarms(String name) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("users")
-        .doc(name)
+        .document(name)
         .collection("notification")
         .orderBy('time', descending: true)
         .snapshots();
   }
 
   getWaitingList(String documentID) async {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("post")
-        .doc(documentID)
+        .document(documentID)
         .collection("userList")
         .orderBy('time', descending: true)
         .snapshots();
@@ -173,10 +173,10 @@ class DatabaseMethods {
 
   updateLast(String chatRoomId, String message, String date, String sendBy,
       bool unread) {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("chatRoom")
-        .doc(chatRoomId)
-        .update({
+        .document(chatRoomId)
+        .updateData({
       'lastMessage': message,
       'lastDate': date,
       'lastSendBy': sendBy,
@@ -185,35 +185,35 @@ class DatabaseMethods {
   }
 
   updateUnreadMessagy(String chatRoomId) {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("chatRoom")
-        .doc(chatRoomId)
-        .update({
+        .document(chatRoomId)
+        .updateData({
       'unread': false,
     });
   }
 
   updateUnreadAlram(String myEmail, String documentID) {
-    return FirebaseFirestore.instance
+    return Firestore.instance
         .collection("users")
-        .doc(myEmail)
+        .document(myEmail)
         .collection("notification")
-        .doc(documentID)
-        .update({
+        .document(documentID)
+        .updateData({
       'unread': false,
     });
   }
 
   closePost(String docId) {
-    return FirebaseFirestore.instance.collection("post").doc(docId).update({
+    return Firestore.instance.collection("post").document(docId).updateData({
       'close': true,
     });
   }
 
   void sendNotification(String userId, commentNotification) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("users")
-        .doc(userId)
+        .document(userId)
         .collection("notification")
         .add(commentNotification)
         .catchError((e) {
@@ -223,15 +223,15 @@ class DatabaseMethods {
   }
 
   updateUnreadNotification(String myEmail, how) {
-    return FirebaseFirestore.instance.collection("users").doc(myEmail).update({
+    return Firestore.instance.collection("users").document(myEmail).updateData({
       'unreadNotification': how,
     });
   }
 
   addWant(String email, String docId, userList) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("post")
-        .doc(docId)
+        .document(docId)
         .collection("userList")
         .add(userList)
         .catchError((e) {
@@ -243,7 +243,7 @@ class DatabaseMethods {
       String imageList, String category, String how) {
     List<String> splitString = imageList.split('우주최강CRA');
 
-    FirebaseFirestore.instance.collection('post').doc(docID).update({
+    Firestore.instance.collection('post').document(docID).updateData({
       "name": name,
       "description": description,
       "price": price,
@@ -255,18 +255,19 @@ class DatabaseMethods {
   }
 
   deletePostDoc(BuildContext context, String docID) {
-    FirebaseFirestore.instance.collection('post').doc(docID).delete();
+    Firestore.instance.collection('post').document(docID).delete();
     Navigator.pop(context);
     Navigator.pop(context);
   }
 
   void sendMessage(String userEmail, String type) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("users")
-        .doc(userEmail)
+        .document(userEmail)
         .get()
         .then((doc) {
-      sendSampleFCM(doc.get("token"), type);
+      // sendSampleFCM(doc.get("token"), type);
+      sendSampleFCM(doc["token"], type);
     });
   }
 

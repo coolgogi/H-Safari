@@ -55,7 +55,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
+          stream: Firestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -67,13 +67,13 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document.get("close");
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
 
                     if (close) {
                       return Container();
-                    } else if (document
-                        .get("waitingUserList")
+                    } else if (document["waitingUserList"]
                         .contains(widget.userEmail)) {
                       return InkWell(
                         onTap: () {
@@ -97,7 +97,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
+          stream: Firestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -109,13 +109,13 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document.get("close");
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document["close"];
 
                     if (!close) {
                       return Container();
-                    } else if (document
-                        .get("waitingUserList")
+                    } else if (document["waitingUserList"]
                         .contains(widget.userEmail)) {
                       return InkWell(
                           onTap: () {

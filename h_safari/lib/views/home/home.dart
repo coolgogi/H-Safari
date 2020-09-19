@@ -51,13 +51,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     super.initState();
 
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("users")
-        .doc(widget.email)
+        .document(widget.email)
         .get()
         .then((doc) {
       setCategoryData(doc);
-      unreadNotification = doc.get('unreadNotification');
+      unreadNotification = doc['unreadNotification'];
     });
   }
 
@@ -150,9 +150,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   setCategoryData(DocumentSnapshot doc) {
     for (int i = 0; i < 8; i++) {
-      categoryBool[i] = doc.get(categoryString[i]);
+      categoryBool[i] = doc[categoryString[i]];
     }
-    wantToSeeFinished = doc.get("마감");
+    wantToSeeFinished = doc["마감"];
     setState(() {});
   }
 
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => widget.email == doc.get('email')
+            builder: (context) => widget.email == doc['email']
                 ? Post(doc, true)
                 : Post(doc, false)));
   }
@@ -170,7 +170,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
+          stream: Firestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -182,8 +182,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document.get('close');
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document['close'];
                     return (close && !wantToSeeFinished)
                         ? Container()
                         : InkWell(
@@ -206,7 +207,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
+          stream: Firestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -218,24 +219,25 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document.get('close');
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document['close'];
 
-                    if (document.get('category') == "의류")
+                    if (document['category'] == "의류")
                       tempInt = 0;
-                    else if (document.get('category') == "서적")
+                    else if (document['category'] == "서적")
                       tempInt = 1;
-                    else if (document.get('category') == "음식")
+                    else if (document['category'] == "음식")
                       tempInt = 2;
-                    else if (document.get('category') == "생활용품")
+                    else if (document['category'] == "생활용품")
                       tempInt = 3;
-                    else if (document.get('category') == "가구전자제품")
+                    else if (document['category'] == "가구전자제품")
                       tempInt = 4;
-                    else if (document.get('category') == "뷰티잡화")
+                    else if (document['category'] == "뷰티잡화")
                       tempInt = 5;
-                    else if (document.get('category') == "양도")
+                    else if (document['category'] == "양도")
                       tempInt = 6;
-                    else if (document.get('category') == "기타") tempInt = 7;
+                    else if (document['category'] == "기타") tempInt = 7;
 
                     if (!categoryBool[tempInt]) {
                       return Container();

@@ -26,16 +26,16 @@ class _AlarmState extends State<Alarm> {
         return snapshot.hasData
             ? ListView(
                 shrinkWrap: true,
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
                   return alertTile(
-                    document.get('type'),
-                    document.get('sendBy'),
-                    document.get('time'),
-                    document.get('postName'),
-                    document.get('postID'),
-                    document.get('unread'),
-                    document.id,
-                  );
+                      document['type'],
+                      document['sendBy'],
+                      document['time'],
+                      document['postName'],
+                      document['postID'],
+                      document['unread'],
+                      document.documentID);
                 }).toList(),
               )
             : Container();
@@ -50,7 +50,7 @@ class _AlarmState extends State<Alarm> {
   }
 
   getUserInfogetAlarms() async {
-    User user = FirebaseAuth.instance.currentUser;
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DatabaseMethods().getUserAlarms(user.email.toString()).then((snapshots) {
       setState(() {
         alarm = snapshots;
@@ -143,9 +143,9 @@ class _AlarmState extends State<Alarm> {
   }
 
   void showDocument(String documentID, String type) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection('post')
-        .doc(documentID)
+        .document(documentID)
         .get()
         .then((doc) {
       if (!doc.exists) {
@@ -159,7 +159,7 @@ class _AlarmState extends State<Alarm> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => doc.get("email") == (userEmail)
+            builder: (context) => doc["email"] == (userEmail)
                 ? Post(doc, true)
                 : Post(doc, false)));
   }

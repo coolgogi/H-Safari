@@ -31,15 +31,15 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
 
   _FavoriteCategoryState(DocumentSnapshot doc) {
     tp = doc;
-    userEmail = tp.get('user');
-    button[0] = tp.get('의류');
-    button[1] = tp.get('서적');
-    button[2] = tp.get('음식');
-    button[3] = tp.get('생활용품');
-    button[4] = tp.get('가구전자제품');
-    button[5] = tp.get('뷰티잡화');
-    button[6] = tp.get('양도');
-    button[7] = tp.get('기타');
+    userEmail = tp['user'];
+    button[0] = tp['의류'];
+    button[1] = tp['서적'];
+    button[2] = tp['음식'];
+    button[3] = tp['생활용품'];
+    button[4] = tp['가구전자제품'];
+    button[5] = tp['뷰티잡화'];
+    button[6] = tp['양도'];
+    button[7] = tp['기타'];
   }
 
   List<String> categoryImage = [
@@ -158,7 +158,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
 
   void updateFavorite() {
     String colName = "users";
-    FirebaseFirestore.instance.collection(colName).doc(userEmail).update({
+    Firestore.instance.collection(colName).document(userEmail).updateData({
       '의류': button[0],
       '서적': button[1],
       '음식': button[2],

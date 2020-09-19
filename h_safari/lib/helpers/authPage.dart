@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/login/signIn.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -16,7 +17,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   FirebaseProvider fp;
 
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final Firestore _db = Firestore.instance; //FirebaseFirestore <-> Firestore
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final String fnEmail = "user";
   final String fToken = "token";
@@ -64,7 +65,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     logger.d("user: ${fp.getUser()}");
-    if (fp.getUser() != null && fp.getUser().emailVerified == true) {
+    if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
       String tp = fp.getUser().email.toString();
       updateUserInfo();
       return BottomBar(tp);
@@ -77,8 +78,8 @@ class _AuthPageState extends State<AuthPage> {
     if (fp.getUser() == null) return;
     String token = await _fcm.getToken();
     if (token == null) return;
-    var user = _db.collection("users").doc(fp.getUser().email);
-    await user.update({fToken: token, fPlatform: Platform.operatingSystem});
+    var user = _db.collection("users").document(fp.getUser().email);
+    await user.updateData({fToken: token, fPlatform: Platform.operatingSystem});
   }
 
   void showMessageEditor(String token) {

@@ -40,7 +40,7 @@ class _MyWriteState extends State<MyWrite> {
 
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  User _user;
+  FirebaseUser _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
@@ -53,7 +53,8 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void _prepareService() async {
-    _user = _firebaseAuth.currentUser;
+    // _user = _firebaseAuth.currentUser;
+    _user = await _firebaseAuth.currentUser();
   }
 
   List<File> pictures;
@@ -575,16 +576,16 @@ class _MyWriteState extends State<MyWrite> {
 
   void createDoc(String name, String description, String price, String imageURL,
       String picURL) async {
-    final User user = FirebaseAuth.instance.currentUser;
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DocumentReference documentReference =
-        FirebaseFirestore.instance.collection("post").doc();
+        Firestore.instance.collection("post").document();
     List<String> splitString = picURL.split('우주최강CRA');
 
     List<String> co = List();
     co.add(user.email);
     List<String> wa = List();
 
-    documentReference.set({
+    documentReference.setData({
       "name": name,
       "description": description,
       "datetime": Timestamp.now(),
@@ -600,13 +601,13 @@ class _MyWriteState extends State<MyWrite> {
       "close": false,
     });
     Navigator.pop(this.context);
-    showDocument(documentReference.id);
+    showDocument(documentReference.documentID);
   }
 
   void showDocument(String documentID) {
-    FirebaseFirestore.instance
+    Firestore.instance
         .collection("post")
-        .doc(documentID)
+        .document(documentID)
         .get()
         .then((doc) {
       showReadPostPage(doc);

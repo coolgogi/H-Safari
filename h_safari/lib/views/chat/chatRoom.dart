@@ -88,7 +88,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
-    User currentUser = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
@@ -119,7 +119,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   addMessage() {
     fp = Provider.of<FirebaseProvider>(context);
-    User currentUser = fp.getUser();
+    FirebaseUser currentUser = fp.getUser();
     if (messageEditingController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "sendBy": currentUser.email,

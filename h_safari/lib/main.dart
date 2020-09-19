@@ -5,8 +5,8 @@ import 'helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firestore.initializeApp();
   runApp(MyApp());
 }
 
