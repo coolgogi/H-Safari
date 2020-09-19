@@ -61,23 +61,23 @@ class _BottomBarState extends State<BottomBar> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: 'Home',
+                  title: Text('홈'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.menu),
-                  label: 'Category',
+                  title: Text('카테고리'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.add_circle_outline),
-                  label: 'Write',
+                  title: Text('글쓰기'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.chat_bubble_outline),
-                  label: 'Chat',
+                  title: Text('채팅'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
-                  label: 'MyPage',
+                  title: Text('마이페이지'),
                 ),
               ])),
     );
