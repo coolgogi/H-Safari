@@ -101,14 +101,14 @@ class _ChatRoomState extends State<ChatRoom> {
                 itemBuilder: (context, index) {
                   return MessageTile(
                     context,
-                    snapshot.data.docs[index].get("message"),
+                    snapshot.data.documents[index].data["message"],
                     currentUser.email ==
-                        snapshot.data.docs[index].get("sendBy"),
-                    snapshot.data.docs[index].get("date"),
-                    index == snapshot.data.docs.length - 1
+                        snapshot.data.documents[index].data["sendBy"],
+                    snapshot.data.documents[index].data["date"],
+                    index == snapshot.data.documents.length - 1
                         ? previousDate = "0"
                         : previousDate =
-                            ((snapshot.data.docs[index + 1].get("date"))
+                            ((snapshot.data.documents[index + 1].data["date"])
                                 .split(RegExp(r" |:")))[0],
                   );
                 })
