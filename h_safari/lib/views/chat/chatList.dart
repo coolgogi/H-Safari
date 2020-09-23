@@ -49,34 +49,34 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if (snapshot.data.docs[index]
-                      .get('users')
+                  if (snapshot.data.documents[index]
+                      .data['users']
                       .contains(widget.email)) {
                     return ChatRoomsTile(
                       context,
-                      snapshot.data.docs[index].get('users'),
-                      snapshot.data.docs[index].get("chatRoomName"),
-                      snapshot.data.docs[index].get('lastMessage'),
-                      snapshot.data.docs[index]
-                              .get('lastDate')
+                      snapshot.data.documents[index].data['users'],
+                      snapshot.data.documents[index].data["chatRoomName"],
+                      snapshot.data.documents[index].data['lastMessage'],
+                      snapshot.data.documents[index]
+                              .data['lastDate']
                               .split(RegExp(r" |:|-"))[1] +
                           '/' +
                           snapshot.data.documents[index]
-                              .get('lastDate')
+                              .data['lastDate']
                               .split(RegExp(r" |:|-"))[2] +
                           '\n' +
                           snapshot.data.documents[index]
-                              .get('lastDate')
+                              .data['lastDate']
                               .split(RegExp(r" |:|-"))[3] +
                           ':' +
                           snapshot.data.documents[index]
-                              .get('lastDate')
+                              .data['lastDate']
                               .split(RegExp(r" |:|-"))[4],
-                      snapshot.data.documents[index].get("lastSendBy"),
-                      snapshot.data.documents[index].get("lastSendBy") ==
+                      snapshot.data.documents[index].data["lastSendBy"],
+                      snapshot.data.documents[index].data["lastSendBy"] ==
                               widget.email
                           ? false
-                          : snapshot.data.documents[index].get('unread'),
+                          : snapshot.data.documents[index].data['unread'],
                     );
                   } else {
                     return Container();

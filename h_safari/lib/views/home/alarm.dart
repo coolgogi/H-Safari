@@ -123,6 +123,8 @@ class _AlarmState extends State<Alarm> {
                 Text(
                   "$type  (게시글: $postName) ",
                   style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   getTitle(type),
