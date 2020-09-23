@@ -34,49 +34,51 @@ class _MyCategoryState extends State<MyCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain('카테고리'),
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-          GridView.count(
-            padding: EdgeInsets.fromLTRB(40, 30, 40, 40),
-            crossAxisSpacing: 40,
-            mainAxisSpacing: 40,
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            childAspectRatio: (1.7),
-            children: List.generate(8, (index) {
-              return InkWell(
-                  child: Container(
-                    child: Image.asset(
-                      _categoryImage[index],
-                      fit: BoxFit.fill,
-                    ),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('Logo/categoryImage/m_1_clothes.png'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            GridView.count(
+              padding: EdgeInsets.fromLTRB(40, 30, 40, 40),
+              crossAxisSpacing: 40,
+              mainAxisSpacing: 40,
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              childAspectRatio: (1.7),
+              children: List.generate(8, (index) {
+                return InkWell(
+                    child: Container(
+                      child: Image.asset(
+                        _categoryImage[index],
+                        fit: BoxFit.fill,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          //offset: Offset(0, 10),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('Logo/categoryImage/m_1_clothes.png'),
                         ),
-                      ],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            //offset: Offset(0, 10),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CategoryView(select: _category[index])));
-                  });
-            }),
-          ),
-        ],
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CategoryView(select: _category[index])));
+                    });
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
