@@ -47,7 +47,7 @@ class _BottomBarState extends State<BottomBar> {
       MyCategory(),
       MyWrite(),
       ChatList(email),
-      MyPage()
+      MyPage(email)
     ];
     return DefaultTabController(
       length: 2,

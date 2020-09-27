@@ -12,6 +12,11 @@ import 'package:h_safari/views/mypage/terms_of_use.dart';
 import 'package:h_safari/views/mypage/privacyPolicy.dart';
 
 class MyPage extends StatefulWidget {
+  String email;
+  MyPage(String email) {
+    email = email;
+  }
+
   @override
   _MyPageState createState() => _MyPageState();
 }
@@ -20,6 +25,21 @@ class _MyPageState extends State<MyPage> {
   FirebaseProvider fp;
   String currentId;
   bool _isSwitchedNum = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Firestore.instance
+        .collection("users")
+        .document(widget.email)
+        .get()
+        .then((doc) {
+      setState(() {
+        _isSwitchedNum = doc['마감'];
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +145,7 @@ class _MyPageState extends State<MyPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('푸쉬알림 설정'),
+                  Text('홈 마감 글 On/Off'),
                   Switch(
                     value: _isSwitchedNum,
                     onChanged: (value) {
