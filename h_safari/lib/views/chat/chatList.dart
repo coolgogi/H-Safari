@@ -18,6 +18,7 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   Stream<QuerySnapshot> chatRooms;
   DatabaseMethods databaseMethods = new DatabaseMethods();
+  int isChat = 0;
 
   @override
   void initState() {
@@ -52,6 +53,7 @@ class _ChatListState extends State<ChatList> {
                   if (snapshot.data.documents[index]
                       .data['users']
                       .contains(widget.email)) {
+                    isChat++;
                     return ChatRoomsTile(
                       context,
                       snapshot.data.documents[index].data['users'],
@@ -79,7 +81,19 @@ class _ChatListState extends State<ChatList> {
                           : snapshot.data.documents[index].data['unread'],
                     );
                   } else {
-                    return Container();
+                    if(index == snapshot.data.documents.length-1 && isChat == 0){
+                      return Container(
+                        child: Column(
+                          children: [
+                            Image.asset('assets/images/bird.jpeg'),
+                            Text('채팅방을 이용하여 거래를 진행하여보세요~!!')
+                          ],
+                        ),
+                      );
+                    }
+                    else{
+                      return Container();
+                    }
                   }
                 })
             : Container();
