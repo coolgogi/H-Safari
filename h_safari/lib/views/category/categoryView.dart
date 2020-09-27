@@ -43,7 +43,6 @@ class _CategoryViewState extends State<CategoryView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
-        // stream: FirebaseFirestore.instance
         stream: Firestore.instance
             .collection('post')
             .orderBy("datetime", descending: true)
@@ -113,15 +112,12 @@ class _CategoryViewState extends State<CategoryView> {
           Navigator.pop(context);
         },
       ),
-      title: Padding(
-        padding: const EdgeInsets.only(left: 40.0),
-        child: Center(
-            child: Text(
-          '$title',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-        )),
-      ),
+      title: Center(
+          child: Text(
+        '$title',
+        style: TextStyle(
+            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+      )),
       actions: <Widget>[
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
