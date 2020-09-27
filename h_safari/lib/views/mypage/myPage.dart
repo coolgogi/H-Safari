@@ -49,8 +49,8 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             Container(
-              height: 60,
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              height: 70,
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.rectangle,
@@ -75,7 +75,7 @@ class _MyPageState extends State<MyPage> {
                                     MyPost(currentUser.email)));
                       },
                       child: Container(
-                        height: 60,
+                        height: 70,
                         alignment: Alignment.center,
                         child: Text(
                           '내가 쓴 게시글',
@@ -100,7 +100,7 @@ class _MyPageState extends State<MyPage> {
                                     MyWanna(currentUser.email)));
                       },
                       child: Container(
-                        height: 60,
+                        height: 70,
                         alignment: Alignment.center,
                         child: Text(
                           '거래신청한 게시글',
@@ -125,7 +125,7 @@ class _MyPageState extends State<MyPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('푸쉬알림 설정'),
+                  Text('홈 마감글 On/Off'),
                   Switch(
                     value: _isSwitchedNum,
                     onChanged: (value) {

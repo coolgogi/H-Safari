@@ -50,8 +50,7 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if (snapshot.data.documents[index]
-                      .data['users']
+                  if (snapshot.data.documents[index].data['users']
                       .contains(widget.email)) {
                     isChat++;
                     return ChatRoomsTile(
@@ -59,20 +58,16 @@ class _ChatListState extends State<ChatList> {
                       snapshot.data.documents[index].data['users'],
                       snapshot.data.documents[index].data["chatRoomName"],
                       snapshot.data.documents[index].data['lastMessage'],
-                      snapshot.data.documents[index]
-                              .data['lastDate']
+                      snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[1] +
                           '/' +
-                          snapshot.data.documents[index]
-                              .data['lastDate']
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[2] +
                           '\n' +
-                          snapshot.data.documents[index]
-                              .data['lastDate']
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[3] +
                           ':' +
-                          snapshot.data.documents[index]
-                              .data['lastDate']
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[4],
                       snapshot.data.documents[index].data["lastSendBy"],
                       snapshot.data.documents[index].data["lastSendBy"] ==
@@ -81,17 +76,36 @@ class _ChatListState extends State<ChatList> {
                           : snapshot.data.documents[index].data['unread'],
                     );
                   } else {
-                    if(index == snapshot.data.documents.length-1 && isChat == 0){
+                    if (index == snapshot.data.documents.length - 1 &&
+                        isChat == 0) {
                       return Container(
+                        height: MediaQuery.of(context).size.width,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Image.asset('assets/images/bird.jpeg'),
-                            Text('채팅방을 이용하여 거래를 진행하여보세요~!!')
+                            Container(
+                              child: Image.asset(
+                                'assets/images/bird.jpeg',
+                                fit: BoxFit.fill,
+                              ),
+                              width: 200,
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text(
+                              '아직 채팅방이 없습니다!\n채팅방을 이용하여 거래를 진행하여보세요~!!',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
                           ],
                         ),
                       );
-                    }
-                    else{
+                    } else {
                       return Container();
                     }
                   }
