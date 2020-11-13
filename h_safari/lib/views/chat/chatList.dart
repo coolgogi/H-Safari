@@ -18,6 +18,7 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   Stream<QuerySnapshot> chatRooms;
   DatabaseMethods databaseMethods = new DatabaseMethods();
+  int isChat = 0;
 
   @override
   void initState() {
@@ -49,37 +50,64 @@ class _ChatListState extends State<ChatList> {
                 itemCount: snapshot.data.documents.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if (snapshot.data.docs[index]
-                      .get('users')
+                  if (snapshot.data.documents[index].data['users']
                       .contains(widget.email)) {
+                    isChat++;
                     return ChatRoomsTile(
                       context,
-                      snapshot.data.docs[index].get('users'),
-                      snapshot.data.docs[index].get("chatRoomName"),
-                      snapshot.data.docs[index].get('lastMessage'),
-                      snapshot.data.docs[index]
-                              .get('lastDate')
+                      snapshot.data.documents[index].data['users'],
+                      snapshot.data.documents[index].data["chatRoomName"],
+                      snapshot.data.documents[index].data['lastMessage'],
+                      snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[1] +
                           '/' +
-                          snapshot.data.documents[index]
-                              .get('lastDate')
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[2] +
                           '\n' +
-                          snapshot.data.documents[index]
-                              .get('lastDate')
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[3] +
                           ':' +
-                          snapshot.data.documents[index]
-                              .get('lastDate')
+                          snapshot.data.documents[index].data['lastDate']
                               .split(RegExp(r" |:|-"))[4],
-                      snapshot.data.documents[index].get("lastSendBy"),
-                      snapshot.data.documents[index].get("lastSendBy") ==
+                      snapshot.data.documents[index].data["lastSendBy"],
+                      snapshot.data.documents[index].data["lastSendBy"] ==
                               widget.email
                           ? false
-                          : snapshot.data.documents[index].get('unread'),
+                          : snapshot.data.documents[index].data['unread'],
                     );
                   } else {
-                    return Container();
+                    if (index == snapshot.data.documents.length - 1 &&
+                        isChat == 0) {
+                      return Container(
+                        height: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              child: Image.asset(
+                                'assets/images/bird.jpeg',
+                                fit: BoxFit.fill,
+                              ),
+                              width: 200,
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text(
+                              '아직 채팅방이 없습니다!\n채팅방을 이용하여 거래를 진행하여보세요~!!',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
                   }
                 })
             : Container();

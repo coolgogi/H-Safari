@@ -70,7 +70,6 @@ class _MyWannaState extends State<MyWanna> {
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
                     bool close = document["close"];
-
                     if (close) {
                       return Container();
                     } else if (document["waitingUserList"]
@@ -112,16 +111,16 @@ class _MyWannaState extends State<MyWanna> {
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
                     bool close = document["close"];
-
                     if (!close) {
                       return Container();
                     } else if (document["waitingUserList"]
                         .contains(widget.userEmail)) {
                       return InkWell(
-                          onTap: () {
-                            showReadPostPage(document);
-                          },
-                          child: postTile(context, document));
+                        onTap: () {
+                          showReadPostPage(document);
+                        },
+                        child: postTile(context, document),
+                      );
                     } else {
                       return Container();
                     }

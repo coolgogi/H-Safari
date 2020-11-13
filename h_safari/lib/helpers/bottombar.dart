@@ -1,9 +1,13 @@
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/category/category.dart';
 import 'package:h_safari/views/home/home.dart';
 import 'package:h_safari/views/chat/chatList.dart';
 import 'package:h_safari/views/post/write.dart';
 import 'package:h_safari/views/mypage/myPage.dart';
+
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 // ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
@@ -19,6 +23,12 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   String email;
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseCloudMessaging_Listeners();
+  }
 
   _BottomBarState(String tp) {
     email = tp;
@@ -47,7 +57,7 @@ class _BottomBarState extends State<BottomBar> {
       MyCategory(),
       MyWrite(),
       ChatList(email),
-      MyPage()
+      MyPage(email)
     ];
     return DefaultTabController(
       length: 2,
@@ -81,5 +91,36 @@ class _BottomBarState extends State<BottomBar> {
                 ),
               ])),
     );
+  }
+
+  // ignore: non_constant_identifier_names
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print('token : ' + token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
   }
 }

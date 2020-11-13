@@ -627,7 +627,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
       pictures.add(_image);
     });
     StorageReference storageReference =
-        _firebaseStorage.ref().child("profile/${_user.uid}${Timestamp.now()}");
+        _firebaseStorage.ref().child("post/${_user.uid}${Timestamp.now()}");
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
     await storageUploadTask.onComplete;
     String downloadURL = await storageReference.getDownloadURL();
