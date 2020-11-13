@@ -30,6 +30,8 @@ class _MyWriteState extends State<MyWrite> {
 
   bool _delivery = false;
   bool _direct = false;
+  bool _lost = false;
+  bool _found = false;
   String _category = '카테고리 미정';
 
   TextEditingController _newNameCon = TextEditingController();
@@ -469,6 +471,44 @@ class _MyWriteState extends State<MyWrite> {
                                             onChanged: (bool value) {
                                               setState(() {
                                                 _direct = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Lost',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Checkbox(
+                                            key: null,
+                                            value: _lost,
+                                            activeColor: Colors.green,
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                _lost = value;
+                                                if(_found) {
+                                                  _found = false;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                          Text(
+                                            'Found',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Checkbox(
+                                            key: null,
+                                            value: _found,
+                                            activeColor: Colors.green,
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                _found = value;
+                                                if(_lost) {
+                                                  _lost = false;
+                                                }
                                               });
                                             },
                                           ),

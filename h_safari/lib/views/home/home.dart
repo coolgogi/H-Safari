@@ -118,7 +118,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
                     tabs: <Widget>[
                       Tab(text: '전체'),
-                      Tab(text: 'My관심사'),
+                      Tab(text: 'Lost & Found'),
                     ],
                   ),
                 ),
