@@ -259,4 +259,62 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
     );
   }
+
+  Widget LostNFound(String email) {
+    int tempInt = 0;
+    return Expanded(
+      child: Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection("post")
+              .orderBy("datetime", descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Text("Loading...");
+              default:
+                return ListView(
+                  children:
+                      snapshot.data.documents.map((DocumentSnapshot document) {
+                    bool close = document['close'];
+
+                    if (document['category'] == "의류")
+                      tempInt = 0;
+                    else if (document['category'] == "서적")
+                      tempInt = 1;
+                    else if (document['category'] == "음식")
+                      tempInt = 2;
+                    else if (document['category'] == "생활용품")
+                      tempInt = 3;
+                    else if (document['category'] == "가구전자제품")
+                      tempInt = 4;
+                    else if (document['category'] == "뷰티잡화")
+                      tempInt = 5;
+                    else if (document['category'] == "양도")
+                      tempInt = 6;
+                    else if (document['category'] == "기타") tempInt = 7;
+
+                    if (!categoryBool[tempInt]) {
+                      return Container();
+                    } else if ((close == true) &&
+                        (wantToSeeFinished == false)) {
+                      return Container();
+                    } else {
+                      return InkWell(
+                          onTap: () {
+                            showReadPostPage(document);
+                          },
+                          child: postTile(context, document));
+                    }
+                  }).toList(),
+                );
+            }
+          },
+        ),
+      ),
+    );
+  }
 }
