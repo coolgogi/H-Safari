@@ -489,7 +489,7 @@ class _MyWriteState extends State<MyWrite> {
                                             onChanged: (bool value) {
                                               setState(() {
                                                 _lost = value;
-                                                if(_found) {
+                                                if (_found) {
                                                   _found = false;
                                                 }
                                               });
@@ -506,7 +506,7 @@ class _MyWriteState extends State<MyWrite> {
                                             onChanged: (bool value) {
                                               setState(() {
                                                 _found = value;
-                                                if(_lost) {
+                                                if (_lost) {
                                                   _lost = false;
                                                 }
                                               });
@@ -714,13 +714,14 @@ class _ListCatState extends State<ListCat> {
     '뷰티잡화',
     '양도',
     '기타',
+    'Lost & Found',
   ];
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: 8,
+      itemCount: 9,
       itemBuilder: (BuildContext context, int index) {
         return RadioListTile<String>(
           title: Text(drop[index]),
