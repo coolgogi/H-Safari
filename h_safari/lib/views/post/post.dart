@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:h_safari/views/chat/chatRoom.dart';
 
 // ignore: must_be_immutable
 class Post extends StatefulWidget {
@@ -46,6 +47,11 @@ class _PostState extends State<Post> {
   bool fnClose;
   String currentEmail;
 
+  String checkBox1 = "택배";
+  String checkBox2 = "직접거래";
+
+  String buttonText = "대화 신청";
+
   _PostState(DocumentSnapshot doc) {
     fnName = doc['name'];
     fnDes = doc['description'];
@@ -69,6 +75,11 @@ class _PostState extends State<Post> {
     fnCommentUserList = doc['commentUserList'];
     fnWaitingUserList = doc['waitingUserList'];
     fnClose = doc['close'];
+    if ((fnCategory == "Lost") || (fnCategory == "Found")) {
+      checkBox1 = "Lost";
+      checkBox2 = "Found";
+      fnCategory = "Lost & Found";
+    }
   }
 
   FirebaseProvider fp;
@@ -311,9 +322,7 @@ class _PostState extends State<Post> {
                                   child: Text(
                                     fnClose
                                         ? '거래가 마감되었습니다'
-                                        : (widget.isMine
-                                            ? '거래 마감하기'
-                                            : '거래 신청하기'),
+                                        : (widget.isMine ? '거래 마감하기' : '채팅 하기'),
                                     style: TextStyle(
                                         fontSize: 18,
                                         color: fnClose
@@ -345,7 +354,7 @@ class _PostState extends State<Post> {
                                   Row(
                                     children: [
                                       Text(
-                                        '택배',
+                                        checkBox1,
                                         style: TextStyle(fontSize: 14),
                                       ),
                                       Icon(
@@ -360,7 +369,7 @@ class _PostState extends State<Post> {
                                         width: 15,
                                       ),
                                       Text(
-                                        '직접거래',
+                                        checkBox2,
                                         style: TextStyle(fontSize: 14),
                                       ),
                                       Icon(
@@ -509,7 +518,7 @@ class _PostState extends State<Post> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('신청 알림을 보내시겠습니까?'),
+            content: Text('채팅을 시작하시겠습니까?'),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -531,6 +540,8 @@ class _PostState extends State<Post> {
                     already(context);
                   } else {
                     fnWaitingUserList.add(fp.getUser().email);
+                    int turn = fnWaitingUserList.length;
+                    String sendBy = currentEmail;
                     Firestore.instance
                         .collection('post')
                         .document(widget.doc.documentID)
@@ -560,6 +571,7 @@ class _PostState extends State<Post> {
                     DatabaseMethods()
                         .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
+                    transaction(context, sendBy, turn);
                     success(context);
                   }
                 },
@@ -1012,7 +1024,7 @@ class _PostState extends State<Post> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('이미 신청하신 상태입니다!'),
+            content: Text('이미 채팅방이 있습니다!'),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -1051,5 +1063,70 @@ class _PostState extends State<Post> {
         )),
       )),
     );
+  }
+
+  void transaction(BuildContext context, String sendBy, int turn) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('거래를 위한 채팅방을 만드시겠습니까?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '취소',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, '취소');
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () {
+                  Map<String, dynamic> transaction = {
+                    "postName": fnName,
+                    "type": "거래수락",
+                    "sendBy": sendBy,
+                    "time": new DateFormat('yyyy-MM-dd')
+                        .add_Hms()
+                        .format(DateTime.now()),
+                    "postID": fnId,
+                    "unread": true,
+                  };
+                  DatabaseMethods().sendNotification(sendBy, transaction);
+                  DatabaseMethods().updateUnreadNotification(sendBy, true);
+                  Navigator.pop(context, '확인');
+                  Navigator.pop(context, '확인');
+                  Navigator.pop(context, '확인');
+                  sendMessage(sendBy, turn, fnName);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void sendMessage(String friendEmail, int turn, String postName) async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    String _user = user.email.toString();
+    List<String> users = [_user, friendEmail];
+    String chatRoomName = "$turn번째_$postName";
+    Map<String, dynamic> chatRoom = {
+      "users": users,
+      "chatRoomName": chatRoomName,
+    };
+    databaseMethods.addChatRoom(chatRoom, chatRoomName);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChatRoom(
+                  chatRoomId: chatRoomName,
+                  chatRoomName: chatRoomName,
+                )));
   }
 }
