@@ -571,8 +571,23 @@ class _PostState extends State<Post> {
                     DatabaseMethods()
                         .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
-                    transaction(context, sendBy, turn);
-                    success(context);
+                    // transaction(context, sendBy, turn);
+                    Map<String, dynamic> transaction = {
+                      "postName": fnName,
+                      "type": "거래수락",
+                      "sendBy": sendBy,
+                      "time": new DateFormat('yyyy-MM-dd')
+                          .add_Hms()
+                          .format(DateTime.now()),
+                      "postID": fnId,
+                      "unread": true,
+                    };
+                    DatabaseMethods().sendNotification(sendBy, transaction);
+                    DatabaseMethods().updateUnreadNotification(sendBy, true);
+                    // Navigator.pop(context, '확인');
+                    // Navigator.pop(context, '확인');
+                    // Navigator.pop(context, '확인');
+                    sendMessage(fnEmail, turn, fnName);
                   }
                 },
               )
@@ -1064,52 +1079,51 @@ class _PostState extends State<Post> {
       )),
     );
   }
-
-  void transaction(BuildContext context, String sendBy, int turn) async {
-    await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('거래를 위한 채팅방을 만드시겠습니까?'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  '취소',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, '취소');
-                },
-              ),
-              FlatButton(
-                child: Text(
-                  '확인',
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () {
-                  Map<String, dynamic> transaction = {
-                    "postName": fnName,
-                    "type": "거래수락",
-                    "sendBy": sendBy,
-                    "time": new DateFormat('yyyy-MM-dd')
-                        .add_Hms()
-                        .format(DateTime.now()),
-                    "postID": fnId,
-                    "unread": true,
-                  };
-                  DatabaseMethods().sendNotification(sendBy, transaction);
-                  DatabaseMethods().updateUnreadNotification(sendBy, true);
-                  Navigator.pop(context, '확인');
-                  Navigator.pop(context, '확인');
-                  Navigator.pop(context, '확인');
-                  sendMessage(sendBy, turn, fnName);
-                },
-              )
-            ],
-          );
-        });
-  }
+  // void transaction(BuildContext context, String sendBy, int turn) async {
+  //   await showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           content: Text('거래를 위한 채팅방을 만드시겠습니까?'),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text(
+  //                 '취소',
+  //                 style: TextStyle(color: Colors.green),
+  //               ),
+  //               onPressed: () {
+  //                 Navigator.pop(context, '취소');
+  //               },
+  //             ),
+  //             FlatButton(
+  //               child: Text(
+  //                 '확인',
+  //                 style: TextStyle(color: Colors.green),
+  //               ),
+  //               onPressed: () {
+  //                 Map<String, dynamic> transaction = {
+  //                   "postName": fnName,
+  //                   "type": "거래수락",
+  //                   "sendBy": sendBy,
+  //                   "time": new DateFormat('yyyy-MM-dd')
+  //                       .add_Hms()
+  //                       .format(DateTime.now()),
+  //                   "postID": fnId,
+  //                   "unread": true,
+  //                 };
+  //                 DatabaseMethods().sendNotification(sendBy, transaction);
+  //                 DatabaseMethods().updateUnreadNotification(sendBy, true);
+  //                 Navigator.pop(context, '확인');
+  //                 Navigator.pop(context, '확인');
+  //                 Navigator.pop(context, '확인');
+  //                 sendMessage(sendBy, turn, fnName);
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 
   void sendMessage(String friendEmail, int turn, String postName) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -1128,5 +1142,6 @@ class _PostState extends State<Post> {
                   chatRoomId: chatRoomName,
                   chatRoomName: chatRoomName,
                 )));
+    success(context);
   }
 }
