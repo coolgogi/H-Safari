@@ -46,6 +46,9 @@ class _MyWriteState extends State<MyWrite> {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
+  String checkBoxName1 = "택배";
+  String checkBoxName2 = "직접거래";
+
   var _blankFocusNode = new FocusNode();
 
   @override
@@ -416,6 +419,22 @@ class _MyWriteState extends State<MyWrite> {
                                                                         () {
                                                                       _category =
                                                                           _value;
+                                                                      if (_category ==
+                                                                          "Lost & Found") {
+                                                                        checkBoxName1 =
+                                                                            "Lost";
+                                                                        checkBoxName2 =
+                                                                            "Found";
+                                                                        _delivery =
+                                                                            false;
+                                                                        _direct =
+                                                                            false;
+                                                                      } else {
+                                                                        checkBoxName1 =
+                                                                            "택배";
+                                                                        checkBoxName2 =
+                                                                            "직접거래";
+                                                                      }
                                                                       previous =
                                                                           _value;
                                                                     });
@@ -447,7 +466,7 @@ class _MyWriteState extends State<MyWrite> {
                                       Row(
                                         children: [
                                           Text(
-                                            '택배',
+                                            checkBoxName1,
                                             style: TextStyle(fontSize: 15),
                                           ),
                                           Checkbox(
@@ -457,11 +476,15 @@ class _MyWriteState extends State<MyWrite> {
                                             onChanged: (bool value) {
                                               setState(() {
                                                 _delivery = value;
+                                                if ((_direct) &&
+                                                    (checkBoxName1 == "Lost")) {
+                                                  _direct = false;
+                                                }
                                               });
                                             },
                                           ),
                                           Text(
-                                            '직접거래',
+                                            checkBoxName2,
                                             style: TextStyle(fontSize: 15),
                                           ),
                                           Checkbox(
@@ -471,49 +494,54 @@ class _MyWriteState extends State<MyWrite> {
                                             onChanged: (bool value) {
                                               setState(() {
                                                 _direct = value;
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Lost',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Checkbox(
-                                            key: null,
-                                            value: _lost,
-                                            activeColor: Colors.green,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                _lost = value;
-                                                if (_found) {
-                                                  _found = false;
-                                                }
-                                              });
-                                            },
-                                          ),
-                                          Text(
-                                            'Found',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Checkbox(
-                                            key: null,
-                                            value: _found,
-                                            activeColor: Colors.green,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                _found = value;
-                                                if (_lost) {
-                                                  _lost = false;
+                                                if ((_delivery) &&
+                                                    (checkBoxName2 ==
+                                                        "Found")) {
+                                                  _delivery = false;
                                                 }
                                               });
                                             },
                                           ),
                                         ],
                                       ),
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       'Lost',
+                                      //       style: TextStyle(fontSize: 15),
+                                      //     ),
+                                      //     Checkbox(
+                                      //       key: null,
+                                      //       value: _lost,
+                                      //       activeColor: Colors.green,
+                                      //       onChanged: (bool value) {
+                                      //         setState(() {
+                                      //           _lost = value;
+                                      //           if (_found) {
+                                      //             _found = false;
+                                      //           }
+                                      //         });
+                                      //       },
+                                      //     ),
+                                      //     Text(
+                                      //       'Found',
+                                      //       style: TextStyle(fontSize: 15),
+                                      //     ),
+                                      //     Checkbox(
+                                      //       key: null,
+                                      //       value: _found,
+                                      //       activeColor: Colors.green,
+                                      //       onChanged: (bool value) {
+                                      //         setState(() {
+                                      //           _found = value;
+                                      //           if (_lost) {
+                                      //             _lost = false;
+                                      //           }
+                                      //         });
+                                      //       },
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -563,6 +591,15 @@ class _MyWriteState extends State<MyWrite> {
                                                   _newNameCon.text.isNotEmpty &&
                                                   _newPriceCon
                                                       .text.isNotEmpty) {
+                                                if ((_category ==
+                                                        "Lost & Found") &&
+                                                    (_delivery == true)) {
+                                                  _category = "Lost";
+                                                } else if ((_category ==
+                                                        "Lost & Found") &&
+                                                    (_direct == true)) {
+                                                  _category = "Found";
+                                                }
                                                 createDoc(
                                                     _newNameCon.text,
                                                     _newDescCon.text,
