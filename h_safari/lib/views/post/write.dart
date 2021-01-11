@@ -32,6 +32,7 @@ class _MyWriteState extends State<MyWrite> {
   bool _direct = false;
   bool _lost = false;
   bool _found = false;
+  bool _checkCategory = false;
   String _category = '카테고리 미정';
 
   TextEditingController _newNameCon = TextEditingController();
@@ -345,7 +346,7 @@ class _MyWriteState extends State<MyWrite> {
                                               focusedBorder: OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.green)),
-                                              hintText: '가격 입력',
+                                              hintText: _checkCategory ? "0" : "가격 입력"
                                             ),
                                             validator: (val) {
                                               return val.isEmpty
@@ -429,11 +430,15 @@ class _MyWriteState extends State<MyWrite> {
                                                                             false;
                                                                         _direct =
                                                                             false;
+                                                                        _checkCategory =
+                                                                            true;
                                                                       } else {
                                                                         checkBoxName1 =
                                                                             "택배";
                                                                         checkBoxName2 =
                                                                             "직접거래";
+                                                                        _checkCategory =
+                                                                            false;
                                                                       }
                                                                       previous =
                                                                           _value;
@@ -586,17 +591,50 @@ class _MyWriteState extends State<MyWrite> {
                                                 color: Colors.green,
                                               )),
                                           onPressed: () {
-                                            if (_value != null) {
+                                            if (_value == "Lost & Found") {
                                               if (_newDescCon.text.isNotEmpty &&
-                                                  _newNameCon.text.isNotEmpty &&
-                                                  _newPriceCon
-                                                      .text.isNotEmpty) {
+                                                  _newNameCon.text.isNotEmpty) {
                                                 if ((_category ==
                                                         "Lost & Found") &&
                                                     (_delivery == true)) {
                                                   _category = "Lost";
                                                 } else if ((_category ==
                                                         "Lost & Found") &&
+                                                    (_direct == true)) {
+                                                  _category = "Found";
+                                                }
+                                                createDoc(
+                                                    _newNameCon.text,
+                                                    _newDescCon.text,
+                                                    _newPriceCon.text = "0",
+                                                    picURL.isEmpty
+                                                        ? ""
+                                                        : picURL[0],
+                                                    picURL.join("우주최강CRA"));
+                                                _newNameCon.clear();
+                                                _newDescCon.clear();
+                                                _newPriceCon.clear();
+                                                _profileImageURL = "";
+                                                _newCategoryCon.clear();
+                                                _newHowCon.clear();
+                                                pictures.clear();
+                                                picURL.clear();
+                                                _value = null;
+                                                previous = null;
+                                              } else {
+                                                checkAll();
+                                              }
+                                            } else if (_value != null) {
+                                              if (_newDescCon.text.isNotEmpty &&
+                                                  _newNameCon.text.isNotEmpty &&
+                                                  _newPriceCon
+                                                      .text.isNotEmpty) {
+                                                if ((_category ==
+                                                    "Lost & Found") &&
+                                                    (_delivery == true)) {
+                                                  _category = "Lost";
+                                                } else if ((_category ==
+                                                    "Lost & Found") &&
                                                     (_direct == true)) {
                                                   _category = "Found";
                                                 }
@@ -756,22 +794,24 @@ class _ListCatState extends State<ListCat> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 9,
-      itemBuilder: (BuildContext context, int index) {
-        return RadioListTile<String>(
-          title: Text(drop[index]),
-          activeColor: Colors.green,
-          value: drop[index],
-          groupValue: _value,
-          onChanged: (value) {
-            setState(() {
-              _value = value;
-            });
-          },
-        );
-      },
+    return Flexible(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 9,
+        itemBuilder: (BuildContext context, int index) {
+          return RadioListTile<String>(
+            title: Text(drop[index]),
+            activeColor: Colors.green,
+            value: drop[index],
+            groupValue: _value,
+            onChanged: (value) {
+              setState(() {
+                _value = value;
+              });
+            },
+          );
+        },
+      ),
     );
   }
 }
