@@ -39,7 +39,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     false,
     false,
     false,
-    false
+    false,
+    false,
+    false,
   ];
   bool wantToSeeFinished = false;
 
@@ -138,7 +140,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      myPostList(widget.email),
+                      LostNFound(widget.email),
                     ],
                   ),
                 ),
@@ -185,6 +187,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   children:
                       snapshot.data.documents.map((DocumentSnapshot document) {
                     bool close = document['close'];
+                    bool LnF = false;
+                    if ((document['category'] == "Lost") ||
+                        (document['category'] == "Found")) {
+                      LnF = true;
+                    }
+
                     return (close && !wantToSeeFinished)
                         ? Container()
                         : InkWell(
@@ -281,27 +289,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       snapshot.data.documents.map((DocumentSnapshot document) {
                     bool close = document['close'];
 
-                    if (document['category'] == "의류")
+                    if (document['category'] == "Lost")
                       tempInt = 0;
-                    else if (document['category'] == "서적")
+                    else if (document['category'] == "Found")
                       tempInt = 1;
-                    else if (document['category'] == "음식")
+                    else
                       tempInt = 2;
-                    else if (document['category'] == "생활용품")
-                      tempInt = 3;
-                    else if (document['category'] == "가구전자제품")
-                      tempInt = 4;
-                    else if (document['category'] == "뷰티잡화")
-                      tempInt = 5;
-                    else if (document['category'] == "양도")
-                      tempInt = 6;
-                    else if (document['category'] == "기타") tempInt = 7;
 
-                    if (!categoryBool[tempInt]) {
+                    if (tempInt == 2) {
                       return Container();
-                    } else if ((close == true) &&
-                        (wantToSeeFinished == false)) {
-                      return Container();
+                      // } else if ((close == true) &&
+                      //     (wantToSeeFinished == false)) {
+                      //   return Container();
                     } else {
                       return InkWell(
                           onTap: () {
