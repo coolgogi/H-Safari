@@ -257,21 +257,6 @@ class _PostState extends State<Post> {
                         Row(
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(
-                                Icons.assignment,
-                                color: Colors.green[300],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Waiting(
-                                            fnId,
-                                            fnName,
-                                            fnWaitingUserList)));
-                              },
-                            ),
-                            IconButton(
                               icon: Icon(Icons.create,
                                   color: Colors.green[300]),
                               onPressed: () {
