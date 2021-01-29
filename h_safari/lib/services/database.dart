@@ -52,6 +52,15 @@ class DatabaseMethods {
         .catchError((e) {
       print(e);
     });
+    Map<String, dynamic> chatMessageMap = {
+      "sendBy": "System",
+      "message": "채팅방이 "
+    };
+    // Firestore.instance.
+    // collection("chatRoom").
+    // document(chatRoomId).
+    // collection("chats").
+    // add
   }
 
   Future<dynamic> getChats(String chatRoomId) async {
