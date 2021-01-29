@@ -76,17 +76,15 @@ class _AlarmState extends State<Alarm> {
       return Icons.comment;
     else if (type == "마감")
       return Icons.done;
-    else if (type == "거래수락") return Icons.favorite;
   }
 
   getTitle(String type) {
     if (type == "구매신청")
-      return "누군가 구매를 희망합니다.\n게시글의 대기리스트를 확인하세요!";
+      return "누군가 구매를 희망합니다.\n채팅방을 통해 거래를 진행하세요!";
     else if (type == "댓글")
       return "게시글에 댓글이 달렸습니다.";
     else if (type == "마감")
       return "게시글이 마감되었습니다";
-    else if (type == "거래수락") return "거래가 수락되었어요, 채팅방을 통해 거래를 진행하세요!";
   }
 
   Widget alertTile(String type, String sendBy, String time, String postName,

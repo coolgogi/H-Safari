@@ -110,6 +110,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         : previousDate =
                             ((snapshot.data.documents[index + 1].data["date"])
                                 .split(RegExp(r" |:")))[0],
+                      snapshot.data.documents[index].data["sendBy"]
                   );
                 })
             : Container();
@@ -183,7 +184,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   // ignore: non_constant_identifier_names
   Widget MessageTile(BuildContext context, String message, bool sendByMe,
-      String date, String previousDate) {
+      String date, String previousDate, String sendBy) {
     var allTime = date.split(RegExp(r" |:"));
     var todayDate = allTime[0];
     var hour = allTime[1];
@@ -196,82 +197,128 @@ class _ChatRoomState extends State<ChatRoom> {
     }
     hour = hourInt.toString();
     var time = m + " " + hour + ":" + minute;
-    return Column(
-      children: <Widget>[
-        previousDate != todayDate
-            ? Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 20,
-                child: Center(
-                    child: Text(
+    if(sendBy=="system"){
+      return Column(
+        children: <Widget>[
+          previousDate != todayDate
+              ? Container(
+            margin: EdgeInsets.only(bottom: 10),
+            height: 20,
+            child: Center(
+                child: Text(
                   todayDate,
                   style: TextStyle(fontSize: 12),
                 )),
-              )
-            : Container(
-                child: null,
-              ),
-        Row(
-          mainAxisAlignment:
-              sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            sendByMe
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 3, bottom: 7),
-                    child: Text(
-                      '$time',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black45,
-                      ),
+          )
+              : Container(
+            child: null,
+          ),
+              Container(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  margin: EdgeInsets.only(bottom: 100),
+                  decoration: BoxDecoration(
+                    color: Color(0xffedddc7),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+                    ],
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(15)
                     ),
-                  )
-                : Container(),
-            Container(
-              child: Container(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.60),
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(bottom: 7),
-                decoration: BoxDecoration(
-                  color: sendByMe ? Colors.lightGreen[100] : Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black12, spreadRadius: 1, blurRadius: 1),
-                  ],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(23),
-                    topRight: Radius.circular(23),
-                    bottomLeft:
-                        sendByMe ? Radius.circular(23) : Radius.circular(0),
-                    bottomRight:
-                        sendByMe ? Radius.circular(0) : Radius.circular(23),
+                  ),
+                  child: Text(
+                    "H-Safari를 이용해주셔서 감사합니다:)\n채팅방을 사용하여 자유롭게 거래하여보세요!",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
+              ),
+        ],
+      );
+    }
+    else{
+      return Column(
+        children: <Widget>[
+          previousDate != todayDate
+              ? Container(
+            margin: EdgeInsets.only(bottom: 10),
+            height: 20,
+            child: Center(
                 child: Text(
-                  message,
+                  todayDate,
+                  style: TextStyle(fontSize: 12),
+                )),
+          )
+              : Container(
+            child: null,
+          ),
+          Row(
+            mainAxisAlignment:
+            sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              sendByMe
+                  ? Padding(
+                padding: const EdgeInsets.only(right: 3, bottom: 7),
+                child: Text(
+                  '$time',
                   style: TextStyle(
-                    color: Colors.black,
+                    fontSize: 12,
+                    color: Colors.black45,
+                  ),
+                ),
+              )
+                  : Container(),
+              Container(
+                child: Container(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.60),
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(bottom: 7),
+                  decoration: BoxDecoration(
+                    color: sendByMe ? Colors.lightGreen[100] : Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(23),
+                      topRight: Radius.circular(23),
+                      bottomLeft:
+                      sendByMe ? Radius.circular(23) : Radius.circular(0),
+                      bottomRight:
+                      sendByMe ? Radius.circular(0) : Radius.circular(23),
+                    ),
+                  ),
+                  child: Text(
+                    message,
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-            sendByMe
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.only(left: 3, bottom: 7),
-                    child: Text(
-                      '$time',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black45,
-                      ),
-                    ),
+              sendByMe
+                  ? Container()
+                  : Padding(
+                padding: const EdgeInsets.only(left: 3, bottom: 7),
+                child: Text(
+                  '$time',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black45,
                   ),
-          ],
-        ),
-      ],
-    );
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
   }
 }

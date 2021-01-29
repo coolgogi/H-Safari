@@ -257,21 +257,6 @@ class _PostState extends State<Post> {
                         Row(
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(
-                                Icons.assignment,
-                                color: Colors.green[300],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Waiting(
-                                            fnId,
-                                            fnName,
-                                            fnWaitingUserList)));
-                              },
-                            ),
-                            IconButton(
                               icon: Icon(Icons.create,
                                   color: Colors.green[300]),
                               onPressed: () {
@@ -571,18 +556,6 @@ class _PostState extends State<Post> {
                     DatabaseMethods()
                         .addWant(currentEmail, widget.doc.documentID, userList);
                     Navigator.pop(context, '확인');
-                    // transaction(context, sendBy, turn);
-                    Map<String, dynamic> transaction = {
-                      "postName": fnName,
-                      "type": "거래수락",
-                      "sendBy": sendBy,
-                      "time": new DateFormat('yyyy-MM-dd')
-                          .add_Hms()
-                          .format(DateTime.now()),
-                      "postID": fnId,
-                      "unread": true,
-                    };
-                    DatabaseMethods().sendNotification(sendBy, transaction);
                     DatabaseMethods().updateUnreadNotification(sendBy, true);
                     // Navigator.pop(context, '확인');
                     // Navigator.pop(context, '확인');
@@ -1125,10 +1098,10 @@ class _PostState extends State<Post> {
   //       });
   // }
 
-  void sendMessage(String friendEmail, int turn, String postName) async {
+  void sendMessage(String sellerName, int turn, String postName) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     String _user = user.email.toString();
-    List<String> users = [_user, friendEmail];
+    List<String> users = [sellerName, _user];
     String chatRoomName = "$turn번째_$postName";
     Map<String, dynamic> chatRoom = {
       "users": users,
@@ -1140,9 +1113,23 @@ class _PostState extends State<Post> {
         MaterialPageRoute(
             builder: (context) => ChatRoom(
               chatRoomId: chatRoomName,
-              chatRoomName: chatRoomName,
+              chatRoomName: chatRoomName.split(RegExp(r"_"))[1],
             )));
 
     success(context);
+    fp = Provider.of<FirebaseProvider>(context);
+    FirebaseUser currentUser = fp.getUser();
+    Map<String, dynamic> chatMessageMap = {
+      "sendBy": "system",
+      "message": "",
+      'date': new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+    };
+    DatabaseMethods().addMessage(chatRoomName, chatMessageMap);
+    DatabaseMethods().updateLast(
+        chatRoomName,
+        "거래를 위한 채팅방이 만들어졌습니다.",
+        DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
+        "system",
+        true);
   }
 }
