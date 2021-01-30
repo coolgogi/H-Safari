@@ -47,8 +47,8 @@ dependencies:
   logger: ^0.7.0+2
   firebase_storage: ^3.0.10
   firebase_analytics: ^5.0.6
-#  cached_network_image: ^1.0.0
-  cached_network_image: ^2.5.0
+  cached_network_image: ^1.0.0
+#  cached_network_image: ^2.5.0
   intl: ^0.15.7
   cloud_functions: ^0.5.0
   firebase_messaging: ^6.0.13
