@@ -73,7 +73,7 @@ class _SearchState extends State<Search> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
+            stream: FirebaseFirestore.instance
                 .collection('post')
                 .orderBy("datetime", descending: true)
                 .snapshots(),
@@ -88,8 +88,8 @@ class _SearchState extends State<Search> {
                       child: ListView(
                         controller: listScrollController,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children: snapshot.data.documents
-                            .map((DocumentSnapshot document) {
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
                           String title = document["name"];
                           bool close = document['close'];
                           priceComma = document['price'].replaceAllMapped(

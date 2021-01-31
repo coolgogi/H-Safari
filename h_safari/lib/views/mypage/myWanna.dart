@@ -55,7 +55,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -67,8 +67,7 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     bool close = document["close"];
                     if (close) {
                       return Container();
@@ -96,7 +95,7 @@ class _MyWannaState extends State<MyWanna> {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -108,8 +107,7 @@ class _MyWannaState extends State<MyWanna> {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     bool close = document["close"];
                     if (!close) {
                       return Container();

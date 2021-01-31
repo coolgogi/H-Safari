@@ -80,8 +80,6 @@ android {
             // end of 코드난독화 및 사이즈 축소
         }
     }
-
-
 }
 
 flutter {
@@ -89,8 +87,13 @@ flutter {
 }
 
 dependencies {
-    implementation "com.android.support:multidex:1.0.3"
+    //for old version
+//    implementation 'com.android.support:multidex:1.0.3'
+    //for new version
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.android.support:support-annotations:28.0.0'
 }
+

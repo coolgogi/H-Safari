@@ -88,7 +88,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   Widget chatMessages() {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
@@ -100,18 +100,17 @@ class _ChatRoomState extends State<ChatRoom> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return MessageTile(
-                    context,
-                    snapshot.data.documents[index].data["message"],
-                    currentUser.email ==
-                        snapshot.data.documents[index].data["sendBy"],
-                    snapshot.data.documents[index].data["date"],
-                    index == snapshot.data.documents.length - 1
-                        ? previousDate = "0"
-                        : previousDate =
-                            ((snapshot.data.documents[index + 1].data["date"])
-                                .split(RegExp(r" |:")))[0],
-                      snapshot.data.documents[index].data["sendBy"]
-                  );
+                      context,
+                      snapshot.data.documents[index].data["message"],
+                      currentUser.email ==
+                          snapshot.data.documents[index].data["sendBy"],
+                      snapshot.data.documents[index].data["date"],
+                      index == snapshot.data.documents.length - 1
+                          ? previousDate = "0"
+                          : previousDate =
+                              ((snapshot.data.documents[index + 1].data["date"])
+                                  .split(RegExp(r" |:")))[0],
+                      snapshot.data.documents[index].data["sendBy"]);
                 })
             : Container();
       },
@@ -120,7 +119,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   addMessage() {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     if (messageEditingController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "sendBy": currentUser.email,
@@ -197,82 +196,79 @@ class _ChatRoomState extends State<ChatRoom> {
     }
     hour = hourInt.toString();
     var time = m + " " + hour + ":" + minute;
-    if(sendBy=="system"){
+    if (sendBy == "system") {
       return Column(
         children: <Widget>[
           previousDate != todayDate
               ? Container(
-            margin: EdgeInsets.only(bottom: 10),
-            height: 20,
-            child: Center(
-                child: Text(
-                  todayDate,
-                  style: TextStyle(fontSize: 12),
-                )),
-          )
+                  margin: EdgeInsets.only(bottom: 10),
+                  height: 20,
+                  child: Center(
+                      child: Text(
+                    todayDate,
+                    style: TextStyle(fontSize: 12),
+                  )),
+                )
               : Container(
-            child: null,
-          ),
-              Container(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  margin: EdgeInsets.only(bottom: 100),
-                  decoration: BoxDecoration(
-                    color: Color(0xffedddc7),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black12, spreadRadius: 1, blurRadius: 1),
-                    ],
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(15)
-                    ),
-                  ),
-                  child: Text(
-                    "H-Safari를 이용해주셔서 감사합니다:)\n채팅방을 사용하여 자유롭게 거래하여보세요!",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                  child: null,
                 ),
+          Container(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              margin: EdgeInsets.only(bottom: 100),
+              decoration: BoxDecoration(
+                color: Color(0xffedddc7),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
+              child: Text(
+                "H-Safari를 이용해주셔서 감사합니다:)\n채팅방을 사용하여 자유롭게 거래하여보세요!",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       );
-    }
-    else{
+    } else {
       return Column(
         children: <Widget>[
           previousDate != todayDate
               ? Container(
-            margin: EdgeInsets.only(bottom: 10),
-            height: 20,
-            child: Center(
-                child: Text(
-                  todayDate,
-                  style: TextStyle(fontSize: 12),
-                )),
-          )
+                  margin: EdgeInsets.only(bottom: 10),
+                  height: 20,
+                  child: Center(
+                      child: Text(
+                    todayDate,
+                    style: TextStyle(fontSize: 12),
+                  )),
+                )
               : Container(
-            child: null,
-          ),
+                  child: null,
+                ),
           Row(
             mainAxisAlignment:
-            sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               sendByMe
                   ? Padding(
-                padding: const EdgeInsets.only(right: 3, bottom: 7),
-                child: Text(
-                  '$time',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black45,
-                  ),
-                ),
-              )
+                      padding: const EdgeInsets.only(right: 3, bottom: 7),
+                      child: Text(
+                        '$time',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black45,
+                        ),
+                      ),
+                    )
                   : Container(),
               Container(
                 child: Container(
@@ -284,15 +280,17 @@ class _ChatRoomState extends State<ChatRoom> {
                     color: sendByMe ? Colors.lightGreen[100] : Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+                          color: Colors.black12,
+                          spreadRadius: 1,
+                          blurRadius: 1),
                     ],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(23),
                       topRight: Radius.circular(23),
                       bottomLeft:
-                      sendByMe ? Radius.circular(23) : Radius.circular(0),
+                          sendByMe ? Radius.circular(23) : Radius.circular(0),
                       bottomRight:
-                      sendByMe ? Radius.circular(0) : Radius.circular(23),
+                          sendByMe ? Radius.circular(0) : Radius.circular(23),
                     ),
                   ),
                   child: Text(
@@ -306,15 +304,15 @@ class _ChatRoomState extends State<ChatRoom> {
               sendByMe
                   ? Container()
                   : Padding(
-                padding: const EdgeInsets.only(left: 3, bottom: 7),
-                child: Text(
-                  '$time',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black45,
-                  ),
-                ),
-              ),
+                      padding: const EdgeInsets.only(left: 3, bottom: 7),
+                      child: Text(
+                        '$time',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black45,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ],

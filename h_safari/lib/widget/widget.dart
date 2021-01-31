@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/views/home/search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -241,6 +242,11 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                           _profileImageURL,
                           fit: BoxFit.fill,
                         ),
+                        //     CachedNetworkImage(
+                        //   imageUrl: _profileImageURL,
+                        //   placeholder: (context, url) =>
+                        //       new CircularProgressIndicator(),
+                        // )
                       ),
                       Container(
                           width: 250,
@@ -250,7 +256,13 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                   : Image.network(
                       _profileImageURL,
                       fit: BoxFit.fill,
-                    ))
+                    )
+              // CachedNetworkImage(
+              //     imageUrl: _profileImageURL,
+              //     placeholder: (context, url) =>
+              //         new CircularProgressIndicator(),
+              //   )
+              )
           : ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
               child: document[fnClose]

@@ -53,9 +53,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     super.initState();
 
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("users")
-        .document(widget.email)
+        .doc(widget.email)
         .get()
         .then((doc) {
       setCategoryData(doc);
@@ -172,7 +172,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -184,8 +184,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     bool close = document['close'];
                     bool LnF = false;
                     if ((document['category'] == "Lost") ||
@@ -215,7 +214,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -227,8 +226,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     bool close = document['close'];
 
                     if (document['category'] == "의류")
@@ -273,7 +271,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return Expanded(
       child: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection("post")
               .orderBy("datetime", descending: true)
               .snapshots(),
@@ -285,8 +283,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Text("Loading...");
               default:
                 return ListView(
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     bool close = document['close'];
 
                     if (document['category'] == "Lost")

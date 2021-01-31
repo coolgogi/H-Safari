@@ -71,7 +71,7 @@ class _PostState extends State<Post> {
     fnCategory = doc['category'];
     fnHow = doc['how'];
     fnEmail = doc['email'];
-    fnId = doc.documentID;
+    fnId = doc.id;
     fnCommentUserList = doc['commentUserList'];
     fnWaitingUserList = doc['waitingUserList'];
     fnClose = doc['close'];
@@ -97,7 +97,7 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    DatabaseMethods().getComments(widget.doc.documentID).then((val) {
+    DatabaseMethods().getComments(widget.doc.id).then((val) {
       setState(() {
         comments = val;
         priceComma = fnPrice.replaceAllMapped(
@@ -164,64 +164,64 @@ class _PostState extends State<Post> {
                                       return Container(
                                           child: fnClose
                                               ? Stack(
-                                            fit: StackFit.passthrough,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                    child: imgUrl != ''
-                                                        ? Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )
-                                                        : Image.asset(
-                                                      'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                      fit: BoxFit
-                                                          .fitWidth,
-                                                    )),
-                                              ),
-                                              Container(
-                                                child: Image.asset(
-                                                  'assets/sample/close2.png',
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                              : Container(
-                                              child: imgUrl != ''
-                                                  ? Hero(
-                                                tag: imgUrl,
-                                                child: Material(
-                                                  color: Colors
-                                                      .transparent,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      _bigPhoto =
-                                                          imgUrl;
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(builder:
-                                                              (BuildContext
-                                                          context) {
-                                                            return BigPhoto(
-                                                                context,
-                                                                _current);
-                                                          }));
-                                                    },
-                                                    child:
-                                                    Image.network(
-                                                      imgUrl,
-                                                      fit: BoxFit
-                                                          .fitWidth,
+                                                  fit: StackFit.passthrough,
+                                                  children: <Widget>[
+                                                    Center(
+                                                      child: Container(
+                                                          child: imgUrl != ''
+                                                              ? Image.network(
+                                                                  imgUrl,
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )
+                                                              : Image.asset(
+                                                                  'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
+                                                                )),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
-                                                  : Image.asset(
-                                                'Logo/empty_Rabbit_green1_gloss.png.png',
-                                                fit: BoxFit.fill,
-                                              )));
+                                                    Container(
+                                                      child: Image.asset(
+                                                        'assets/sample/close2.png',
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(
+                                                  child: imgUrl != ''
+                                                      ? Hero(
+                                                          tag: imgUrl,
+                                                          child: Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                _bigPhoto =
+                                                                    imgUrl;
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return BigPhoto(
+                                                                      context,
+                                                                      _current);
+                                                                }));
+                                                              },
+                                                              child:
+                                                                  Image.network(
+                                                                imgUrl,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Image.asset(
+                                                          'Logo/empty_Rabbit_green1_gloss.png.png',
+                                                          fit: BoxFit.fill,
+                                                        )));
                                     },
                                   );
                                 }).toList(),
@@ -230,7 +230,7 @@ class _PostState extends State<Post> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children:
-                                map<Widget>(fnImageList, (index, url) {
+                                    map<Widget>(fnImageList, (index, url) {
                                   return Container(
                                     width: 7.0,
                                     height: 7.0,
@@ -252,25 +252,25 @@ class _PostState extends State<Post> {
                       floating: true,
                       actions: widget.isMine
                           ? (fnClose
-                          ? null
-                          : <Widget>[
-                        Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.create,
-                                  color: Colors.green[300]),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PostUpdateDelete(
-                                                widget.doc)));
-                              },
-                            ),
-                          ],
-                        )
-                      ])
+                              ? null
+                              : <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.create,
+                                            color: Colors.green[300]),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PostUpdateDelete(
+                                                          widget.doc)));
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ])
                           : null,
                     ),
                   ];
@@ -316,11 +316,11 @@ class _PostState extends State<Post> {
                                   ),
                                   onPressed: () {
                                     fnClose
-                                    // ignore: unnecessary_statements
+                                        // ignore: unnecessary_statements
                                         ? null
                                         : widget.isMine
-                                        ? close(context)
-                                        : purchaseApplication(context);
+                                            ? close(context)
+                                            : purchaseApplication(context);
                                   },
                                 ),
                               ),
@@ -329,7 +329,7 @@ class _PostState extends State<Post> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     '$fnCategory',
@@ -412,71 +412,71 @@ class _PostState extends State<Post> {
             fnClose
                 ? Container()
                 : Column(
-              children: <Widget>[
-                isRecomment
-                    ? Container(
-                  child: Text(
-                    '대댓글 작성중..',
-                  ),
-                  alignment: Alignment.centerLeft,
-                  height: 25,
-                  padding: EdgeInsets.only(left: 20),
-                  color: Colors.green[50],
-                )
-                    : Container(),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Flexible(
-                        child: TextFormField(
-                          focusNode: _recommentFocusnode,
-                          controller: commentEditingController,
-                          decoration: InputDecoration(
-                            hintText: '댓글 달기',
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                            contentPadding:
-                            EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            hintStyle: TextStyle(
-                                color: Colors.grey, fontSize: 13),
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.green)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
+                      isRecomment
+                          ? Container(
+                              child: Text(
+                                '대댓글 작성중..',
+                              ),
+                              alignment: Alignment.centerLeft,
+                              height: 25,
+                              padding: EdgeInsets.only(left: 20),
+                              color: Colors.green[50],
+                            )
+                          : Container(),
                       Container(
-                        width: 45,
-                        child: FlatButton(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          shape: OutlineInputBorder(),
-                          child: Text(
-                            '등록',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          onPressed: () {
-                            isRecomment
-                                ? addReComment(redocId)
-                                : addComment();
-                            isRecomment = false;
-                            FocusManager.instance.primaryFocus.unfocus();
-                          },
+                        alignment: Alignment.bottomCenter,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.075,
+                        padding: EdgeInsets.fromLTRB(15, 8, 10, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Flexible(
+                              child: TextFormField(
+                                focusNode: _recommentFocusnode,
+                                controller: commentEditingController,
+                                decoration: InputDecoration(
+                                  hintText: '댓글 달기',
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey, fontSize: 13),
+                                  border: OutlineInputBorder(),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.green)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Container(
+                              width: 45,
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                shape: OutlineInputBorder(),
+                                child: Text(
+                                  '등록',
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                                onPressed: () {
+                                  isRecomment
+                                      ? addReComment(redocId)
+                                      : addComment();
+                                  isRecomment = false;
+                                  FocusManager.instance.primaryFocus.unfocus();
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -527,10 +527,10 @@ class _PostState extends State<Post> {
                     fnWaitingUserList.add(fp.getUser().email);
                     int turn = fnWaitingUserList.length;
                     String sendBy = currentEmail;
-                    Firestore.instance
+                    FirebaseFirestore.instance
                         .collection('post')
-                        .document(widget.doc.documentID)
-                        .updateData({
+                        .doc(widget.doc.id)
+                        .update({
                       "waitingUserList": fnWaitingUserList,
                     });
                     Map<String, dynamic> purchaseApplication = {
@@ -540,7 +540,7 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.documentID,
+                      "postID": widget.doc.id,
                       "unread": true,
                     };
                     Map<String, dynamic> userList = {
@@ -548,13 +548,13 @@ class _PostState extends State<Post> {
                       "time": new DateFormat('yyyy-MM-dd')
                           .add_Hms()
                           .format(DateTime.now()),
-                      "postID": widget.doc.documentID,
+                      "postID": widget.doc.id,
                     };
                     DatabaseMethods()
                         .sendNotification(fnEmail, purchaseApplication);
                     DatabaseMethods().updateUnreadNotification(fnEmail, true);
                     DatabaseMethods()
-                        .addWant(currentEmail, widget.doc.documentID, userList);
+                        .addWant(currentEmail, widget.doc.id, userList);
                     Navigator.pop(context, '확인');
                     DatabaseMethods().updateUnreadNotification(sendBy, true);
                     // Navigator.pop(context, '확인');
@@ -592,7 +592,7 @@ class _PostState extends State<Post> {
                   style: TextStyle(color: Colors.green),
                 ),
                 onPressed: () {
-                  DatabaseMethods().closePost(widget.doc.documentID);
+                  DatabaseMethods().closePost(widget.doc.id);
                   Navigator.pop(context, '취소');
                   fnClose = true;
                   setState(() {});
@@ -605,7 +605,7 @@ class _PostState extends State<Post> {
 
   void addComment() {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> commentMap = {
         "sendBy": currentUser.email,
@@ -617,20 +617,20 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.documentID,
+        "postID": widget.doc.id,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('post')
-            .document(widget.doc.documentID)
-            .updateData({
+            .doc(widget.doc.id)
+            .update({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods().addComment(widget.doc.documentID, commentMap);
+      DatabaseMethods().addComment(widget.doc.id, commentMap);
       DatabaseMethods().updateUnreadNotification(fnEmail, true);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
@@ -648,7 +648,7 @@ class _PostState extends State<Post> {
 
   void addReComment(redocId) {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     if (commentEditingController.text.isNotEmpty) {
       Map<String, dynamic> recommentMap = {
         "sendBy": currentUser.email,
@@ -660,21 +660,20 @@ class _PostState extends State<Post> {
         "type": "댓글",
         "sendBy": currentUser.email,
         "time": new DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now()),
-        "postID": widget.doc.documentID,
+        "postID": widget.doc.id,
         "unread": true,
       };
       if (fnCommentUserList.contains(fp.getUser().email)) {
       } else {
         fnCommentUserList.add(fp.getUser().email);
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('post')
-            .document(widget.doc.documentID)
-            .updateData({
+            .doc(widget.doc.id)
+            .update({
           "commentUserList": fnCommentUserList,
         });
       }
-      DatabaseMethods()
-          .addReComment(widget.doc.documentID, redocId, recommentMap);
+      DatabaseMethods().addReComment(widget.doc.id, redocId, recommentMap);
       for (int i = 0; i < fnCommentUserList.length; i++) {
         if (fnCommentUserList[i] != fp.getUser().email) {
           DatabaseMethods()
@@ -695,58 +694,58 @@ class _PostState extends State<Post> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          shrinkWrap: true,
-          children: snapshot.data.documents.map<Widget>(
-                (DocumentSnapshot document) {
-              return Column(
-                children: <Widget>[
-                  commentTile(document['sendBy'], document['comment'],
-                      document['date'], document.documentID),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  StreamBuilder(
-                    stream: Firestore.instance
-                        .collection("post")
-                        .document(widget.doc.documentID)
-                        .collection("comments")
-                        .document(document.documentID)
-                        .collection("recomments")
-                        .orderBy('date')
-                        .snapshots(),
-                    builder: (context, snapshots) {
-                      String codocId = document.documentID;
-                      return snapshots.hasData
-                          ? ListView(
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 10),
-                        shrinkWrap: true,
-                        children: snapshots.data.documents
-                            .map<Widget>(
-                                (DocumentSnapshot document) {
-                              return recommentTile(
-                                  document['sendBy'],
-                                  document['recomment'],
-                                  document['date'],
-                                  codocId,
-                                  document.documentID);
-                            }).toList(),
-                      )
-                          : Container();
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              );
-            },
-          ).toList(),
-        )
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                shrinkWrap: true,
+                children: snapshot.data.documents.map<Widget>(
+                  (DocumentSnapshot document) {
+                    return Column(
+                      children: <Widget>[
+                        commentTile(document['sendBy'], document['comment'],
+                            document['date'], document.id),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("post")
+                              .doc(widget.doc.id)
+                              .collection("comments")
+                              .doc(document.id)
+                              .collection("recomments")
+                              .orderBy('date')
+                              .snapshots(),
+                          builder: (context, snapshots) {
+                            String codocId = document.id;
+                            return snapshots.hasData
+                                ? ListView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    shrinkWrap: true,
+                                    children: snapshots.data.documents
+                                        .map<Widget>(
+                                            (DocumentSnapshot document) {
+                                      return recommentTile(
+                                          document['sendBy'],
+                                          document['recomment'],
+                                          document['date'],
+                                          codocId,
+                                          document.id);
+                                    }).toList(),
+                                  )
+                                : Container();
+                          },
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    );
+                  },
+                ).toList(),
+              )
             : Container();
       },
     );
@@ -756,11 +755,11 @@ class _PostState extends State<Post> {
     if (name == currentEmail)
       return Text('나',
           style:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
+              TextStyle(fontWeight: FontWeight.bold, color: Colors.green[700]));
     else if (name == fnEmail)
       return Text('글쓴이',
           style:
-          TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
+              TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[700]));
     else
       return Text('익명',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black));
@@ -784,18 +783,18 @@ class _PostState extends State<Post> {
               text(name),
               name == currentEmail
                   ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
-                child: InkWell(
-                  child: Icon(
-                    Icons.delete_outline,
-                    size: 16,
-                    color: Colors.black45,
-                  ),
-                  onTap: () {
-                    deleteComment(documentID);
-                  },
-                ),
-              )
+                      padding: const EdgeInsets.fromLTRB(0, 3, 15, 0),
+                      child: InkWell(
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 16,
+                          color: Colors.black45,
+                        ),
+                        onTap: () {
+                          deleteComment(documentID);
+                        },
+                      ),
+                    )
                   : Container()
             ],
           ),
@@ -858,18 +857,18 @@ class _PostState extends State<Post> {
                     text(name),
                     name == currentEmail
                         ? Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 6, 0),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 16,
-                          color: Colors.black45,
-                        ),
-                        onTap: () {
-                          deleteReComment(codocId, documentID);
-                        },
-                      ),
-                    )
+                            padding: const EdgeInsets.fromLTRB(0, 3, 6, 0),
+                            child: InkWell(
+                              child: Icon(
+                                Icons.delete_outline,
+                                size: 16,
+                                color: Colors.black45,
+                              ),
+                              onTap: () {
+                                deleteReComment(codocId, documentID);
+                              },
+                            ),
+                          )
                         : Container()
                   ],
                 ),
@@ -913,8 +912,7 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods()
-                        .deleteComment(widget.doc.documentID, codocId);
+                    DatabaseMethods().deleteComment(widget.doc.id, codocId);
                     Navigator.pop(context);
                   },
                 )
@@ -948,8 +946,8 @@ class _PostState extends State<Post> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    DatabaseMethods().deleteReComment(
-                        widget.doc.documentID, codocId, recodocId);
+                    DatabaseMethods()
+                        .deleteReComment(widget.doc.id, codocId, recodocId);
                     Navigator.pop(context);
                   },
                 )
@@ -1033,23 +1031,23 @@ class _PostState extends State<Post> {
     return Scaffold(
       body: Center(
           child: GestureDetector(
-            onPanUpdate: (details) {
-              if (details.delta.dy < 0)
-                Navigator.pop(context);
-              else if (details.delta.dy > 0) Navigator.pop(context);
-            },
-            child: Center(
-                child: Hero(
-                  tag: _bigPhoto,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Image.network(
-                      _bigPhoto,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                )),
-          )),
+        onPanUpdate: (details) {
+          if (details.delta.dy < 0)
+            Navigator.pop(context);
+          else if (details.delta.dy > 0) Navigator.pop(context);
+        },
+        child: Center(
+            child: Hero(
+          tag: _bigPhoto,
+          child: Material(
+            color: Colors.transparent,
+            child: Image.network(
+              _bigPhoto,
+              fit: BoxFit.fill,
+            ),
+          ),
+        )),
+      )),
     );
   }
   // void transaction(BuildContext context, String sendBy, int turn) async {
@@ -1099,7 +1097,7 @@ class _PostState extends State<Post> {
   // }
 
   void sendMessage(String sellerName, int turn, String postName) async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     String _user = user.email.toString();
     List<String> users = [sellerName, _user];
     String chatRoomName = "$turn번째_$postName";
@@ -1112,13 +1110,13 @@ class _PostState extends State<Post> {
         context,
         MaterialPageRoute(
             builder: (context) => ChatRoom(
-              chatRoomId: chatRoomName,
-              chatRoomName: chatRoomName.split(RegExp(r"_"))[1],
-            )));
+                  chatRoomId: chatRoomName,
+                  chatRoomName: chatRoomName.split(RegExp(r"_"))[1],
+                )));
 
     success(context);
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     Map<String, dynamic> chatMessageMap = {
       "sendBy": "system",
       "message": "",

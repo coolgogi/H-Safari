@@ -1,11 +1,12 @@
 import 'dart:ui';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:h_safari/services/database.dart';
 import 'package:h_safari/views/post/post.dart';
 
@@ -43,8 +44,9 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
 
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseUser _user;
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  User _user;
+  firebase_storage.FirebaseStorage _firebaseStorage =
+      firebase_storage.FirebaseStorage.instance;
   String _profileImageURL = "";
 
   var _blankFocusnode = new FocusNode();
@@ -55,8 +57,8 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
     _prepareService();
   }
 
-  void _prepareService() async {
-    _user = await _firebaseAuth.currentUser();
+  void _prepareService() {
+    _user = _firebaseAuth.currentUser;
   }
 
   List<File> pictures;
@@ -64,7 +66,9 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   List<dynamic> tempList;
 
   _PostUpdateDeleteState(DocumentSnapshot doc) {
+    // ignore: deprecated_member_use
     pictures = List<File>();
+    // ignore: deprecated_member_use
     picURL = List<String>();
     _newNameCon.text = doc['name'];
     _newDescCon.text = doc['description'];
@@ -506,15 +510,14 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                           _newHowCon.text =
                                               checkHow().toString();
                                           DatabaseMethods().updatePostDoc(
-                                              widget.tp.documentID,
+                                              widget.tp.id,
                                               _newNameCon.text,
                                               _newPriceCon.text,
                                               _newDescCon.text,
                                               picURL.join("우주최강CRA"),
                                               _newCategoryCon.text,
                                               _newHowCon.text);
-                                          showDocument(
-                                              "post", widget.tp.documentID);
+                                          showDocument("post", widget.tp.id);
                                           _newNameCon.clear();
                                           _newDescCon.clear();
                                           _newPriceCon.clear();
@@ -574,8 +577,7 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
                                                         DatabaseMethods()
                                                             .deletePostDoc(
                                                                 context,
-                                                                widget.tp
-                                                                    .documentID);
+                                                                widget.tp.id);
                                                         Navigator.pop(context);
                                                       },
                                                     )
@@ -602,9 +604,9 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   }
 
   showDocument(String colName, String documentID) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(colName)
-        .document(documentID)
+        .doc(documentID)
         .get()
         .then((doc) {
       showReadPostPage(doc);
@@ -620,17 +622,22 @@ class _PostUpdateDeleteState extends State<PostUpdateDelete> {
   }
 
   void _uploadImageToStorage(ImageSource source) async {
+    // ignore: deprecated_member_use
     File image = await ImagePicker.pickImage(source: source);
     if (image == null) return;
     setState(() {
       _image = image;
       pictures.add(_image);
     });
-    StorageReference storageReference =
-        _firebaseStorage.ref().child("post/${_user.uid}${Timestamp.now()}");
-    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
-    await storageUploadTask.onComplete;
-    String downloadURL = await storageReference.getDownloadURL();
+
+    // firebase_storage.FirebaseStorage storageReference =
+    //     _firebaseStorage.ref().child("post/${_user.uid}${Timestamp.now()}")
+    //         as firebase_storage.FirebaseStorage;
+
+    firebase_storage.UploadTask storageUploadTask =
+        firebase_storage.FirebaseStorage.instance.ref().putFile(_image);
+    await storageUploadTask.whenComplete(() => null);
+    String downloadURL = await FirebaseStorage.instance.ref().getDownloadURL();
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);

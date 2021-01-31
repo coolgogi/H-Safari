@@ -26,8 +26,7 @@ class _AlarmState extends State<Alarm> {
         return snapshot.hasData
             ? ListView(
                 shrinkWrap: true,
-                children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
                   return alertTile(
                       document['type'],
                       document['sendBy'],
@@ -35,7 +34,7 @@ class _AlarmState extends State<Alarm> {
                       document['postName'],
                       document['postID'],
                       document['unread'],
-                      document.documentID);
+                      document.id);
                 }).toList(),
               )
             : Container();
@@ -50,7 +49,7 @@ class _AlarmState extends State<Alarm> {
   }
 
   getUserInfogetAlarms() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     DatabaseMethods().getUserAlarms(user.email.toString()).then((snapshots) {
       setState(() {
         alarm = snapshots;
@@ -74,8 +73,7 @@ class _AlarmState extends State<Alarm> {
       return Icons.record_voice_over;
     else if (type == "댓글")
       return Icons.comment;
-    else if (type == "마감")
-      return Icons.done;
+    else if (type == "마감") return Icons.done;
   }
 
   getTitle(String type) {
@@ -83,8 +81,7 @@ class _AlarmState extends State<Alarm> {
       return "누군가 구매를 희망합니다.\n채팅방을 통해 거래를 진행하세요!";
     else if (type == "댓글")
       return "게시글에 댓글이 달렸습니다.";
-    else if (type == "마감")
-      return "게시글이 마감되었습니다";
+    else if (type == "마감") return "게시글이 마감되었습니다";
   }
 
   Widget alertTile(String type, String sendBy, String time, String postName,
@@ -143,9 +140,9 @@ class _AlarmState extends State<Alarm> {
   }
 
   void showDocument(String documentID, String type) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('post')
-        .document(documentID)
+        .doc(documentID)
         .get()
         .then((doc) {
       if (!doc.exists) {

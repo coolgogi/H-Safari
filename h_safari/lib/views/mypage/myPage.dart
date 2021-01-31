@@ -30,9 +30,9 @@ class _MyPageState extends State<MyPage> {
   void initState() {
     super.initState();
 
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("users")
-        .document(widget.email)
+        .doc(widget.email)
         .get()
         .then((doc) {
       setState(() {
@@ -44,7 +44,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
-    FirebaseUser currentUser = fp.getUser();
+    User currentUser = fp.getUser();
     int idx = currentUser.email.indexOf("@");
     currentId = currentUser.email.substring(0, idx);
     return Scaffold(
@@ -152,10 +152,10 @@ class _MyPageState extends State<MyPage> {
                       setState(() {
                         _isSwitchedNum = value;
                       });
-                      Firestore.instance
+                      FirebaseFirestore.instance
                           .collection("users")
-                          .document(fp.getUser().email)
-                          .updateData({
+                          .doc(fp.getUser().email)
+                          .update({
                         "마감": _isSwitchedNum,
                       });
                     },
@@ -268,10 +268,10 @@ class _MyPageState extends State<MyPage> {
                 title: Text('로그아웃'),
                 onTap: () {
                   fp.signOut();
-                  var user = Firestore.instance
+                  var user = FirebaseFirestore.instance
                       .collection("users")
-                      .document(fp.getUser().email);
-                  user.updateData({"token": "", "platform": ""});
+                      .doc(fp.getUser().email);
+                  user.update({"token": "", "platform": ""});
                 }),
           ],
         ),
@@ -280,7 +280,7 @@ class _MyPageState extends State<MyPage> {
   }
 
   void showFavorite(String email) {
-    Firestore.instance.collection("users").document(email).get().then((doc) {
+    FirebaseFirestore.instance.collection("users").doc(email).get().then((doc) {
       moveFavorite(doc);
     });
   }

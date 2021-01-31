@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:ui';
 import 'dart:io';
 
@@ -30,8 +31,8 @@ class _MyWriteState extends State<MyWrite> {
 
   bool _delivery = false;
   bool _direct = false;
-  bool _lost = false;
-  bool _found = false;
+  // bool _lost = false;
+  // bool _found = false;
   bool _checkCategory = false;
   String _category = '카테고리 미정';
 
@@ -43,7 +44,7 @@ class _MyWriteState extends State<MyWrite> {
 
   File _image;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseUser _user;
+  User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
@@ -58,16 +59,17 @@ class _MyWriteState extends State<MyWrite> {
     _prepareService();
   }
 
-  void _prepareService() async {
-    // _user = _firebaseAuth.currentUser;
-    _user = await _firebaseAuth.currentUser();
+  void _prepareService() {
+    _user = _firebaseAuth.currentUser;
   }
 
   List<File> pictures;
   List<String> picURL;
 
   _MyWriteState() {
+    // ignore: deprecated_member_use
     pictures = List<File>();
+    // ignore: deprecated_member_use
     picURL = List<String>();
   }
 
@@ -336,18 +338,21 @@ class _MyWriteState extends State<MyWrite> {
                                             keyboardType: TextInputType.number,
                                             controller: _newPriceCon,
                                             decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderSide:
-                                                    BorderSide(width: 1),
-                                              ),
-                                              contentPadding:
-                                                  EdgeInsets.fromLTRB(
-                                                      10, 10, 10, 0),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.green)),
-                                              hintText: _checkCategory ? "0" : "가격 입력"
-                                            ),
+                                                border: OutlineInputBorder(
+                                                  borderSide:
+                                                      BorderSide(width: 1),
+                                                ),
+                                                contentPadding:
+                                                    EdgeInsets.fromLTRB(
+                                                        10, 10, 10, 0),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Colors.green)),
+                                                hintText: _checkCategory
+                                                    ? "0"
+                                                    : "가격 입력"),
                                             validator: (val) {
                                               return val.isEmpty
                                                   ? '필수항목입니다!'
@@ -630,11 +635,11 @@ class _MyWriteState extends State<MyWrite> {
                                                   _newPriceCon
                                                       .text.isNotEmpty) {
                                                 if ((_category ==
-                                                    "Lost & Found") &&
+                                                        "Lost & Found") &&
                                                     (_delivery == true)) {
                                                   _category = "Lost";
                                                 } else if ((_category ==
-                                                    "Lost & Found") &&
+                                                        "Lost & Found") &&
                                                     (_direct == true)) {
                                                   _category = "Found";
                                                 }
@@ -661,6 +666,7 @@ class _MyWriteState extends State<MyWrite> {
                                               }
                                             } else {
                                               _scaffoldKey.currentState
+                                                  // ignore: deprecated_member_use
                                                   .showSnackBar(SnackBar(
                                                 content: Text('카테고리를 선택해 주세요.'),
                                                 backgroundColor: Colors.green,
@@ -690,17 +696,19 @@ class _MyWriteState extends State<MyWrite> {
   }
 
   void createDoc(String name, String description, String price, String imageURL,
-      String picURL) async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      String picURL) {
+    final User user = FirebaseAuth.instance.currentUser;
     DocumentReference documentReference =
-        Firestore.instance.collection("post").document();
+        FirebaseFirestore.instance.collection("post").doc();
     List<String> splitString = picURL.split('우주최강CRA');
 
+    // ignore: deprecated_member_use
     List<String> co = List();
     co.add(user.email);
+    // ignore: deprecated_member_use
     List<String> wa = List();
 
-    documentReference.setData({
+    documentReference.set({
       "name": name,
       "description": description,
       "datetime": Timestamp.now(),
@@ -716,13 +724,13 @@ class _MyWriteState extends State<MyWrite> {
       "close": false,
     });
     Navigator.pop(this.context);
-    showDocument(documentReference.documentID);
+    showDocument(documentReference.id);
   }
 
   void showDocument(String documentID) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("post")
-        .document(documentID)
+        .doc(documentID)
         .get()
         .then((doc) {
       showReadPostPage(doc);
@@ -739,6 +747,7 @@ class _MyWriteState extends State<MyWrite> {
     PickedFile image2;
     ImagePicker _picker = ImagePicker();
     if (source == ImageSource.gallery) {
+      // ignore: deprecated_member_use
       image = await ImagePicker.pickImage(source: source);
     } else {
       image2 = await _picker.getImage(source: source);
@@ -751,11 +760,14 @@ class _MyWriteState extends State<MyWrite> {
       pictures.add(_image);
     });
 
-    StorageReference storageReference =
-        _firebaseStorage.ref().child("post/${_user.uid}${Timestamp.now()}");
-    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
-    await storageUploadTask.onComplete;
-    String downloadURL = await storageReference.getDownloadURL();
+    FirebaseStorage storageReference = _firebaseStorage
+        .ref()
+        .child("post/${_user.uid}${Timestamp.now()}") as FirebaseStorage;
+    UploadTask storageUploadTask =
+        FirebaseStorage.instance.ref().putFile(_image);
+
+    await storageUploadTask.whenComplete(() => null);
+    String downloadURL = await FirebaseStorage.instance.ref().getDownloadURL();
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);

@@ -5,7 +5,6 @@ import 'package:h_safari/views/login/signIn.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import 'bottombar.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -17,16 +16,17 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   FirebaseProvider fp;
 
-  final Firestore _db = Firestore.instance; //FirebaseFirestore <-> Firestore
+  final FirebaseFirestore _db =
+      FirebaseFirestore.instance; //FirebaseFirestore <-> Firestore
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final String fnEmail = "user";
   final String fToken = "token";
   final String fPlatform = "platform";
 
   // Cloud Functions
-  final HttpsCallable sendFCM = CloudFunctions.instance
-      .getHttpsCallable(functionName: 'sendFCM') // 호출할 Cloud Functions 의 함수명
-        ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
+  final HttpsCallable sendFCM = FirebaseFunctions.instance
+      .httpsCallable('sendFCM'); // 호출할 Cloud Functions 의 함수명
+  // ..timeout = const Duration(seconds: 30); // 타임아웃 설정(옵션)
   TextEditingController _titleCon = TextEditingController();
   TextEditingController _bodyCon = TextEditingController();
   Map<String, bool> _map = Map();
@@ -65,7 +65,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseProvider>(context);
     logger.d("user: ${fp.getUser()}");
-    if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {
+    if (fp.getUser() != null && fp.getUser().emailVerified == true) {
       String tp = fp.getUser().email.toString();
       updateUserInfo();
       return BottomBar(tp);
@@ -78,8 +78,8 @@ class _AuthPageState extends State<AuthPage> {
     if (fp.getUser() == null) return;
     String token = await _fcm.getToken();
     if (token == null) return;
-    var user = _db.collection("users").document(fp.getUser().email);
-    await user.updateData({fToken: token, fPlatform: Platform.operatingSystem});
+    var user = _db.collection("users").doc(fp.getUser().email);
+    await user.update({fToken: token, fPlatform: Platform.operatingSystem});
   }
 
   void showMessageEditor(String token) {

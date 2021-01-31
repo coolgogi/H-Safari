@@ -158,7 +158,7 @@ class _FavoriteCategoryState extends State<FavoriteCategory> {
 
   void updateFavorite() {
     String colName = "users";
-    Firestore.instance.collection(colName).document(userEmail).updateData({
+    FirebaseFirestore.instance.collection(colName).doc(userEmail).update({
       '의류': button[0],
       '서적': button[1],
       '음식': button[2],

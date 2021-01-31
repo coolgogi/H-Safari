@@ -417,10 +417,10 @@ class _SignUpState extends State<SignUp> {
       "unreadNotification": false,
     };
 
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("users")
-        .document(email)
-        .setData(user)
+        .doc(email)
+        .set(user)
         .catchError((e) {
       print(e.toString());
     });

@@ -43,7 +43,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
+        stream: FirebaseFirestore.instance
             .collection('post')
             .orderBy("datetime", descending: true)
             .snapshots(),
@@ -54,8 +54,7 @@ class _CategoryViewState extends State<CategoryView> {
               return Text("Loading...");
             default:
               return ListView(
-                children:
-                    snapshot.data.documents.map((DocumentSnapshot document) {
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
                   String postCategory = document['category'];
                   bool close = document['close'];
 

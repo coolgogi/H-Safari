@@ -62,6 +62,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
   }
 
   Future MainPage() async {
+    // await Firebase.initializeApp();
     await Future.delayed(Duration(seconds: 3), () => Navigator.pop(context));
     return Navigator.push(
         context, MaterialPageRoute(builder: (context) => AuthPage()));
