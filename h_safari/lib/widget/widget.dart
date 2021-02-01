@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:h_safari/views/home/search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paulonia_cache_image/paulonia_cache_image.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {
@@ -224,6 +226,11 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
   String fnImageUrl = 'imageUrl';
   String fnClose = 'close';
   String _profileImageURL = document[fnImageUrl];
+
+  listPhoto() async {
+    var file = await DefaultCacheManager().getSingleFile(_profileImageURL);
+  }
+
   return Container(
       width: MediaQuery.of(context).size.width / 10 * 2.5,
       height: MediaQuery.of(context).size.width / 10 * 2.5,
@@ -236,32 +243,37 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
               child: document[fnClose]
                   ? Stack(children: <Widget>[
                       Container(
-                        width: 250,
-                        height: 250,
-                        child: Image.network(
-                          _profileImageURL,
-                          fit: BoxFit.fill,
-                        ),
-                        //     CachedNetworkImage(
-                        //   imageUrl: _profileImageURL,
-                        //   placeholder: (context, url) =>
-                        //       new CircularProgressIndicator(),
-                        // )
-                      ),
+                          width: 250,
+                          height: 250,
+                          child:
+                              // Image.network(
+                              //   _profileImageURL,
+                              //   fit: BoxFit.fill,
+                              // ),
+
+                          //     CachedNetworkImage(
+                          //   imageUrl: _profileImageURL,
+                          //   placeholder: (context, url) =>
+                          //       new CircularProgressIndicator(),
+                          // )
+                          Image(image: PCacheImage(_profileImageURL)),
+                          ),
                       Container(
                           width: 250,
                           height: 250,
                           child: Image.asset('assets/sample/close2.png'))
                     ])
-                  : Image.network(
-                      _profileImageURL,
-                      fit: BoxFit.fill,
+                  :
+                  // Image.network(
+                  //         _profileImageURL,
+                  //         fit: BoxFit.fill,
+                  //       )
+                  CachedNetworkImage(
+                      imageUrl: _profileImageURL,
+                      placeholder: (context, url) =>
+                          new CircularProgressIndicator(),
                     )
-              // CachedNetworkImage(
-              //     imageUrl: _profileImageURL,
-              //     placeholder: (context, url) =>
-              //         new CircularProgressIndicator(),
-              //   )
+              // Image(image: PCacheImage(_profileImageURL)),
               )
           : ClipRRect(
               borderRadius: BorderRadius.circular(6.0),

@@ -39,13 +39,12 @@ dependencies:
   shared_preferences: ^0.5.3+4
   logger: ^0.7.0+2
   firebase_analytics: ^5.0.6
-  cached_network_image: ^2.0.0-rc
-#  cached_network_image: ^2.5.0
+  cached_network_image: ^2.5.0
   intl: ^0.16.1
   firebase_messaging: ^6.0.13
   permission_handler: ^5.0.1+1
   image_picker: ^0.6.2+2
-  xml: ^3.6.1
+
 
   paulonia_cache_image: ^0.2.2
   firebase_storage: ^7.0.0
@@ -53,6 +52,12 @@ dependencies:
   cloud_functions: ^0.9.0
   firebase_auth: ^0.20.0+1
   cloud_firestore: ^0.16.0
+  flutter_cache_manager: ^2.1.1
+  image: ^2.1.19
+  xml: ^4.2.1
+
+  pull_to_refresh: ^1.6.3
+  extended_list: ^2.0.2
 
 #  firebase_auth_web: ^0.3.0+1
 #  cloud_firestore_web: ^0.2.0+1

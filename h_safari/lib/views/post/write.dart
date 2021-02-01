@@ -761,13 +761,14 @@ class _MyWriteState extends State<MyWrite> {
     });
 
     FirebaseStorage storageReference = _firebaseStorage
-        .ref()
-        .child("post/${_user.uid}${Timestamp.now()}") as FirebaseStorage;
-    UploadTask storageUploadTask =
-        FirebaseStorage.instance.ref().putFile(_image);
+            .ref()
+            .child("post/${_user.email}${Timestamp.now().seconds}")
+        as FirebaseStorage;
+
+    UploadTask storageUploadTask = storageReference.ref().putFile(_image);
 
     await storageUploadTask.whenComplete(() => null);
-    String downloadURL = await FirebaseStorage.instance.ref().getDownloadURL();
+    String downloadURL = await storageReference.ref().getDownloadURL();
     setState(() {
       _profileImageURL = downloadURL;
       picURL.add(_profileImageURL);

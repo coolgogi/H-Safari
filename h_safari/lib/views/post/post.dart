@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:h_safari/helpers/firebase_provider.dart';
 import 'package:h_safari/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:h_safari/views/post/postUpdateDelete.dart';
-import 'package:h_safari/views/post/waiting.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -169,11 +169,17 @@ class _PostState extends State<Post> {
                                                     Center(
                                                       child: Container(
                                                           child: imgUrl != ''
-                                                              ? Image.network(
-                                                                  imgUrl,
+                                                              ?
+                                                              // Image.network(
+                                                              //   imgUrl,
+                                                              //   fit: BoxFit
+                                                              //       .fitWidth,
+                                                              // )
+                                                              CachedNetworkImage(
+                                                                  imageUrl:
+                                                                      imgUrl,
                                                                   fit: BoxFit
-                                                                      .fitWidth,
-                                                                )
+                                                                      .fitWidth)
                                                               : Image.asset(
                                                                   'Logo/empty_Rabbit_green1_gloss.png.png',
                                                                   fit: BoxFit
@@ -697,7 +703,7 @@ class _PostState extends State<Post> {
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 shrinkWrap: true,
-                children: snapshot.data.documents.map<Widget>(
+                children: snapshot.data.docs.map<Widget>(
                   (DocumentSnapshot document) {
                     return Column(
                       children: <Widget>[
@@ -724,9 +730,8 @@ class _PostState extends State<Post> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     shrinkWrap: true,
-                                    children: snapshots.data.documents
-                                        .map<Widget>(
-                                            (DocumentSnapshot document) {
+                                    children: snapshots.data.docs.map<Widget>(
+                                        (DocumentSnapshot document) {
                                       return recommentTile(
                                           document['sendBy'],
                                           document['recomment'],

@@ -5,6 +5,7 @@ import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'alarm.dart';
+import 'package:extended_list/extended_list.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -183,25 +184,70 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               case ConnectionState.waiting:
                 return Text("Loading...");
               default:
-                return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document['close'];
-                    bool LnF = false;
-                    if ((document['category'] == "Lost") ||
-                        (document['category'] == "Found")) {
-                      LnF = true;
-                    }
+                return ExtendedListView(
+                    extendedListDelegate: ExtendedListDelegate(
+                        viewportBuilder: (int firstIndex, int lastIndex) {
+                      print("viewport : [$firstIndex,$lastIndex]");
+                    }),
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      bool close = document['close'];
+                      bool LnF = false;
+                      if ((document['category'] == "Lost") ||
+                          (document['category'] == "Found")) {
+                        LnF = true;
+                      }
 
-                    return (close && !wantToSeeFinished)
-                        ? Container()
-                        : InkWell(
-                            onTap: () {
-                              showReadPostPage(document);
-                            },
-                            child: postTile(context, document),
-                          );
-                  }).toList(),
-                );
+                      return (close && !wantToSeeFinished)
+                          ? Container()
+                          : InkWell(
+                              onTap: () {
+                                showReadPostPage(document);
+                              },
+                              child: postTile(context, document),
+                            );
+                    }).toList());
+              //     ListView(
+              //   children: snapshot.data.docs.map((DocumentSnapshot document) {
+              //     bool close = document['close'];
+              //     bool LnF = false;
+              //     if ((document['category'] == "Lost") ||
+              //         (document['category'] == "Found")) {
+              //       LnF = true;
+              //     }
+              //
+              //     return (close && !wantToSeeFinished)
+              //         ? Container()
+              //         : InkWell(
+              //             onTap: () {
+              //               showReadPostPage(document);
+              //             },
+              //             child: postTile(context, document),
+              //           );
+              //   }).toList(),
+              // );
+              //   ListView.builder(
+              // itemCount: snapshot.data.size,
+              // itemBuilder: (context, index) =>
+              //     Card(child: postTile(context, document)),
+              // children: snapshot.data.docs.map((DocumentSnapshot document) {
+              //   bool close = document['close'];
+              //   bool LnF = false;
+              //   if ((document['category'] == "Lost") ||
+              //       (document['category'] == "Found")) {
+              //     LnF = true;
+              //   }
+              //
+              //   return (close && !wantToSeeFinished)
+              //       ? Container()
+              //       : InkWell(
+              //           onTap: () {
+              //             showReadPostPage(document);
+              //           },
+              //           child: postTile(context, document),
+              //         );
+              // }).toList(),
+              // );
             }
           },
         ),
