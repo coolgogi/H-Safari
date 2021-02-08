@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^0.6.2+2
 
 
+
   paulonia_cache_image: ^0.2.2
   firebase_storage: ^7.0.0
   firebase_core: ^0.7.0
@@ -55,9 +56,9 @@ dependencies:
   flutter_cache_manager: ^2.1.1
   image: ^2.1.19
   xml: ^4.2.1
-
   pull_to_refresh: ^1.6.3
   extended_list: ^2.0.2
+  loadmore: ^1.0.4
 
 #  firebase_auth_web: ^0.3.0+1
 #  cloud_firestore_web: ^0.2.0+1

@@ -1,3 +1,4 @@
+import 'package:extended_list/extended_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,7 +6,7 @@ import 'package:h_safari/views/post/post.dart';
 import 'package:h_safari/widget/widget.dart';
 import 'package:h_safari/services/database.dart';
 import 'alarm.dart';
-import 'package:extended_list/extended_list.dart';
+import 'package:loadmore/loadmore.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -49,6 +50,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   QuerySnapshot userInfoSnapshot;
   DocumentSnapshot userDoc;
   bool unreadNotification = false;
+  int get count => list.length;
+  int num = 15;
+  List<int> list = [];
 
   @override
   void initState() {
@@ -62,6 +66,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       setCategoryData(doc);
       unreadNotification = doc['unreadNotification'];
     });
+    load();
   }
 
   @override
@@ -160,6 +165,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   void showReadPostPage(DocumentSnapshot doc) {
+    // ignore: deprecated_member_use
     _scaffoldKey.currentState..hideCurrentSnackBar();
     Navigator.push(
         context,
@@ -167,6 +173,31 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             builder: (context) => widget.email == doc['email']
                 ? Post(doc, true)
                 : Post(doc, false)));
+  }
+
+  void load() {
+    print("load");
+    setState(() {
+      List<int> start = List.generate(num, (v) => v);
+      List<int> end = start.sublist(num - 15, num);
+      list.addAll(end);
+      print("data count = ${list.length}");
+      num += 15;
+    });
+  }
+
+  Future<bool> _loadMore() async {
+    print("onLoadMore");
+    await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
+    load();
+    return true;
+  }
+
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
+    list.clear();
+    num = 15;
+    load();
   }
 
   Widget allPostList(String email) {
@@ -184,30 +215,68 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               case ConnectionState.waiting:
                 return Text("Loading...");
               default:
-                return ExtendedListView(
-                    extendedListDelegate: ExtendedListDelegate(
-                        viewportBuilder: (int firstIndex, int lastIndex) {
-                      print("viewport : [$firstIndex,$lastIndex]");
-                    }),
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      bool close = document['close'];
-                      bool LnF = false;
-                      if ((document['category'] == "Lost") ||
-                          (document['category'] == "Found")) {
-                        LnF = true;
-                      }
-
-                      return (close && !wantToSeeFinished)
+                return Container(
+                    child: RefreshIndicator(
+                  child: LoadMore(
+                    isFinish: count >= snapshot.data.docs.length,
+                    onLoadMore: _loadMore,
+                    child: ListView.builder(
+                      itemCount: count,
+                      itemBuilder: (context, index) => (snapshot
+                                  .data.docs[index]['close'] &&
+                              !wantToSeeFinished)
                           ? Container()
                           : InkWell(
                               onTap: () {
-                                showReadPostPage(document);
+                                showReadPostPage(snapshot.data.docs[index]);
                               },
-                              child: postTile(context, document),
-                            );
-                    }).toList());
-              //     ListView(
+                              child:
+                                  postTile(context, snapshot.data.docs[index]),
+                            ),
+                    ),
+                    whenEmptyLoad: false,
+                    delegate: DefaultLoadMoreDelegate(),
+                    textBuilder: DefaultLoadMoreTextBuilder.english,
+                  ),
+                  onRefresh: _refresh,
+                ));
+              //     ListView.builder(
+              //   itemCount: snapshot.data.size,
+              //   itemBuilder: (context, index) =>
+              //       (snapshot.data.docs[index]['close'] && !wantToSeeFinished)
+              //           ? Container()
+              //           : InkWell(
+              //               onTap: () {
+              //                 showReadPostPage(snapshot.data.docs[index]);
+              //               },
+              //               child:
+              //                   postTile(context, snapshot.data.docs[index]),
+              //             ),
+              // );
+              // ExtendedListView(
+              //   extendedListDelegate: ExtendedListDelegate(
+              //       viewportBuilder: (int firstIndex, int lastIndex) {
+              //     print("viewport : [$firstIndex,$lastIndex]");
+              //   }),
+              //   children:
+              //       snapshot.data.docs.map((DocumentSnapshot document) {
+              //     bool close = document['close'];
+              //     bool LnF = false;
+              //     if ((document['category'] == "Lost") ||
+              //         (document['category'] == "Found")) {
+              //       LnF = true;
+              //     }
+              //
+              //     return (close && !wantToSeeFinished)
+              //         ? Container()
+              //         : InkWell(
+              //             onTap: () {
+              //               showReadPostPage(document);
+              //             },
+              //             child: postTile(context, document),
+              //           );
+              //   }).toList());
+              // ListView(
               //   children: snapshot.data.docs.map((DocumentSnapshot document) {
               //     bool close = document['close'];
               //     bool LnF = false;
@@ -226,28 +295,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               //           );
               //   }).toList(),
               // );
-              //   ListView.builder(
-              // itemCount: snapshot.data.size,
-              // itemBuilder: (context, index) =>
-              //     Card(child: postTile(context, document)),
-              // children: snapshot.data.docs.map((DocumentSnapshot document) {
-              //   bool close = document['close'];
-              //   bool LnF = false;
-              //   if ((document['category'] == "Lost") ||
-              //       (document['category'] == "Found")) {
-              //     LnF = true;
-              //   }
-              //
-              //   return (close && !wantToSeeFinished)
-              //       ? Container()
-              //       : InkWell(
-              //           onTap: () {
-              //             showReadPostPage(document);
-              //           },
-              //           child: postTile(context, document),
-              //         );
-              // }).toList(),
-              // );
+              // Container(child: LoadMore(isFinish: ))
             }
           },
         ),

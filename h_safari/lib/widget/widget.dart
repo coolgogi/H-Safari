@@ -226,9 +226,9 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
   String fnImageUrl = 'imageUrl';
   String fnClose = 'close';
   String _profileImageURL = document[fnImageUrl];
-
+  var file;
   listPhoto() async {
-    var file = await DefaultCacheManager().getSingleFile(_profileImageURL);
+    file = await DefaultCacheManager().getSingleFile(_profileImageURL);
   }
 
   return Container(
@@ -243,21 +243,21 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
               child: document[fnClose]
                   ? Stack(children: <Widget>[
                       Container(
-                          width: 250,
-                          height: 250,
-                          child:
-                              // Image.network(
-                              //   _profileImageURL,
-                              //   fit: BoxFit.fill,
-                              // ),
+                        width: 250,
+                        height: 250,
+                        child: Image.network(
+                          _profileImageURL,
+                          fit: BoxFit.fill,
+                        ),
 
-                          //     CachedNetworkImage(
-                          //   imageUrl: _profileImageURL,
-                          //   placeholder: (context, url) =>
-                          //       new CircularProgressIndicator(),
-                          // )
-                          Image(image: PCacheImage(_profileImageURL)),
-                          ),
+                        //     CachedNetworkImage(
+                        //   imageUrl: _profileImageURL,
+                        //   placeholder: (context, url) =>
+                        //       new CircularProgressIndicator(),
+                        // )
+                        // Image(image: PCacheImage(_profileImageURL)),
+                        // Image.file(file)
+                      ),
                       Container(
                           width: 250,
                           height: 250,
@@ -274,7 +274,9 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                           new CircularProgressIndicator(),
                     )
               // Image(image: PCacheImage(_profileImageURL)),
-              )
+              // Image.file(file)
+              ,
+            )
           : ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
               child: document[fnClose]
