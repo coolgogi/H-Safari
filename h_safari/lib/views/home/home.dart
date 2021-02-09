@@ -48,16 +48,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   bool wantToSeeFinished = false;
 
   QuerySnapshot userInfoSnapshot;
+  QuerySnapshot snapshotOfDocs;
   DocumentSnapshot userDoc;
   bool unreadNotification = false;
   int get count => list.length;
   int num = 15;
+  int max = 100000000000;
   List<int> list = [];
 
   @override
   void initState() {
     super.initState();
 
+    load();
+    ReadDocs();
     FirebaseFirestore.instance
         .collection("users")
         .doc(widget.email)
@@ -66,7 +70,19 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       setCategoryData(doc);
       unreadNotification = doc['unreadNotification'];
     });
-    load();
+  }
+
+  // ignore: non_constant_identifier_names
+  void ReadDocs() async {
+    snapshotOfDocs = await FirebaseFirestore.instance
+        .collection("post")
+        .orderBy("datetime", descending: true)
+        .get();
+
+    max = snapshotOfDocs.size;
+    print("=====================");
+    print("max : {$max}");
+    print("=====================");
   }
 
   @override
@@ -138,7 +154,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      allPostList(widget.email),
+                      loadMoreList(snapshotOfDocs),
                     ],
                   ),
                 ),
@@ -179,10 +195,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     print("load");
     setState(() {
       List<int> start = List.generate(num, (v) => v);
-      List<int> end = start.sublist(num - 15, num);
+      List<int> end;
+      end = start.sublist(num - 15, num);
+      if (num >= max) {
+        end = start.sublist(num - 15, max - 1);
+      } else {
+        num += 15;
+      }
       list.addAll(end);
       print("data count = ${list.length}");
-      num += 15;
+      print("count = {$count}");
     });
   }
 
@@ -194,170 +216,37 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _refresh() async {
-    await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
-    list.clear();
-    num = 15;
-    load();
+    // await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
+    // list.clear();
+    // num = 15;
+    // load();
   }
 
-  Widget allPostList(String email) {
+  Widget loadMoreList(QuerySnapshot snapshotOfDocs) {
     return Expanded(
-      child: Container(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection("post")
-              .orderBy("datetime", descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Text("Loading...");
-              default:
-                return Container(
-                    child: RefreshIndicator(
-                  child: LoadMore(
-                    isFinish: count >= snapshot.data.docs.length,
-                    onLoadMore: _loadMore,
-                    child: ListView.builder(
-                      itemCount: count,
-                      itemBuilder: (context, index) => (snapshot
-                                  .data.docs[index]['close'] &&
-                              !wantToSeeFinished)
-                          ? Container()
-                          : InkWell(
-                              onTap: () {
-                                showReadPostPage(snapshot.data.docs[index]);
-                              },
-                              child:
-                                  postTile(context, snapshot.data.docs[index]),
-                            ),
+        child: Container(
+            child: RefreshIndicator(
+      child: LoadMore(
+        isFinish: count >= snapshotOfDocs.size - 1,
+        onLoadMore: _loadMore,
+        child: ListView.builder(
+          itemCount: count,
+          itemBuilder: (context, index) =>
+              (snapshotOfDocs.docs[index]['close'] && !wantToSeeFinished)
+                  ? Container()
+                  : InkWell(
+                      onTap: () {
+                        showReadPostPage(snapshotOfDocs.docs[index]);
+                      },
+                      child: postTile(context, snapshotOfDocs.docs[index]),
                     ),
-                    whenEmptyLoad: false,
-                    delegate: DefaultLoadMoreDelegate(),
-                    textBuilder: DefaultLoadMoreTextBuilder.english,
-                  ),
-                  onRefresh: _refresh,
-                ));
-              //     ListView.builder(
-              //   itemCount: snapshot.data.size,
-              //   itemBuilder: (context, index) =>
-              //       (snapshot.data.docs[index]['close'] && !wantToSeeFinished)
-              //           ? Container()
-              //           : InkWell(
-              //               onTap: () {
-              //                 showReadPostPage(snapshot.data.docs[index]);
-              //               },
-              //               child:
-              //                   postTile(context, snapshot.data.docs[index]),
-              //             ),
-              // );
-              // ExtendedListView(
-              //   extendedListDelegate: ExtendedListDelegate(
-              //       viewportBuilder: (int firstIndex, int lastIndex) {
-              //     print("viewport : [$firstIndex,$lastIndex]");
-              //   }),
-              //   children:
-              //       snapshot.data.docs.map((DocumentSnapshot document) {
-              //     bool close = document['close'];
-              //     bool LnF = false;
-              //     if ((document['category'] == "Lost") ||
-              //         (document['category'] == "Found")) {
-              //       LnF = true;
-              //     }
-              //
-              //     return (close && !wantToSeeFinished)
-              //         ? Container()
-              //         : InkWell(
-              //             onTap: () {
-              //               showReadPostPage(document);
-              //             },
-              //             child: postTile(context, document),
-              //           );
-              //   }).toList());
-              // ListView(
-              //   children: snapshot.data.docs.map((DocumentSnapshot document) {
-              //     bool close = document['close'];
-              //     bool LnF = false;
-              //     if ((document['category'] == "Lost") ||
-              //         (document['category'] == "Found")) {
-              //       LnF = true;
-              //     }
-              //
-              //     return (close && !wantToSeeFinished)
-              //         ? Container()
-              //         : InkWell(
-              //             onTap: () {
-              //               showReadPostPage(document);
-              //             },
-              //             child: postTile(context, document),
-              //           );
-              //   }).toList(),
-              // );
-              // Container(child: LoadMore(isFinish: ))
-            }
-          },
         ),
+        whenEmptyLoad: false,
+        delegate: DefaultLoadMoreDelegate(),
+        textBuilder: DefaultLoadMoreTextBuilder.english,
       ),
-    );
-  }
-
-  Widget myPostList(String email) {
-    int tempInt = 0;
-    return Expanded(
-      child: Container(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection("post")
-              .orderBy("datetime", descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Text("Loading...");
-              default:
-                return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document['close'];
-
-                    if (document['category'] == "의류")
-                      tempInt = 0;
-                    else if (document['category'] == "서적")
-                      tempInt = 1;
-                    else if (document['category'] == "음식")
-                      tempInt = 2;
-                    else if (document['category'] == "생활용품")
-                      tempInt = 3;
-                    else if (document['category'] == "가구전자제품")
-                      tempInt = 4;
-                    else if (document['category'] == "뷰티잡화")
-                      tempInt = 5;
-                    else if (document['category'] == "양도")
-                      tempInt = 6;
-                    else if (document['category'] == "기타") tempInt = 7;
-
-                    if (!categoryBool[tempInt]) {
-                      return Container();
-                    } else if ((close == true) &&
-                        (wantToSeeFinished == false)) {
-                      return Container();
-                    } else {
-                      return InkWell(
-                          onTap: () {
-                            showReadPostPage(document);
-                          },
-                          child: postTile(context, document));
-                    }
-                  }).toList(),
-                );
-            }
-          },
-        ),
-      ),
-    );
+      onRefresh: _refresh,
+    )));
   }
 
   Widget LostNFound(String email) {
