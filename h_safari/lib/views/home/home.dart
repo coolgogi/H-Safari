@@ -51,10 +51,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   QuerySnapshot snapshotOfDocs;
   DocumentSnapshot userDoc;
   bool unreadNotification = false;
-  int get count => list.length;
+  int count = 0;
   int num = 15;
-  int max = 100000000000;
+  int max = 16;
   List<int> list = [];
+  int numOfIndex = 0;
 
   @override
   void initState() {
@@ -80,9 +81,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         .get();
 
     max = snapshotOfDocs.size;
-    print("=====================");
-    print("max : {$max}");
-    print("=====================");
   }
 
   @override
@@ -144,6 +142,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       Tab(text: '전체'),
                       Tab(text: 'Lost & Found'),
                     ],
+                    onTap: refresh,
                   ),
                 ),
               ];
@@ -162,7 +161,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      LostNFound(widget.email),
+                      LostNFound(snapshotOfDocs),
                     ],
                   ),
                 ),
@@ -203,6 +202,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         num += 15;
       }
       list.addAll(end);
+      count = list.length;
       print("data count = ${list.length}");
       print("count = {$count}");
     });
@@ -216,84 +216,76 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _refresh() async {
-    // await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
-    // list.clear();
-    // num = 15;
-    // load();
+    await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
+    list.clear();
+    num = 15;
+    load();
+  }
+
+  void refresh(int a) {
+    _refresh();
   }
 
   Widget loadMoreList(QuerySnapshot snapshotOfDocs) {
-    return Expanded(
-        child: Container(
-            child: RefreshIndicator(
-      child: LoadMore(
-        isFinish: count >= snapshotOfDocs.size - 1,
-        onLoadMore: _loadMore,
-        child: ListView.builder(
-          itemCount: count,
-          itemBuilder: (context, index) =>
-              (snapshotOfDocs.docs[index]['close'] && !wantToSeeFinished)
-                  ? Container()
-                  : InkWell(
-                      onTap: () {
-                        showReadPostPage(snapshotOfDocs.docs[index]);
-                      },
-                      child: postTile(context, snapshotOfDocs.docs[index]),
-                    ),
+    try {
+      return Expanded(
+          child: Container(
+              child: RefreshIndicator(
+        child: LoadMore(
+          isFinish: count >= snapshotOfDocs.size - 1,
+          onLoadMore: _loadMore,
+          child: ListView.builder(
+            itemCount: count,
+            itemBuilder: (context, index) =>
+                (snapshotOfDocs.docs[index]['close'] && !wantToSeeFinished)
+                    ? Container()
+                    : InkWell(
+                        onTap: () {
+                          showReadPostPage(snapshotOfDocs.docs[index]);
+                        },
+                        child: postTile(context, snapshotOfDocs.docs[index]),
+                      ),
+          ),
+          whenEmptyLoad: false,
+          delegate: DefaultLoadMoreDelegate(),
+          textBuilder: DefaultLoadMoreTextBuilder.english,
         ),
-        whenEmptyLoad: false,
-        delegate: DefaultLoadMoreDelegate(),
-        textBuilder: DefaultLoadMoreTextBuilder.english,
-      ),
-      onRefresh: _refresh,
-    )));
+        onRefresh: _refresh,
+      )));
+    } catch (e) {
+      return Container(child: Text("Loading..."));
+    }
   }
 
-  Widget LostNFound(String email) {
-    int tempInt = 0;
-    return Expanded(
-      child: Container(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection("post")
-              .orderBy("datetime", descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Text("Loading...");
-              default:
-                return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    bool close = document['close'];
-
-                    if (document['category'] == "Lost")
-                      tempInt = 0;
-                    else if (document['category'] == "Found")
-                      tempInt = 1;
-                    else
-                      tempInt = 2;
-
-                    if (tempInt == 2) {
-                      return Container();
-                      // } else if ((close == true) &&
-                      //     (wantToSeeFinished == false)) {
-                      //   return Container();
-                    } else {
-                      return InkWell(
+  Widget LostNFound(QuerySnapshot snapshotOfDocs) {
+    try {
+      return Expanded(
+          child: Container(
+              child: RefreshIndicator(
+        child: LoadMore(
+          isFinish: count >= snapshotOfDocs.size - 1,
+          onLoadMore: _loadMore,
+          child: ListView.builder(
+              itemCount: count,
+              itemBuilder: (context, index) =>
+                  // (!snapshotOfDocs.docs[index]['close'] && wantToSeeFinished) &&
+                  (snapshotOfDocs.docs[index]['category'] == 'Lost' ||
+                          snapshotOfDocs.docs[index]['category'] == 'Found')
+                      ? InkWell(
                           onTap: () {
-                            showReadPostPage(document);
+                            showReadPostPage(snapshotOfDocs.docs[index]);
                           },
-                          child: postTile(context, document));
-                    }
-                  }).toList(),
-                );
-            }
-          },
+                          child: postTile(context, snapshotOfDocs.docs[index]),
+                        )
+                      : Container()),
+          whenEmptyLoad: false,
+          delegate: DefaultLoadMoreDelegate(),
+          textBuilder: DefaultLoadMoreTextBuilder.english,
         ),
-      ),
-    );
+        onRefresh: _refresh,
+      )));
+    } catch (e) {
+      return Container(child: Text("Loading..."));
+    }
   }
 }

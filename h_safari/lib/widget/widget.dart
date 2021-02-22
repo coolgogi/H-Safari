@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:paulonia_cache_image/paulonia_cache_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:h_safari/views/home/search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:paulonia_cache_image/paulonia_cache_image.dart';
 
 // 뒤로가기 기능이 있는 page들을 위한 appBar 생성
 Widget appBar(BuildContext context, String title) {
@@ -226,6 +226,7 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
   String fnImageUrl = 'imageUrl';
   String fnClose = 'close';
   String _profileImageURL = document[fnImageUrl];
+
   var file;
   listPhoto() async {
     file = await DefaultCacheManager().getSingleFile(_profileImageURL);
@@ -245,7 +246,9 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                       Container(
                         width: 250,
                         height: 250,
-                        child: Image.network(
+                        child:
+                            //
+                            Image.network(
                           _profileImageURL,
                           fit: BoxFit.fill,
                         ),
@@ -264,15 +267,16 @@ Widget listPhoto(BuildContext context, DocumentSnapshot document) {
                           child: Image.asset('assets/sample/close2.png'))
                     ])
                   :
-                  // Image.network(
-                  //         _profileImageURL,
-                  //         fit: BoxFit.fill,
-                  //       )
-                  CachedNetworkImage(
-                      imageUrl: _profileImageURL,
-                      placeholder: (context, url) =>
-                          new CircularProgressIndicator(),
+                  //
+                  Image.network(
+                      _profileImageURL,
+                      fit: BoxFit.fill,
                     )
+              // CachedNetworkImage(
+              //     imageUrl: _profileImageURL,
+              //     placeholder: (context, url) =>
+              //         new CircularProgressIndicator(),
+              //   )
               // Image(image: PCacheImage(_profileImageURL)),
               // Image.file(file)
               ,
